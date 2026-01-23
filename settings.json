@@ -1,0 +1,16 @@
+{
+  "env": {
+    "ENABLE_TOOL_SEARCH": true
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash -c '\"$HOME/.bun/bin/bun\" \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts\"'"
+  },
+  "enabledPlugins": {
+    "claude-hud@claude-hud": true,
+    "code-simplifier@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "terraform-skill@antonbabenko": true
+  }
+}
