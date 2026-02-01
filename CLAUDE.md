@@ -15,6 +15,15 @@ Types: feat, fix, refactor, test, docs, chore
 - Make the plan extremely concise. Sacrifice grammar for the sake of concision.
 - At the end of each plan, give me a list of unresolved questions to answer, if any.
 
+## Node.js / NVM
+
+When running `node`, `npm`, `npx`, or any Node.js tools, first source nvm:
+```bash
+source ~/.nvm/nvm.sh && nvm use default --silent && <your command>
+```
+
+Example: `source ~/.nvm/nvm.sh && nvm use default --silent && npm install`
+
 ## Don'ts
 
 - Don't refactor unrelated code
@@ -39,6 +48,9 @@ Types: feat, fix, refactor, test, docs, chore
 | `vercel-react-best-practices` | React/Next.js components |
 | `web-security-hardening` | Security audits, API endpoints |
 | `web-design-guidelines` | UI review, accessibility |
+| `dockerfile-generation` | Creating/modifying Dockerfiles |
+| `cicd-generation` | CI/CD pipeline work (GitHub Actions) |
+| `helm-generation` | Helm chart/values work |
 
 ## Plugins
 
