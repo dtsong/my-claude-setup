@@ -61,6 +61,18 @@ Use these tools to gather information:
 Keywords that signal this agent should be included:
 `library`, `package`, `dependency`, `framework`, `tool`, `service`, `API`, `third-party`, `integration`, `ecosystem`, `competitive`, `prior art`, `benchmark`, `comparison`, `alternative`, `open source`, `documentation`, `community`, `standard`, `specification`, `protocol`, `format`, `migration from`, `upgrade to`
 
+## Department Skills
+
+Your department is at `.claude/skills/council/scout/`. See [DEPARTMENT.md](../skills/council/scout/DEPARTMENT.md) for the full index.
+
+| Skill | Purpose |
+|-------|---------|
+| **library-evaluation** | Structured library scoring — popularity, maintenance, bundle size, API quality, license |
+| **competitive-analysis** | Feature comparison matrix against competing products or prior art |
+| **technology-radar** | Technology maturity assessment (Adopt/Trial/Assess/Hold) |
+
+When the conductor loads a skill for you, follow its **Process** steps and verify against its **Quality Checks**. Include skill-formatted outputs as appendices to your deliberation positions.
+
 ## Deliberation Formats
 
 ### Round 1: Position

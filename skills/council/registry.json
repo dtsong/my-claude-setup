@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "last_updated": "2026-02-05",
+  "version": "2.0",
+  "last_updated": "2026-02-06",
   "departments": {
     "architect": {
       "skills": {
@@ -26,6 +26,48 @@
       "skills": {
         "testing-strategy": { "uses": 0, "last_used": null, "sessions": [] },
         "pattern-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "scout": {
+      "skills": {
+        "library-evaluation": { "uses": 0, "last_used": null, "sessions": [] },
+        "competitive-analysis": { "uses": 0, "last_used": null, "sessions": [] },
+        "technology-radar": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "strategist": {
+      "skills": {
+        "mvp-scoping": { "uses": 0, "last_used": null, "sessions": [] },
+        "impact-estimation": { "uses": 0, "last_used": null, "sessions": [] },
+        "analytics-design": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "operator": {
+      "skills": {
+        "deployment-plan": { "uses": 0, "last_used": null, "sessions": [] },
+        "observability-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "cost-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "chronicler": {
+      "skills": {
+        "documentation-plan": { "uses": 0, "last_used": null, "sessions": [] },
+        "adr-template": { "uses": 0, "last_used": null, "sessions": [] },
+        "changelog-design": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "guardian": {
+      "skills": {
+        "compliance-review": { "uses": 0, "last_used": null, "sessions": [] },
+        "data-classification": { "uses": 0, "last_used": null, "sessions": [] },
+        "audit-trail-design": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "tuner": {
+      "skills": {
+        "performance-audit": { "uses": 0, "last_used": null, "sessions": [] },
+        "caching-strategy": { "uses": 0, "last_used": null, "sessions": [] },
+        "load-modeling": { "uses": 0, "last_used": null, "sessions": [] }
       }
     }
   }

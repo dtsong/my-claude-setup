@@ -1,6 +1,6 @@
 ---
 description: "Big Ideas Multi-Agent Workflow — interview, design, plan, build"
-argument-hint: "[--resume] [IDEA...]"
+argument-hint: "[--resume [SLUG] [--pick]] [--list [--all]] [--archive SLUG] [--cleanup] [--status] [IDEA...]"
 ---
 
 # /council — Big Ideas Multi-Agent Workflow
@@ -10,18 +10,28 @@ An interview-first, dynamically-assembled council of perspective agents that col
 ## Usage
 
 ```
-/council                              # Interactive — asks what the big idea is
-/council "Build a tournament coach"   # Direct — starts with the idea
-/council --resume                     # Resume previous session
+/council                              # New session (interactive)
+/council "Build a tournament coach"   # New session (direct)
+/council --resume                     # Resume most recent active session
+/council --resume <slug>              # Resume specific session
+/council --resume --pick              # Pick from active sessions
+/council --list                       # List sessions in workspace
+/council --list --all                 # List sessions across all workspaces
+/council --archive <slug>             # Export session to GitHub issue
+/council --cleanup                    # Review and clean stale sessions
+/council --status                     # Quick workspace session summary
 ```
 
 ## Instructions
 
-Parse `$ARGUMENTS` to determine the mode:
+### Argument Parsing
 
-- No arguments: Ask the user "What's the big idea?" via `AskUserQuestion`
-- Quoted text: Use as the idea directly
-- `--resume`: Look for existing session at `$WORKSPACE/.claude/council/session.md`, resume from last phase
+Parse `$ARGUMENTS` using this priority order — first match wins:
+
+1. **Management commands** (`--list`, `--archive`, `--cleanup`, `--status`): Execute the management workflow (see [Session Management Commands](#session-management-commands)), then **EXIT** — do not start a session.
+2. **Resume** (`--resume`): Find and load an existing session (see [Resume Logic](#resume-logic)), then resume from last completed phase.
+3. **Direct idea** (quoted text): Use as `$IDEA`, start a new session.
+4. **No arguments**: Ask "What's the big idea?" via `AskUserQuestion`, capture response as `$IDEA`.
 
 ### Workspace Detection
 
@@ -33,6 +43,27 @@ Detect the workspace dynamically — **never hardcode paths**:
 2. If $PWD has a CLAUDE.md: WORKSPACE = $PWD
 3. Ask the user: "What's the workspace path for this project?"
 ```
+
+### Staleness Warning
+
+At the start of every new session (not resume, not management commands), check `$WORKSPACE/.claude/council/index.json` for stale sessions. If any exist:
+
+```
+⚠ You have N stale sessions. Run /council --cleanup to review.
+```
+
+### Legacy Migration Check
+
+If `$WORKSPACE/.claude/council/session.md` exists (old flat format without a `sessions/` directory), offer to migrate:
+
+```
+Legacy session detected. Migrate to multi-session format?
+- **Migrate** — Move to sessions/legacy-<slug>-<date>/
+- **Skip** — Leave as-is (will be ignored)
+- **Delete** — Remove old session files
+```
+
+If migrating, move all existing flat files (`session.md`, `interview-*.md`, `assembly.md`, `design.md`, `plan.md`, `deliberation/`) into `sessions/legacy-<slug>-<date>/` and create an `index.json` entry for it.
 
 ### Context Injection
 
@@ -77,6 +108,36 @@ Each council executive manages a **department** of focused skills — structured
     DEPARTMENT.md
     testing-strategy/SKILL.md            # Test plan with coverage targets
     pattern-analysis/SKILL.md            # Codebase pattern audit + conventions
+  scout/
+    DEPARTMENT.md
+    library-evaluation/SKILL.md          # Structured library scoring + comparison
+    competitive-analysis/SKILL.md        # Feature comparison matrix
+    technology-radar/SKILL.md            # Technology maturity assessment
+  strategist/
+    DEPARTMENT.md
+    mvp-scoping/SKILL.md                 # MoSCoW prioritization + value-effort matrix
+    impact-estimation/SKILL.md           # RICE scoring for feature prioritization
+    analytics-design/SKILL.md            # Telemetry events + A/B test instrumentation
+  operator/
+    DEPARTMENT.md
+    deployment-plan/SKILL.md             # Deployment strategy + rollback procedures
+    observability-design/SKILL.md        # Monitoring, alerting, logging strategy
+    cost-analysis/SKILL.md               # Infrastructure cost modeling
+  chronicler/
+    DEPARTMENT.md
+    documentation-plan/SKILL.md          # Documentation architecture + audiences
+    adr-template/SKILL.md               # Architecture Decision Record creation
+    changelog-design/SKILL.md            # Changelog + migration guide design
+  guardian/
+    DEPARTMENT.md
+    compliance-review/SKILL.md           # GDPR/privacy compliance review
+    data-classification/SKILL.md         # Data sensitivity classification
+    audit-trail-design/SKILL.md          # Audit logging design
+  tuner/
+    DEPARTMENT.md
+    performance-audit/SKILL.md           # Bottleneck identification + profiling
+    caching-strategy/SKILL.md            # Cache hierarchy design
+    load-modeling/SKILL.md               # Capacity planning + benchmarks
 ```
 
 ### How Skills Are Used
@@ -94,7 +155,7 @@ After each council session, the conductor:
 
 ---
 
-## Agent Roster (8 Perspectives)
+## Agent Roster (10 Perspectives)
 
 | # | Agent | Color | Lens | File | Subagent Type |
 |---|-------|-------|------|------|---------------|
@@ -104,8 +165,12 @@ After each council session, the conductor:
 | 4 | **Craftsman** | Purple | Testing, DX, code quality, patterns | `council-craftsman` | `Craftsman` |
 | 5 | **Scout** | Cyan | Research, precedent, external knowledge | `council-scout` | `Scout` |
 | 6 | **Strategist** | Gold | Business value, scope, MVP, prioritization | `council-strategist` | `general-purpose` |
-| 7 | **Operator** | Orange | DevOps, deployment, infra, monitoring | `council-operator` | `general-purpose` |
+| 7 | **Operator** | Orange | DevOps, deployment, infra, monitoring | `council-operator` | `Operator` |
 | 8 | **Chronicler** | Ivory | Documentation, knowledge architecture | `council-chronicler` | `general-purpose` |
+| 9 | **Guardian** | Silver | Compliance, governance, privacy | `council-guardian` | `general-purpose` |
+| 10 | **Tuner** | Amber | Performance, scalability, optimization | `council-tuner` | `general-purpose` |
+
+Selection cap remains at **6 agents max** per session. The larger roster (10) gives more to choose from, not more in every session.
 
 ---
 
@@ -130,22 +195,80 @@ You (the main agent / conductor) interview the user directly. **No agents are sp
 
 ### 1.1 Setup
 
-Create the council session directory:
+Generate a session ID and create the session directory:
 
 ```bash
 SLUG=$(echo "$IDEA" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed 's/[^a-z0-9-]//g' | cut -c1-40)
-mkdir -p $WORKSPACE/.claude/council/deliberation/{round1,round2,round3}
-mkdir -p $WORKSPACE/.claude/prd
+TIMESTAMP=$(date +%Y%m%d-%H%M)
+SESSION_ID="${SLUG}-${TIMESTAMP}"
+SESSION_DIR="$WORKSPACE/.claude/council/sessions/$SESSION_ID"
+
+mkdir -p "$SESSION_DIR/deliberation"/{round1,round2,round3}
+mkdir -p "$WORKSPACE/.claude/prd"
 ```
 
-Write session metadata to `$WORKSPACE/.claude/council/session.md`:
+Write session metadata to `$SESSION_DIR/session.md`:
 
 ```markdown
 # Council Session: <Idea>
 Date: <today>
+Session ID: <session-id>
 Phase: interview
 Slug: <slug>
 ```
+
+**Update per-workspace index** at `$WORKSPACE/.claude/council/index.json`:
+
+```json
+{
+  "version": "1.0",
+  "workspace": "$WORKSPACE",
+  "sessions": [
+    {
+      "id": "<session-id>",
+      "slug": "<slug>",
+      "idea": "<idea>",
+      "created": "<ISO 8601>",
+      "updated": "<ISO 8601>",
+      "phase": "interview",
+      "status": "active",
+      "agents": [],
+      "skills_used": [],
+      "archived_to": null
+    }
+  ]
+}
+```
+
+If `index.json` already exists, append to the `sessions` array. If it doesn't exist, create it.
+
+**Update global registry** at `~/.claude/council/global-registry.json`:
+
+```json
+{
+  "version": "1.0",
+  "workspaces": {
+    "$WORKSPACE": {
+      "name": "<project-name from package.json or directory name>",
+      "last_session": "<ISO 8601>",
+      "session_count": <N>,
+      "active_sessions": <N>
+    }
+  },
+  "sessions": [
+    {
+      "id": "<session-id>",
+      "workspace": "$WORKSPACE",
+      "idea": "<idea>",
+      "created": "<ISO 8601>",
+      "phase": "interview",
+      "status": "active"
+    }
+  ]
+}
+```
+
+If `global-registry.json` already exists, merge workspace entry and append session. If it doesn't exist, create it with `mkdir -p ~/.claude/council/`.
 
 ### 1.1b Context Scan
 
@@ -160,12 +283,12 @@ Store the scan results mentally — use them to make interview questions specifi
 
 ### 1.2 Adaptive Interview (2-3 rounds)
 
-Replace the fixed "cover all 8 perspectives" approach with adaptive, context-aware questioning.
+Replace the fixed "cover all 10 perspectives" approach with adaptive, context-aware questioning.
 
 **For each round:**
 
-1. **Score the 8 perspectives** (0-5) for relevance to this idea + project context:
-   - Architecture, User Experience, Risk, Quality, Research, Strategy, Operations, Documentation
+1. **Score the 10 perspectives** (0-5) for relevance to this idea + project context:
+   - Architecture, User Experience, Risk, Quality, Research, Strategy, Operations, Documentation, Compliance, Performance
 2. **Select top 3-4 perspectives** (score >= 3) for this round
 3. **Generate 1 targeted question per selected perspective** that references actual project context:
    - Good: "Your project uses Supabase — should this feature use RLS policies or server-side auth checks?"
@@ -184,7 +307,7 @@ Council Interview — Round <N>/<total>
 
 ### 1.3 Interview Summary
 
-After all rounds, write a structured summary to `$WORKSPACE/.claude/council/interview-summary.md`:
+After all rounds, write a structured summary to `$SESSION_DIR/interview-summary.md`:
 
 ```markdown
 # Interview Summary: <Idea>
@@ -210,13 +333,15 @@ After all rounds, write a structured summary to `$WORKSPACE/.claude/council/inte
 | Strategy | 2 | Scope already defined |
 | Operations | 1 | Standard deployment |
 | Documentation | 1 | Minimal docs needed |
+| Compliance | 4 | Handles user PII, consent required |
+| Performance | 2 | Standard load expectations |
 ```
 
 This relevance table feeds directly into Assembly scoring (Phase 2).
 
 ### 1.4 Record Transcript
 
-After each round, append Q&A to `$WORKSPACE/.claude/council/interview-transcript.md`:
+After each round, append Q&A to `$SESSION_DIR/interview-transcript.md`:
 
 ```markdown
 ## Round <N>
@@ -228,11 +353,13 @@ After each round, append Q&A to `$WORKSPACE/.claude/council/interview-transcript
 **A:** <user's answer>
 ```
 
+**Update index.json** — set `updated` timestamp and `phase: "interview"`.
+
 ---
 
 ## Phase 2: Assembly (Agent Selection)
 
-After the interview, score each of the 8 agents for relevance and select 3-6 to participate in deliberation.
+After the interview, score each of the 10 agents for relevance and select 3-6 to participate in deliberation.
 
 ### 2.1 Scoring Algorithm
 
@@ -244,8 +371,8 @@ Score each agent 0-10:
    - Would the plan be weaker without their input?
    - Do interview answers reveal needs in their area?
 3. **Modifiers:**
-   - **+2 mandatory bonus:** Architect gets +2 for any new functionality. Advocate gets +2 for any user-facing feature. Skeptic gets +2 for any auth/security-related work.
-   - **-2 anti-redundancy:** If two agents overlap heavily for this idea (e.g., Craftsman and Operator both scoring on CI/CD), penalize the less relevant one by -2.
+   - **+2 mandatory bonus:** Architect gets +2 for any new functionality. Advocate gets +2 for any user-facing feature. Skeptic gets +2 for any auth/security-related work. Guardian gets +2 for any feature handling user data or PII. Tuner gets +2 for any feature with significant data volume or user-facing performance concerns.
+   - **-2 anti-redundancy:** If two agents overlap heavily for this idea (e.g., Craftsman and Operator both scoring on CI/CD, or Skeptic and Guardian both scoring on data handling), penalize the less relevant one by -2.
 
 ### 2.2 Selection Rules
 
@@ -267,10 +394,12 @@ Based on the interview, here are the recommended council members:
 |-------|-------|-----------|
 | Architect (Blue) | 9 | New data model and API endpoints needed |
 | Advocate (Green) | 8 | User-facing dashboard with complex flows |
-| Skeptic (Red) | 7 | Auth implications, data exposure risks |
-| Craftsman (Purple) | 5 | Testing strategy for new API layer |
+| Guardian (Silver) | 7 | Feature handles user PII, consent flows needed |
+| Skeptic (Red) | 6 | Auth implications, data exposure risks |
 
 Not selected:
+| Tuner (Amber) | 4 | Standard load, no performance concerns |
+| Craftsman (Purple) | 3 | Testing strategy straightforward |
 | Scout (Cyan) | 3 | No significant external dependencies |
 | Strategist (Gold) | 2 | Scope is already well-defined |
 | Operator (Orange) | 2 | Standard Vercel deployment, no special infra |
@@ -290,9 +419,8 @@ Options:
 Once approved, create the team and spawn selected agents:
 
 ```
-Teammate.spawnTeam:
-  operation: "spawnTeam"
-  team_name: "council-<slug>"
+TeamCreate:
+  team_name: "council-<session-id>"
   description: "Council session for: <idea>"
 ```
 
@@ -301,7 +429,7 @@ For each selected agent, spawn using the Task tool with `team_name` and `name`:
 ```
 Task:
   name: "council-<agent-name>"
-  team_name: "council-<slug>"
+  team_name: "council-<session-id>"
   subagent_type: <from roster table>
   prompt: |
     You are <Agent Name>, the <Color> Lens on the Council.
@@ -323,7 +451,7 @@ Task:
     Wait for the conductor to start Round 1 of deliberation.
 ```
 
-Update session.md phase to `deliberation`.
+Update `$SESSION_DIR/session.md` phase to `deliberation`.
 
 ### 2.5 Skill Loading
 
@@ -333,20 +461,23 @@ After spawning agents but before deliberation, load relevant skills for each age
 2. Match skill triggers against `$IDEA` + interview transcript + interview summary
 3. Select top 1-2 skills per agent (the most relevant to this session's topic)
 4. **Special rule:** If Architect is selected, always load `codebase-context` — its output becomes shared context for all agents
-5. Record loaded skills in `session.md`:
+5. Record loaded skills in `$SESSION_DIR/session.md`:
 
 ```markdown
 ## Loaded Skills
 - Architect: codebase-context, schema-design
 - Skeptic: threat-model
 - Advocate: journey-mapping
-- Craftsman: testing-strategy
+- Guardian: compliance-review
+- Tuner: performance-audit
 ```
 
 6. Update `.claude/skills/council/registry.json`:
    - Increment `uses` for each loaded skill
    - Set `last_used` to today's date
    - Append session slug to `sessions` array
+
+**Update index.json** — set `agents` array and `skills_used` array, update timestamp.
 
 ---
 
@@ -374,7 +505,7 @@ Follow the Position format from your agent file:
 - Dependencies on other agents' domains
 
 Explore the codebase first to ground your position in the actual code.
-Save your position to $WORKSPACE/.claude/council/deliberation/round1/<agent-name>.md
+Save your position to $SESSION_DIR/deliberation/round1/<agent-name>.md
 ```
 
 Wait for all agents to respond. Collect all position statements.
@@ -385,6 +516,8 @@ Read all Round 1 positions. Identify **2-4 tension pairs** — agents whose posi
 - Architect wants a new table, Strategist says defer it
 - Advocate wants rich interactions, Skeptic flags complexity risks
 - Craftsman wants full test coverage, Strategist wants to ship faster
+- Guardian wants full consent flow, Advocate wants frictionless UX
+- Tuner wants caching layer, Architect says premature optimization
 
 For each tension pair, send both agents each other's position and ask them to respond:
 
@@ -399,7 +532,7 @@ Respond using your Challenge format:
 - State: Maintain, Modify, or Defer
 - Your reasoning (1 paragraph)
 
-Save your response to $WORKSPACE/.claude/council/deliberation/round2/<agent-name>-responds-to-<other-agent>.md
+Save your response to $SESSION_DIR/deliberation/round2/<agent-name>-responds-to-<other-agent>.md
 ```
 
 Agents **not in any tension pair** skip this round.
@@ -420,7 +553,7 @@ Write your final position using your Converge format:
 - Non-negotiables
 - Implementation notes
 
-Save to $WORKSPACE/.claude/council/deliberation/round3/<agent-name>.md
+Save to $SESSION_DIR/deliberation/round3/<agent-name>.md
 ```
 
 Wait for all agents to respond.
@@ -447,7 +580,13 @@ Read all Round 3 positions. Synthesize into a unified **Design Document**:
 ## Quality Strategy
 <From Craftsman's perspective>
 
-## [Other sections based on selected agents — Strategy, Operations, Documentation]
+## Compliance & Privacy
+<From Guardian's perspective — data handling, consent, audit requirements>
+
+## Performance & Scalability
+<From Tuner's perspective — bottlenecks, caching, load projections>
+
+## [Other sections based on selected agents — Research, Strategy, Operations, Documentation]
 
 ## Tension Resolutions
 | Tension | Agents | Resolution | Reasoning |
@@ -460,7 +599,7 @@ Read all Round 3 positions. Synthesize into a unified **Design Document**:
 | ... | ... | ... | ... |
 ```
 
-Save to `$WORKSPACE/.claude/council/design.md`.
+Save to `$SESSION_DIR/design.md`.
 
 Commit:
 ```bash
@@ -468,7 +607,8 @@ git -C $WORKSPACE add .claude/council/
 git -C $WORKSPACE commit -m "docs(council): design document for <idea>"
 ```
 
-Update session.md phase to `planning`.
+Update `$SESSION_DIR/session.md` phase to `planning`.
+**Update index.json** — set `phase: "planning"`, update timestamp.
 
 ---
 
@@ -500,7 +640,7 @@ Produce a PRD from the design document:
 
 ### US-001: <Story title>
 **Description:** As a <user>, I want <capability> so that <benefit>.
-**Agent:** <Architect|Advocate|Craftsman|etc.>
+**Agent:** <Architect|Advocate|Craftsman|Guardian|Tuner|etc.>
 **Acceptance Criteria:**
 - [ ] <Criterion 1>
 - [ ] <Criterion 2>
@@ -515,7 +655,12 @@ Produce a PRD from the design document:
 <External services, new packages, migration requirements>
 ```
 
-Save to `$WORKSPACE/.claude/prd/prd-<slug>.md`.
+Save PRD inside the session: `$SESSION_DIR/prd.md`
+
+Create a backward-compatible symlink for `/ralf` and `/launch`:
+```bash
+ln -sf "$SESSION_DIR/prd.md" "$WORKSPACE/.claude/prd/prd-<slug>.md"
+```
 
 ### 4.2 Task Decomposition
 
@@ -523,7 +668,7 @@ Create tasks via `TaskCreate` for each user story. Set up dependencies with `Tas
 
 ### 4.3 Plan Summary
 
-Write task breakdown to `$WORKSPACE/.claude/council/plan.md`.
+Write task breakdown to `$SESSION_DIR/plan.md`.
 
 ### 4.4 User Approval
 
@@ -534,8 +679,8 @@ Council Plan Ready
 
 <N> user stories across <N> tasks.
 
-PRD: .claude/prd/prd-<slug>.md
-Design: .claude/council/design.md
+PRD: .claude/council/sessions/<session-id>/prd.md
+Design: .claude/council/sessions/<session-id>/design.md
 
 How would you like to proceed?
 ```
@@ -553,7 +698,8 @@ git -C $WORKSPACE add .claude/council/ .claude/prd/
 git -C $WORKSPACE commit -m "docs(council): execution plan and PRD for <idea>"
 ```
 
-Update session.md phase to `action`.
+Update `$SESSION_DIR/session.md` phase to `action`.
+**Update index.json** — set `phase: "action"`, update timestamp.
 
 ---
 
@@ -566,9 +712,12 @@ Assign tasks to agents based on their strengths:
 - **Advocate** — Frontend, components, UX flow tasks
 - **Craftsman** — Tests, quality gates, infra tasks
 - **Skeptic** — Reviews all changes (read-only, sends feedback)
+- **Scout** — Research tasks, library evaluation, competitive analysis
 - **Strategist** — Scope decisions, prioritization during execution
 - **Operator** — Deployment, monitoring, infrastructure tasks
 - **Chronicler** — Documentation tasks
+- **Guardian** — Compliance review, data classification, audit trail tasks
+- **Tuner** — Performance optimization, caching, load testing tasks
 
 **Skill injection for task assignments:** When assigning a task, include the relevant skill inline:
 
@@ -605,30 +754,224 @@ Tell the user to run:
 
 ## Session Management
 
-### Resume (`/council --resume`)
-
-1. Read `$WORKSPACE/.claude/council/session.md`
-2. Determine last completed phase
-3. Resume from the next phase
-4. Re-spawn agents as needed for remaining phases
-
-### Artifacts
+### Session Directory Structure
 
 ```
 $WORKSPACE/.claude/council/
-  session.md                    # Metadata + phase tracking + loaded skills
-  interview-transcript.md       # Full Q&A from interview
-  interview-summary.md          # Structured summary with relevance scores
-  assembly.md                   # Agent selection scores + rationale
-  deliberation/
-    round1/*.md                 # Position statements (with skill appendices)
-    round2/*.md                 # Challenge exchanges
-    round3/*.md                 # Final positions
-  design.md                     # Synthesized design document
-  plan.md                       # Task breakdown
+  index.json                                  # Per-workspace session index
+  sessions/
+    <slug>-<YYYYMMDD-HHmm>/                  # Each session isolated
+      session.md
+      interview-transcript.md
+      interview-summary.md
+      assembly.md
+      deliberation/
+        round1/*.md
+        round2/*.md
+        round3/*.md
+      design.md
+      plan.md
+      prd.md
 $WORKSPACE/.claude/prd/
-  prd-<slug>.md                 # PRD for handoff
+  prd-<slug>.md                               # Symlink for /ralf backward compat
 ```
+
+### Global Registry
+
+Cross-workspace session tracking at `~/.claude/council/global-registry.json`. Updated whenever a session is created, updated, archived, or deleted.
+
+### Resume Logic
+
+`/council --resume` behavior:
+
+1. **No slug, no `--pick`:** Resume most recent `active` session by `updated` timestamp from `index.json`
+2. **With slug:** Fuzzy-match on slug prefix in `index.json`. If ambiguous (multiple matches), show a picker.
+3. **With `--pick`:** Always show interactive picker of all `active` sessions via `AskUserQuestion`.
+
+When resuming:
+1. Read `$SESSION_DIR/session.md` to determine last completed phase
+2. Read index.json to get session metadata
+3. Resume from the next phase
+4. Re-spawn agents as needed for remaining phases (use `agents` list from index.json)
+
+### Status Values
+
+| Status | Meaning |
+|--------|---------|
+| `active` | Session in progress or recently completed work |
+| `completed` | All phases finished, artifacts available |
+| `archived` | Exported to GitHub issue, local files may be deleted |
+| `stale` | Exceeded staleness threshold (auto-set by `--cleanup`) |
+
+---
+
+## Session Management Commands
+
+### `--list`
+
+List sessions in the current workspace from `index.json`:
+
+```
+Council Sessions — <project-name>
+
+| # | Session | Status | Phase | Age | Agents |
+|---|---------|--------|-------|-----|--------|
+| 1 | build-tournament-coach | active | deliberation | 2h | Architect, Advocate, Skeptic, Guardian |
+| 2 | add-analytics-dashboard | completed | action | 3d | Architect, Advocate, Tuner, Strategist |
+| 3 | refactor-auth-system | archived | — | 14d | — |
+
+Active: 1 | Completed: 1 | Archived: 1
+```
+
+**`--list --all`**: Read `~/.claude/council/global-registry.json` and list sessions across all workspaces:
+
+```
+Council Sessions — All Workspaces
+
+## my-project (/Users/user/projects/my-project)
+| # | Session | Status | Phase | Age |
+| 1 | build-tournament-coach | active | deliberation | 2h |
+
+## other-project (/Users/user/projects/other-project)
+| 1 | redesign-homepage | completed | action | 5d |
+
+Total: 2 sessions across 2 workspaces
+```
+
+### `--status`
+
+Quick summary of the current workspace:
+
+```
+Council Status — <project-name>
+
+Active sessions: 1
+  └─ build-tournament-coach (deliberation phase, 2h ago)
+Completed: 1
+Stale: 0
+
+Last session: 2h ago
+```
+
+### `--archive <slug>`
+
+Export a session to a GitHub issue for long-term storage.
+
+**Guards:**
+- Session must have reached at least `deliberation` phase (has a design.md)
+- Workspace must be a git repo with a GitHub remote
+- `gh` CLI must be authenticated (test with `gh auth status`)
+
+**Body structure:**
+
+```markdown
+## Session Metadata
+- **Date:** <created>
+- **Agents:** <agent list>
+- **Skills Used:** <skill list>
+- **Phase Reached:** <phase>
+
+## Interview Summary
+<full interview-summary.md>
+
+## Design Document
+<full design.md>
+
+## PRD
+<full prd.md, if exists>
+
+## Decision Log
+<extracted from design.md Tension Resolutions + Decision Log tables>
+
+<details>
+<summary>Interview Transcript</summary>
+
+<full interview-transcript.md>
+</details>
+
+<details>
+<summary>Assembly Scores</summary>
+
+<full assembly.md>
+</details>
+
+<details>
+<summary>Deliberation — Round 1 Positions</summary>
+
+<concatenated round1/*.md>
+</details>
+
+<details>
+<summary>Deliberation — Round 2 Challenges</summary>
+
+<concatenated round2/*.md>
+</details>
+
+<details>
+<summary>Deliberation — Round 3 Convergence</summary>
+
+<concatenated round3/*.md>
+</details>
+```
+
+**Execution:**
+
+```bash
+gh issue create --title "[Council Archive] $IDEA" \
+  --label "council-archive,documentation" --body "$BODY"
+```
+
+**If body exceeds 60K characters:** Truncate deliberation round details (keep summaries, cut full positions). Warn the user about truncation.
+
+**After creation:**
+1. Store issue URL in `index.json` → `"archived_to": "<url>"`
+2. Update status to `archived` in both index.json and global registry
+3. Ask user via `AskUserQuestion`:
+
+```
+Archive created at <url>. Delete local session files?
+- **Yes** — Delete session directory
+- **No** — Keep local files
+```
+
+### `--cleanup`
+
+Interactive workflow to review and clean stale sessions.
+
+**Staleness rules:**
+
+| Status | Stale after |
+|--------|-------------|
+| `active` | 7 days since `updated` |
+| `completed` | 14 days since `updated` |
+
+**Workflow:**
+
+1. Scan `index.json` for sessions matching staleness criteria
+2. For each stale session, present via `AskUserQuestion`:
+
+```
+Stale session: <idea> (<age> old, phase: <phase>)
+
+- **Archive + Delete** (Recommended) — Export to GitHub issue, then delete local files
+- **Delete** — Remove without archiving
+- **Skip** — Leave for now
+- **Keep** — Reset staleness timer (update `updated` timestamp)
+```
+
+3. Execute chosen action for each session
+4. Show summary:
+
+```
+Cleanup complete:
+  Archived: 2
+  Deleted: 1
+  Skipped: 1
+  Kept: 0
+  Disk freed: ~450KB
+```
+
+**`--cleanup --all`**: Also check global registry for workspaces that no longer exist (deleted projects). Offer to remove orphaned entries.
 
 ---
 
@@ -639,7 +982,9 @@ When the council session is complete:
 1. **Evolve skills:** For each loaded skill, append an observation to its `## Evolution Notes`:
    `<!-- YYYY-MM-DD | session-slug | observation about skill effectiveness -->`
 2. Send `shutdown_request` to all remaining agents
-3. Call `Teammate.cleanup` to remove team resources
-4. Update `session.md` with completion status
+3. Call `TeamDelete` to remove team resources
+4. Update `$SESSION_DIR/session.md` with completion status
+5. **Update index.json** — set `status: "completed"`, `phase` to final phase reached, update timestamp
+6. **Update global registry** — set session status to `completed`, update workspace metadata
 
-Artifacts remain in the workspace. The session history is preserved for reference.
+Artifacts remain in the workspace under `sessions/<session-id>/`. The session history is preserved for reference and future archival.
