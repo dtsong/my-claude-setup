@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-02-05",
+  "departments": {
+    "architect": {
+      "skills": {
+        "codebase-context": { "uses": 0, "last_used": null, "sessions": [] },
+        "schema-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "api-design": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "skeptic": {
+      "skills": {
+        "threat-model": { "uses": 0, "last_used": null, "sessions": [] },
+        "failure-mode-analysis": { "uses": 0, "last_used": null, "sessions": [] },
+        "edge-case-enumeration": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "advocate": {
+      "skills": {
+        "journey-mapping": { "uses": 0, "last_used": null, "sessions": [] },
+        "interaction-design": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "craftsman": {
+      "skills": {
+        "testing-strategy": { "uses": 0, "last_used": null, "sessions": [] },
+        "pattern-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    }
+  }
+}
