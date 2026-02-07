@@ -138,6 +138,11 @@ Each council executive manages a **department** of focused skills — structured
     performance-audit/SKILL.md           # Bottleneck identification + profiling
     caching-strategy/SKILL.md            # Cache hierarchy design
     load-modeling/SKILL.md               # Capacity planning + benchmarks
+  alchemist/
+    DEPARTMENT.md
+    schema-evaluation/SKILL.md           # Data warehouse schema design
+    pipeline-design/SKILL.md             # ETL/ELT pipeline architecture
+    ml-workflow/SKILL.md                 # ML workflow + experiment tracking
 ```
 
 ### How Skills Are Used
@@ -155,7 +160,7 @@ After each council session, the conductor:
 
 ---
 
-## Agent Roster (10 Perspectives)
+## Agent Roster (11 Perspectives)
 
 | # | Agent | Color | Lens | File | Subagent Type |
 |---|-------|-------|------|------|---------------|
@@ -169,8 +174,9 @@ After each council session, the conductor:
 | 8 | **Chronicler** | Ivory | Documentation, knowledge architecture | `council-chronicler` | `Chronicler` |
 | 9 | **Guardian** | Silver | Compliance, governance, privacy | `council-guardian` | `Guardian` |
 | 10 | **Tuner** | Amber | Performance, scalability, optimization | `council-tuner` | `Tuner` |
+| 11 | **Alchemist** | Indigo | Data engineering, data science, ML, analytics | `council-alchemist` | `Alchemist` |
 
-Selection cap remains at **6 agents max** per session. The larger roster (10) gives more to choose from, not more in every session.
+Selection cap remains at **6 agents max** per session. The larger roster (11) gives more to choose from, not more in every session.
 
 ---
 
@@ -283,12 +289,12 @@ Store the scan results mentally — use them to make interview questions specifi
 
 ### 1.2 Adaptive Interview (2-3 rounds)
 
-Replace the fixed "cover all 10 perspectives" approach with adaptive, context-aware questioning.
+Replace the fixed "cover all 11 perspectives" approach with adaptive, context-aware questioning.
 
 **For each round:**
 
-1. **Score the 10 perspectives** (0-5) for relevance to this idea + project context:
-   - Architecture, User Experience, Risk, Quality, Research, Strategy, Operations, Documentation, Compliance, Performance
+1. **Score the 11 perspectives** (0-5) for relevance to this idea + project context:
+   - Architecture, User Experience, Risk, Quality, Research, Strategy, Operations, Documentation, Compliance, Performance, Data
 2. **Select top 3-4 perspectives** (score >= 3) for this round
 3. **Generate 1 targeted question per selected perspective** that references actual project context:
    - Good: "Your project uses Supabase — should this feature use RLS policies or server-side auth checks?"
@@ -359,7 +365,7 @@ After each round, append Q&A to `$SESSION_DIR/interview-transcript.md`:
 
 ## Phase 2: Assembly (Agent Selection)
 
-After the interview, score each of the 10 agents for relevance and select 3-6 to participate in deliberation.
+After the interview, score each of the 11 agents for relevance and select 3-6 to participate in deliberation.
 
 ### 2.1 Scoring Algorithm
 
@@ -371,7 +377,7 @@ Score each agent 0-10:
    - Would the plan be weaker without their input?
    - Do interview answers reveal needs in their area?
 3. **Modifiers:**
-   - **+2 mandatory bonus:** Architect gets +2 for any new functionality. Advocate gets +2 for any user-facing feature. Skeptic gets +2 for any auth/security-related work. Guardian gets +2 for any feature handling user data or PII. Tuner gets +2 for any feature with significant data volume or user-facing performance concerns.
+   - **+2 mandatory bonus:** Architect gets +2 for any new functionality. Advocate gets +2 for any user-facing feature. Skeptic gets +2 for any auth/security-related work. Guardian gets +2 for any feature handling user data or PII. Tuner gets +2 for any feature with significant data volume or user-facing performance concerns. Alchemist gets +2 for any feature involving data pipelines, warehousing, ML workflows, or analytics.
    - **-2 anti-redundancy:** If two agents overlap heavily for this idea (e.g., Craftsman and Operator both scoring on CI/CD, or Skeptic and Guardian both scoring on data handling), penalize the less relevant one by -2.
 
 ### 2.2 Selection Rules
@@ -718,6 +724,7 @@ Assign tasks to agents based on their strengths:
 - **Chronicler** — Documentation tasks
 - **Guardian** — Compliance review, data classification, audit trail tasks
 - **Tuner** — Performance optimization, caching, load testing tasks
+- **Alchemist** — Data pipeline, warehouse schema, ML workflow, analytics tasks
 
 **Skill injection for task assignments:** When assigning a task, include the relevant skill inline:
 

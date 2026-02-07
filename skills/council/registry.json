@@ -69,6 +69,13 @@
         "caching-strategy": { "uses": 0, "last_used": null, "sessions": [] },
         "load-modeling": { "uses": 0, "last_used": null, "sessions": [] }
       }
+    },
+    "alchemist": {
+      "skills": {
+        "schema-evaluation": { "uses": 0, "last_used": null, "sessions": [] },
+        "pipeline-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "ml-workflow": { "uses": 0, "last_used": null, "sessions": [] }
+      }
     }
   }
 }
