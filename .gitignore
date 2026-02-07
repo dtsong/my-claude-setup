@@ -1,1 +1,39 @@
+# Sensitive / machine-specific
+settings.local.json
+**/settings.local.json
+
+# Auto-generated data (large)
+debug/
+file-history/
+projects/
+plans/
+cache/
+
+# Runtime state
+session-env/
+shell-snapshots/
+paste-cache/
+tasks/
+todos/
+teams/
+agent-context/
+ralf-state.local.md
+ralf-*/
+
+# Telemetry / analytics
+telemetry/
+statsig/
+
+# History / stats
+history.jsonl
+stats-cache.json
+
+# Downloads
+downloads/
+
+# Self-referencing symlinks (should not be tracked)
+commands/commands
+skills/skills
+
+# macOS
 .DS_Store
