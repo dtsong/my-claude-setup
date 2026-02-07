@@ -1,6 +1,6 @@
 # Council — Multi-Agent Deliberation System
 
-The Council is a structured decision-making system for ambitious software projects. Instead of getting a single AI perspective on a design problem, the Council assembles a team of 3-6 specialized agents that each bring a distinct lens — architecture, security, UX, data engineering, performance, and more — and puts them through a formal deliberation process. The result is a design document and execution plan that has been stress-tested from multiple angles before a single line of code is written.
+The Council is a structured decision-making system for ambitious software projects. Instead of getting a single AI perspective on a design problem, the Council assembles a team of 3-7 specialized agents from a roster of 16 that each bring a distinct lens — architecture, security, UX, mobile, visual design, growth, IoT, AI/LLM, and more — and puts them through a formal deliberation process. The result is a design document and execution plan that has been stress-tested from multiple angles before a single line of code is written.
 
 **The core insight:** a single perspective tends to anchor on its first plausible idea and stop exploring. Multiple independent perspectives, forced to challenge each other, produce designs that survive contact with reality.
 
@@ -100,17 +100,17 @@ You describe your idea. Be as specific or as vague as you like — the interview
 
 The conductor (the main Claude session) interviews you directly. No agents are spawned yet. The conductor has already scanned your project — it knows your tech stack, directory structure, and conventions — so questions are specific to your situation.
 
-Each round targets 3-4 of the 11 perspectives based on relevance. For example, if you're building a feature that handles user PII, the conductor will ask compliance-oriented questions early. If it's a performance-critical feature, it'll dig into load expectations and latency requirements.
+Each round targets 3-4 of the 16 perspectives based on relevance. For example, if you're building a feature that handles user PII, the conductor will ask compliance-oriented questions early. If it's a performance-critical feature, it'll dig into load expectations and latency requirements.
 
 After the interview, the conductor writes a structured summary with relevance scores for each perspective.
 
 ### Phase 2: Assembly (Agent Selection)
 
-Each of the 11 agents is scored (0-10) based on keyword matches from the interview, semantic relevance, and mandatory bonuses (e.g., the Architect always gets +2 for new functionality, the Guardian gets +2 for features handling user data).
+Each of the 16 agents is scored (0-10) based on keyword matches from the interview, semantic relevance, and mandatory bonuses (e.g., the Architect always gets +2 for new functionality, the Guardian gets +2 for features handling user data).
 
 The conductor shows you the proposed council with scores and rationale. You can approve, add an agent, remove one, or restart the interview.
 
-Typically 3-6 agents are selected. Not every session needs every perspective — a straightforward internal tool might only need the Architect, Craftsman, and Operator, while a user-facing feature handling sensitive data might assemble six agents including the Advocate, Skeptic, and Guardian.
+Typically 3-7 agents are selected. Not every session needs every perspective — a straightforward internal tool might only need the Architect, Craftsman, and Operator, while a cross-platform mobile feature handling sensitive data might assemble seven agents including the Advocate, Pathfinder, Skeptic, and Guardian.
 
 ### Phase 3: Deliberation (3 rounds)
 
@@ -138,7 +138,7 @@ You choose how to execute:
 
 ## The Agent Roster
 
-The Council has 11 agents. Each session uses 3-6 of them, selected for relevance.
+The Council has 16 agents plus a Maestro facilitator persona. Each session uses 3-7 of them, selected for relevance.
 
 | # | Agent | Color | What They Care About | When They're Selected |
 |---|-------|-------|---------------------|----------------------|
@@ -153,16 +153,22 @@ The Council has 11 agents. Each session uses 3-6 of them, selected for relevance
 | 9 | [**Guardian**](guardian/DEPARTMENT.md) | Silver | Compliance, governance, privacy, audit trails | Features handling user data or PII — gets +2 mandatory bonus |
 | 10 | [**Tuner**](tuner/DEPARTMENT.md) | Amber | Performance, scalability, caching, optimization | High-traffic or latency-sensitive features — gets +2 mandatory bonus |
 | 11 | [**Alchemist**](alchemist/DEPARTMENT.md) | Indigo | Data engineering, data science, ML, analytics | Data pipelines, warehousing, ML workflows — gets +2 mandatory bonus |
+| 12 | [**Pathfinder**](pathfinder/DEPARTMENT.md) | Coral | Mobile, cross-platform, native apps | Mobile/cross-platform features — gets +2 mandatory bonus |
+| 13 | [**Artisan**](artisan/DEPARTMENT.md) | Rose | Visual design, design systems, motion | UI-heavy features or design system work — gets +2 mandatory bonus |
+| 14 | [**Herald**](herald/DEPARTMENT.md) | Bronze | Growth, monetization, onboarding, retention | User-facing features with growth/monetization implications — gets +2 mandatory bonus |
+| 15 | [**Sentinel**](sentinel/DEPARTMENT.md) | Titanium | IoT, embedded, edge, device protocols | IoT/embedded/hardware features — gets +2 mandatory bonus |
+| 16 | [**Oracle**](oracle/DEPARTMENT.md) | Violet | AI/LLM integration, RAG, prompt engineering | AI/LLM integration features — gets +2 mandatory bonus |
+| — | **Steward** (Maestro) | Platinum | Orchestration, synthesis, facilitation | Always active as conductor persona (not spawned) |
 
 ### Reading an Agent Definition
 
 Each agent's definition file (e.g., [`agents/council-architect.md`](../../agents/council-architect.md)) contains:
 
-- **Cognitive Framework** — The mental models the agent uses to reason. The Architect thinks in C4 models and domain-driven design. The Tuner thinks in performance budgets and cache hierarchies. The Alchemist thinks in data lifecycles and warehouse modeling patterns.
+- **Cognitive Framework** — The mental models the agent uses to reason. The Architect thinks in C4 models and domain-driven design. The Pathfinder thinks in platform conventions and offline-first architecture. The Oracle thinks in cost-latency-quality triangles and evaluation-driven development.
 - **Trained Skills** — The specific technical capabilities the agent draws on.
-- **Communication Style** — How the agent presents its reasoning. The Architect is precise and structural. The Tuner is quantitative and evidence-based. The Alchemist is schema-first and lineage-aware.
-- **Decision Heuristics** — 5 core rules the agent follows. These are the agent's "gut instincts" — heuristics like "Start with the data model" (Architect) or "Measure first, optimize second" (Tuner) or "Model the grain first" (Alchemist).
-- **Known Blind Spots** — What each agent tends to get wrong. The Architect over-engineers for hypothetical futures. The Tuner chases micro-optimizations. The Alchemist over-engineers pipelines for small data. These self-checks help agents stay grounded.
+- **Communication Style** — How the agent presents its reasoning. The Architect is precise and structural. The Sentinel is specification-precise and failure-scenario-driven. The Herald is metric-driven and funnel-aware.
+- **Decision Heuristics** — 5 core rules the agent follows. These are the agent's "gut instincts" — heuristics like "Start with the data model" (Architect) or "Design for power-off" (Sentinel) or "Start with the eval harness" (Oracle).
+- **Known Blind Spots** — What each agent tends to get wrong. The Architect over-engineers for hypothetical futures. The Pathfinder over-invests in offline-first when connectivity is guaranteed. The Artisan over-polishes at the expense of shipping. These self-checks help agents stay grounded.
 - **Deliberation Formats** — Templates for Position, Challenge, and Converge rounds that ensure structured, comparable output across agents.
 
 ---
@@ -232,6 +238,11 @@ Each agent manages a "department" of 2-3 focused skills. Skills are structured p
 | [Guardian](guardian/DEPARTMENT.md) | [compliance-review](guardian/compliance-review/SKILL.md), [data-classification](guardian/data-classification/SKILL.md), [audit-trail-design](guardian/audit-trail-design/SKILL.md) | GDPR reviews, data classification schemes, audit logging designs |
 | [Tuner](tuner/DEPARTMENT.md) | [performance-audit](tuner/performance-audit/SKILL.md), [caching-strategy](tuner/caching-strategy/SKILL.md), [load-modeling](tuner/load-modeling/SKILL.md) | Performance baselines, cache hierarchy designs, capacity plans |
 | [Alchemist](alchemist/DEPARTMENT.md) | [schema-evaluation](alchemist/schema-evaluation/SKILL.md), [pipeline-design](alchemist/pipeline-design/SKILL.md), [ml-workflow](alchemist/ml-workflow/SKILL.md) | Warehouse schemas, ETL/ELT pipeline architectures, ML workflow designs |
+| [Pathfinder](pathfinder/DEPARTMENT.md) | [platform-audit](pathfinder/platform-audit/SKILL.md), [navigation-design](pathfinder/navigation-design/SKILL.md), [device-integration](pathfinder/device-integration/SKILL.md) | Platform compliance reports, navigation architectures, device API integration plans |
+| [Artisan](artisan/DEPARTMENT.md) | [visual-audit](artisan/visual-audit/SKILL.md), [design-system-architecture](artisan/design-system-architecture/SKILL.md), [motion-design](artisan/motion-design/SKILL.md) | Visual design critiques, token hierarchies, animation specifications |
+| [Herald](herald/DEPARTMENT.md) | [growth-engineering](herald/growth-engineering/SKILL.md), [monetization-design](herald/monetization-design/SKILL.md), [messaging-strategy](herald/messaging-strategy/SKILL.md) | Onboarding funnels, pricing architectures, product messaging frameworks |
+| [Sentinel](sentinel/DEPARTMENT.md) | [embedded-architecture](sentinel/embedded-architecture/SKILL.md), [protocol-design](sentinel/protocol-design/SKILL.md), [fleet-management](sentinel/fleet-management/SKILL.md) | Firmware architectures, protocol stack designs, fleet management plans |
+| [Oracle](oracle/DEPARTMENT.md) | [prompt-engineering](oracle/prompt-engineering/SKILL.md), [rag-architecture](oracle/rag-architecture/SKILL.md), [ai-evaluation](oracle/ai-evaluation/SKILL.md) | Prompt designs, RAG pipeline architectures, evaluation frameworks |
 
 ### Skill Evolution
 
@@ -349,7 +360,7 @@ Create a new directory under an agent's department with a `SKILL.md` containing:
 
 ```
 agents/
-  council-architect.md        # Agent persona definitions (11 files)
+  council-architect.md        # Agent persona definitions (17 files)
   council-advocate.md
   council-skeptic.md
   council-craftsman.md
@@ -360,6 +371,12 @@ agents/
   council-guardian.md
   council-tuner.md
   council-alchemist.md
+  council-pathfinder.md
+  council-artisan.md
+  council-herald.md
+  council-sentinel.md
+  council-oracle.md
+  council-steward.md          # Maestro facilitator persona (not spawnable)
 
 commands/
   council.md                  # The full command specification (orchestration logic)
@@ -376,7 +393,7 @@ skills/council/
     ...
   skeptic/
     ...
-  (and so on for all 11 departments)
+  (and so on for all 16 departments)
 ```
 
 ### Key Files to Read
@@ -398,7 +415,7 @@ The Council is built on primitives provided by [Claude Code](https://claude.com/
 
 - **[Agent Teams](https://code.claude.com/docs/en/agent-teams)** — The Council uses agent teams to coordinate multiple Claude Code sessions working in parallel. Each council member is a teammate with its own context window, and the conductor (team lead) orchestrates deliberation rounds, synthesizes findings, and manages the shared task list. The [structured deliberation pattern](https://code.claude.com/docs/en/agent-teams#when-to-use-agent-teams) (Position, Challenge, Converge) maps directly to the "competing hypotheses" use case described in Anthropic's documentation.
 
-- **[Custom Subagents](https://code.claude.com/docs/en/sub-agents)** — Each council member (Architect, Skeptic, Alchemist, etc.) is defined as a custom subagent with a dedicated persona, cognitive framework, and tool access. Agent markdown files in `~/.claude/agents/` give each member a distinct system prompt, model configuration, and behavioral heuristics. The [agent definition format](https://code.claude.com/docs/en/sub-agents#write-subagent-files) (YAML frontmatter + markdown body) is used for all 11 council members.
+- **[Custom Subagents](https://code.claude.com/docs/en/sub-agents)** — Each council member (Architect, Skeptic, Alchemist, etc.) is defined as a custom subagent with a dedicated persona, cognitive framework, and tool access. Agent markdown files in `~/.claude/agents/` give each member a distinct system prompt, model configuration, and behavioral heuristics. The [agent definition format](https://code.claude.com/docs/en/sub-agents#write-subagent-files) (YAML frontmatter + markdown body) is used for all 16 council members plus the Steward facilitator persona.
 
 - **[Skills](https://code.claude.com/docs/en/skills)** — Each council member's department skills (e.g., `schema-evaluation`, `pipeline-design`, `threat-model`) are implemented as Claude Code skills with structured process steps, output formats, and quality checks. Skills are loaded contextually during deliberation based on topic relevance, following the [skill invocation pattern](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill).
 

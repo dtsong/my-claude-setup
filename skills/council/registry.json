@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "last_updated": "2026-02-06",
+  "last_updated": "2026-02-07",
   "departments": {
     "architect": {
       "skills": {
@@ -75,6 +75,41 @@
         "schema-evaluation": { "uses": 0, "last_used": null, "sessions": [] },
         "pipeline-design": { "uses": 0, "last_used": null, "sessions": [] },
         "ml-workflow": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "pathfinder": {
+      "skills": {
+        "platform-audit": { "uses": 0, "last_used": null, "sessions": [] },
+        "navigation-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "device-integration": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "artisan": {
+      "skills": {
+        "visual-audit": { "uses": 0, "last_used": null, "sessions": [] },
+        "design-system-architecture": { "uses": 0, "last_used": null, "sessions": [] },
+        "motion-design": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "herald": {
+      "skills": {
+        "growth-engineering": { "uses": 0, "last_used": null, "sessions": [] },
+        "monetization-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "messaging-strategy": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "sentinel": {
+      "skills": {
+        "embedded-architecture": { "uses": 0, "last_used": null, "sessions": [] },
+        "protocol-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "fleet-management": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "oracle": {
+      "skills": {
+        "prompt-engineering": { "uses": 0, "last_used": null, "sessions": [] },
+        "rag-architecture": { "uses": 0, "last_used": null, "sessions": [] },
+        "ai-evaluation": { "uses": 0, "last_used": null, "sessions": [] }
       }
     }
   }

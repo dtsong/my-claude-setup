@@ -143,6 +143,31 @@ Each council executive manages a **department** of focused skills — structured
     schema-evaluation/SKILL.md           # Data warehouse schema design
     pipeline-design/SKILL.md             # ETL/ELT pipeline architecture
     ml-workflow/SKILL.md                 # ML workflow + experiment tracking
+  pathfinder/
+    DEPARTMENT.md
+    platform-audit/SKILL.md              # Platform guideline compliance
+    navigation-design/SKILL.md           # Mobile navigation + deep linking
+    device-integration/SKILL.md          # Hardware APIs, sensors, biometrics
+  artisan/
+    DEPARTMENT.md
+    visual-audit/SKILL.md                # Structured visual design critique
+    design-system-architecture/SKILL.md  # Token hierarchy + theming
+    motion-design/SKILL.md               # Animation principles + reduced-motion
+  herald/
+    DEPARTMENT.md
+    growth-engineering/SKILL.md          # Onboarding funnels + referral systems
+    monetization-design/SKILL.md         # Pricing tiers + paywall architecture
+    messaging-strategy/SKILL.md          # Product copy + value propositions
+  sentinel/
+    DEPARTMENT.md
+    embedded-architecture/SKILL.md       # Firmware design + RTOS patterns
+    protocol-design/SKILL.md             # BLE/MQTT/Matter protocol selection
+    fleet-management/SKILL.md            # Device provisioning + OTA updates
+  oracle/
+    DEPARTMENT.md
+    prompt-engineering/SKILL.md          # System prompts + structured output
+    rag-architecture/SKILL.md            # Chunking + embeddings + vector DB
+    ai-evaluation/SKILL.md              # Golden datasets + hallucination detection
 ```
 
 ### How Skills Are Used
@@ -160,7 +185,7 @@ After each council session, the conductor:
 
 ---
 
-## Agent Roster (11 Perspectives)
+## Agent Roster (16 Perspectives + Maestro)
 
 | # | Agent | Color | Lens | File | Subagent Type |
 |---|-------|-------|------|------|---------------|
@@ -175,8 +200,16 @@ After each council session, the conductor:
 | 9 | **Guardian** | Silver | Compliance, governance, privacy | `council-guardian` | `Guardian` |
 | 10 | **Tuner** | Amber | Performance, scalability, optimization | `council-tuner` | `Tuner` |
 | 11 | **Alchemist** | Indigo | Data engineering, data science, ML, analytics | `council-alchemist` | `Alchemist` |
+| 12 | **Pathfinder** | Coral | Mobile, cross-platform, native apps | `council-pathfinder` | `Pathfinder` |
+| 13 | **Artisan** | Rose | Visual design, design systems, motion | `council-artisan` | `Artisan` |
+| 14 | **Herald** | Bronze | Growth, monetization, onboarding, retention | `council-herald` | `Herald` |
+| 15 | **Sentinel** | Titanium | IoT, embedded, edge, device protocols | `council-sentinel` | `Sentinel` |
+| 16 | **Oracle** | Violet | AI/LLM integration, RAG, prompt engineering | `council-oracle` | `Oracle` |
+| — | **Steward** | Platinum | Orchestration, synthesis, facilitation (Maestro) | `council-steward` | *(not spawned)* |
 
-Selection cap remains at **6 agents max** per session. The larger roster (11) gives more to choose from, not more in every session.
+The **Steward** (Maestro) is not a spawned agent — it is the facilitator persona the conductor adopts during sessions. See `agents/council-steward.md` for the full persona.
+
+Selection cap remains at **7 agents max** per session. The larger roster (16) gives more to choose from, not more in every session.
 
 ---
 
@@ -197,7 +230,7 @@ Capture the response as `$IDEA`.
 
 ## Phase 1: Interview (No Agents Spawned)
 
-You (the main agent / conductor) interview the user directly. **No agents are spawned yet.**
+You (the main agent / conductor) interview the user directly, embodying the **Steward (Maestro)** persona. **No agents are spawned yet.** See `agents/council-steward.md` for the interview philosophy, synthesis methodology, and conflict resolution framework that guide your conduct.
 
 ### 1.1 Setup
 
@@ -289,12 +322,12 @@ Store the scan results mentally — use them to make interview questions specifi
 
 ### 1.2 Adaptive Interview (2-3 rounds)
 
-Replace the fixed "cover all 11 perspectives" approach with adaptive, context-aware questioning.
+Replace the fixed "cover all 16 perspectives" approach with adaptive, context-aware questioning.
 
 **For each round:**
 
-1. **Score the 11 perspectives** (0-5) for relevance to this idea + project context:
-   - Architecture, User Experience, Risk, Quality, Research, Strategy, Operations, Documentation, Compliance, Performance, Data
+1. **Score the 16 perspectives** (0-5) for relevance to this idea + project context:
+   - Architecture, User Experience, Risk, Quality, Research, Strategy, Operations, Documentation, Compliance, Performance, Data, Mobile/Cross-Platform, Visual Design, Growth/Monetization, IoT/Embedded, AI/LLM
 2. **Select top 3-4 perspectives** (score >= 3) for this round
 3. **Generate 1 targeted question per selected perspective** that references actual project context:
    - Good: "Your project uses Supabase — should this feature use RLS policies or server-side auth checks?"
@@ -341,6 +374,12 @@ After all rounds, write a structured summary to `$SESSION_DIR/interview-summary.
 | Documentation | 1 | Minimal docs needed |
 | Compliance | 4 | Handles user PII, consent required |
 | Performance | 2 | Standard load expectations |
+| Data | 1 | No data pipeline needs |
+| Mobile/Cross-Platform | 1 | Web-only feature |
+| Visual Design | 2 | Standard component styling |
+| Growth/Monetization | 1 | Internal feature, no growth implications |
+| IoT/Embedded | 0 | No hardware component |
+| AI/LLM | 1 | No AI integration |
 ```
 
 This relevance table feeds directly into Assembly scoring (Phase 2).
@@ -365,7 +404,7 @@ After each round, append Q&A to `$SESSION_DIR/interview-transcript.md`:
 
 ## Phase 2: Assembly (Agent Selection)
 
-After the interview, score each of the 11 agents for relevance and select 3-6 to participate in deliberation.
+After the interview, score each of the 16 agents for relevance and select 3-7 to participate in deliberation.
 
 ### 2.1 Scoring Algorithm
 
@@ -377,15 +416,22 @@ Score each agent 0-10:
    - Would the plan be weaker without their input?
    - Do interview answers reveal needs in their area?
 3. **Modifiers:**
-   - **+2 mandatory bonus:** Architect gets +2 for any new functionality. Advocate gets +2 for any user-facing feature. Skeptic gets +2 for any auth/security-related work. Guardian gets +2 for any feature handling user data or PII. Tuner gets +2 for any feature with significant data volume or user-facing performance concerns. Alchemist gets +2 for any feature involving data pipelines, warehousing, ML workflows, or analytics.
-   - **-2 anti-redundancy:** If two agents overlap heavily for this idea (e.g., Craftsman and Operator both scoring on CI/CD, or Skeptic and Guardian both scoring on data handling), penalize the less relevant one by -2.
+   - **+2 mandatory bonus:** Architect gets +2 for any new functionality. Advocate gets +2 for any user-facing feature. Skeptic gets +2 for any auth/security-related work. Guardian gets +2 for any feature handling user data or PII. Tuner gets +2 for any feature with significant data volume or user-facing performance concerns. Alchemist gets +2 for any feature involving data pipelines, warehousing, ML workflows, or analytics. Pathfinder gets +2 for any mobile or cross-platform feature. Artisan gets +2 for any UI-heavy feature or design system work. Herald gets +2 for any user-facing feature with growth or monetization implications. Sentinel gets +2 for any IoT, embedded, or hardware feature. Oracle gets +2 for any AI/LLM integration feature.
+   - **-2 anti-redundancy:** If two agents overlap heavily for this idea, penalize the less relevant one by -2. Specific overlap rules:
+     - Craftsman vs Operator (CI/CD overlap): penalize the less relevant one
+     - Skeptic vs Guardian (data handling overlap): penalize the less relevant one
+     - Pathfinder vs Advocate (mobile UX overlap): Web-only feature → penalize Pathfinder -2. Native app component → both valid.
+     - Artisan vs Advocate (UI overlap): Pure interaction design (flows, forms) → penalize Artisan -2. Visual overhaul or design system work → both valid.
+     - Herald vs Strategist (business overlap): MVP scoping question → penalize Herald -2. Growth/monetization question → penalize Strategist -2.
+     - Oracle vs Alchemist (AI/ML overlap): Training custom models → penalize Oracle -2. Integrating pre-trained LLMs → penalize Alchemist -2.
+     - Sentinel vs Operator (infrastructure overlap): Cloud-only feature → penalize Sentinel -2. Physical device component → both valid.
 
 ### 2.2 Selection Rules
 
 - Score >= 7: **Auto-include**
 - Fill to minimum 3 if needed (next highest scores)
-- Add agents scoring >= 4 up to cap of 6
-- Maximum 6 agents
+- Add agents scoring >= 4 up to cap of 7
+- Maximum 7 agents
 
 ### 2.3 Present Selection
 
@@ -524,6 +570,11 @@ Read all Round 1 positions. Identify **2-4 tension pairs** — agents whose posi
 - Craftsman wants full test coverage, Strategist wants to ship faster
 - Guardian wants full consent flow, Advocate wants frictionless UX
 - Tuner wants caching layer, Architect says premature optimization
+- Pathfinder wants native implementation, Architect prefers web-first approach
+- Artisan wants design system overhaul, Strategist says defer visual polish
+- Herald wants monetization hooks, Advocate wants frictionless free experience
+- Sentinel wants custom protocol, Operator prefers standard cloud infrastructure
+- Oracle wants frontier model, Tuner flags latency and cost concerns
 
 For each tension pair, send both agents each other's position and ask them to respond:
 
@@ -725,6 +776,11 @@ Assign tasks to agents based on their strengths:
 - **Guardian** — Compliance review, data classification, audit trail tasks
 - **Tuner** — Performance optimization, caching, load testing tasks
 - **Alchemist** — Data pipeline, warehouse schema, ML workflow, analytics tasks
+- **Pathfinder** — Mobile navigation, platform compliance, device API integration tasks
+- **Artisan** — Visual design, design system architecture, motion design tasks
+- **Herald** — Onboarding optimization, monetization architecture, product messaging tasks
+- **Sentinel** — Firmware design, protocol selection, fleet management, OTA update tasks
+- **Oracle** — Prompt engineering, RAG pipeline, AI evaluation, LLM integration tasks
 
 **Skill injection for task assignments:** When assigning a task, include the relevant skill inline:
 
