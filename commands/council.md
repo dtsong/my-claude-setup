@@ -164,11 +164,11 @@ After each council session, the conductor:
 | 3 | **Skeptic** | Red | Risk, security, devil's advocate | `council-skeptic` | `Skeptic` |
 | 4 | **Craftsman** | Purple | Testing, DX, code quality, patterns | `council-craftsman` | `Craftsman` |
 | 5 | **Scout** | Cyan | Research, precedent, external knowledge | `council-scout` | `Scout` |
-| 6 | **Strategist** | Gold | Business value, scope, MVP, prioritization | `council-strategist` | `general-purpose` |
+| 6 | **Strategist** | Gold | Business value, scope, MVP, prioritization | `council-strategist` | `Strategist` |
 | 7 | **Operator** | Orange | DevOps, deployment, infra, monitoring | `council-operator` | `Operator` |
-| 8 | **Chronicler** | Ivory | Documentation, knowledge architecture | `council-chronicler` | `general-purpose` |
-| 9 | **Guardian** | Silver | Compliance, governance, privacy | `council-guardian` | `general-purpose` |
-| 10 | **Tuner** | Amber | Performance, scalability, optimization | `council-tuner` | `general-purpose` |
+| 8 | **Chronicler** | Ivory | Documentation, knowledge architecture | `council-chronicler` | `Chronicler` |
+| 9 | **Guardian** | Silver | Compliance, governance, privacy | `council-guardian` | `Guardian` |
+| 10 | **Tuner** | Amber | Performance, scalability, optimization | `council-tuner` | `Tuner` |
 
 Selection cap remains at **6 agents max** per session. The larger roster (10) gives more to choose from, not more in every session.
 
