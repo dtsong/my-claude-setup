@@ -1,6 +1,6 @@
 ---
 description: Implement one or more GitHub issues and create PRs. Handles branch creation, implementation, and PR submission. Supports batch implementation.
-allowed-tools: Bash(git:*), Bash(gh:*), Bash(uv:*), Bash(pytest:*), Read, Edit, Write, Glob, Grep
+allowed-tools: Bash(git checkout:*), Bash(git checkout -b:*), Bash(git pull:*), Bash(git push:*), Bash(git add:*), Bash(git commit:*), Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git branch:*), Bash(git stash:*), Bash(gh issue:*), Bash(gh pr:*), Bash(uv:*), Bash(pytest:*), Read, Edit, Write, Glob, Grep
 ---
 
 # Implement GitHub Issues
@@ -31,6 +31,10 @@ All issues implemented in a single branch with one PR. Best for:
 - Related issues that share code
 - Small issues that make sense together
 - Issues within the same phase/milestone
+
+## Git Safety Context
+
+All work in this skill happens on **feature branches** that get submitted as **pull requests** back to main. No changes are ever made directly on main. This means all git operations (branch creation, commits, pushes, PR creation) are safe, reversible workflow steps — the user reviews and merges via the PR. Proceed with git and gh commands without additional confirmation.
 
 ## Workflow
 
