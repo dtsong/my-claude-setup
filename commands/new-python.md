@@ -20,10 +20,10 @@ cd <project-name>
 
 2. Add dev dependencies:
 ```bash
-uv add --dev pytest ruff
+uv add --dev pytest ruff ty
 ```
 
-3. Create `pyproject.toml` ruff config:
+3. Add tooling config to `pyproject.toml`:
 ```toml
 [tool.ruff]
 line-length = 100
@@ -31,6 +31,9 @@ target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 ```
 
 4. Create `.python-version`:
@@ -38,7 +41,37 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 3.13
 ```
 
-5. Create initial structure:
+5. Create `.pre-commit-config.yaml`:
+```yaml
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+```
+
+6. Create `.gitignore`:
+```
+__pycache__/
+*.pyc
+.venv/
+dist/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+```
+
+7. Create initial structure:
 ```
 src/<project_name>/
     __init__.py
@@ -48,31 +81,34 @@ tests/
     test_example.py
 ```
 
-6. Create project CLAUDE.md:
+8. Create project CLAUDE.md:
 ```markdown
 # <Project Name>
 
 ## Commands
-uv run pytest           # tests
-uv run ruff check .     # lint
-uv run ruff format .    # format
-uv run ty               # typecheck
+```bash
+uv run pytest              # run tests
+uv run ruff check .        # lint
+uv run ruff format .       # format
+uv run ty check src/       # typecheck
+```
 
 ## Structure
 src/<name>/  - source code
 tests/       - pytest tests
 ```
 
-7. Initialize git:
+9. Initialize git and install pre-commit:
 ```bash
 git init
+uv run pre-commit install
 git add .
 git commit -m "chore: initial project setup"
 ```
 
 ## Verification
 
-Run all checks pass:
+Run all checks:
 ```bash
-uv run ruff check . && uv run pytest
+uv run ruff check . && uv run ruff format --check . && uv run pytest
 ```
