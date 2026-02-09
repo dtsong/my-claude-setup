@@ -1,6 +1,6 @@
 ---
 description: "Officers Academy Multi-Agent Workflow — assemble your house, deliberate, plan, build"
-argument-hint: "[--resume [SLUG] [--pick]] [--list [--all]] [--archive SLUG] [--cleanup] [--status] [IDEA...]"
+argument-hint: "[--help|--brainstorm|--quick|--deep|--auto|--guided|--meet|--audit|--resume|--list|--status|--archive|--cleanup] [IDEA...]"
 ---
 
 # /academy — Officers Academy Multi-Agent Workflow
@@ -10,8 +10,15 @@ A Fire Emblem: Three Houses-themed interview-first, dynamically-assembled delibe
 ## Usage
 
 ```
-/academy                              # New session (interactive)
-/academy "Build a tournament coach"   # New session (direct)
+/academy                              # New session — full workflow (default)
+/academy "Build a tournament coach"   # New session with idea
+/academy --brainstorm "Quick idea"    # 30-second gut check from 3 agents
+/academy --quick "Add a sidebar"      # Fast sketch — skip interview, 1 round
+/academy --deep "Redesign auth"       # Full session + mandatory deep audit
+/academy --auto "Add dark mode"       # Hands-off — no touchpoints
+/academy --guided "New feature"       # Tight control — approval at every phase
+/academy --meet "Should we migrate?"  # Discussion only — no action plan
+/academy --audit "API security"       # Direct codebase audit
 /academy --resume                     # Resume most recent active session
 /academy --resume <slug>              # Resume specific session
 /academy --resume --pick              # Pick from active sessions
@@ -20,7 +27,10 @@ A Fire Emblem: Three Houses-themed interview-first, dynamically-assembled delibe
 /academy --archive <slug>             # Export session to GitHub issue
 /academy --cleanup                    # Review and clean stale sessions
 /academy --status                     # Quick workspace session summary
+/academy --help                       # Show help with all modes
 ```
+
+> **Tip:** `/brainstorm "idea"` is a shortcut for `/academy --brainstorm "idea"`.
 
 ## Theme Configuration
 
@@ -384,3 +394,16 @@ When executing via team (Path A), assign tasks based on class strengths:
 2. **Phase 2.5 (Skill Loading):** Check promotion tracker, make bonus skills available
 3. **Phase 3 Round 2 (Challenge):** Use house tension rules instead of organic tension identification
 4. **Cleanup:** Update support log and promotion tracker
+
+### Academy Mechanics Per Mode
+
+| Mode | Support Conversations | House Tensions | Class Promotion |
+|------|----------------------|----------------|-----------------|
+| brainstorm | Skip | Skip | Skip |
+| quick | Skip | Skip | Skip |
+| auto | Skip logging | Skip | Auto-advance (no announcement) |
+| meeting | Skip logging | **Active** (used for cross-examination pairing) | Skip tracking |
+| standard | **Active** | **Active** | **Active** |
+| deep | **Active** | **Active** | **Active** |
+| guided | **Active** | **Active** | **Active** |
+| audit | Skip | Skip | Skip |

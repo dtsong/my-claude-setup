@@ -1,3 +1,22 @@
 {
-  "hooks": {}
+  "hooks": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "bash hooks/pokemon-hook.sh"
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "type": "command",
+        "command": "bash hooks/pokemon-hook.sh"
+      }
+    ],
+    "Notification": [
+      {
+        "type": "command",
+        "command": "bash hooks/pokemon-hook.sh"
+      }
+    ]
+  }
 }

@@ -1,6 +1,6 @@
 ---
 description: "Big Ideas Multi-Agent Workflow — interview, design, plan, build"
-argument-hint: "[--resume [SLUG] [--pick]] [--list [--all]] [--archive SLUG] [--cleanup] [--status] [IDEA...]"
+argument-hint: "[--help|--brainstorm|--quick|--deep|--auto|--guided|--meet|--audit|--resume|--list|--status|--archive|--cleanup] [IDEA...]"
 ---
 
 # /council — Big Ideas Multi-Agent Workflow
@@ -10,8 +10,15 @@ An interview-first, dynamically-assembled council of perspective agents that col
 ## Usage
 
 ```
-/council                              # New session (interactive)
-/council "Build a tournament coach"   # New session (direct)
+/council                              # New session — full workflow (default)
+/council "Build a tournament coach"   # New session with idea
+/council --brainstorm "Quick idea"    # 30-second gut check from 3 agents
+/council --quick "Add a sidebar"      # Fast sketch — skip interview, 1 round
+/council --deep "Redesign auth"       # Full council + mandatory deep audit
+/council --auto "Add dark mode"       # Hands-off — no touchpoints
+/council --guided "New feature"       # Tight control — approval at every phase
+/council --meet "Should we migrate?"  # Discussion only — no action plan
+/council --audit "API security"       # Direct codebase audit
 /council --resume                     # Resume most recent active session
 /council --resume <slug>              # Resume specific session
 /council --resume --pick              # Pick from active sessions
@@ -20,7 +27,10 @@ An interview-first, dynamically-assembled council of perspective agents that col
 /council --archive <slug>             # Export session to GitHub issue
 /council --cleanup                    # Review and clean stale sessions
 /council --status                     # Quick workspace session summary
+/council --help                       # Show help with all modes
 ```
+
+> **Tip:** `/brainstorm "idea"` is a shortcut for `/council --brainstorm "idea"`.
 
 ## Theme Configuration
 

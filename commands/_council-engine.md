@@ -30,14 +30,100 @@ Each themed command file must define these variables before referencing this eng
 
 ## Instructions
 
-### Argument Parsing
+### Argument Parsing & Mode Resolution
 
-Parse `$ARGUMENTS` using this priority order — first match wins:
+Parse `$ARGUMENTS` using this priority order — **first matching flag wins:**
 
-1. **Management commands** (`--list`, `--archive`, `--cleanup`, `--status`): Execute the management workflow (see [Session Management Commands](#session-management-commands)), then **EXIT** — do not start a session.
-2. **Resume** (`--resume`): Find and load an existing session (see [Resume Logic](#resume-logic)), then resume from last completed phase.
-3. **Direct idea** (quoted text): Use as `$IDEA`, start a new session.
-4. **No arguments**: Ask the `$INTAKE_PROMPT` via `AskUserQuestion`, capture response as `$IDEA`.
+**Session management commands** (execute and exit — no session started):
+1. `--help` → Print help text (see [Help Text](#help-text)) and **EXIT**
+2. `--list [--all]` → List sessions (see [Session Management Commands](#session-management-commands)) and **EXIT**
+3. `--status` → Quick workspace session summary and **EXIT**
+4. `--archive <slug>` → Export session to GitHub issue and **EXIT**
+5. `--cleanup [--all]` → Review and clean stale sessions and **EXIT**
+
+**Session modes** (start or resume a session):
+6. `--resume [<slug>] [--pick]` → Resume (see [Resume Logic](#resume-logic))
+7. `--brainstorm` → **brainstorm** mode
+8. `--quick` → **quick** mode
+9. `--deep` → **deep** mode
+10. `--auto` → **auto** mode
+11. `--guided` → **guided** mode
+12. `--meet` → **meeting** mode
+13. `--audit` → **audit** mode
+14. No flag → **standard** mode (default)
+
+Strip the matched flag from `$ARGUMENTS`. Remaining text is the **idea**.
+
+### Mode Configuration
+
+| Mode | Phases | Agents | Rounds | Touchpoints | Output |
+|------|--------|--------|--------|-------------|--------|
+| brainstorm | 0 + inline | 3 (sonnet) | 0 | 0 | Inline chat only |
+| quick | 0, 2, 3(1-round), 4(light) | 3 | 1 | 1 | design-sketch.md, task list |
+| standard | 0, 1, 2, 3, 4, 5 | 3-7 | 3 | 4-5 | Full design doc, PRD |
+| deep | 0, 1, 2, 3, 4, 5D | 3-7 | 3 | 5-6 | Full design doc, PRD, audit report |
+| auto | 0, 2, 3, 4, 5 | 3-7 | 3 | 0 | Full design doc, PRD, code |
+| guided | 0, 1, 2, 3, 4, 5 | 3-7 | 3 + gates | 8+ | Full design doc, PRD |
+| meeting | 0, 1(light), 2, 3-meeting | 3-7 | Meeting protocol | 2-3 | meeting-notes.md |
+| audit | 0, context, 5D | 3-5 | 0 | 2-3 | Deep audit report |
+
+### Mode Interaction with `$EXTRA_MECHANICS`
+
+When the themed command defines `$EXTRA_MECHANICS` (e.g., Academy's support conversations, house tensions, class promotion), apply these rules per mode:
+
+| Mode | Extra Mechanics Behavior |
+|------|--------------------------|
+| brainstorm | **Skip all** — no team, no mechanics |
+| quick | **Skip all** — no support conversation check, no house tension mechanics, no promotion announcements |
+| auto | **Auto-advance** — auto-advance promotions, skip support logging, skip interactive mechanics |
+| meeting | **Partial** — house tensions still apply for cross-examination pairing; skip support logging and promotion tracking |
+| standard / deep / guided | **All active** — full mechanics at appropriate phases |
+| audit | **Skip all** — direct audit, no deliberation mechanics |
+
+### Help Text
+
+When `--help` is matched, output this (substituting `$THEME_NAME` and the theme's command name) and **EXIT**:
+
+```
+/<command> — $THEME_NAME Multi-Agent Workflow
+
+USAGE:
+  /<command> [MODE] [IDEA...]
+
+MODES:
+  (default)       Full session — interview, deliberate, plan, build
+  --brainstorm    Quick gut-check from 3 agents, inline output (~30s)
+  --quick         Fast sketch — skip interview, 1-round deliberation (~3 min)
+  --deep          Max rigor — full session + mandatory deep audit (~1 hr)
+  --auto          Hands-off — no touchpoints, auto-approve everything (~10 min)
+  --guided        Tight control — approval gates at every phase (~30 min)
+  --meet          Discussion only — cross-examination, no action plan (~15 min)
+  --audit         Direct codebase audit — skip straight to deep audit (~10 min)
+
+SESSION MANAGEMENT:
+  --resume                Resume most recent active session
+  --resume <slug>         Resume a specific session
+  --resume --pick         Pick from active sessions interactively
+  --list                  List sessions in current workspace
+  --list --all            List sessions across all workspaces
+  --status                Quick workspace session summary
+  --archive <slug>        Export session to GitHub issue
+  --cleanup               Review and clean stale sessions
+
+OTHER:
+  --help          Show this help message
+
+EXAMPLES:
+  /<command> "Build a tournament coach"
+  /<command> --quick "Add a speed tier sidebar"
+  /<command> --meet "Should we migrate to Drizzle?"
+  /<command> --auto "Add dark mode toggle"
+  /<command> --deep "Redesign the authentication system"
+  /<command> --audit "Review our API security"
+  /<command> --brainstorm "What about a replay analyzer?"
+  /<command> --list
+  /<command> --resume --pick
+```
 
 ### Workspace Detection
 
@@ -81,7 +167,14 @@ PROJECT_CONTEXT:
   claude_md: <contents of $WORKSPACE/CLAUDE.md, if it exists>
   tech_stack: <inferred from package.json, pyproject.toml, etc.>
   key_dirs: <ls of top-level directories>
+  workspace_config: <contents of workspace config, if found — see below>
 ```
+
+**Workspace Lookup:** Check for a pre-configured workspace:
+1. Determine the project name from `git remote get-url origin` (extract repo name) or fall back to the workspace directory name
+2. Look for `~/.claude/workspaces/<project-name>/INFRASTRUCTURE_MAP.md`
+3. If found, read it and include in the PROJECT_CONTEXT block as `workspace_config`
+4. If not found, proceed normally — no error, just skip the workspace config
 
 Include this context block in every agent's spawn prompt so they understand the project without hardcoded paths.
 
@@ -120,7 +213,28 @@ After each session, the conductor:
 
 ---
 
+## Mode-Aware Phase Dispatch
+
+After resolving `$MODE`, execute phases according to the mode's configuration:
+
+| Mode | Phase Sequence |
+|------|---------------|
+| brainstorm | Phase 0 → [Brainstorm Protocol](#brainstorm-protocol) → done |
+| quick | Phase 0 → Phase 2 (auto) → Phase 3 (1-round) → Phase 4 (light) → done |
+| standard | Phase 0 → Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Cleanup |
+| deep | Phase 0 → Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5D → Cleanup |
+| auto | Phase 0 → Phase 2 (auto) → Phase 3 → Phase 4 (auto) → Phase 5 → Cleanup |
+| guided | Phase 0 → Phase 1 → Phase 2 → Phase 3 (+ gates) → Phase 4 (+ gates) → Phase 5 (+ gates) → Cleanup |
+| meeting | Phase 0 → Phase 1 (light) → Phase 2 → [Meeting Protocol](#phase-3-meeting-cross-examination) → Cleanup |
+| audit | Phase 0 → Context Scan → Phase 5D → Cleanup |
+
+Apply mode overrides at each phase as documented in the mode-specific notes below.
+
+---
+
 ## Phase 0: Intake
+
+### Standard / Deep / Guided / Meeting
 
 If no idea was provided in `$ARGUMENTS`, use `AskUserQuestion` with the themed `$INTAKE_PROMPT`:
 
@@ -133,9 +247,73 @@ Be as specific or vague as you like — the $THEME_NAME will interview you.
 
 Capture the response as `$IDEA`.
 
+### Auto Mode Override
+
+In **auto** mode, the idea **must** come from `$ARGUMENTS`. If no args provided after the flag, **error and exit:**
+
+```
+Auto mode requires an idea. Usage: /<command> --auto "your idea here"
+```
+
+Do NOT ask via `AskUserQuestion`.
+
+### Quick Mode Override
+
+Get idea from args or ask briefly. No interview will follow.
+
+### Meeting Mode Override
+
+The intake prompt becomes: "What do you want to discuss with the $THEME_NAME?"
+
+### Audit Mode Override
+
+The idea becomes audit criteria. The intake prompt becomes: "What should the audit focus on?"
+
+---
+
+## Brainstorm Protocol
+
+**Mode: `--brainstorm`** — Quick gut-check from 3 parallel perspectives. No files, no team, no ceremony.
+
+1. Use the idea from `$ARGUMENTS`. If no idea, ask via `AskUserQuestion`.
+2. Gather project context:
+   - Read `$WORKSPACE/CLAUDE.md` (if exists)
+   - Read `package.json` / `pyproject.toml` for tech stack
+   - `ls` top-level directories
+   - `git branch --show-current` + `git log --oneline -3`
+3. Launch **3 Task agents** in parallel (single message, 3 tool calls). Each uses `subagent_type: "general-purpose"` and `model: "sonnet"`:
+
+   **Architect:** Systems/technical perspective — where it fits, what to build, architectural considerations (2-4 sentences).
+
+   **Advocate:** UX/product perspective — is it good for users, what should the interaction feel like, what's missing (2-4 sentences).
+
+   **Skeptic:** Critical/risk perspective — what could go wrong, unnecessary scope, simpler version (2-4 sentences).
+
+4. Once all 3 return, synthesize and present inline:
+
+```
+## Quick $THEME_NAME: `<idea summary>`
+
+**Architect** says: <their take>
+
+**Advocate** says: <their take>
+
+**Skeptic** says: <their take>
+
+---
+
+**Where they agree:** <1-2 sentences>
+**Key tension:** <1 sentence>
+**Recommended next step:** <concrete suggestion>
+```
+
+5. **No files created. No team spawned. No cleanup needed. EXIT.**
+
 ---
 
 ## Phase 1: Interview (No Agents Spawned)
+
+**Mode applicability:** Standard, Deep, Guided run full interview. Meeting runs light interview (1 round). Quick, Auto, Brainstorm, Audit **skip this phase entirely**.
 
 You (the main agent / conductor) interview the user directly, embodying the `$CONDUCTOR_PERSONA`. **No agents are spawned yet.** Read the conductor's agent file for interview philosophy, synthesis methodology, and conflict resolution framework.
 
@@ -292,11 +470,29 @@ After each round, append Q&A to `$SESSION_DIR/interview-transcript.md`:
 
 **Update index** — set `updated` timestamp and `phase: "interview"`.
 
+### Meeting Mode: Light Interview
+
+In **meeting** mode, run only **1 quick round**. Goal: understand the topic and what kind of perspectives are needed. Ask 2-3 clarifying questions, then move on to Phase 2. Skip the full interview summary — write a brief topic summary instead.
+
+### Guided Mode: Interview Approval Gate
+
+In **guided** mode, after writing the interview summary, present it to the user:
+
+```
+Here's the interview summary. Does this capture your intent?
+```
+
+Options:
+- **Approve** — Proceed to Assembly
+- **Revise** — Loop back into interview for additional round
+
 ---
 
 ## Phase 2: Assembly (Agent Selection)
 
-After the interview, score each agent for relevance and select 3-7 to participate in deliberation.
+**Mode applicability:** All modes except Brainstorm and Audit (which skip assembly).
+
+After the interview (or context scan for modes that skip interview), score each agent for relevance and select agents to participate in deliberation.
 
 ### 2.1 Scoring Algorithm
 
@@ -315,6 +511,8 @@ Score each agent 0-10:
 - Fill to minimum 3 if needed (next highest scores)
 - Add agents scoring >= 4 up to cap of 7
 - Maximum 7 agents
+
+**Quick / Auto mode override:** Select top **3** agents by score. No gap analysis, no user approval. Auto-approve and spawn immediately.
 
 ### 2.3 Present Selection
 
@@ -413,6 +611,8 @@ After spawning agents but before deliberation, load relevant skills for each age
 
 ## Phase 3: Deliberation (3 Rounds)
 
+**Mode applicability:** Standard, Deep, Auto, Guided run full 3-round deliberation. Quick runs 1 round only. Meeting uses [Meeting Protocol](#phase-3-meeting-cross-examination) instead. Brainstorm and Audit skip this phase.
+
 ### Round 1: Position (Parallel)
 
 Send a message to **all agents simultaneously** asking them to write their position statement. **Include loaded skill content inline:**
@@ -439,6 +639,21 @@ Save your position to $SESSION_DIR/deliberation/round1/<agent-name>.md
 ```
 
 Wait for all agents to respond. Collect all position statements.
+
+**Quick mode:** After Round 1, **skip Rounds 2-3**. Produce a **design sketch** instead of a full design doc:
+- Overview: What we're building and why
+- Key recommendations from each agent
+- Open questions / trade-offs identified
+
+Save as `$SESSION_DIR/design-sketch.md`. Proceed to Phase 4 (lightweight plan).
+
+**Guided mode:** After collecting positions, present them to the user:
+```
+Here are the initial positions. Any feedback before they debate?
+```
+Options:
+- **Continue** — Proceed to Round 2
+- **Provide feedback** — Inject feedback into Round 2 context
 
 ### Round 2: Challenge (Targeted Pairs)
 
@@ -531,9 +746,98 @@ git -C $WORKSPACE commit -m "docs($THEME_ID): design document for <idea>"
 Update `$SESSION_DIR/session.md` phase to `planning`.
 **Update index** — set `phase: "planning"`, update timestamp.
 
+**Guided mode:** After synthesis, present the design document to the user:
+```
+Here's the design document. Approve before generating PRD?
+```
+Options:
+- **Approve** — Proceed to Phase 4
+- **Revise** — Conductor adjusts design based on feedback
+- **Re-deliberate** — Run another round of deliberation
+
+---
+
+## Phase 3-Meeting: Cross-Examination Protocol
+
+**Mode: `--meet`** — This phase replaces standard Phase 3 deliberation when running in meeting mode. Agents interact with each other directly — asking questions, challenging claims, and building on each other's ideas.
+
+### Round 1: Opening Perspectives
+
+Send to **each agent in parallel:**
+
+```
+TOPIC: <the discussion topic>
+CONTEXT: <project context block>
+INTERVIEW NOTES: <from Phase 1 light interview>
+
+Share your opening perspective on this topic in 3-5 sentences.
+- What is your initial take?
+- What aspect falls most squarely in your domain?
+- What is the most important question or consideration from your lens?
+```
+
+Collect all opening perspectives.
+
+### Round 2: Cross-Examination (2-3 sub-rounds)
+
+**Sub-Round 2a — Questions:** Share ALL opening perspectives with each agent. Ask each to write 1-2 questions directed at specific other agents, focusing on disagreements, gaps, or domain intersections.
+
+**Sub-Round 2b — Responses:** Route each question to its target agent. Each responds concisely (2-3 sentences) and may pose an optional follow-up question.
+
+**Sub-Round 2c — Follow-ups (optional):** If there are follow-up questions from 2b, route them for one more round. **Maximum 1 follow-up round.**
+
+### Round 3: Collective Synthesis
+
+Share the full discussion transcript with all agents. Each provides:
+- **Key insight gained** from the discussion
+- **Unresolved tension** the group didn't fully resolve
+- **Recommendation to the user**
+- **Question for the user** the agents couldn't resolve themselves
+
+### Compile Meeting Notes
+
+Assemble `$SESSION_DIR/meeting-notes.md`:
+
+```markdown
+# $THEME_NAME Meeting: <topic summary>
+**Date:** <YYYY-MM-DD>
+**Panel:** <list of agents>
+
+## Topic
+<the discussion topic>
+
+## Opening Perspectives
+<each agent's opening perspective, labeled>
+
+## Cross-Examination Highlights
+<curated 3-5 most valuable exchanges>
+
+## Key Insights
+<one insight per agent>
+
+## Unresolved Tensions
+<trade-offs and disagreements identified>
+
+## Questions for You
+<questions the agents couldn't resolve>
+
+## Recommended Next Steps
+<2-3 concrete suggestions>
+```
+
+Present a summary to the user inline, then reference the full notes file.
+
+**After meeting:** Skip Phases 4-5. Proceed directly to Cleanup.
+
 ---
 
 ## Phase 4: Planning
+
+**Mode applicability:** Standard, Deep, Auto, Guided run full planning. Quick runs lightweight planning. Meeting, Brainstorm, Audit **skip this phase**.
+
+**Quick mode:** Generate a **task list** (not a full PRD). Numbered tasks with brief descriptions. Present action path choice to user: team execution, ralf, or export. No Phase 5 — output is the sketch + task list.
+
+**Auto mode:** Generate PRD. Auto-approve without user review. Default to **team execution** action path.
 
 ### 4.1 Generate PRD
 
@@ -610,7 +914,16 @@ Options:
 - **Team execution** — Assign tasks to agents
 - **Ralf handoff** — PRD goes to `/ralf` for autonomous execution
 - **Launch handoff** — PRD goes to `/launch` in a separate worktree
+- **Deep audit** — Exhaustive multi-pass codebase audit (see [Phase 5D](#phase-5d-deep-audit))
 - **Review first** — Read the PRD and design doc before deciding
+
+**Deep mode:** Skip this touchpoint — always route to Phase 5D automatically.
+
+**Guided mode:** Present PRD to user before offering action paths:
+```
+Review the PRD. Ready to proceed?
+```
+Options: Approve / Edit / Back (return to design)
 
 ### 4.5 Commit
 
@@ -659,6 +972,116 @@ Tell the user to run:
 /launch "<idea>" --from-prd .claude/prd/prd-<slug>.md
 ```
 
+### Path D: Deep Audit
+
+Read and follow [Phase 5D: Deep Audit](#phase-5d-deep-audit).
+
+**Guided mode:** During team execution (Path A), add per-task approval before each agent starts work:
+```
+Agent X will work on: [task]. Proceed?
+```
+Options: Approve / Skip / Modify
+
+---
+
+## Phase 5D: Deep Audit
+
+A persistent, self-healing audit system that strategically divides the codebase into audit zones, spawns specialist agents per zone, checkpoints and respawns on context limits, and iterates until convergence (zero new findings across a full pass).
+
+**Triggered by:** Deep mode (automatic after Phase 4), Audit mode (direct after context scan), or user selecting "Deep audit" from Phase 4.4.
+
+### 5D.1 Audit Planning
+
+1. **Scan the codebase** to build an inventory of auditable files:
+   - Use `git ls-files` to get tracked files (respects `.gitignore`)
+   - Group files into **audit zones** by directory/module
+   - Estimate file count and LOC per zone
+
+2. **Define audit criteria** from the idea + interview:
+   - What to look for (type conflicts, unused variables, logic errors, security, accessibility, etc.)
+   - Severity levels: `critical`, `warning`, `info`
+   - Scope: full codebase or specific directories
+
+3. **Create audit artifacts:**
+   ```bash
+   mkdir -p $SESSION_DIR/audit/zones
+   mkdir -p $SESSION_DIR/audit/checkpoints
+   ```
+
+4. **Write initial coverage map** to `$SESSION_DIR/audit/coverage.md`:
+   ```markdown
+   # Audit Coverage Map
+
+   ## Audit Criteria
+   - <criteria>
+
+   ## Zones
+   | Zone | Files | LOC | Status | Pass | Agent |
+   |------|-------|-----|--------|------|-------|
+   | src/components/ | 24 | 3200 | pending | - | - |
+   ```
+
+5. **Write audit state** to `$SESSION_DIR/audit/state.md` with: active flag, pass counter, total findings, convergence status.
+
+6. **Write empty findings log** to `$SESSION_DIR/audit/findings.md`.
+
+### 5D.2 Agent Spawning Strategy
+
+Spawn audit agents **in waves** of 2-4 zones at a time:
+
+1. **Select zones** for this wave. Priority: `pending` > `needs-review` > previously-flagged. Skip `clean` zones.
+2. **Spawn 2-4 `general-purpose` agents**, one per zone, with audit criteria and file list.
+3. **Wait for all wave agents** to complete.
+4. **Collect findings** from each zone report.
+5. **Update coverage map and findings log.**
+6. **Repeat** for next wave until all zones covered.
+
+### 5D.3 Conductor Checkpoint System
+
+When approaching context limits (or after every 3 waves):
+
+1. **Write checkpoint** to `$SESSION_DIR/audit/checkpoints/checkpoint-<N>.md` with coverage state, findings count, zones completed/remaining, and resume instructions.
+2. **Print resume instructions:** `Context limit approaching. Checkpoint saved. To resume: /<command> --resume`
+3. **On resume:** Read `audit/state.md`, find `active: true`, load latest checkpoint, continue spawning waves.
+
+### 5D.4 Convergence Loop
+
+After all zones in a pass are audited:
+
+1. **Tally new findings** for this pass
+2. **Check convergence:**
+   - `new_findings_this_pass == 0` AND `pass >= 2` → **CONVERGED** — generate final report
+   - `new_findings_this_pass > 0` → start next pass: reset flagged zones to `needs-review`, flag adjacent zones (import graph traversal)
+3. **On convergence**, generate `$SESSION_DIR/audit/report.md`:
+   - Summary (passes, findings, coverage)
+   - Findings by severity (critical, warning, info)
+   - Final coverage map
+   - Prioritized recommendations
+
+4. **Commit audit artifacts:**
+   ```bash
+   git -C $WORKSPACE add .claude/$THEME_ID/
+   git -C $WORKSPACE commit -m "docs($THEME_ID): audit report — <N> findings across <N> passes"
+   ```
+
+5. **Present results** via `AskUserQuestion`:
+   ```
+   Audit Complete — Converged after <N> passes
+   <N> total findings: <critical> critical, <warning> warnings, <info> info
+   ```
+   Options:
+   - **Fix findings** — Spawn agents to fix issues (prioritized by severity)
+   - **Review first** — Read the full report before deciding
+   - **Export only** — Keep the report, end session
+
+### 5D.5 Gap Detection (Between Passes)
+
+Between passes, the conductor runs a gap detection sweep:
+1. **Cross-reference findings** — trace callers of flagged functions
+2. **Import graph traversal** — flag importing files' zones as `needs-review`
+3. **Dead code detection** — find unreferenced exports
+4. **Update coverage map** before starting next pass
+
 ---
 
 ## Session Management
@@ -679,8 +1102,17 @@ $WORKSPACE/.claude/$THEME_ID/
         round2/*.md
         round3/*.md
       design.md
+      design-sketch.md                        # Quick mode only
+      meeting-notes.md                        # Meeting mode only
       plan.md
       prd.md
+      audit/                                  # Deep audit artifacts (Phase 5D)
+        state.md                              # Audit loop state + pass history
+        coverage.md                           # Zone coverage map
+        findings.md                           # Cumulative findings log
+        report.md                             # Final convergence report
+        zones/                                # Per-zone audit reports by pass
+        checkpoints/                          # Conductor context checkpoints
 $WORKSPACE/.claude/prd/
   prd-<slug>.md                               # Symlink for /ralf backward compat
 ```
@@ -699,9 +1131,11 @@ Cross-workspace session tracking at `$GLOBAL_REGISTRY_PATH`. Updated whenever a 
 
 When resuming:
 1. Read `$SESSION_DIR/session.md` to determine last completed phase
-2. Read index to get session metadata
-3. Resume from the next phase
-4. Re-spawn agents as needed for remaining phases (use `agents` list from index)
+2. **Check for active audit:** Read `$SESSION_DIR/audit/state.md` if it exists
+   - If `active: true`: Load the latest checkpoint from `audit/checkpoints/`, read `audit/coverage.md` and `audit/findings.md`, resume the audit loop from where it left off (Phase 5D continuation)
+3. Read index to get session metadata
+4. Resume from the next phase
+5. Re-spawn agents as needed for remaining phases (use `agents` list from index)
 
 ### Status Values
 
