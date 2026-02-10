@@ -10,6 +10,7 @@ plans/
 cache/
 
 # Runtime state
+memory/
 session-env/
 shell-snapshots/
 paste-cache/

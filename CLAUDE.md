@@ -10,3 +10,11 @@ When running `node`, `npm`, `npx`, or any Node.js tools, first source nvm:
 ```bash
 source ~/.nvm/nvm.sh && nvm use default --silent && <your command>
 ```
+
+## Session Handovers
+
+At the start of each session, check for recent handover documents:
+```bash
+ls -t memory/HANDOVER-*.md 2>/dev/null | head -3
+```
+If handovers exist, read the most recent one to pick up context from the previous session.

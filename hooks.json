@@ -17,6 +17,17 @@
         "type": "command",
         "command": "bash hooks/pokemon-hook.sh"
       }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/pre-compact-handover.sh"
+          }
+        ]
+      }
     ]
   }
 }
