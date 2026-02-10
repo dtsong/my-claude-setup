@@ -60,7 +60,7 @@ Strip the matched flag from `$ARGUMENTS`. Remaining text is the **idea**.
 |------|--------|--------|--------|-------------|--------|
 | brainstorm | 0 + inline | 3 (sonnet) | 0 | 0 | Inline chat only |
 | quick | 0, 2, 3(1-round), 4(light) | 3 | 1 | 1 | design-sketch.md, task list |
-| standard | 0, 1, 2, 3, 4, 5 | 3-7 | 3 | 4-5 | Full design doc, PRD |
+| standard | 0, 1, 2, 3, 4, 5 | 3-7 | 3 | 6-7 | Full design doc, PRD |
 | deep | 0, 1, 2, 3, 4, 5D | 3-7 | 3 | 5-6 | Full design doc, PRD, audit report |
 | auto | 0, 2, 3, 4, 5 | 3-7 | 3 | 0 | Full design doc, PRD, code |
 | guided | 0, 1, 2, 3, 4, 5 | 3-7 | 3 + gates | 8+ | Full design doc, PRD |
@@ -221,7 +221,7 @@ After resolving `$MODE`, execute phases according to the mode's configuration:
 |------|---------------|
 | brainstorm | Phase 0 → [Brainstorm Protocol](#brainstorm-protocol) → done |
 | quick | Phase 0 → Phase 2 (auto) → Phase 3 (1-round) → Phase 4 (light) → done |
-| standard | Phase 0 → Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Cleanup |
+| standard | Phase 0 → Phase 1 → Phase 2 → Phase 3 (+ design review) → Phase 4 (+ scope review) → Phase 5 → Cleanup |
 | deep | Phase 0 → Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5D → Cleanup |
 | auto | Phase 0 → Phase 2 (auto) → Phase 3 → Phase 4 (auto) → Phase 5 → Cleanup |
 | guided | Phase 0 → Phase 1 → Phase 2 → Phase 3 (+ gates) → Phase 4 (+ gates) → Phase 5 (+ gates) → Cleanup |
@@ -746,6 +746,31 @@ git -C $WORKSPACE commit -m "docs($THEME_ID): design document for <idea>"
 Update `$SESSION_DIR/session.md` phase to `planning`.
 **Update index** — set `phase: "planning"`, update timestamp.
 
+**Standard / Deep mode:** After synthesis, present the key decisions to the user via `AskUserQuestion`:
+
+```
+Design Document Ready — Key Decisions
+
+<2-3 sentence overview from design doc's Overview section>
+
+Tension Resolutions:
+| Tension | Resolution | Reasoning |
+|---------|------------|-----------|
+<rows from design.md Tension Resolutions table>
+
+Decision Log:
+| Decision | Chosen | Reasoning |
+|----------|--------|-----------|
+<rows from design.md Decision Log table>
+
+Approve this design direction, or adjust before planning?
+```
+Options:
+- **Approve** — Proceed to PRD generation (Phase 4)
+- **Adjust** — Describe what to change; conductor revises design.md and re-presents
+
+**Auto mode:** Skip (auto-approve).
+
 **Guided mode:** After synthesis, present the design document to the user:
 ```
 Here's the design document. Approve before generating PRD?
@@ -894,6 +919,33 @@ Create tasks via `TaskCreate` for each user story. Set up dependencies with `Tas
 ### 4.3 Plan Summary
 
 Write task breakdown to `$SESSION_DIR/plan.md`.
+
+### 4.3b Scope Review (Standard / Deep mode)
+
+Present the PRD scope to the user via `AskUserQuestion` before offering action paths:
+
+```
+PRD Scope Review
+
+Goals:
+<bulleted goals from PRD>
+
+Non-Goals (out of scope):
+<bulleted non-goals from PRD>
+
+User Stories (<N> total):
+1. US-001: <title> — <1-line description>
+2. US-002: <title> — <1-line description>
+...
+
+Does this scope match what you had in mind?
+```
+Options:
+- **Approve** — Proceed to action path selection
+- **Adjust scope** — Tell the conductor what to add, remove, or change (conductor revises prd.md, plan.md, and tasks, then re-presents)
+
+**Auto mode:** Skip (auto-approve).
+**Guided mode:** Superseded by the more thorough Guided PRD review in 4.4.
 
 ### 4.4 User Approval
 
