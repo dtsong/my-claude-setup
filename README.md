@@ -5,33 +5,33 @@ A portable Claude Code configuration system — 34 agents, 48 skills, 8 delibera
 ## Quick Start
 
 ```bash
-git clone https://github.com/your-username/my-claude-setup.git ~/Development/my-claude-setup
-cd ~/Development/my-claude-setup
+git clone https://github.com/dtsong/my-claude-setup.git ~/my-claude-setup
+cd ~/my-claude-setup
 chmod +x install.sh
 ./install.sh
 ```
 
-The install script symlinks this repo into `~/.claude/`. Nothing is copied — changes here are immediately available in Claude Code. Run `./install.sh --uninstall` to cleanly remove all symlinks.
+The install script symlinks this repo into `~/.claude/`. Nothing is copied and changes here are immediately available in Claude Code. Run `./install.sh --uninstall` to cleanly remove all symlinks.
 
 Try it out:
 
 ```bash
 claude
-> /brainstorm "Should I use WebSockets or SSE for real-time updates?"
-> /new-python                    # Scaffold a FastAPI project with full tooling
-> /council "Build a notification system"   # Full multi-agent deliberation
+> /brainstorm "How do I improve this feature for my app?"
+> /new-python # Scaffold a FastAPI project with full tooling
+> /council "Build a notification system" # Full multi-agent deliberation
 ```
 
 ## What You Get
 
 ### Multi-Agent Deliberation
 
-`/council` and `/academy` assemble 3-7 specialized agents from a roster of 16 to deliberate on design decisions. Agents explore your codebase independently, write position statements, challenge each other's recommendations, and converge on a unified design document with explicit trade-off resolution.
+`/council` and `/academy` assemble 3-7 specialized agents from a roster of 16 to deliberate on design decisions. These agents will explore your codebase independently, write position statements, challenge each other's recommendations, and converge on a unified design document with explicit trade-off resolution.
 
 Eight modes control depth and involvement:
 
 | Mode | Flag | What It Does |
-|------|------|-------------|
+|------|------|--------------|
 | **Brainstorm** | `--brainstorm` | 30-second gut check from Architect, Advocate, Skeptic |
 | **Quick** | `--quick` | Fast sketch — skip interview, 1 deliberation round |
 | **Standard** | *(default)* | Full workflow — interview, 3 rounds, design doc + PRD |
@@ -146,7 +146,7 @@ The **Academy** theme mirrors the full roster with Fire Emblem class names (Sage
 
 ## Directory Layout
 
-```
+```bash
 my-claude-setup/
 ├── agents/              # 34 agent persona files (17 council + 17 academy)
 ├── commands/            # 16 slash commands + shared engine
@@ -190,6 +190,7 @@ Just run `./install.sh`. You get everything — all agents, skills, commands, an
 ### Level 4: Extend the System
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for details on:
+
 - Adding new agents (persona file + department + skills + roster entry)
 - Creating commands (markdown prompt templates with frontmatter)
 - Building skills (structured templates with process steps and quality checks)
@@ -199,7 +200,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for details on:
 
 Everything is markdown files symlinked into `~/.claude/`:
 
-```
+```bash
 ~/Development/my-claude-setup/          ~/.claude/
 ├── CLAUDE.md              ──symlink──▶ ├── CLAUDE.md
 ├── settings.json          ──symlink──▶ ├── settings.json
