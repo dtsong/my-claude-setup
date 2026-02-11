@@ -1,6 +1,6 @@
 # New Python Project Setup
 
-Initialize a Python project with Daniel's preferred tooling and conventions.
+Initialize a Python project with opinionated tooling (uv, ruff, FastAPI, pytest) and conventions.
 
 > For full convention details, see `~/.claude/skills/language-conventions/references/python.md`
 

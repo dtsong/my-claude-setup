@@ -1,30 +1,12 @@
 {
   "hooks": {
-    "Stop": [
-      {
-        "type": "command",
-        "command": "bash hooks/pokemon-hook.sh"
-      }
-    ],
-    "TaskCompleted": [
-      {
-        "type": "command",
-        "command": "bash hooks/pokemon-hook.sh"
-      }
-    ],
-    "Notification": [
-      {
-        "type": "command",
-        "command": "bash hooks/pokemon-hook.sh"
-      }
-    ],
     "PreCompact": [
       {
         "matcher": "auto",
         "hooks": [
           {
             "type": "command",
-            "command": "bash hooks/pre-compact-handover.sh"
+            "command": "bash \"$HOME/.claude/hooks/pre-compact-handover.sh\""
           }
         ]
       }

@@ -1,6 +1,6 @@
 # New MCP Server Setup
 
-Initialize an MCP server with Daniel's preferred tooling.
+Initialize an MCP server with opinionated tooling (TypeScript, Zod, pnpm, Vitest).
 
 ## Stack
 

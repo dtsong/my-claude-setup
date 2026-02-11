@@ -1,6 +1,6 @@
 # New TypeScript Project Setup
 
-Initialize a TypeScript project with Daniel's preferred tooling and conventions.
+Initialize a TypeScript project with opinionated tooling (pnpm, Next.js, Vitest, Prettier) and conventions.
 
 > For full convention details, see `~/.claude/skills/language-conventions/references/typescript.md`
 

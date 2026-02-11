@@ -1,6 +1,6 @@
 # New Terraform Module Setup
 
-Initialize a Terraform module with Daniel's preferred structure, testing, and environment strategy.
+Initialize a Terraform module with opinionated structure (tflint, tfsec, terraform-docs), testing, and environment strategy.
 
 > For full convention details, see `~/.claude/skills/language-conventions/references/terraform.md`
 
