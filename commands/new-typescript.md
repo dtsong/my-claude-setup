@@ -1,74 +1,130 @@
 # New TypeScript Project Setup
 
-Initialize a TypeScript project with Daniel's preferred tooling.
+Initialize a TypeScript project with Daniel's preferred tooling and conventions.
+
+> For full convention details, see `~/.claude/skills/language-conventions/references/typescript.md`
 
 ## Stack
 
 - **Runtime**: Node 22+
 - **Package manager**: pnpm
-- **Linting**: ESLint + TypeScript
+- **Framework**: Next.js 14+ (App Router)
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Testing**: Vitest + React Testing Library
 - **Formatting**: Prettier
-- **Testing**: Vitest
-- **TypeScript**: Strict mode
+- **TypeScript**: Strict mode + noUncheckedIndexedAccess
 
 ## Setup Steps
 
-1. Initialize:
+1. Initialize Next.js project:
 ```bash
-mkdir <project-name> && cd <project-name>
-pnpm init
+source ~/.nvm/nvm.sh && nvm use default --silent
+pnpm create next-app <project-name> --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"
+cd <project-name>
 ```
 
-2. Add TypeScript and dev deps:
+2. Add dev dependencies:
 ```bash
-pnpm add -D typescript @types/node vitest eslint prettier
+pnpm add -D vitest @vitest/coverage-v8 @vitejs/plugin-react jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event prettier
 ```
 
-3. Create `tsconfig.json`:
+3. Add runtime dependencies:
+```bash
+pnpm add @tanstack/react-query clsx tailwind-merge class-variance-authority zod zustand
+```
+
+4. Create/update `tsconfig.json`:
 ```json
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "noImplicitReturns": true,
+    "noEmit": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "outDir": "dist",
-    "rootDir": "src"
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
 ```
 
-4. Add scripts to `package.json`:
+5. Add scripts to `package.json`:
 ```json
 {
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "test": "vitest",
-    "lint": "eslint src",
-    "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
-    "typecheck": "tsc --noEmit"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   }
 }
 ```
 
-5. Create `.prettierrc`:
+6. Create `vitest.config.mts`:
+```typescript
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+import path from "path";
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: ["./src/test/setup.ts"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "html", "lcov"],
+      include: ["src/**/*.ts", "src/**/*.tsx"],
+      exclude: [
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/__tests__/**",
+        "src/app/**",
+      ],
+    },
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+});
+```
+
+7. Create `src/test/setup.ts`:
+```typescript
+import "@testing-library/jest-dom/vitest";
+```
+
+8. Create `.prettierrc`:
 ```json
 {
   "semi": true,
-  "singleQuote": true,
+  "singleQuote": false,
   "trailingComma": "all",
   "printWidth": 100
 }
 ```
 
-6. Create `.pre-commit-config.yaml`:
+9. Create `.pre-commit-config.yaml`:
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -77,6 +133,7 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+      - id: check-json
       - id: check-added-large-files
 
   - repo: local
@@ -85,49 +142,150 @@ repos:
         name: prettier
         entry: bash -c 'source ~/.nvm/nvm.sh && nvm use default --silent && npx prettier --write "$@"' --
         language: system
-        types_or: [ts, tsx, js, jsx, json, css, md]
+        types_or: [javascript, jsx, ts, tsx, json, yaml, markdown]
+        exclude: pnpm-lock.yaml
 
-      - id: eslint
-        name: eslint
-        entry: bash -c 'source ~/.nvm/nvm.sh && nvm use default --silent && npx eslint --fix "$@"' --
+      - id: typecheck
+        name: TypeScript typecheck
+        entry: bash -c 'source ~/.nvm/nvm.sh && nvm use default --silent && pnpm typecheck'
         language: system
-        types_or: [ts, tsx, js, jsx]
+        types_or: [ts, tsx]
+        pass_filenames: false
 ```
 
-7. Create `.gitignore`:
-```
-node_modules/
-dist/
+10. Create `src/lib/utils.ts`:
+```typescript
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 ```
 
-8. Create initial structure:
+11. Create `src/app/providers.tsx`:
+```tsx
+"use client";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000,
+            gcTime: 5 * 60 * 1000,
+            retry: 1,
+          },
+        },
+      }),
+  );
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  );
+}
+```
+
+12. Update `src/app/layout.tsx` to wrap with Providers:
+```tsx
+import type { Metadata } from "next";
+import { Providers } from "./providers";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "<Project Name>",
+  description: "<Project description>",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <a href="#main-content" className="sr-only focus:not-sr-only">
+          Skip to content
+        </a>
+        <Providers>
+          <main id="main-content">{children}</main>
+        </Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+13. Create initial test structure:
 ```
 src/
-    index.ts
-tests/
-    example.test.ts
+├── test/
+│   └── setup.ts
+├── lib/
+│   └── utils.ts
+├── components/
+│   └── ui/          # shadcn/ui components go here
+└── app/
+    ├── layout.tsx
+    ├── providers.tsx
+    └── page.tsx
 ```
 
-9. Create project CLAUDE.md:
+14. Create `.gitignore` (extend Next.js default):
+```
+node_modules/
+.next/
+dist/
+coverage/
+```
+
+15. Create project CLAUDE.md:
 ```markdown
 # <Project Name>
 
-## Commands
-```bash
-pnpm test        # tests
-pnpm lint        # lint
-pnpm format      # format
-pnpm typecheck   # type check
-pnpm build       # compile
+## What This Is
+<1-2 sentence description>
+
+## Key Docs
+- `/docs/CODEMAP.md` — Codebase structure and quick reference
+- Convention reference: `~/.claude/skills/language-conventions/references/typescript.md`
+
+## Quick Context
+- Frontend: Next.js 14+ (App Router), TypeScript, Tailwind CSS
+- UI: shadcn/ui + Radix primitives
+- State: Zustand (client), React Query (server)
+
+## Tooling
+
+### TypeScript
+- **pnpm** - Package manager (`pnpm install`, `pnpm add`)
+- **Vitest** - Testing (`pnpm test`, `pnpm test:coverage`)
+- **Prettier** - Formatting (`pnpm format`)
+- **TypeScript** - Type checking (`pnpm typecheck`)
+
+## Key Decisions
+- <Decision 1>
+
+## Testing
+- All feature work must include unit tests
+- Vitest + React Testing Library
+- `vi.mock()` with factory functions
+
+## Git Workflow
+- <Branch strategy>
+
+## Current Focus
+- <Current phase>
 ```
 
-## Structure
-src/    - source code
-tests/  - vitest tests
-dist/   - compiled output (gitignored)
-```
-
-10. Initialize git and install pre-commit:
+16. Initialize git and install pre-commit:
 ```bash
 git init
 pre-commit install
@@ -138,5 +296,6 @@ git commit -m "chore: initial project setup"
 ## Verification
 
 ```bash
-pnpm typecheck && pnpm test
+source ~/.nvm/nvm.sh && nvm use default --silent
+pnpm typecheck && pnpm test && pnpm build
 ```

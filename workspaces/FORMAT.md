@@ -78,6 +78,20 @@ Workspaces are automatically detected. No flags needed. The engine will:
 2. If found, inject it into every agent's PROJECT_CONTEXT
 3. This gives agents deep project knowledge without expensive codebase scanning
 
+## Related Conventions
+
+Workspaces pair well with the language and project convention references in `skills/language-conventions/references/`:
+
+| Convention | Purpose |
+|-----------|---------|
+| `python.md` | Python tooling, patterns, and configs |
+| `typescript.md` | TypeScript tooling, patterns, and configs |
+| `terraform.md` | Terraform module structure and patterns |
+| `project-claude-md.md` | CLAUDE.md template for new projects |
+| `codemap.md` | How to create a CODEMAP.md |
+
+For a full-stack workspace example, see `workspaces/_full-stack/`.
+
 ## Creating a New Workspace
 
 1. Create a directory: `workspaces/<project-name>/`

@@ -38,5 +38,8 @@ skills/skills
 agents/agents
 scripts/scripts
 
+# Python bytecode
+__pycache__/
+
 # macOS
 .DS_Store
