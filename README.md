@@ -2,6 +2,13 @@
 
 A portable Claude Code configuration system — 34 agents, 48 skills, 8 deliberation modes, session persistence, and lifecycle hooks. Clone it, install it, and every Claude Code session gets multi-agent deliberation, opinionated project scaffolding, and workspace-aware context injection.
 
+## Prerequisites
+
+- [Claude Code](https://claude.com/claude-code) CLI
+- Agent teams feature enabled (set `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in settings.json)
+
+- Git (for workspace auto-detection)
+
 ## Quick Start
 
 ```bash
@@ -21,6 +28,25 @@ claude
 > /new-python # Scaffold a FastAPI project with full tooling
 > /council "Build a notification system" # Full multi-agent deliberation
 ```
+
+## How It Works
+
+Everything is markdown files symlinked into `~/.claude/`:
+
+```bash
+~/Development/my-claude-setup/          ~/.claude/
+├── CLAUDE.md              ──symlink──▶ ├── CLAUDE.md
+├── settings.json          ──symlink──▶ ├── settings.json
+├── hooks.json             ──symlink──▶ ├── hooks.json
+├── commands/              ──symlink──▶ ├── commands/
+├── agents/                ──symlink──▶ ├── agents/
+├── skills/                ──symlink──▶ ├── skills/
+├── hooks/                 ──symlink──▶ ├── hooks/
+├── scripts/               ──symlink──▶ ├── scripts/
+└── workspaces/            ──symlink──▶ └── workspaces/
+```
+
+Claude Code reads `~/.claude/` for configuration. Because these are symlinks, editing files in the repo immediately updates what Claude sees. No build step, no compilation — just markdown prompts.
 
 ## What You Get
 
@@ -179,7 +205,7 @@ Just run `./install.sh`. You get everything — all agents, skills, commands, an
 - Edit `settings.json` to change default model, enable/disable plugins
 - Add workspace configs in `workspaces/<your-repo-name>/` for project-specific context
 
-### Level 3: Fork for Your Team
+### Level 3: Fork for You and/or Your Team
 
 1. Fork this repo
 2. Keep: `commands/_council-engine.md`, `agents/`, `skills/council/`, `hooks/`
@@ -195,32 +221,6 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for details on:
 - Creating commands (markdown prompt templates with frontmatter)
 - Building skills (structured templates with process steps and quality checks)
 - Adding themes (supply 14 extension points to the shared engine)
-
-## How It Works
-
-Everything is markdown files symlinked into `~/.claude/`:
-
-```bash
-~/Development/my-claude-setup/          ~/.claude/
-├── CLAUDE.md              ──symlink──▶ ├── CLAUDE.md
-├── settings.json          ──symlink──▶ ├── settings.json
-├── hooks.json             ──symlink──▶ ├── hooks.json
-├── commands/              ──symlink──▶ ├── commands/
-├── agents/                ──symlink──▶ ├── agents/
-├── skills/                ──symlink──▶ ├── skills/
-├── hooks/                 ──symlink──▶ ├── hooks/
-├── scripts/               ──symlink──▶ ├── scripts/
-└── workspaces/            ──symlink──▶ └── workspaces/
-```
-
-Claude Code reads `~/.claude/` for configuration. Because these are symlinks, editing files in the repo immediately updates what Claude sees. No build step, no compilation — just markdown prompts.
-
-## Prerequisites
-
-- [Claude Code](https://claude.com/claude-code) CLI
-- Agent teams feature enabled (set `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in settings.json — already configured)
-
-- Git (for workspace auto-detection)
 
 ## License
 
