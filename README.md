@@ -73,6 +73,15 @@ Current focus areas:
 - Documentation accuracy and third-party attribution hygiene
 - CI + security gates that keep `main` safe by default
 
+## Contributing
+
+Contributions are welcome, especially anything that improves first-time adoption.
+
+- Start here: `CONTRIBUTING.md`
+- Share first-time setup feedback: open an issue using the “Onboarding feedback” template
+- Propose changes: open a PR (direct pushes to `main` are blocked by branch protection)
+- Security issues: see `SECURITY.md`
+
 ## What You Get
 
 ### Multi-Agent Deliberation
