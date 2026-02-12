@@ -79,6 +79,7 @@ Contributions are welcome, especially anything that improves first-time adoption
 
 - Start here: `CONTRIBUTING.md`
 - Share first-time setup feedback: open an issue using the “Onboarding feedback” template
+- For changes intended to land on `main`: open an issue first and link it from your PR (why/impact)
 - Propose changes: open a PR (direct pushes to `main` are blocked by branch protection)
 - Security issues: see `SECURITY.md`
 
