@@ -1,0 +1,57 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Shell syntax checks
+        run: |
+          bash -n install.sh
+          bash -n hooks/*.sh
+          bash -n scripts/*.sh
+
+      - name: Validate JSON files
+        run: |
+          python3 -m json.tool settings.json >/dev/null
+          python3 -m json.tool hooks.json >/dev/null
+
+      - name: Installer smoke test (isolated)
+        env:
+          CLAUDE_DIR: ${{ runner.temp }}/claude
+        run: |
+          ./install.sh --help
+          ./install.sh --list-skills
+          ./install.sh --dry-run
+          ./install.sh --preset skills --conflict-policy fail
+          ./install.sh --uninstall
+          ./install.sh --preset core --conflict-policy fail
+          ./install.sh --uninstall
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

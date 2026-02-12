@@ -15,10 +15,27 @@ A portable Claude Code configuration system — 34 agents, 48 skills, 8 delibera
 git clone https://github.com/dtsong/my-claude-setup.git ~/my-claude-setup
 cd ~/my-claude-setup
 chmod +x install.sh
+
+# Safe default: install skills only
 ./install.sh
+
+# Adopt more of the setup
+./install.sh --preset core
+./install.sh --preset full
 ```
 
-The install script symlinks this repo into `~/.claude/`. Nothing is copied and changes here are immediately available in Claude Code. Run `./install.sh --uninstall` to cleanly remove all symlinks.
+The installer links selected content into `~/.claude/` using symlinks.
+
+By default it installs skills only and avoids replacing `~/.claude/settings.json`, `~/.claude/hooks.json`, and `~/.claude/CLAUDE.md` unless you explicitly opt in.
+
+Useful commands:
+
+```bash
+./install.sh --list-skills
+./install.sh --skills git-status,github-workflow,workflow
+./install.sh --dry-run
+./install.sh --uninstall
+```
 
 Try it out:
 
@@ -31,22 +48,17 @@ claude
 
 ## How It Works
 
-Everything is markdown files symlinked into `~/.claude/`:
+Claude Code reads `~/.claude/` for configuration.
 
-```bash
-~/Development/my-claude-setup/          ~/.claude/
-├── CLAUDE.md              ──symlink──▶ ├── CLAUDE.md
-├── settings.json          ──symlink──▶ ├── settings.json
-├── hooks.json             ──symlink──▶ ├── hooks.json
-├── commands/              ──symlink──▶ ├── commands/
-├── agents/                ──symlink──▶ ├── agents/
-├── skills/                ──symlink──▶ ├── skills/
-├── hooks/                 ──symlink──▶ ├── hooks/
-├── scripts/               ──symlink──▶ ├── scripts/
-└── workspaces/            ──symlink──▶ └── workspaces/
-```
+This repo is installed via symlinks so edits here are immediately available in Claude Code. No build step, no compilation — just markdown prompts.
 
-Claude Code reads `~/.claude/` for configuration. Because these are symlinks, editing files in the repo immediately updates what Claude sees. No build step, no compilation — just markdown prompts.
+The installer supports incremental adoption:
+
+- `--preset skills` links skill packs into `~/.claude/skills/`
+- `--preset core` also links command and agent markdown
+- `--preset full` adds scripts, hook scripts, and workspaces
+
+For a walkthrough, see `docs/adoption.md`.
 
 ## What You Get
 
@@ -225,3 +237,5 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for details on:
 ## License
 
 MIT License — see [LICENSE](LICENSE) for details.
+
+This repository also includes vendored third-party content. See `THIRD_PARTY_NOTICES.md`.

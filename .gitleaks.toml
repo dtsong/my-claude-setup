@@ -1,0 +1,8 @@
+[allowlist]
+description = "Allow known-fake example credentials in vendored docs"
+paths = [
+  "skills/terraform-skill/references/security-compliance.md",
+]
+regexes = [
+  "AKIAIOSFODNN7EXAMPLE",
+]

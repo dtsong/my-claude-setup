@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Manual onboarding feedback form
+    url: https://github.com/dtsong/my-claude-setup/blob/main/docs/onboarding-feedback.md
+    about: Use this if a tester cannot submit a GitHub issue directly.
+  - name: Security policy
+    url: https://github.com/dtsong/my-claude-setup/blob/main/SECURITY.md
+    about: Please report vulnerabilities privately.
+  - name: Discussions
+    url: https://github.com/dtsong/my-claude-setup/discussions
+    about: Ask open-ended questions and share ideas.
