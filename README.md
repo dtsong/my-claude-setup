@@ -60,6 +60,19 @@ The installer supports incremental adoption:
 
 For a walkthrough, see `docs/adoption.md`.
 
+## Road to v1.0.0
+
+This repository is intentionally iterating in `0.x` while we collect community feedback and harden the installer and docs.
+
+Tracking issue: #3
+
+Current focus areas:
+
+- Installer stability (presets, conflicts, uninstall manifest)
+- First-time user onboarding (feedback-driven improvements)
+- Documentation accuracy and third-party attribution hygiene
+- CI + security gates that keep `main` safe by default
+
 ## What You Get
 
 ### Multi-Agent Deliberation
