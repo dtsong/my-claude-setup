@@ -31,8 +31,10 @@ Thanks for contributing.
 ## Workflow
 
 - Create a branch from `main`.
+- Open (or reference) a GitHub issue that explains what you're changing and why.
 - Open a pull request.
 - Keep changes focused (small PRs merge faster).
+- Link the issue in the PR description (e.g. `Closes #123` or `Refs #123`) so the rationale is easy to find later.
 
 Note: `main` is protected. Direct pushes are blocked and merges require CI to pass.
 
