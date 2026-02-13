@@ -47,7 +47,7 @@ Comprehensive dbt (data build tool) skill for Claude Code. Get instant guidance 
 
 ```bash
 # Clone to Claude skills directory
-git clone https://github.com/danielsong/dbt-skill ~/.claude/skills/dbt-skill
+git clone https://github.com/dtsong/dbt-skill ~/.claude/skills/dbt-skill
 ```
 
 ### Verify Installation
