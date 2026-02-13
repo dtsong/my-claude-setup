@@ -1,7 +1,7 @@
 ---
 name: "Prompt Engineering"
 department: "oracle"
-description: "System prompt design, chain-of-thought patterns, structured output, and prompt versioning"
+description: "[Council] System prompt design, chain-of-thought patterns, structured output, and prompt versioning. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "prompt"

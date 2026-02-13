@@ -1,6 +1,6 @@
 ---
 name: dockerfile-generation
-description: Creating or modifying Dockerfiles with verification-first approach
+description: "Create or modify Dockerfiles and multi-stage builds with verification-first approach. Triggers on: Dockerfile, docker build, container image. Not for: docker-compose or Kubernetes manifests (use helm-generation)."
 ---
 
 # Dockerfile Generation Skill

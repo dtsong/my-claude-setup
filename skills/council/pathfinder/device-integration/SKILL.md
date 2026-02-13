@@ -1,7 +1,7 @@
 ---
 name: "Device Integration"
 department: "pathfinder"
-description: "Hardware API integration — sensors, permissions, biometrics"
+description: "[Council] Hardware API integration for sensors, permissions, and biometrics. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "camera"

@@ -1,6 +1,6 @@
 ---
 name: "GitHub Workflow"
-description: "GitHub interactions for issues, PRs, releases, and repository management"
+description: "Manage GitHub issues, PRs, releases, and repository settings via gh CLI. Triggers on: create PR, open issue, GitHub release, repo settings. Not for: local git operations (use git-workflows) or CI/CD pipelines (use cicd-generation)."
 triggers:
   - "github workflow"
   - "github help"

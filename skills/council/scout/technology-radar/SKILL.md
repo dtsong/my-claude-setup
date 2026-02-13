@@ -1,7 +1,7 @@
 ---
 name: "Technology Radar"
 department: "scout"
-description: "Technology maturity assessment with adoption recommendation and risk analysis"
+description: "[Council] Technology maturity assessment with adoption recommendation and risk analysis. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "framework"

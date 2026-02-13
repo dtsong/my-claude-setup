@@ -1,7 +1,7 @@
 ---
 name: "Fleet Management"
 department: "sentinel"
-description: "Device provisioning, OTA update strategy, and fleet-scale monitoring"
+description: "[Council] Device provisioning, OTA update strategy, and fleet-scale monitoring. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "OTA"

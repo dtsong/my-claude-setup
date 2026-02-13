@@ -1,6 +1,6 @@
 ---
 name: "Prompt Wizard"
-description: "Interactive wizard to craft effective prompts using Claude Code best practices"
+description: "Interactive wizard to craft effective prompts using Claude Code best practices. Triggers on: write a prompt, craft prompt, prompt engineering. Not for: system prompt design in production apps (use council oracle skills)."
 triggers:
   - "prompt wizard"
   - "craft prompt"

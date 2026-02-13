@@ -1,7 +1,7 @@
 ---
 name: "Growth Engineering"
 department: "herald"
-description: "Onboarding funnels, referral systems, and A/B test infrastructure"
+description: "[Council] Onboarding funnels, referral systems, and A/B test infrastructure. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "onboarding"

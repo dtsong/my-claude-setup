@@ -1,6 +1,6 @@
 ---
 name: helm-generation
-description: Generating Helm values files with minimal-diff approach
+description: "Generate or modify Helm chart values files with minimal-diff approach. Triggers on: helm values, override defaults, values.yaml. Not for: Dockerfile or K8s manifest generation."
 ---
 
 # Helm Values Generation Skill

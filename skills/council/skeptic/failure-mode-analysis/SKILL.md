@@ -1,7 +1,7 @@
 ---
 name: "Failure Mode Analysis"
 department: "skeptic"
-description: "Systematic failure scenario discovery and resilience mitigations"
+description: "[Council] Systematic failure scenario discovery and resilience mitigations. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "failure"

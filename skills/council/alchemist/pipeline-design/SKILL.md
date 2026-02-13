@@ -1,7 +1,7 @@
 ---
 name: "Pipeline Design"
 department: "alchemist"
-description: "Design data pipelines — ETL vs ELT, orchestration, batch vs streaming, idempotency, data quality, lineage"
+description: "[Council] Design data pipelines with ETL/ELT, orchestration, batch vs streaming, and data quality. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "pipeline"

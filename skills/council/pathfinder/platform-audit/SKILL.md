@@ -1,7 +1,7 @@
 ---
 name: "Platform Audit"
 department: "pathfinder"
-description: "Platform guideline compliance audit across iOS, Android, and web"
+description: "[Council] Platform guideline compliance audit across iOS, Android, and web. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "iOS"

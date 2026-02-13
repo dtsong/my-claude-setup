@@ -1,7 +1,7 @@
 ---
 name: "Library Evaluation"
 department: "scout"
-description: "Structured library scoring with popularity, maintenance health, bundle impact, and API quality"
+description: "[Council] Structured library scoring with popularity, maintenance health, bundle impact, and API quality. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "library"

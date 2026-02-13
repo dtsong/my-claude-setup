@@ -1,6 +1,6 @@
 ---
 name: code-search
-description: Fast codebase searches using grep/glob. Triggers on "find", "search", "where is", "grep for".
+description: "Fast codebase searches using grep and glob patterns. Triggers on: find function, search for, where is, grep for. Not for: git-specific searches (use git-status) or GitHub code search."
 model: haiku
 tools: [Grep, Glob, Read]
 ---

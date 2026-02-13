@@ -1,7 +1,7 @@
 ---
 name: "Motion Design"
 department: "artisan"
-description: "Animation principles, micro-interaction specs, and reduced-motion support"
+description: "[Council] Animation principles, micro-interaction specs, and reduced-motion support. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "animation"

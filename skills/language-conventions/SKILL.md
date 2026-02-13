@@ -1,6 +1,6 @@
 ---
 name: language-conventions
-description: Language and project convention references for Python, TypeScript, and Terraform. Use when setting up new projects, reviewing code conventions, or ensuring consistency. Covers tooling, configs, patterns, testing, and project structure.
+description: "Reference language and project conventions for Python, TypeScript, and Terraform. Triggers on: project setup, code conventions, tooling config, linter setup. Not for: runtime implementation guidance (use domain-specific skills)."
 ---
 
 # Language & Project Conventions

@@ -1,7 +1,7 @@
 ---
 name: "Protocol Design"
 department: "sentinel"
-description: "Wireless protocol selection, stack design, and interoperability"
+description: "[Council] Wireless protocol selection, stack design, and interoperability. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "BLE"

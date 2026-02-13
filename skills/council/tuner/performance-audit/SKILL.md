@@ -1,7 +1,7 @@
 ---
 name: "Performance Audit"
 department: "tuner"
-description: "Bottleneck identification with profiling baselines and prioritized optimization roadmap"
+description: "[Council] Bottleneck identification with profiling baselines and prioritized optimization roadmap. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "performance"

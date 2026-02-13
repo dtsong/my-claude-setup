@@ -1,6 +1,6 @@
 ---
 name: web-security-hardening
-description: Security audit checklist for web applications. Use when reviewing, auditing, or hardening a web app's security posture. Covers rate limiting, auth headers, IP blocking, CORS, security middleware, input validation, file upload limits, ORM usage, and password hashing. Triggers on requests like "review security", "harden this app", "security audit", "check for vulnerabilities", or when building/reviewing API endpoints.
+description: "Audit and harden web application security posture. Triggers on: review security, harden this app, security audit, check for vulnerabilities. Not for: infrastructure security (use terraform-skill) or network-level hardening."
 ---
 
 # Web Security Hardening

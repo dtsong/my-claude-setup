@@ -1,7 +1,7 @@
 ---
 name: "Compliance Review"
 department: "guardian"
-description: "GDPR/privacy compliance review for proposed features and data flows"
+description: "[Council] GDPR/privacy compliance review for proposed features and data flows. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "GDPR"

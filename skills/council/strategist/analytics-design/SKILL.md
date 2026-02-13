@@ -1,7 +1,7 @@
 ---
 name: "Analytics Design"
 department: "strategist"
-description: "Telemetry events, A/B test instrumentation, and success metrics design"
+description: "[Council] Telemetry events, A/B test instrumentation, and success metrics design. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "analytics"

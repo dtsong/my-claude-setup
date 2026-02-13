@@ -1,7 +1,7 @@
 ---
 name: "Navigation Design"
 department: "pathfinder"
-description: "Mobile navigation patterns, deep linking, and state preservation"
+description: "[Council] Mobile navigation patterns, deep linking, and state preservation. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "navigation"

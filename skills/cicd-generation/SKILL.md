@@ -1,6 +1,6 @@
 ---
 name: cicd-generation
-description: Generating CI/CD pipelines (GitHub Actions) with security-first approach
+description: "Generate GitHub Actions CI/CD workflows with security-first approach. Triggers on: CI pipeline, GitHub Actions, workflow yaml. Not for: Terraform CI (use terraform-skill)."
 ---
 
 # CI/CD Generation Skill

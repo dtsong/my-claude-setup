@@ -1,7 +1,7 @@
 ---
 name: "Documentation Plan"
 department: "chronicler"
-description: "Documentation architecture with audience mapping, onboarding paths, and maintenance schedules"
+description: "[Council] Documentation architecture with audience mapping, onboarding paths, and maintenance schedules. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "documentation"

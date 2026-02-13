@@ -1,7 +1,7 @@
 ---
 name: "Codebase Context"
 department: "architect"
-description: "Deep infrastructure analysis and context briefing for all council agents"
+description: "[Council] Deep infrastructure analysis and context briefing for all council agents. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "codebase"

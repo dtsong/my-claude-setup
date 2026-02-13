@@ -1,7 +1,7 @@
 ---
 name: "Impact Estimation"
 department: "strategist"
-description: "RICE scoring framework for evidence-based feature prioritization"
+description: "[Council] RICE scoring framework for evidence-based feature prioritization. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "impact"

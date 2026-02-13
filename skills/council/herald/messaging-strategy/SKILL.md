@@ -1,7 +1,7 @@
 ---
 name: "Messaging Strategy"
 department: "herald"
-description: "Product copy, value propositions, and feature naming"
+description: "[Council] Product copy, value propositions, and feature naming. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "copy"

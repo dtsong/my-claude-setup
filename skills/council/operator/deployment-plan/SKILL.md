@@ -1,7 +1,7 @@
 ---
 name: "Deployment Plan"
 department: "operator"
-description: "Deployment strategy with rollback procedures, feature flags, and zero-downtime releases"
+description: "[Council] Deployment strategy with rollback procedures, feature flags, and zero-downtime releases. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "deploy"

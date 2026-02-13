@@ -1,7 +1,7 @@
 ---
 name: "Visual Audit"
 department: "artisan"
-description: "Structured visual design critique with specific actionable feedback"
+description: "[Council] Structured visual design critique with specific actionable feedback. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "visual"

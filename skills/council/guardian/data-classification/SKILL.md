@@ -1,7 +1,7 @@
 ---
 name: "Data Classification"
 department: "guardian"
-description: "Data sensitivity classification with handling requirements per tier"
+description: "[Council] Data sensitivity classification with handling requirements per tier. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "data classification"

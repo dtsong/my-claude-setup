@@ -1,7 +1,7 @@
 ---
 name: "Observability Design"
 department: "operator"
-description: "Monitoring, alerting, and logging strategy with SLI/SLO definitions"
+description: "[Council] Monitoring, alerting, and logging strategy with SLI/SLO definitions. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "monitoring"
