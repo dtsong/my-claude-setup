@@ -1,7 +1,7 @@
 ---
 name: "Monetization Design"
 department: "herald"
-description: "Pricing tiers, subscription architecture, and paywall strategy"
+description: "[Council] Pricing tiers, subscription architecture, and paywall strategy. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "pricing"

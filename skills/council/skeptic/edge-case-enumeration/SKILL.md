@@ -1,7 +1,7 @@
 ---
 name: "Edge Case Enumeration"
 department: "skeptic"
-description: "Systematic edge case discovery using structured enumeration techniques"
+description: "[Council] Systematic edge case discovery using structured enumeration techniques. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "edge case"

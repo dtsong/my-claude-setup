@@ -1,7 +1,7 @@
 ---
 name: "Changelog Design"
 department: "chronicler"
-description: "Changelog entries and migration guides for breaking changes with version strategy"
+description: "[Council] Changelog entries and migration guides for breaking changes with version strategy. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "changelog"

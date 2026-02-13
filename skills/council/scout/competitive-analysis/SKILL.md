@@ -1,7 +1,7 @@
 ---
 name: "Competitive Analysis"
 department: "scout"
-description: "Feature comparison matrix across competing products and prior art"
+description: "[Council] Feature comparison matrix across competing products and prior art. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "competitive"

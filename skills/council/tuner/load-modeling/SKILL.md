@@ -1,7 +1,7 @@
 ---
 name: "Load Modeling"
 department: "tuner"
-description: "Capacity planning with traffic projections, scaling triggers, and cost-at-scale modeling"
+description: "[Council] Capacity planning with traffic projections, scaling triggers, and cost-at-scale modeling. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "load"

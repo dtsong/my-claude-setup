@@ -1,7 +1,7 @@
 ---
 name: "Journey Mapping"
 department: "advocate"
-description: "Map complete user journeys with entry points, states, emotions, and decision points"
+description: "[Council] Map complete user journeys with entry points, states, emotions, and decision points. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "user flow"

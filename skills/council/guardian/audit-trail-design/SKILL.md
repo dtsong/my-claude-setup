@@ -1,7 +1,7 @@
 ---
 name: "Audit Trail Design"
 department: "guardian"
-description: "Audit logging design with event catalogs, log schemas, and retention policies"
+description: "[Council] Audit logging design with event catalogs, log schemas, and retention policies. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "audit"

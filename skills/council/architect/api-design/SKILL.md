@@ -1,7 +1,7 @@
 ---
 name: "API Design"
 department: "architect"
-description: "REST/RPC endpoint contracts with request/response types and error handling"
+description: "[Council] REST/RPC endpoint contracts with request/response types and error handling. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "API"

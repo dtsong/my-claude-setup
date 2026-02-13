@@ -1,6 +1,6 @@
 ---
 name: "Git Workflows"
-description: "Local git operations for syncing, branching, merging, and conflict resolution"
+description: "Execute local git operations for syncing, branching, merging, and conflict resolution. Triggers on: git merge, rebase, cherry-pick, resolve conflict. Not for: GitHub interactions (use github-workflow) or quick git queries (use git-status)."
 triggers:
   - "git workflow"
   - "git help"

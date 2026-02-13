@@ -1,7 +1,7 @@
 ---
 name: "Schema Evaluation"
 department: "alchemist"
-description: "Evaluate and design data warehouse schemas — star, snowflake, data vault, OBT — with grain definition, SCD strategies, and normalization trade-offs"
+description: "[Council] Evaluate data warehouse schemas with star, snowflake, data vault, and OBT patterns. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "schema"

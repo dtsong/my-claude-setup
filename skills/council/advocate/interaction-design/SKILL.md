@@ -1,7 +1,7 @@
 ---
 name: "Interaction Design"
 department: "advocate"
-description: "Design component interaction specs with all visual states, transitions, and accessibility requirements"
+description: "[Council] Component interaction specs with visual states, transitions, and accessibility requirements. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "component"

@@ -1,7 +1,7 @@
 ---
 name: "Pattern Analysis"
 department: "craftsman"
-description: "Audit codebase patterns and conventions, evaluate proposed changes for consistency"
+description: "[Council] Audit codebase patterns and conventions, evaluate proposed changes for consistency. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "pattern"

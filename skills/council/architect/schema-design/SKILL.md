@@ -1,7 +1,7 @@
 ---
 name: "Schema Design"
 department: "architect"
-description: "Migration-ready database schema design with normalization and indexing strategies"
+description: "[Council] Migration-ready database schema design with normalization and indexing strategies. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "database"

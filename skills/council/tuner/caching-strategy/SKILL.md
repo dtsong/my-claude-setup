@@ -1,7 +1,7 @@
 ---
 name: "Caching Strategy"
 department: "tuner"
-description: "Cache hierarchy design with TTL policies, invalidation flows, and warming strategies"
+description: "[Council] Cache hierarchy design with TTL policies, invalidation flows, and warming strategies. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "cache"

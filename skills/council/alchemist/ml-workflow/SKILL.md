@@ -1,7 +1,7 @@
 ---
 name: "ML Workflow"
 department: "alchemist"
-description: "Design ML workflows — experiment tracking, feature stores, model training, serving, monitoring for drift"
+description: "[Council] Design ML workflows with experiment tracking, feature stores, model serving, and drift monitoring. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "ML"

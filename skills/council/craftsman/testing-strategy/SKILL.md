@@ -1,7 +1,7 @@
 ---
 name: "Testing Strategy"
 department: "craftsman"
-description: "Design comprehensive test strategies with test pyramid coverage and quality gates"
+description: "[Council] Design comprehensive test strategies with test pyramid coverage and quality gates. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "test"

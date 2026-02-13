@@ -1,6 +1,6 @@
 ---
 name: dbt-skill
-description: Use when working with dbt (data build tool) - creating models, writing tests, CI/CD pipelines, materializations, sources, staging/intermediate/marts layers, Snowflake/BigQuery warehouse configuration, incremental strategies, Jinja macros, data quality, semantic layer, or making analytics engineering decisions
+description: "Create and manage dbt models, tests, and analytics engineering workflows. Triggers on: dbt model, staging layer, data warehouse, incremental strategy, Jinja macro. Not for: general SQL queries or non-dbt ETL pipelines."
 license: Apache-2.0
 metadata:
   author: Daniel Song

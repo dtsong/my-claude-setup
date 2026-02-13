@@ -1,7 +1,7 @@
 ---
 name: "Embedded Architecture"
 department: "sentinel"
-description: "Firmware design patterns, RTOS selection, memory and power management"
+description: "[Council] Firmware design patterns, RTOS selection, memory and power management. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "firmware"

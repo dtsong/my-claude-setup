@@ -1,7 +1,7 @@
 ---
 name: "Cost Analysis"
 department: "operator"
-description: "Infrastructure cost modeling, scaling projections, and optimization recommendations"
+description: "[Council] Infrastructure cost modeling, scaling projections, and optimization recommendations. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "cost"

@@ -1,7 +1,7 @@
 ---
 name: "Threat Model"
 department: "skeptic"
-description: "STRIDE-based security threat analysis for proposed features"
+description: "[Council] STRIDE-based security threat analysis for proposed features. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "security"

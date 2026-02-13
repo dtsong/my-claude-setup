@@ -1,6 +1,6 @@
 ---
 name: git-status
-description: Quick git queries - status, diff, log, blame. Triggers on "git status", "what changed", "show diff", "recent commits".
+description: "Quick git queries for status, diff, log, and blame. Triggers on: git status, what changed, show diff, recent commits. Not for: branching or merging (use git-workflows) or GitHub operations (use github-workflow)."
 model: haiku
 tools: [Bash]
 ---

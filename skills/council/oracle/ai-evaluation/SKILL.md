@@ -1,7 +1,7 @@
 ---
 name: "AI Evaluation"
 department: "oracle"
-description: "Golden dataset creation, automated scoring rubrics, and hallucination detection"
+description: "[Council] Golden dataset creation, automated scoring rubrics, and hallucination detection. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "eval"

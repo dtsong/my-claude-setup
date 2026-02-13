@@ -1,7 +1,7 @@
 ---
 name: "MVP Scoping"
 department: "strategist"
-description: "MoSCoW prioritization and value-effort matrix for defining minimum viable scope"
+description: "[Council] MoSCoW prioritization and value-effort matrix for defining minimum viable scope. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "MVP"

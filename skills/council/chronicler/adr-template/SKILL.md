@@ -1,7 +1,7 @@
 ---
 name: "ADR Template"
 department: "chronicler"
-description: "Architecture Decision Record creation with options analysis and review triggers"
+description: "[Council] Architecture Decision Record creation with options analysis and review triggers. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "ADR"

@@ -1,7 +1,7 @@
 ---
 name: "Design System Architecture"
 department: "artisan"
-description: "Token hierarchy, theming strategy, and cross-platform consistency"
+description: "[Council] Token hierarchy, theming strategy, and cross-platform consistency. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "design system"

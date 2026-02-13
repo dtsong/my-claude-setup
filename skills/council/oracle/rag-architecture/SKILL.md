@@ -1,7 +1,7 @@
 ---
 name: "RAG Architecture"
 department: "oracle"
-description: "Chunking strategies, embedding pipelines, vector DB selection, and retrieval optimization"
+description: "[Council] Chunking strategies, embedding pipelines, vector DB selection, and retrieval optimization. Used during council/academy deliberation only."
 version: 1
 triggers:
   - "RAG"

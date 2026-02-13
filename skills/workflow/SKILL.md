@@ -1,6 +1,6 @@
 ---
 name: workflow
-description: Development workflow, commit format, and coding discipline rules
+description: "Enforce commit format and coding discipline rules for this project. Auto-loaded for commits. Not for: git operations (use git-workflows) or GitHub interactions (use github-workflow)."
 model: sonnet
 ---
 
