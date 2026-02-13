@@ -1,11 +1,20 @@
 ---
 description: "Quick 3-agent gut check — fast takes from Architect, Advocate, Skeptic"
-argument-hint: "[IDEA...]"
+argument-hint: "[--help] [IDEA...]"
 ---
 
 # /brainstorm — Quick Council
 
 Fast feedback from 3 parallel perspectives. No files, no ceremony.
+
+## Help Flag
+
+If the argument is `--help`, show a brief usage summary and exit:
+```
+/brainstorm [--help] [IDEA...]
+Quick 3-agent gut check — fast takes from Architect, Advocate, Skeptic
+```
+Then say: `Run /help brainstorm for full details.`
 
 > **Tip:** This is also available as `/council --brainstorm` or `/academy --brainstorm`.
 

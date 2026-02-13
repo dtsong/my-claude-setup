@@ -1,11 +1,20 @@
 ---
 description: "Start an autonomous execution loop with PRD-based planning"
-argument-hint: "[--preview] [--skip-planning] [--from-prd <file>] [--resume <checkpoint>] [--constraints \"...\"] [GOAL...]"
+argument-hint: "[--help] [--preview] [--skip-planning] [--from-prd <file>] [--resume <checkpoint>] [--constraints \"...\"] [GOAL...]"
 ---
 
 # /ralf - PRD-Based Autonomous Task Execution
 
 Start an autonomous Claude session that works on a goal through a PRD-based 3-phase workflow until completion.
+
+## Help Flag
+
+If the argument is `--help`, show a brief usage summary and exit:
+```
+/ralf [--help] [--preview] [--skip-planning] [--from-prd <file>] [--resume <checkpoint>] [--constraints "..."] [GOAL...]
+Start an autonomous execution loop with PRD-based planning
+```
+Then say: `Run /help ralf for full details.`
 
 ## PRD-Based 3-Phase Workflow
 

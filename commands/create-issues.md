@@ -1,11 +1,21 @@
 ---
 description: Generate GitHub issues from a roadmap document. Creates issues with labels, milestones, and dependency references.
+argument-hint: "[--help] <roadmap-file>"
 allowed-tools: Bash(gh:*), Read, Write, Glob
 ---
 
 # Create GitHub Issues from Roadmap
 
 You are creating GitHub issues from a structured roadmap document.
+
+## Help Flag
+
+If the argument is `--help`, show a brief usage summary and exit:
+```
+/create-issues [--help] <roadmap-file>
+Generate GitHub issues from a roadmap document. Creates issues with labels, milestones, and dependency references.
+```
+Then say: `Run /help create-issues for full details.`
 
 ## Instructions
 

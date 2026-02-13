@@ -1,12 +1,21 @@
 ---
 description: "Implement GitHub issues into PRs with dependency ordering, quality gate retry loops, and checkpoint/resume."
-argument-hint: "<issues...> [--label <label>] [--milestone <name>] [--combined] [--resume] [--preview] [--max-retries N] [--constraints \"...\"]"
+argument-hint: "[--help] <issues...> [--label <label>] [--milestone <name>] [--combined] [--resume] [--preview] [--max-retries N] [--constraints \"...\"]"
 allowed-tools: Bash(git checkout:*), Bash(git checkout -b:*), Bash(git pull:*), Bash(git push:*), Bash(git add:*), Bash(git commit:*), Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git branch:*), Bash(git stash:*), Bash(gh issue:*), Bash(gh pr:*), Bash(gh api:*), Bash(gh auth:*), Bash(jq:*), Bash(npm:*), Bash(npx:*), Bash(uv:*), Bash(pytest:*), Bash(source ~/.nvm/nvm.sh:*), Bash(mkdir:*), Read, Edit, Write, Glob, Grep
 ---
 
 # /looper — Issue-Driven Resilient Executor
 
 Implement GitHub issues into PRs with dependency ordering, quality gate retry loops, and checkpoint/resume. The name captures both loops: the **outer loop** (issue by issue in dependency order) and the **inner loop** (retry on gate failure).
+
+## Help Flag
+
+If the argument is `--help`, show a brief usage summary and exit:
+```
+/looper [--help] <issues...> [--label <label>] [--milestone <name>] [--combined] [--resume] [--preview] [--max-retries N] [--constraints "..."]
+Implement GitHub issues into PRs with dependency ordering, quality gate retry loops, and checkpoint/resume.
+```
+Then say: `Run /help looper for full details.`
 
 ## Input
 

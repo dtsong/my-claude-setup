@@ -2,6 +2,8 @@
 
 Initialize a Python project with opinionated tooling (uv, ruff, FastAPI, pytest) and conventions.
 
+> **`--help`**: If passed, show a one-line description and say `Run /help new-python for details.`
+
 > For full convention details, see `~/.claude/skills/language-conventions/references/python.md`
 
 > **Placeholders**: `<project-name>` = directory/repo name (kebab-case), `<project_name>` = Python package name (snake_case), `<db_name>` = database name. The `<project-dir>` placeholder in pre-commit config refers to the project root path.

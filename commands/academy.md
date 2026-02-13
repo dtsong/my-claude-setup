@@ -7,6 +7,15 @@ argument-hint: "[--help|--brainstorm|--quick|--deep|--auto|--guided|--meet|--aud
 
 A Fire Emblem: Three Houses-themed interview-first, dynamically-assembled deliberation system. Agents are organized into three houses (Black Eagles, Blue Lions, Golden Deer) plus Faculty, with franchise mechanics — house tensions, support conversations, and class promotions — that drive richer deliberation.
 
+## Help Flag
+
+If the argument is `--help`, show a brief usage summary and exit:
+```
+/academy [--help|--brainstorm|--quick|--deep|--auto|--guided|--meet|--audit|--resume|--list|--status|--archive|--cleanup] [IDEA...]
+Officers Academy Multi-Agent Workflow — assemble your house, deliberate, plan, build
+```
+Then say: `Run /help academy for full details.`
+
 ## Usage
 
 ```
