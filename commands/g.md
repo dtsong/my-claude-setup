@@ -2,6 +2,8 @@
 
 Fast, workspace-aware git operations.
 
+> **`--help`**: If passed, show a one-line description and say `Run /help g for details.`
+
 ## Usage
 
 ```

@@ -2,6 +2,8 @@
 
 Initialize a TypeScript project with opinionated tooling (pnpm, Next.js, Vitest, Prettier) and conventions.
 
+> **`--help`**: If passed, show a one-line description and say `Run /help new-typescript for details.`
+
 > For full convention details, see `~/.claude/skills/language-conventions/references/typescript.md`
 
 ## Stack

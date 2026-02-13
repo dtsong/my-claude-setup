@@ -2,6 +2,8 @@
 
 Stack-wide operations dashboard. Health checks, deploys, dependency audits, and diagnostics.
 
+> **`--help`**: If passed, show a one-line description and say `Run /help ops for details.`
+
 ## Usage
 
 ```

@@ -1,11 +1,20 @@
 ---
 description: "Save session knowledge — decisions, pitfalls, and next steps — for the next Claude session"
-argument-hint: "[--tag LABEL]"
+argument-hint: "[--help] [--tag LABEL]"
 ---
 
 # /handover — Session Knowledge Transfer
 
 Capture everything the next Claude session needs to hit the ground running: what was done, why, what went wrong, and what's next.
+
+## Help Flag
+
+If the argument is `--help`, show a brief usage summary and exit:
+```
+/handover [--help] [--tag LABEL]
+Save session knowledge — decisions, pitfalls, and next steps — for the next Claude session
+```
+Then say: `Run /help handover for full details.`
 
 ## Usage
 

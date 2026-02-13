@@ -2,6 +2,8 @@
 
 Initialize an MCP server with opinionated tooling (TypeScript, Zod, pnpm, Vitest).
 
+> **`--help`**: If passed, show a one-line description and say `Run /help new-mcp-server for details.`
+
 ## Stack
 
 - **Language**: TypeScript (preferred for SDK quality)

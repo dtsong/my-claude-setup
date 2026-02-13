@@ -2,6 +2,8 @@
 
 Initialize a Terraform module with opinionated structure (tflint, tfsec, terraform-docs), testing, and environment strategy.
 
+> **`--help`**: If passed, show a one-line description and say `Run /help new-terraform for details.`
+
 > For full convention details, see `~/.claude/skills/language-conventions/references/terraform.md`
 
 ## Stack

@@ -1,11 +1,21 @@
 ---
 description: Implement one or more GitHub issues and create PRs. Handles branch creation, implementation, and PR submission. Supports batch implementation.
+argument-hint: "[--help] <issues...>"
 allowed-tools: Bash(git checkout:*), Bash(git checkout -b:*), Bash(git pull:*), Bash(git push:*), Bash(git add:*), Bash(git commit:*), Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git branch:*), Bash(git stash:*), Bash(gh issue:*), Bash(gh pr:*), Bash(uv:*), Bash(pytest:*), Read, Edit, Write, Glob, Grep
 ---
 
 # Implement GitHub Issues
 
 You are implementing GitHub issues and creating PRs for them.
+
+## Help Flag
+
+If the argument is `--help`, show a brief usage summary and exit:
+```
+/implement [--help] <issues...>
+Implement one or more GitHub issues and create PRs. Handles branch creation, implementation, and PR submission. Supports batch implementation.
+```
+Then say: `Run /help implement for full details.`
 
 ## Input
 

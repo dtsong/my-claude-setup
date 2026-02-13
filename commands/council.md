@@ -7,6 +7,15 @@ argument-hint: "[--help|--brainstorm|--quick|--deep|--auto|--guided|--meet|--aud
 
 An interview-first, dynamically-assembled council of perspective agents that collaborate on design and produce an actionable development plan for ambitious features.
 
+## Help Flag
+
+If the argument is `--help`, show a brief usage summary and exit:
+```
+/council [--help|--brainstorm|--quick|--deep|--auto|--guided|--meet|--audit|--resume|--list|--status|--archive|--cleanup] [IDEA...]
+Big Ideas Multi-Agent Workflow — interview, design, plan, build
+```
+Then say: `Run /help council for full details.`
+
 ## Usage
 
 ```
