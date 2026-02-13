@@ -17,3 +17,13 @@ Each vendored directory retains its own license and attribution requirements.
   - https://vercel.com/blog/introducing-react-best-practices
 - Attribution: Vercel Engineering
 - Notes: This repo intentionally does *not* vendor the full rule set. The local skill is a stub that fetches upstream guidance at runtime.
+
+## skills/tdd/
+
+- Upstream sources:
+  - https://github.com/mattpocock/skills/tree/main/tdd (TDD skill with reference files)
+  - https://github.com/obra/superpowers (test-driven-development skill + testing-anti-patterns)
+- Licenses: MIT (superpowers)
+- Notes: Merged skill combining planning and interface design guidance from
+  mattpocock/skills with discipline enforcement from obra/superpowers.
+  Reference files adapted from both upstream sources.
