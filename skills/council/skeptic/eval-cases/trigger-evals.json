@@ -1,0 +1,107 @@
+[
+  {
+    "id": "skeptic-pos-01",
+    "input": "Create a threat model for our OAuth2 login flow — identify attack vectors for token theft, session hijacking, and privilege escalation",
+    "expected_skill": "threat-model",
+    "type": "positive",
+    "description": "OAuth2 threat model with auth attack vectors"
+  },
+  {
+    "id": "skeptic-pos-02",
+    "input": "What happens to our checkout flow if the payment gateway returns a timeout after charging the card but before we record the transaction?",
+    "expected_skill": "failure-mode-analysis",
+    "type": "positive",
+    "description": "Payment flow failure mode with data consistency risk"
+  },
+  {
+    "id": "skeptic-pos-03",
+    "input": "Enumerate edge cases for our date range picker — what about timezone crossings, DST transitions, single-day ranges, and year boundaries?",
+    "expected_skill": "edge-case-enumeration",
+    "type": "positive",
+    "description": "Date picker edge cases with timezone complexity"
+  },
+  {
+    "id": "skeptic-pos-04",
+    "input": "Review the authorization model for our multi-tenant API — can a user in Org A access resources belonging to Org B through any path?",
+    "expected_skill": "threat-model",
+    "type": "positive",
+    "description": "Multi-tenant authorization boundary analysis"
+  },
+  {
+    "id": "skeptic-pos-05",
+    "input": "Map the cascade failure path if our Redis cache goes down — which services degrade, which fail hard, and what's the recovery sequence?",
+    "expected_skill": "failure-mode-analysis",
+    "type": "positive",
+    "description": "Cache failure cascade analysis with recovery planning"
+  },
+  {
+    "id": "skeptic-pos-06",
+    "input": "What edge cases should we handle for the user invitation flow — expired links, duplicate invites, already-registered emails, org capacity limits?",
+    "expected_skill": "edge-case-enumeration",
+    "type": "positive",
+    "description": "Invitation flow edge case enumeration"
+  },
+  {
+    "id": "skeptic-pos-07",
+    "input": "Assess the CSRF and XSS risk surface of our server-rendered forms that accept user-generated HTML content",
+    "expected_skill": "threat-model",
+    "type": "positive",
+    "description": "XSS/CSRF attack surface for user-generated content"
+  },
+  {
+    "id": "skeptic-pos-08",
+    "input": "Our microservices use eventual consistency — what failure modes arise when two services process the same event out of order?",
+    "expected_skill": "failure-mode-analysis",
+    "type": "positive",
+    "description": "Eventual consistency race condition failure analysis"
+  },
+  {
+    "id": "skeptic-pos-09",
+    "input": "What are the race conditions if two users simultaneously edit the same document and both hit save?",
+    "expected_skill": "edge-case-enumeration",
+    "type": "positive",
+    "description": "Concurrent edit race condition enumeration"
+  },
+  {
+    "id": "skeptic-pos-10",
+    "input": "We're adding file upload to our API — assess the risk of path traversal, zip bombs, SSRF via SVG, and unrestricted file types",
+    "expected_skill": "threat-model",
+    "type": "positive",
+    "description": "File upload security risk assessment"
+  },
+  {
+    "id": "skeptic-neg-01",
+    "input": "Harden the kernel by disabling unused syscalls and enabling KASAN on our production ARM64 servers",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Kernel hardening — should route to warden, not skeptic"
+  },
+  {
+    "id": "skeptic-neg-02",
+    "input": "Review the ECDSA signature verification implementation for timing side-channel vulnerabilities",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Cryptographic implementation review — should route to cipher, not skeptic"
+  },
+  {
+    "id": "skeptic-neg-03",
+    "input": "Ensure our user data processing complies with CCPA opt-out requirements and the right to know provisions",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Regulatory compliance — should route to guardian, not skeptic"
+  },
+  {
+    "id": "skeptic-neg-04",
+    "input": "Our Airflow DAG fails silently when upstream data arrives late — add retry logic and dead letter handling to the ingestion pipeline",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Pipeline reliability — should route to alchemist, not skeptic"
+  },
+  {
+    "id": "skeptic-neg-05",
+    "input": "Detect and mitigate prompt injection attacks in our customer support chatbot that uses Claude with tool access",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "AI safety and prompt injection — should route to oracle, not skeptic"
+  }
+]

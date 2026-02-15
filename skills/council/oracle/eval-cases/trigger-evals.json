@@ -1,0 +1,107 @@
+[
+  {
+    "id": "oracle-pos-01",
+    "input": "Design the system prompt for our customer support agent that needs to answer billing questions, escalate complaints, and refuse off-topic requests",
+    "expected_skill": "prompt-engineering",
+    "type": "positive",
+    "description": "System prompt design for constrained customer support agent"
+  },
+  {
+    "id": "oracle-pos-02",
+    "input": "Build a RAG pipeline that indexes our 10K-page documentation site with smart chunking and serves answers with source citations",
+    "expected_skill": "rag-architecture",
+    "type": "positive",
+    "description": "Documentation RAG pipeline with chunking and citation"
+  },
+  {
+    "id": "oracle-pos-03",
+    "input": "Create a golden dataset and automated scoring rubric to evaluate our AI code review tool's accuracy against human reviewer decisions",
+    "expected_skill": "ai-evaluation",
+    "type": "positive",
+    "description": "AI evaluation framework with golden dataset for code review"
+  },
+  {
+    "id": "oracle-pos-04",
+    "input": "Our structured output from Claude keeps having malformed JSON — add chain-of-thought reasoning and output validation with retry logic",
+    "expected_skill": "prompt-engineering",
+    "type": "positive",
+    "description": "Structured output reliability with CoT and validation"
+  },
+  {
+    "id": "oracle-pos-05",
+    "input": "Compare embedding models for our legal document search — we need high recall on domain-specific terminology with multilingual support",
+    "expected_skill": "rag-architecture",
+    "type": "positive",
+    "description": "Embedding model selection for domain-specific retrieval"
+  },
+  {
+    "id": "oracle-pos-06",
+    "input": "Set up hallucination detection that cross-references every claim in the LLM output against the retrieved source documents",
+    "expected_skill": "ai-evaluation",
+    "type": "positive",
+    "description": "Hallucination detection via source document verification"
+  },
+  {
+    "id": "oracle-pos-07",
+    "input": "Design the function calling schema for our AI assistant that can search tickets, create tasks, and query dashboards via tool use",
+    "expected_skill": "prompt-engineering",
+    "type": "positive",
+    "description": "Tool use and function calling schema design"
+  },
+  {
+    "id": "oracle-pos-08",
+    "input": "Our vector search returns irrelevant chunks for multi-hop questions — add a reranking step and hybrid BM25+semantic search",
+    "expected_skill": "rag-architecture",
+    "type": "positive",
+    "description": "Retrieval quality improvement with reranking and hybrid search"
+  },
+  {
+    "id": "oracle-pos-09",
+    "input": "Build a regression test suite that catches when a prompt change degrades performance on our 200-case eval set",
+    "expected_skill": "ai-evaluation",
+    "type": "positive",
+    "description": "Prompt regression testing with automated eval suite"
+  },
+  {
+    "id": "oracle-pos-10",
+    "input": "We're spending $3K/month on GPT-4o calls — evaluate if switching to Claude Haiku with semantic caching can meet our quality bar at lower cost",
+    "expected_skill": "prompt-engineering",
+    "type": "positive",
+    "description": "Model selection and cost optimization with quality trade-offs"
+  },
+  {
+    "id": "oracle-neg-01",
+    "input": "Train a gradient-boosted classifier on our tabular customer data to predict churn with feature importance analysis",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Traditional ML model training — should route to alchemist, not oracle"
+  },
+  {
+    "id": "oracle-neg-02",
+    "input": "Review the HMAC-based token signing in our API authentication middleware for timing attack resistance",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Cryptographic token review — should route to cipher, not oracle"
+  },
+  {
+    "id": "oracle-neg-03",
+    "input": "Reduce the p99 latency of our search API from 800ms to under 200ms by optimizing the Elasticsearch query",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Search performance tuning — should route to tuner, not oracle"
+  },
+  {
+    "id": "oracle-neg-04",
+    "input": "Design the REST API versioning strategy and backwards-compatible response schema for our public developer API",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "API contract design — should route to architect, not oracle"
+  },
+  {
+    "id": "oracle-neg-05",
+    "input": "Assess what happens if our primary database fails mid-transaction — map the rollback paths and data corruption risks",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Failure mode analysis — should route to skeptic, not oracle"
+  }
+]

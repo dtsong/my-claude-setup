@@ -20,6 +20,16 @@ tools: [Grep, Glob, Read]
 
 Use Grep for content searches, Glob for file pattern matching.
 
+## Output Format
+
+```
+Found 5 matches for "handleAuth" in 3 files:
+
+  src/lib/auth.ts:23      export function handleAuth(req: Request) {
+  src/lib/auth.ts:45      return handleAuth(nextReq);
+  src/middleware.ts:12     import { handleAuth } from "@/lib/auth";
+```
+
 ## Examples
 - "find all usages of X" → Grep for X
 - "where is the config file" → Glob for config patterns
