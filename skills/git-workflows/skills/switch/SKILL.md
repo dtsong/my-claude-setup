@@ -11,6 +11,17 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Write operation — changes the current branch and updates the working tree
+- Does not create branches unless `--create` flag is used
+- Does not push, fetch, or interact with remotes
+- Does not discard uncommitted changes automatically — prompts user first
+
+## Input Sanitization
+
+- Branch names: only alphanumeric characters, hyphens, underscores, and forward slashes. Reject spaces, `..`, shell metacharacters, or null bytes. The special value `-` (previous branch) is also accepted.
+
 # /git-switch - Switch Branches Safely
 
 Switch to a different branch with smart handling of uncommitted changes.

@@ -10,6 +10,20 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-write operations — requests reviewers and teams for a pull request.
+- Reads CODEOWNERS, file history, and team assignments to suggest reviewers.
+- Does not approve or submit reviews — reviewers do that themselves.
+- Does not merge PRs — use gh-pr-merge skill for that.
+
+## Input Sanitization
+
+- PR numbers: must be positive integers.
+- Reviewer usernames: alphanumeric characters and hyphens only; must begin with `@` prefix.
+- Team names: alphanumeric characters, hyphens, and forward slashes only (e.g., `team/frontend`).
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
+
 # /gh-pr-request - Request PR Reviewers
 
 Request reviewers for a pull request with smart suggestions.

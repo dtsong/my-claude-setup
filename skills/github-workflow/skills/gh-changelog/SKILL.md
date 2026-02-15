@@ -10,6 +10,18 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-only operations — queries merged PRs, commits, and tags to generate changelog text.
+- Does not create releases, tags, or modify repository state.
+- Does not publish or push changelog content — use gh-release skill for publishing.
+
+## Input Sanitization
+
+- Version/tag identifiers: must match semver format (e.g., `v1.2.3`) with alphanumeric characters, dots, hyphens only.
+- Date values (--since): must be valid ISO 8601 date strings.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
+
 # /gh-changelog - Generate Changelog
 
 Generate a changelog from merged PRs and commits since the last release.

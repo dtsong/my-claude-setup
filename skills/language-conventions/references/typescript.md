@@ -3,12 +3,9 @@ language: typescript
 stack: Next.js + React + Tailwind + shadcn/ui
 min_version: "5.0"
 last_updated: 2026-02-10
-token_estimate: ~3200
 ---
 
 # TypeScript Conventions
-
-Opinionated TypeScript conventions for Next.js + React applications with Tailwind and shadcn/ui.
 
 ## Tooling
 
@@ -143,7 +140,6 @@ src/
 - Custom color scales via CSS variables
 - `cn()` utility combining `clsx` + `tailwind-merge`
 - Dark mode via class strategy
-- `tailwind.config.ts` with content paths
 
 ```typescript
 // lib/utils.ts
@@ -327,50 +323,25 @@ const securityHeaders = [
 - QueryClient must have `retry: false` in test configs
 - Check `typeof window !== "undefined"` before accessing localStorage (SSR safety)
 
-## Common Mistakes (WRONG → RIGHT)
-
-### Path alias imports
+## Common Mistakes
 
 ```typescript
-// WRONG — relative imports from deeply nested files
+// WRONG: relative imports from deep nesting
 import { Button } from "../../../components/ui/button";
-
-// RIGHT — use @/ path alias configured in tsconfig
+// RIGHT: use @/ path alias
 import { Button } from "@/components/ui/button";
-```
 
-### Test QueryClient retry
+// WRONG: default QueryClient retries in tests (flaky timeouts)
+const qc = new QueryClient();
+// RIGHT: disable retry
+const qc = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
-```typescript
-// WRONG — tests retry failed queries, causing flaky timeouts
-const queryClient = new QueryClient();
+// WRONG: no mock cleanup (state leaks between tests)
+// RIGHT:
+afterEach(() => { vi.clearAllMocks(); });
 
-// RIGHT — disable retry in test QueryClient
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: false } },
-});
-```
-
-### Mock cleanup
-
-```typescript
-// WRONG — mock state leaks between tests
-afterEach(() => {
-  // nothing
-});
-
-// RIGHT — clear all mocks to prevent test pollution
-afterEach(() => {
-  vi.clearAllMocks();
-});
-```
-
-### SSR localStorage access
-
-```typescript
-// WRONG — crashes during SSR when window is undefined
+// WRONG: bare localStorage (crashes during SSR)
 const theme = localStorage.getItem("theme");
-
-// RIGHT — guard with typeof check for SSR safety
+// RIGHT: guard for SSR
 const theme = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
 ```

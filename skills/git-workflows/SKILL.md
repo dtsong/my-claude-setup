@@ -12,6 +12,12 @@ user_invocable: true
 
 A comprehensive suite of git workflow skills for local repository operations.
 
+## Input Sanitization
+
+- Branch names: alphanumeric, hyphens, underscores, forward slashes, and dots only — reject `..`, shell metacharacters, or null bytes
+- Remote names: alphanumeric and hyphens only
+- File paths for stash/diff: reject `..` traversal, null bytes, and shell metacharacters
+
 ## Available Skills
 
 ### Sync & Remote Operations

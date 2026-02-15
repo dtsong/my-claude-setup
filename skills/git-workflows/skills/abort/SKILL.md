@@ -12,6 +12,17 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Write operation — aborts in-progress merge, rebase, cherry-pick, or revert to restore prior HEAD state
+- Does not discard committed work — only cancels uncommitted operation state
+- Does not push, fetch, or interact with remotes
+- Does not resolve conflicts — use conflicts skill for that
+
+## Input Sanitization
+
+- Operation type: must be one of `merge`, `rebase`, `cherry-pick`, `revert`, or omitted for auto-detect. Reject any other value.
+
 # /git-abort - Abort In-Progress Operations
 
 Safely abort a failed or unwanted merge, rebase, cherry-pick, or revert operation.

@@ -10,6 +10,17 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Write operation — fetches from remote and integrates changes into the current local branch
+- May create merge commits or rebase local commits depending on strategy
+- Does not push to remote — use push skill for that
+- Does not resolve conflicts — use conflicts skill if pull produces conflicts
+
+## Input Sanitization
+
+- Strategy flags: only `--rebase`, `--merge`, `--ff-only` accepted. Reject arbitrary strings or shell metacharacters.
+
 # /git-pull - Pull Remote Changes
 
 Pull changes from remote with configurable strategy (merge or rebase).

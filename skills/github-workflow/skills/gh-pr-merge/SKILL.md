@@ -10,6 +10,20 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-write operations — merges a PR into its base branch and optionally deletes the source branch.
+- Does not create PRs, update PR branches, or respond to review comments.
+- Does not modify repository settings or branch protection rules.
+- Verifies merge readiness (CI, approvals, conflicts) before proceeding.
+
+## Input Sanitization
+
+- PR numbers: must be positive integers.
+- Merge strategy flags (--squash, --rebase, --merge): must be recognized option names only.
+- Commit message text: reject null bytes.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
+
 # /gh-pr-merge - Merge Pull Request
 
 Merge a pull request with configurable merge strategy.

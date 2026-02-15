@@ -10,6 +10,17 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-only GitHub API operations — queries issues, PRs, CI status, branches, and activity metrics.
+- Does not create, modify, or close any GitHub resources.
+- Does not perform triage actions — use gh-triage skill for labeling and assignment.
+
+## Input Sanitization
+
+- Focus flags (--issues, --prs, --ci): must be recognized option names only.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
+
 # /gh-health - Repository Health Dashboard
 
 Display a comprehensive health overview of the repository.

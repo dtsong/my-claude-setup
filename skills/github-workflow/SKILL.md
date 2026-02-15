@@ -12,6 +12,12 @@ user_invocable: true
 
 A comprehensive suite of GitHub workflow skills using the `gh` CLI and GitHub MCP tools.
 
+## Input Sanitization
+
+- Repository names: `owner/repo` format, alphanumeric with hyphens and underscores only — reject shell metacharacters and null bytes
+- Issue/PR numbers: positive integers only
+- Labels and milestone names: alphanumeric, hyphens, underscores, spaces, and colons only
+
 ## Available Skills
 
 ### Issue Management

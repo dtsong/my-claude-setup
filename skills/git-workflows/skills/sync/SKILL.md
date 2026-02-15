@@ -11,6 +11,17 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-only operation — fetches remote refs and displays status but does not modify local branches or working tree
+- Runs `git fetch --prune` which updates remote tracking refs and removes stale ones
+- Does not pull, merge, rebase, or push — use pull or push skills for those actions
+
+## Input Sanitization
+
+- Remote name: only alphanumeric characters, hyphens, and underscores. Reject spaces, `..`, shell metacharacters, or null bytes.
+- Flags: only `--all` accepted. Reject arbitrary strings.
+
 # /git-sync - Fetch and Show Remote Changes
 
 Fetch the latest changes from remote without modifying your local branch. Shows what's new upstream.

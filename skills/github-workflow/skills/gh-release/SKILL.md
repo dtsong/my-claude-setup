@@ -10,6 +10,19 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-write operations — creates GitHub releases, generates release notes, and uploads assets.
+- Creates tags if they do not already exist.
+- Does not modify repository settings, branch protections, or code.
+- Does not generate standalone changelogs — use gh-changelog skill for that.
+
+## Input Sanitization
+
+- Version/tag identifiers: must match semver format (e.g., `v1.2.3`, `v1.0.0-rc.1`) with alphanumeric characters, dots, and hyphens only.
+- Release title and notes: reject null bytes.
+- Asset file paths: reject shell metacharacters and path traversal sequences (`../`).
+
 # /gh-release - Create GitHub Release
 
 Create a GitHub release with auto-generated or custom release notes.
