@@ -1,7 +1,7 @@
 ---
-name: "Competitive Analysis"
+name: "competitive-analysis"
 department: "scout"
-description: "Feature comparison matrix across competing products and prior art"
+description: "Use when designing features that exist in competing products or analyzing prior art in the market. Covers feature mapping, UX evaluation, technical trade-off assessment, and differentiation opportunity identification. Do not use for evaluating individual libraries (use library-evaluation) or assessing technology maturity (use technology-radar)."
 version: 1
 triggers:
   - "competitive"
@@ -19,6 +19,12 @@ triggers:
 
 Map the landscape of competing products and prior art to identify proven patterns, differentiation opportunities, and lessons learned before building.
 
+## Scope Constraints
+
+- Analyzes products and services at the feature and UX level, not individual code libraries.
+- Focuses on identifying patterns, gaps, and differentiation — not producing marketing materials.
+- Does not perform deep technical benchmarking; flag performance concerns for handoff.
+
 ## Inputs
 
 - Feature or product area to analyze
@@ -26,7 +32,11 @@ Map the landscape of competing products and prior art to identify proven pattern
 - Target user segment
 - Specific aspects to compare (if any focus areas are known)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: Identify Competing Products or Prior Art
 
@@ -77,6 +87,22 @@ Where visible or inferable:
 - What approaches have competitors tried and abandoned (learn from their mistakes)?
 - What is table stakes vs differentiating in this space?
 - What would users switch for?
+
+### Progress Checklist
+
+- [ ] Step 1: Competitors identified
+- [ ] Step 2: Feature sets mapped
+- [ ] Step 3: UX approaches evaluated
+- [ ] Step 4: Technical trade-offs assessed
+- [ ] Step 5: Gaps and opportunities identified
+- [ ] Step 6: Lessons synthesized
+
+> **Compaction resilience:** If context was compacted, re-read this SKILL.md and check the Progress Checklist for completed steps before continuing.
+
+## Handoff
+
+- If technical architecture concerns surface during competitor assessment, recommend loading architect/system-design for deeper analysis.
+- If user research gaps are identified, recommend loading advocate/user-story for user-centered exploration.
 
 ## Output Format
 

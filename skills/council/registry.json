@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "last_updated": "2026-02-07",
+  "last_updated": "2026-02-14",
   "departments": {
     "architect": {
       "skills": {
@@ -110,6 +110,33 @@
         "prompt-engineering": { "uses": 0, "last_used": null, "sessions": [] },
         "rag-architecture": { "uses": 0, "last_used": null, "sessions": [] },
         "ai-evaluation": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "cipher": {
+      "skills": {
+        "crypto-review": { "uses": 0, "last_used": null, "sessions": [] },
+        "pqc-readiness": { "uses": 0, "last_used": null, "sessions": [] },
+        "protocol-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "forge": {
+      "skills": {
+        "microarch-analysis": { "uses": 0, "last_used": null, "sessions": [] },
+        "physical-design-security": { "uses": 0, "last_used": null, "sessions": [] },
+        "rtl-security-review": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "prover": {
+      "skills": {
+        "formal-spec": { "uses": 0, "last_used": null, "sessions": [] },
+        "invariant-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
+    "warden": {
+      "skills": {
+        "hw-sw-boundary": { "uses": 0, "last_used": null, "sessions": [] },
+        "isolation-review": { "uses": 0, "last_used": null, "sessions": [] },
+        "kernel-hardening": { "uses": 0, "last_used": null, "sessions": [] }
       }
     }
   }

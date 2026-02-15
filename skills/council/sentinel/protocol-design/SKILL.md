@@ -1,7 +1,7 @@
 ---
-name: "Protocol Design"
+name: protocol-design
 department: "sentinel"
-description: "Wireless protocol selection, stack design, and interoperability"
+description: "Use when selecting and designing communication protocol stacks for IoT or embedded systems. Covers physical layer selection, transport and application protocols, security layers, message format design, and error resilience. Do not use for firmware architecture (use embedded-architecture) or fleet-scale operations (use fleet-management)."
 version: 1
 triggers:
   - "BLE"
@@ -22,6 +22,10 @@ triggers:
 
 Select and design the communication protocol stack for an IoT/embedded system, including physical layer selection, transport protocol, application protocol, and security layer.
 
+## Scope Constraints
+
+Evaluates protocol options against device requirements and produces stack recommendations. Does not implement protocol drivers or radio firmware. Does not perform RF testing or spectrum analysis.
+
 ## Inputs
 
 - Device hardware capabilities (radio modules available)
@@ -30,7 +34,11 @@ Select and design the communication protocol stack for an IoT/embedded system, i
 - Security requirements (encryption, authentication, integrity)
 - Ecosystem requirements (Matter certification, HomeKit, Alexa)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: Define Communication Requirements
 
@@ -87,6 +95,17 @@ Plan for communication failures:
 - **Offline queuing:** Buffer messages during disconnection, sync on reconnect
 - **Connection management:** Keepalive intervals, reconnection strategy
 
+### Progress Checklist
+
+- [ ] Step 1: Communication requirements quantified
+- [ ] Step 2: Physical/link layer selected with rationale
+- [ ] Step 3: Application protocol chosen
+- [ ] Step 4: Security layer designed with key management
+- [ ] Step 5: Message format defined within MTU budget
+- [ ] Step 6: Error handling and resilience strategy complete
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -131,6 +150,11 @@ Plan for communication failures:
 | Disconnection | [Offline queue + sync] |
 | Server unreachable | [Backoff + local operation] |
 ```
+
+## Handoff
+
+- Hand off to embedded-architecture if firmware task decomposition or memory layout decisions arise from protocol stack requirements.
+- Hand off to cipher/crypto-review if cryptographic implementation concerns are identified during security layer design.
 
 ## Quality Checks
 

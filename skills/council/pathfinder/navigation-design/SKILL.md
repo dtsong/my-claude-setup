@@ -1,7 +1,7 @@
 ---
-name: "Navigation Design"
+name: navigation-design
 department: "pathfinder"
-description: "Mobile navigation patterns, deep linking, and state preservation"
+description: "Use when designing navigation architecture for mobile or cross-platform features including screen hierarchy, deep linking schemes, and state preservation strategies. Covers stack navigation, modal flows, universal links, and process death recovery. Do not use for platform guideline compliance (use platform-audit) or hardware API integration (use device-integration)."
 version: 1
 triggers:
   - "navigation"
@@ -21,6 +21,10 @@ triggers:
 
 Design the navigation architecture for a mobile or cross-platform feature, including screen hierarchy, deep linking scheme, state preservation strategy, and transition animations.
 
+## Scope Constraints
+
+Reads feature requirements, user flows, and existing navigation code for architectural analysis. Does not modify files or execute code. Does not interact with app runtimes or navigation frameworks directly.
+
 ## Inputs
 
 - Feature requirements and user flows
@@ -28,7 +32,19 @@ Design the navigation architecture for a mobile or cross-platform feature, inclu
 - Existing navigation structure (if extending)
 - Deep linking requirements (universal links, custom schemes)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Map the screen hierarchy
+- [ ] Step 2: Define navigation patterns
+- [ ] Step 3: Design deep linking scheme
+- [ ] Step 4: State preservation strategy
+- [ ] Step 5: Transition design
+- [ ] Step 6: Edge case handling
 
 ### Step 1: Map the Screen Hierarchy
 
@@ -78,6 +94,8 @@ Address navigation edge cases:
 - Multiple deep links in quick succession
 - Authentication-gated screens (redirect to login, then return)
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what feature is being designed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -117,6 +135,11 @@ Tab Bar
 ## Edge Cases
 - [Edge case and handling strategy]
 ```
+
+## Handoff
+
+- Hand off to platform-audit if navigation patterns need validation against iOS HIG or Material Design guidelines.
+- Hand off to device-integration if deep link handling depends on hardware APIs such as NFC or push notification integration.
 
 ## Quality Checks
 

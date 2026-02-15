@@ -1,7 +1,7 @@
 ---
-name: "Impact Estimation"
+name: impact-estimation
 department: "strategist"
-description: "RICE scoring framework for evidence-based feature prioritization"
+description: "Use when comparing multiple features or initiatives to determine prioritization order. Covers RICE scoring with quantified reach, impact, confidence, and effort dimensions, tier ranking, and success metric definition. Do not use for MVP scope definition (use mvp-scoping) or analytics instrumentation planning (use analytics-design)."
 version: 1
 triggers:
   - "impact"
@@ -21,6 +21,10 @@ triggers:
 
 Apply RICE scoring to prioritize features and initiatives based on quantified reach, impact, confidence, and effort, replacing gut-feel prioritization with a repeatable framework.
 
+## Scope Constraints
+
+Produces prioritization scores and tier rankings based on provided estimates and data. Does not generate usage data, validate assumptions empirically, or make final prioritization decisions. RICE outputs are advisory and require stakeholder review before commitment.
+
 ## Inputs
 
 - List of features or initiatives to prioritize
@@ -29,7 +33,19 @@ Apply RICE scoring to prioritize features and initiatives based on quantified re
 - Business goals and success metrics
 - Any existing data (usage analytics, user research, market data)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: RICE criteria defined
+- [ ] Step 2: Features scored
+- [ ] Step 3: RICE scores calculated
+- [ ] Step 4: Features ranked
+- [ ] Step 5: Quick wins vs strategic bets identified
+- [ ] Step 6: Success metrics defined
 
 ### Step 1: Define RICE Criteria
 
@@ -92,6 +108,8 @@ For each prioritized feature, define:
 - **Measurement method:** How and when you'll measure
 - **Target:** Specific number or threshold for success
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct the feature list and scoring context, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ### RICE Scoring Table
@@ -124,6 +142,11 @@ For each prioritized feature, define:
 |---------|---------------|--------|-------------------|-----------|
 | Feature A | ... | ... | ... | ... |
 | Feature B | ... | ... | ... | ... |
+
+## Handoff
+
+- Hand off to mvp-scoping if prioritized features need MoSCoW classification and phased roadmap planning.
+- Hand off to analytics-design if success metrics require telemetry instrumentation or A/B test framework design.
 
 ## Quality Checks
 

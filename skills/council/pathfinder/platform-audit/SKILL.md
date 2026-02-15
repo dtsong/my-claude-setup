@@ -1,7 +1,7 @@
 ---
-name: "Platform Audit"
+name: platform-audit
 department: "pathfinder"
-description: "Platform guideline compliance audit across iOS, Android, and web"
+description: "Use when auditing a feature or implementation against platform-specific guidelines such as iOS HIG, Material Design 3, and WCAG. Covers compliance scoring, violation identification, remediation steps, and App Store risk assessment. Do not use for navigation architecture (use navigation-design) or hardware API integration (use device-integration)."
 version: 1
 triggers:
   - "iOS"
@@ -22,6 +22,10 @@ triggers:
 
 Evaluate a proposed feature or existing implementation against platform-specific guidelines (iOS Human Interface Guidelines, Material Design 3, Web Content Accessibility Guidelines) and produce a compliance report with specific violations and remediation steps.
 
+## Scope Constraints
+
+Reads source code, UI mockups, and platform guideline documentation for compliance analysis. Does not modify files or execute code. Does not submit builds or interact with App Store Connect or Google Play Console.
+
 ## Inputs
 
 - Feature description or UI mockup being evaluated
@@ -29,7 +33,19 @@ Evaluate a proposed feature or existing implementation against platform-specific
 - Existing implementation code (if available)
 - App Store / Play Store submission history (if relevant)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Identify target platforms
+- [ ] Step 2: Audit iOS HIG compliance
+- [ ] Step 3: Audit Material Design compliance
+- [ ] Step 4: Audit Web/PWA compliance
+- [ ] Step 5: Cross-platform consistency check
+- [ ] Step 6: App Store risk assessment
 
 ### Step 1: Identify Target Platforms
 
@@ -79,6 +95,8 @@ Flag any patterns known to trigger review rejection:
 - Use of private APIs or undocumented behavior
 - In-app purchase and subscription display requirements
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what feature is being audited, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -113,6 +131,11 @@ Flag any patterns known to trigger review rejection:
 ## Cross-Platform Notes
 - [Consistency observation]
 ```
+
+## Handoff
+
+- Hand off to navigation-design if navigation pattern violations require architectural redesign.
+- Hand off to device-integration if permission or hardware API compliance issues need integration-level remediation.
 
 ## Quality Checks
 

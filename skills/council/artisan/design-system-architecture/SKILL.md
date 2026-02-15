@@ -1,7 +1,7 @@
 ---
-name: "Design System Architecture"
+name: design-system-architecture
 department: "artisan"
-description: "Token hierarchy, theming strategy, and cross-platform consistency"
+description: "Use when designing a token-based design system architecture. Covers primitive, semantic, and component token hierarchy, theming strategy for dark/light mode, and cross-platform implementation planning. Do not use for visual critique of existing interfaces (use visual-audit) or animation specifications (use motion-design)."
 version: 1
 triggers:
   - "design system"
@@ -19,7 +19,11 @@ triggers:
 
 ## Purpose
 
-Design a token-based design system architecture, including primitive → semantic → component token hierarchy, theming strategy (dark/light mode), and cross-platform implementation plan.
+Design a token-based design system architecture, including primitive, semantic, and component token hierarchy, theming strategy (dark/light mode), and cross-platform implementation plan.
+
+## Scope Constraints
+
+Reads existing styling code, configuration files, and design documentation for analysis. Does not modify source files or push changes. Does not create or update Figma libraries or Storybook instances directly.
 
 ## Inputs
 
@@ -29,7 +33,19 @@ Design a token-based design system architecture, including primitive → semanti
 - Current component inventory
 - Theming requirements (dark mode, high contrast, brand variations)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Audit current state
+- [ ] Step 2: Define primitive tokens
+- [ ] Step 3: Define semantic tokens
+- [ ] Step 4: Define component tokens
+- [ ] Step 5: Design theme architecture
+- [ ] Step 6: Cross-platform strategy
 
 ### Step 1: Audit Current State
 
@@ -43,7 +59,7 @@ Review the existing styling approach:
 
 Establish the raw values that form the foundation:
 - **Color primitives:** Named palette (blue-50 through blue-900, gray scale, semantic colors)
-- **Spacing scale:** 4px base unit → 0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64
+- **Spacing scale:** 4px base unit — 0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64
 - **Type scale:** Size ramp with corresponding line heights and letter spacing
 - **Border radius:** Small (4px), medium (8px), large (16px), full (9999px)
 - **Shadow/elevation:** Subtle, medium, prominent
@@ -82,6 +98,8 @@ If multiple platforms:
 - **iOS:** Swift color/spacing constants or asset catalogs
 - **Android:** XML resources or Compose theme
 - **Shared source of truth:** JSON or YAML token definitions
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being designed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
 
 ## Output Format
 
@@ -125,6 +143,11 @@ tokens/
 ## Migration Plan
 [Steps to migrate from current approach to token-based system]
 ```
+
+## Handoff
+
+- Hand off to visual-audit if token architecture review reveals visual inconsistencies requiring interface-level critique.
+- Hand off to craftsman/pattern-analysis if component token mapping reveals implementation patterns needing code-level assessment.
 
 ## Quality Checks
 

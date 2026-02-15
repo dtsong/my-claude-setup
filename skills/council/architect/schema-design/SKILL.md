@@ -1,7 +1,7 @@
 ---
-name: "Schema Design"
+name: "schema-design"
 department: "architect"
-description: "Migration-ready database schema design with normalization and indexing strategies"
+description: "Use when designing or modifying database schemas with migration plans. Covers entity definition, relationship mapping, normalization trade-offs, indexing strategies, and RLS policies. Do not use for API endpoint contracts (use api-design) or codebase analysis (use codebase-context)."
 version: 1
 triggers:
   - "database"
@@ -22,6 +22,12 @@ triggers:
 
 Design relational database schemas with normalization trade-offs, migration plans, and indexing strategies. Produces migration-ready SQL that can be applied directly to the database.
 
+## Scope Constraints
+
+- Produces schema definitions and migration SQL only; does not execute migrations.
+- Covers entity design, relationships, indexes, RLS policies, and rollback plans.
+- Does not define API contracts or endpoint shapes — hand off to api-design.
+
 ## Inputs
 
 - Feature requirements (from interview/idea phase)
@@ -29,7 +35,22 @@ Design relational database schemas with normalization trade-offs, migration plan
 - Query patterns (how the data will be read — drives index and denormalization decisions)
 - Access control requirements (who can read/write which rows)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+<!-- Track completion across compaction boundaries -->
+- [ ] Step 1: Inventory Existing Entities
+- [ ] Step 2: Identify New Entities Needed
+- [ ] Step 3: Define Entity Attributes
+- [ ] Step 4: Map Relationships
+- [ ] Step 5: Apply Normalization
+- [ ] Step 6: Design Indexes
+- [ ] Step 7: Plan RLS Policies
+- [ ] Step 8: Draft Migration SQL
 
 ### Step 1: Inventory Existing Entities
 
@@ -86,6 +107,13 @@ Write executable SQL:
 - CREATE INDEX statements
 - RLS policy statements
 - Include a rollback section (DROP TABLE, DROP INDEX, etc.)
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
+## Handoff
+
+- If the schema design reveals API contract requirements or endpoint shape changes, recommend loading architect/api-design.
+- If the schema involves sensitive data fields or access control beyond RLS, recommend loading guardian/data-classification.
 
 ## Output Format
 

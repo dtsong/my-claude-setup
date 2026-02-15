@@ -1,7 +1,7 @@
 ---
-name: "Performance Audit"
+name: "performance-audit"
 department: "tuner"
-description: "Bottleneck identification with profiling baselines and prioritized optimization roadmap"
+description: "Use when profiling application performance or diagnosing slow page loads. Covers full-stack bottleneck identification including Core Web Vitals, bundle analysis, database queries, and network waterfall. Do not use for cache architecture design (use caching-strategy) or capacity planning (use load-modeling)."
 version: 1
 triggers:
   - "performance"
@@ -23,6 +23,11 @@ triggers:
 
 Identify performance bottlenecks across the full stack — rendering, network, bundle, database, and infrastructure. Produces a profiled baseline, a prioritized bottleneck inventory, and an optimization roadmap with estimated impact for each recommendation.
 
+## Scope Constraints
+
+- Reads: Lighthouse reports, Core Web Vitals field data, bundle analyzer output, slow query logs, network waterfall traces, application source code.
+- Cannot: Design caching hierarchies or TTL policies (use caching-strategy). Cannot model future traffic growth or define scaling triggers (use load-modeling). Cannot provision or deploy infrastructure changes.
+
 ## Inputs
 
 - Application URL or local dev environment access
@@ -30,7 +35,20 @@ Identify performance bottlenecks across the full stack — rendering, network, b
 - Tech stack details (framework, database, hosting, CDN)
 - Traffic profile (approximate users, peak times, geographic distribution)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Profile current performance baseline
+- [ ] Step 2: Identify render bottlenecks
+- [ ] Step 3: Analyze bundle size and code splitting
+- [ ] Step 4: Audit database queries
+- [ ] Step 5: Evaluate network waterfall
+- [ ] Step 6: Assess Core Web Vitals scores
+- [ ] Step 7: Recommend prioritized optimizations
 
 ### Step 1: Profile Current Performance Baseline
 
@@ -86,6 +104,13 @@ Rank each finding by impact (estimated improvement) and effort (implementation c
 - High impact / high effort — plan and schedule
 - Low impact / low effort — batch together
 - Low impact / high effort — skip or defer
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
+## Handoff
+
+- If caching gaps are identified as a major bottleneck, hand off to **tuner/caching-strategy** for cache hierarchy design and TTL policy definition.
+- If scaling or capacity concerns emerge from traffic analysis, hand off to **tuner/load-modeling** for capacity planning and scaling trigger definitions.
 
 ## Output Format
 

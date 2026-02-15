@@ -1,7 +1,7 @@
 ---
-name: "Caching Strategy"
+name: "caching-strategy"
 department: "tuner"
-description: "Cache hierarchy design with TTL policies, invalidation flows, and warming strategies"
+description: "Use when designing or auditing a caching architecture. Covers multi-layer cache hierarchy, key schema, TTL policies, invalidation flows, and warming strategies. Do not use for runtime performance profiling (use performance-audit) or capacity planning (use load-modeling)."
 version: 1
 triggers:
   - "cache"
@@ -20,6 +20,11 @@ triggers:
 
 Design a multi-layer caching architecture that minimizes latency and server load while maintaining data freshness. Produces a cache hierarchy diagram, key schema, TTL policy table, and invalidation flow for each cacheable resource.
 
+## Scope Constraints
+
+- Reads: Application architecture diagrams, resource inventories, access pattern logs, existing cache configuration, Cache-Control headers, CDN settings.
+- Cannot: Profile runtime performance bottlenecks or measure Core Web Vitals (use performance-audit). Cannot model traffic growth or define scaling triggers (use load-modeling). Cannot provision CDN or cache infrastructure.
+
 ## Inputs
 
 - Application architecture (server framework, database, CDN provider)
@@ -28,7 +33,20 @@ Design a multi-layer caching architecture that minimizes latency and server load
 - Freshness requirements (how stale can each resource be before it hurts the user?)
 - Current caching setup (if any) and known pain points
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Identify cacheable resources and access patterns
+- [ ] Step 2: Design cache hierarchy
+- [ ] Step 3: Define cache key schema
+- [ ] Step 4: Specify TTL policies per resource type
+- [ ] Step 5: Design invalidation strategy
+- [ ] Step 6: Plan stale-while-revalidate patterns
+- [ ] Step 7: Specify cache warming strategy for cold starts
 
 ### Step 1: Identify Cacheable Resources and Access Patterns
 
@@ -94,6 +112,13 @@ Plan for empty caches after deployments, CDN purges, or scaling events:
 - Warming method — build-time generation, deployment hook, background job, on-demand
 - Warming priority order — warm the hottest paths first
 - Cold start latency budget — acceptable response time before cache is warm
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
+## Handoff
+
+- If profiling reveals bottlenecks beyond caching (render path, bundle size, database queries), hand off to **tuner/performance-audit** for full-stack performance analysis.
+- If cache warming or invalidation volume suggests infrastructure scaling concerns, hand off to **tuner/load-modeling** for capacity planning and cost projections.
 
 ## Output Format
 

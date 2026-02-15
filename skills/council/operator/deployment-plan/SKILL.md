@@ -1,7 +1,7 @@
 ---
-name: "Deployment Plan"
+name: deployment-plan
 department: "operator"
-description: "Deployment strategy with rollback procedures, feature flags, and zero-downtime releases"
+description: "Use when designing deployment strategies including environment progression, CI/CD pipelines, zero-downtime releases, rollback procedures, and feature flag management. Covers blue-green, rolling, and canary deployment patterns with database migration coordination. Do not use for monitoring or alerting design (use observability-design) or infrastructure cost modeling (use cost-analysis)."
 version: 1
 triggers:
   - "deploy"
@@ -21,6 +21,10 @@ triggers:
 
 Design a complete deployment strategy covering environment progression, pipeline stages, zero-downtime releases, rollback procedures, and feature flag management. Produces actionable deployment runbooks and pipeline configurations.
 
+## Scope Constraints
+
+Reads infrastructure configurations, CI/CD definitions, and deployment documentation for strategy analysis. Does not modify files, execute deployments, or access production credentials directly.
+
 ## Inputs
 
 - Feature or service being deployed
@@ -28,7 +32,20 @@ Design a complete deployment strategy covering environment progression, pipeline
 - Existing deployment process (if any)
 - Availability requirements (SLA/SLO targets, maintenance window constraints)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Define deployment environments
+- [ ] Step 2: Design deployment pipeline
+- [ ] Step 3: Plan zero-downtime strategy
+- [ ] Step 4: Define rollback procedures
+- [ ] Step 5: Design feature flag strategy
+- [ ] Step 6: Specify health checks
+- [ ] Step 7: Plan database migration coordination
 
 ### Step 1: Define Deployment Environments
 
@@ -90,6 +107,8 @@ Coordinate schema changes with deployments:
 - **Data backfill**: Strategy for populating new columns or transforming existing data
 - **Migration testing**: Run against production-like data volume before deploying
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -145,6 +164,11 @@ Coordinate schema changes with deployments:
 |-----------|------|------------|----------|--------------|
 | ... | expand | yes | pre-deploy | none |
 ```
+
+## Handoff
+
+- Hand off to observability-design if deployment health monitoring or SLO-based deployment gating needs are identified.
+- Hand off to cost-analysis if deployment strategy choices have significant infrastructure cost implications (e.g., blue-green doubling compute).
 
 ## Quality Checks
 

@@ -1,7 +1,7 @@
 ---
-name: "MVP Scoping"
+name: mvp-scoping
 department: "strategist"
-description: "MoSCoW prioritization and value-effort matrix for defining minimum viable scope"
+description: "Use when defining minimum viable scope for a product or feature launch. Covers MoSCoW prioritization, value-effort matrix analysis, MVP cut-line definition, and phased roadmap planning. Do not use for quantified feature comparison (use impact-estimation) or measurement instrumentation (use analytics-design)."
 version: 1
 triggers:
   - "MVP"
@@ -21,6 +21,10 @@ triggers:
 
 Define the smallest viable scope that delivers maximum learning and value, using MoSCoW prioritization and value-effort analysis to draw a clear MVP cut line.
 
+## Scope Constraints
+
+Analyzes proposed features and requirements to produce prioritized scope recommendations. Does not make implementation decisions, estimate engineering timelines with precision, or commit resources. Scoping outputs are advisory and require stakeholder validation.
+
 ## Inputs
 
 - Full list of proposed features and capabilities
@@ -30,7 +34,20 @@ Define the smallest viable scope that delivers maximum learning and value, using
 - Key assumptions to validate
 - Business goals or success criteria
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Features enumerated
+- [ ] Step 2: MoSCoW classification applied
+- [ ] Step 3: Effort estimated
+- [ ] Step 4: Value/impact estimated
+- [ ] Step 5: Value-effort matrix plotted
+- [ ] Step 6: MVP cut line defined
+- [ ] Step 7: Phased roadmap planned
 
 ### Step 1: Enumerate All Proposed Features
 
@@ -110,6 +127,8 @@ Arrange features into four quadrants:
 
 Include milestones and key decision points between phases.
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct the feature list and constraints, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ### MoSCoW Table
@@ -142,6 +161,11 @@ Include milestones and key decision points between phases.
 | v1 | ... | ... | Launch | Validate core assumption |
 | v1.1 | ... | ... | ... | Review user feedback |
 | v2 | ... | ... | ... | Evaluate expansion |
+
+## Handoff
+
+- Hand off to impact-estimation if quantified RICE scoring is needed to resolve prioritization ties between features.
+- Hand off to analytics-design if the MVP requires measurement instrumentation to validate key assumptions.
 
 ## Quality Checks
 

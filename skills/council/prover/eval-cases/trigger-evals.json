@@ -1,0 +1,107 @@
+[
+  {
+    "id": "prover-pos-01",
+    "input": "Write a TLA+ specification for the distributed lock acquisition protocol",
+    "expected_skill": "formal-spec",
+    "type": "positive",
+    "description": "TLA+ specification writing for distributed protocol"
+  },
+  {
+    "id": "prover-pos-02",
+    "input": "Enumerate the security invariants for our access control system and assess verification feasibility",
+    "expected_skill": "invariant-analysis",
+    "type": "positive",
+    "description": "Security invariant enumeration with feasibility assessment"
+  },
+  {
+    "id": "prover-pos-03",
+    "input": "Configure TLC model checker to verify mutual exclusion in our consensus algorithm",
+    "expected_skill": "formal-spec",
+    "type": "positive",
+    "description": "Model checker configuration for consensus"
+  },
+  {
+    "id": "prover-pos-04",
+    "input": "Identify hidden assumptions in our memory isolation safety claims",
+    "expected_skill": "invariant-analysis",
+    "type": "positive",
+    "description": "Hidden assumption analysis for safety claims"
+  },
+  {
+    "id": "prover-pos-05",
+    "input": "Model the state machine for our two-phase commit protocol in PlusCal",
+    "expected_skill": "formal-spec",
+    "type": "positive",
+    "description": "PlusCal state machine modeling"
+  },
+  {
+    "id": "prover-pos-06",
+    "input": "Formalize our security claims about privilege escalation prevention as verifiable invariants",
+    "expected_skill": "invariant-analysis",
+    "type": "positive",
+    "description": "Security claim formalization"
+  },
+  {
+    "id": "prover-pos-07",
+    "input": "Define safety and liveness properties for the leader election protocol and check with TLC",
+    "expected_skill": "formal-spec",
+    "type": "positive",
+    "description": "Safety/liveness property specification"
+  },
+  {
+    "id": "prover-pos-08",
+    "input": "Assess whether bounded model checking is feasible for verifying our RBAC invariants",
+    "expected_skill": "invariant-analysis",
+    "type": "positive",
+    "description": "Verification feasibility assessment"
+  },
+  {
+    "id": "prover-pos-09",
+    "input": "Write a refinement mapping from our abstract spec to the concrete implementation",
+    "expected_skill": "formal-spec",
+    "type": "positive",
+    "description": "Refinement mapping specification"
+  },
+  {
+    "id": "prover-pos-10",
+    "input": "What verification tools would be appropriate for proving our data integrity guarantees?",
+    "expected_skill": "invariant-analysis",
+    "type": "positive",
+    "description": "Verification tool recommendation"
+  },
+  {
+    "id": "prover-neg-01",
+    "input": "Review the TLS handshake protocol for replay attack vulnerabilities",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Protocol analysis — should route to cipher, not prover"
+  },
+  {
+    "id": "prover-neg-02",
+    "input": "Analyze the branch predictor sharing for Spectre v2 exposure",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Microarch analysis — should route to forge, not prover"
+  },
+  {
+    "id": "prover-neg-03",
+    "input": "Audit the seccomp filter configuration for our container sandbox",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Isolation review — should route to warden, not prover"
+  },
+  {
+    "id": "prover-neg-04",
+    "input": "Design unit tests and integration tests for the authentication module",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Testing strategy — should route to craftsman, not prover"
+  },
+  {
+    "id": "prover-neg-05",
+    "input": "Evaluate the GDPR compliance of our data processing pipeline",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Compliance review — should route to guardian, not prover"
+  }
+]

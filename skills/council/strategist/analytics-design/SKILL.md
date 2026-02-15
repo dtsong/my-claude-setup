@@ -1,7 +1,7 @@
 ---
-name: "Analytics Design"
+name: analytics-design
 department: "strategist"
-description: "Telemetry events, A/B test instrumentation, and success metrics design"
+description: "Use when planning measurement strategy for a feature or product area. Covers metrics hierarchy design, event taxonomy, funnel instrumentation, A/B test framework, and data pipeline planning. Do not use for feature prioritization scoring (use impact-estimation) or MVP scope definition (use mvp-scoping)."
 version: 1
 triggers:
   - "analytics"
@@ -20,6 +20,10 @@ triggers:
 
 Design a comprehensive measurement strategy including metrics hierarchy, event taxonomy, funnel instrumentation, and A/B test framework to ensure features can be evaluated with data.
 
+## Scope Constraints
+
+Produces measurement plans, event schemas, and experimentation frameworks as documentation artifacts. Does not implement tracking code, configure analytics platforms, or access production data. All outputs are design specifications for engineering implementation.
+
 ## Inputs
 
 - Feature or product area to instrument
@@ -28,7 +32,20 @@ Design a comprehensive measurement strategy including metrics hierarchy, event t
 - Privacy requirements and data retention policies
 - Target user segments for experimentation
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Metrics hierarchy defined
+- [ ] Step 2: Event taxonomy designed
+- [ ] Step 3: Event properties specified
+- [ ] Step 4: Funnel instrumentation planned
+- [ ] Step 5: A/B test framework designed
+- [ ] Step 6: Success criteria defined
+- [ ] Step 7: Data pipeline planned
 
 ### Step 1: Define Key Metrics Hierarchy
 
@@ -121,6 +138,8 @@ For each experiment:
 - **Access:** Who can query the data, dashboards to create
 - **Privacy:** PII handling, consent tracking, GDPR/CCPA compliance
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct the feature area and measurement goals, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ### Metrics Hierarchy
@@ -153,6 +172,11 @@ North Star: [Metric Name]
 | Experiment | Hypothesis | Variants | Sample Size | Duration | Primary Metric |
 |------------|-----------|----------|-------------|----------|----------------|
 | ... | If..., then... | A/B | ... | ... weeks | ... |
+
+## Handoff
+
+- Hand off to impact-estimation if analytics findings reveal features that need RICE scoring for prioritization.
+- Hand off to mvp-scoping if measurement design surfaces scope questions about which features to instrument first.
 
 ## Quality Checks
 

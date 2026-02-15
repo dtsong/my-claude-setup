@@ -1,7 +1,7 @@
 ---
-name: "API Design"
+name: "api-design"
 department: "architect"
-description: "REST/RPC endpoint contracts with request/response types and error handling"
+description: "Use when designing REST or RPC endpoint contracts with request/response types and error handling. Covers endpoint specification, TypeScript type definitions, authentication requirements, pagination, and caching strategies. Do not use for database schema changes (use schema-design) or codebase analysis (use codebase-context)."
 version: 1
 triggers:
   - "API"
@@ -20,6 +20,12 @@ triggers:
 
 Design REST/RPC endpoint contracts with request/response types, error handling, and versioning strategy. Produces TypeScript type definitions and endpoint documentation that serve as the contract between frontend and backend.
 
+## Scope Constraints
+
+- Produces endpoint contracts and type definitions only; does not implement route handlers.
+- Covers endpoint specification, request/response types, error contracts, pagination, and caching.
+- Does not design database schemas or run codebase analysis — hand off to schema-design or codebase-context.
+
 ## Inputs
 
 - Feature requirements (from interview/idea phase)
@@ -27,7 +33,22 @@ Design REST/RPC endpoint contracts with request/response types, error handling, 
 - Existing endpoints (current route handlers, naming conventions)
 - Authentication/authorization model (who can call what)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+<!-- Track completion across compaction boundaries -->
+- [ ] Step 1: Inventory Existing Endpoints
+- [ ] Step 2: Identify New Endpoints Needed
+- [ ] Step 3: Define Endpoint Contracts
+- [ ] Step 4: Design Type Definitions
+- [ ] Step 5: Plan Authentication/Authorization
+- [ ] Step 6: Define Error Contract
+- [ ] Step 7: Consider Pagination and Filtering
+- [ ] Step 8: Document Rate Limits and Caching
 
 ### Step 1: Inventory Existing Endpoints
 
@@ -85,6 +106,13 @@ If applicable:
 - Cache-Control headers for GET endpoints
 - ETag/If-None-Match for conditional requests
 - Stale-while-revalidate strategies
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
+## Handoff
+
+- If the API design reveals missing or incomplete database entities, recommend loading architect/schema-design.
+- If the API exposes sensitive data or requires fine-grained access control, recommend loading guardian/data-classification.
 
 ## Output Format
 

@@ -1,7 +1,7 @@
 ---
-name: "Changelog Design"
+name: changelog-design
 department: "chronicler"
-description: "Changelog entries and migration guides for breaking changes with version strategy"
+description: "Use when preparing release changelogs, migration guides, or breaking change communication for consumers. Covers change categorization, before/after documentation, migration step authoring, semver version strategy, and release communication planning. Do not use for documentation architecture planning (use documentation-plan) or recording architectural decisions (use adr-template)."
 version: 1
 triggers:
   - "changelog"
@@ -19,6 +19,10 @@ triggers:
 
 Create structured changelog entries and migration guides that enable consumers to understand changes, assess impact, and upgrade safely. Produces versioned changelogs following Keep a Changelog format with step-by-step migration instructions for breaking changes.
 
+## Scope Constraints
+
+Reads commit history, PR descriptions, and existing changelog entries to produce release documentation. Does not modify source code, bump version numbers, or publish releases.
+
 ## Inputs
 
 - List of changes (commits, PRs, or feature descriptions)
@@ -26,7 +30,19 @@ Create structured changelog entries and migration guides that enable consumers t
 - Consumer types (library users, API consumers, internal teams)
 - Previous changelog entries (for format consistency)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Categorize all changes
+- [ ] Step 2: Describe each change with full context
+- [ ] Step 3: Write migration steps for breaking changes
+- [ ] Step 4: Define version strategy
+- [ ] Step 5: Plan communication
+- [ ] Step 6: Validate migration path
 
 ### Step 1: Categorize All Changes
 
@@ -83,6 +99,8 @@ Verify the upgrade experience:
 - **Dependency conflicts**: Does this upgrade force consumers to update other dependencies?
 - **Rollback safety**: Can consumers downgrade if the upgrade causes issues?
 - **CI verification**: Run consumer-perspective tests against the new version to catch missed breaking changes
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
 
 ## Output Format
 
@@ -157,6 +175,11 @@ Verify the upgrade experience:
 | GitHub Release | Highlights + migration link | On release |
 | [notification channel] | Breaking change summary | 1 week before release |
 ```
+
+## Handoff
+
+- Hand off to adr-template if the changelog reveals significant architectural decisions that lack formal ADR documentation.
+- Hand off to documentation-plan if the release introduces new features or APIs that require documentation strategy updates.
 
 ## Quality Checks
 

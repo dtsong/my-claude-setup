@@ -1,7 +1,7 @@
 ---
-name: "Compliance Review"
+name: compliance-review
 department: "guardian"
-description: "GDPR/privacy compliance review for proposed features and data flows"
+description: "Use when reviewing proposed features and data flows against GDPR, CCPA, HIPAA, and other privacy regulations. Covers regulatory applicability, PII data flow mapping, consent mechanism assessment, retention policies, and right-to-deletion compliance. Do not use for data sensitivity tiering (use data-classification) or audit logging design (use audit-trail-design)."
 version: 1
 triggers:
   - "GDPR"
@@ -21,6 +21,9 @@ triggers:
 ## Purpose
 Assess proposed features and data flows against applicable privacy regulations, identify compliance gaps, and produce actionable remediation plans.
 
+## Scope Constraints
+Reads feature proposals, data flow descriptions, consent flows, and regulatory requirements for compliance analysis. Does not implement fixes, modify application code, or access production data stores.
+
 ## Inputs
 - Feature description or proposal being analyzed
 - Data elements collected, processed, or stored
@@ -28,7 +31,19 @@ Assess proposed features and data flows against applicable privacy regulations, 
 - Third-party integrations and data sharing arrangements
 - Target jurisdictions and applicable regulations
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Identify applicable regulations
+- [ ] Step 2: Map data flows for PII
+- [ ] Step 3: Assess consent mechanisms
+- [ ] Step 4: Evaluate data retention policies
+- [ ] Step 5: Check right-to-deletion compliance
+- [ ] Step 6: Design audit trail requirements
 
 ### Step 1: Identify Applicable Regulations
 Determine which regulatory frameworks apply based on user base, data types, and jurisdictions. Map each regulation to its key obligations:
@@ -86,6 +101,8 @@ Specify what must be logged for compliance evidence:
 - Breach-related events (detection, assessment, notification timeline)
 - Policy changes (consent text updates, retention policy modifications)
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ### Regulatory Applicability Matrix
@@ -117,6 +134,11 @@ Retention: [period per element]
 - **Mandatory**: Regulatory requirement — must fix before launch or risk enforcement action
 - **Strongly Recommended**: Best practice that significantly reduces risk — fix in current sprint
 - **Advisory**: Improvement that strengthens posture — schedule for next iteration
+
+## Handoff
+
+- Hand off audit logging requirements to audit-trail-design for detailed event catalog and schema design.
+- Hand off data sensitivity tiering to data-classification if PII elements need formal classification and handling requirements.
 
 ## Quality Checks
 - [ ] All applicable regulations are identified with specific articles/sections referenced

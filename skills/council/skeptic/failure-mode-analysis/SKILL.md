@@ -1,7 +1,7 @@
 ---
-name: "Failure Mode Analysis"
+name: failure-mode-analysis
 department: "skeptic"
-description: "Systematic failure scenario discovery and resilience mitigations"
+description: "Use when systematically identifying failure scenarios for proposed features and infrastructure changes. Covers component enumeration, failure mode discovery, cascade analysis, mitigation design, monitoring signals, and rollback planning. Do not use for security threat modeling (use threat-model) or input boundary testing (use edge-case-enumeration)."
 version: 1
 triggers:
   - "failure"
@@ -22,13 +22,21 @@ triggers:
 ## Purpose
 Systematically identify failure scenarios for proposed features and design mitigations that maintain system resilience.
 
+## Scope Constraints
+
+Analyzes system architecture, dependency graphs, and infrastructure configurations for failure scenarios. Does not modify infrastructure, execute chaos tests, or access production systems. Limited to design-time failure identification and mitigation planning.
+
 ## Inputs
 - Feature or infrastructure change being analyzed
 - System architecture (services, databases, APIs, third-party dependencies)
 - Current reliability requirements (SLA/SLO targets)
 - Existing monitoring and alerting setup
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: List System Components
 Enumerate all components involved: services, databases, APIs, third-party dependencies, caches, queues, CDNs, DNS, and any shared infrastructure.
@@ -59,6 +67,16 @@ For each failure mode, specify the metric, log pattern, or alert that detects it
 ### Step 6: Plan Rollback Strategy
 Define rollback approach: feature flags for instant disable, database rollback scripts, deployment rollback procedure, data cleanup if needed.
 
+### Progress Checklist
+- [ ] Step 1: System components listed
+- [ ] Step 2: Failure modes enumerated per component
+- [ ] Step 3: Cascade potential assessed
+- [ ] Step 4: Mitigations designed
+- [ ] Step 5: Monitoring signals defined
+- [ ] Step 6: Rollback strategy planned
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ### Failure Mode Table
@@ -82,6 +100,11 @@ Define rollback approach: feature flags for instant disable, database rollback s
 - [ ] Deployment rollback: [procedure]
 - [ ] Data cleanup: [steps if needed]
 - [ ] Communication: [who to notify]
+
+## Handoff
+
+- Hand off to threat-model if security vulnerabilities are discovered during failure analysis.
+- Hand off to operator/observability-design if monitoring gaps require comprehensive observability planning.
 
 ## Quality Checks
 - [ ] Every external dependency has failure analysis

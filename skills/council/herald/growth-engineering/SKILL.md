@@ -1,7 +1,7 @@
 ---
-name: "Growth Engineering"
+name: growth-engineering
 department: "herald"
-description: "Onboarding funnels, referral systems, and A/B test infrastructure"
+description: "Use when designing growth infrastructure including onboarding funnels, referral mechanics, A/B test instrumentation, and re-engagement loops. Covers activation metrics, funnel mapping, and experimentation design. Do not use for pricing or paywall architecture (use monetization-design) or product copy and naming (use messaging-strategy)."
 version: 1
 triggers:
   - "onboarding"
@@ -22,6 +22,10 @@ triggers:
 
 Design the growth engineering infrastructure for a product feature, including onboarding funnel optimization, referral system mechanics, and A/B test instrumentation.
 
+## Scope Constraints
+
+Analyzes product flows, conversion metrics, and experimentation architecture. Does not implement code, modify production systems, or access user data directly.
+
 ## Inputs
 
 - Product feature being designed
@@ -30,7 +34,19 @@ Design the growth engineering infrastructure for a product feature, including on
 - User acquisition channels
 - Existing analytics infrastructure
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Activation metric defined
+- [ ] Step 2: Onboarding funnel mapped
+- [ ] Step 3: Onboarding flow designed
+- [ ] Step 4: Referral mechanics designed
+- [ ] Step 5: A/B test infrastructure instrumented
+- [ ] Step 6: Re-engagement loops designed
 
 ### Step 1: Define the Activation Metric
 
@@ -42,7 +58,7 @@ Identify the "aha moment" — the action that correlates with long-term retentio
 ### Step 2: Map the Onboarding Funnel
 
 Trace the path from first visit to activation:
-- **Entry point → Sign up → First action → Aha moment → Habit formation**
+- **Entry point -> Sign up -> First action -> Aha moment -> Habit formation**
 - For each step, measure: conversion rate, drop-off reason, time spent
 - Identify the highest-drop-off step (this is your bottleneck)
 - Design interventions for the bottleneck step
@@ -62,7 +78,7 @@ If referral/viral growth is relevant:
 - **Incentive structure:** What does the referrer get? What does the invitee get?
 - **Share surface:** Where in the product does sharing feel natural (not forced)?
 - **Link mechanics:** Deep link to personalized onboarding, attribution tracking
-- **K-factor modeling:** Users × invites-per-user × conversion-rate = viral coefficient
+- **K-factor modeling:** Users x invites-per-user x conversion-rate = viral coefficient
 
 ### Step 5: Instrument A/B Test Infrastructure
 
@@ -79,6 +95,8 @@ For users who don't activate or who churn:
 - **Re-engagement channels:** Email, push notification, in-app message
 - **Timing:** How soon after drop-off, and how many touchpoints?
 - **Content:** What value reminder or incentive brings them back?
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what product is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
 
 ## Output Format
 
@@ -115,6 +133,11 @@ For users who don't activate or who churn:
 | No login 3 days | Email | Day 3 | Value reminder |
 | Incomplete onboarding | Push | Day 1 | Resume prompt |
 ```
+
+## Handoff
+
+- Hand off to monetization-design if paywall placement or pricing tier decisions surface during growth analysis.
+- Hand off to strategist/analytics-design if analytics instrumentation gaps are identified during funnel mapping.
 
 ## Quality Checks
 

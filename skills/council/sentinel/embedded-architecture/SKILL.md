@@ -1,7 +1,7 @@
 ---
-name: "Embedded Architecture"
+name: embedded-architecture
 department: "sentinel"
-description: "Firmware design patterns, RTOS selection, memory and power management"
+description: "Use when designing firmware architecture for embedded or IoT devices. Covers RTOS selection, memory layout, power state machine, task decomposition, and watchdog recovery design. Do not use for wireless protocol selection (use protocol-design) or fleet-scale device management (use fleet-management)."
 version: 1
 triggers:
   - "firmware"
@@ -22,6 +22,10 @@ triggers:
 
 Design the firmware architecture for an embedded/IoT device, including RTOS selection, memory layout, power state machine, and task decomposition.
 
+## Scope Constraints
+
+Analyzes hardware specifications, firmware requirements, and power budgets to produce architecture recommendations. Does not generate or compile firmware code. Does not interact with hardware debuggers or flash tools.
+
 ## Inputs
 
 - Target hardware (MCU, memory, peripherals, power source)
@@ -30,7 +34,11 @@ Design the firmware architecture for an embedded/IoT device, including RTOS sele
 - Real-time constraints (latency, update frequency)
 - Regulatory requirements (FCC, CE, safety)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: Hardware Capability Assessment
 
@@ -86,6 +94,17 @@ Plan for failure recovery:
 - **Crash recovery:** Save crash dump to flash, reboot, report crash on next connection
 - **Fail-safe defaults:** If firmware is corrupted, boot into recovery/OTA mode
 
+### Progress Checklist
+
+- [ ] Step 1: Hardware capability assessment complete
+- [ ] Step 2: RTOS or bare-metal selection justified
+- [ ] Step 3: Task architecture decomposed with priorities
+- [ ] Step 4: Memory layout planned with partitions
+- [ ] Step 5: Power state machine defined with transitions
+- [ ] Step 6: Watchdog and recovery strategy designed
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -138,14 +157,19 @@ Plan for failure recovery:
 |-------|-----------|-------------|--------------|
 | Active | 50mA | — | — |
 | Low Power | 5mA | <1ms | Any interrupt |
-| Sleep | 500μA | 5ms | BLE, GPIO, timer |
-| Deep Sleep | 10μA | 500ms | RTC alarm |
+| Sleep | 500uA | 5ms | BLE, GPIO, timer |
+| Deep Sleep | 10uA | 500ms | RTC alarm |
 
 ## Recovery Strategy
 - [Watchdog configuration]
 - [Crash dump approach]
 - [Fail-safe boot mode]
 ```
+
+## Handoff
+
+- Hand off to protocol-design if wireless protocol selection or stack design questions arise during firmware architecture work.
+- Hand off to fleet-management if OTA update strategy or device provisioning concerns surface during embedded design.
 
 ## Quality Checks
 

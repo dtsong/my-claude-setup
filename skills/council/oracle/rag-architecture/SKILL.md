@@ -1,7 +1,7 @@
 ---
-name: "RAG Architecture"
+name: rag-architecture
 department: "oracle"
-description: "Chunking strategies, embedding pipelines, vector DB selection, and retrieval optimization"
+description: "Use when designing a Retrieval-Augmented Generation pipeline. Covers document processing, chunking strategy, embedding pipeline, vector database selection, retrieval optimization, and context assembly. Do not use for prompt design (use prompt-engineering) or evaluation framework design (use ai-evaluation)."
 version: 1
 triggers:
   - "RAG"
@@ -22,6 +22,10 @@ triggers:
 
 Design a Retrieval-Augmented Generation pipeline, including document processing, chunking strategy, embedding pipeline, vector database selection, retrieval optimization, and context assembly.
 
+## Scope Constraints
+
+Reads source document metadata, query patterns, and infrastructure requirements for pipeline design analysis. Does not execute embedding operations, provision vector databases, or access production data directly.
+
 ## Inputs
 
 - Source documents (type, volume, update frequency)
@@ -30,7 +34,19 @@ Design a Retrieval-Augmented Generation pipeline, including document processing,
 - Latency requirements (real-time, near-real-time, batch)
 - Cost constraints (embedding costs, storage costs, query costs)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Analyze source documents
+- [ ] Step 2: Design chunking strategy
+- [ ] Step 3: Select embedding model
+- [ ] Step 4: Select vector database
+- [ ] Step 5: Design retrieval pipeline
+- [ ] Step 6: Design quality metrics
 
 ### Step 1: Analyze Source Documents
 
@@ -87,6 +103,8 @@ Define how to measure RAG quality:
 - **Generation metrics:** Faithfulness (does the answer stick to context?), relevance (does it answer the question?)
 - **End-to-end:** Answer accuracy on golden dataset, hallucination rate
 - **Monitoring:** Track retrieval scores over time, flag low-confidence answers
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
 
 ## Output Format
 
@@ -147,6 +165,11 @@ Query → [Preprocess] → [Embed] → [Vector Search (top 20)] → [Rerank (top
 | Generation | $X |
 | **Total** | **$X** |
 ```
+
+## Handoff
+
+- Hand off to prompt-engineering if retrieval pipeline design reveals system prompt optimization needs for context assembly.
+- Hand off to ai-evaluation if RAG quality metrics require a formal evaluation framework or golden dataset creation.
 
 ## Quality Checks
 

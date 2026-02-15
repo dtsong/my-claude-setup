@@ -1,7 +1,7 @@
 ---
-name: "AI Evaluation"
+name: ai-evaluation
 department: "oracle"
-description: "Golden dataset creation, automated scoring rubrics, and hallucination detection"
+description: "Use when designing an evaluation framework for AI/LLM features. Covers golden dataset creation, automated scoring rubrics, hallucination detection, regression testing infrastructure, and production monitoring. Do not use for prompt design (use prompt-engineering) or RAG pipeline architecture (use rag-architecture)."
 version: 1
 triggers:
   - "eval"
@@ -21,6 +21,10 @@ triggers:
 
 Design an evaluation framework for AI/LLM features, including golden dataset creation, automated scoring rubrics, hallucination detection, and regression testing infrastructure.
 
+## Scope Constraints
+
+Reads feature specifications, evaluation requirements, and existing infrastructure details for framework design. Does not execute model inference, create production datasets, or access live model endpoints directly.
+
 ## Inputs
 
 - AI feature being evaluated (what it does, expected behavior)
@@ -29,7 +33,19 @@ Design an evaluation framework for AI/LLM features, including golden dataset cre
 - Existing evaluation infrastructure (if any)
 - Production monitoring requirements
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Define evaluation dimensions
+- [ ] Step 2: Build golden dataset
+- [ ] Step 3: Design automated scoring
+- [ ] Step 4: Design hallucination detection
+- [ ] Step 5: Design regression testing
+- [ ] Step 6: Design production monitoring
 
 ### Step 1: Define Evaluation Dimensions
 
@@ -83,6 +99,8 @@ Plan ongoing quality monitoring:
 - **Feedback loop:** User thumbs-up/down, explicit corrections
 - **Drift detection:** Score distribution shift over time (model degradation, data drift)
 - **Alerting:** Score drops below threshold, hallucination rate spikes, latency increases
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
 
 ## Output Format
 
@@ -142,6 +160,11 @@ Plan ongoing quality monitoring:
 | Hallucination rate | 5% of requests | > [X%] |
 | User satisfaction | All feedback | < [X] thumbs-up rate |
 ```
+
+## Handoff
+
+- Hand off to prompt-engineering if evaluation results reveal prompt design deficiencies requiring structured redesign.
+- Hand off to rag-architecture if evaluation findings indicate retrieval quality or chunking strategy issues.
 
 ## Quality Checks
 

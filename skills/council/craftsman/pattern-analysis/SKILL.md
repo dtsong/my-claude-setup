@@ -1,7 +1,7 @@
 ---
-name: "Pattern Analysis"
+name: "pattern-analysis"
 department: "craftsman"
-description: "Audit codebase patterns and conventions, evaluate proposed changes for consistency"
+description: "Use when auditing codebase patterns or evaluating proposed changes for convention consistency. Covers file naming, component patterns, data fetching, state management, and type conventions. Do not use for test plan design or coverage targets (use testing-strategy)."
 version: 1
 triggers:
   - "pattern"
@@ -22,6 +22,12 @@ triggers:
 
 Audit the codebase for existing patterns and conventions, then evaluate proposed changes for consistency.
 
+## Scope Constraints
+
+- Covers file naming, directory structure, component patterns, data fetching, state management, error handling, and type conventions.
+- Does not cover test strategy design or coverage targets — hand off to testing-strategy.
+- Does not cover high-level architectural decisions or system decomposition — hand off to architect department.
+
 ## Inputs
 
 - Codebase or directory to audit
@@ -29,7 +35,11 @@ Audit the codebase for existing patterns and conventions, then evaluate proposed
 - Specific concerns or areas of focus (if any)
 - Known tech stack and framework conventions
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: Scan Structural Patterns
 
@@ -111,6 +121,13 @@ For each proposed change, check:
 - **Consider refactoring** (if new patterns are genuinely better):
   - Migrate pattern A to pattern B across [scope]
   - Estimated scope: [number of files affected]
+
+> **Compaction resilience:** If context is compacted mid-task, re-read this Procedure section and continue from the next incomplete step.
+
+## Handoff
+
+- If the pattern audit reveals test convention inconsistencies or missing test coverage, hand off to **testing-strategy** for a comprehensive test plan.
+- If patterns suggest deeper architectural issues such as unclear module boundaries or circular dependencies, hand off to **architect department** for structural analysis.
 
 ## Output Format
 

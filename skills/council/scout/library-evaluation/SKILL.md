@@ -1,7 +1,7 @@
 ---
-name: "Library Evaluation"
+name: "library-evaluation"
 department: "scout"
-description: "Structured library scoring with popularity, maintenance health, bundle impact, and API quality"
+description: "Use when adding new packages, choosing between dependency alternatives, or auditing existing libraries. Covers popularity metrics, maintenance health, bundle impact, API quality, and license compatibility with weighted scoring. Do not use for evaluating frameworks or platforms (use technology-radar) or comparing competing products (use competitive-analysis)."
 version: 1
 triggers:
   - "library"
@@ -19,6 +19,12 @@ triggers:
 
 Produce a structured, weighted comparison of candidate libraries to make dependency decisions based on evidence rather than familiarity or hype.
 
+## Scope Constraints
+
+- Evaluates individual libraries and packages, not full frameworks or platforms.
+- Focuses on technical fitness for the project, not market positioning or competitive landscape.
+- Does not perform security audits; flag security concerns for handoff to the appropriate skill.
+
 ## Inputs
 
 - The need or problem the library should solve
@@ -26,7 +32,11 @@ Produce a structured, weighted comparison of candidate libraries to make depende
 - Project constraints (bundle size budget, license requirements, framework compatibility)
 - Current tech stack and existing dependencies
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: Identify Candidate Libraries
 
@@ -81,6 +91,23 @@ For each candidate:
 - Score each criterion 1-5
 - Calculate weighted total
 - Flag any deal-breakers that override the score
+
+### Progress Checklist
+
+- [ ] Step 1: Candidates identified
+- [ ] Step 2: Popularity metrics evaluated
+- [ ] Step 3: Maintenance health assessed
+- [ ] Step 4: Bundle impact measured
+- [ ] Step 5: API quality reviewed
+- [ ] Step 6: License compatibility checked
+- [ ] Step 7: Weighted comparison scored
+
+> **Compaction resilience:** If context was compacted, re-read this SKILL.md and check the Progress Checklist for completed steps before continuing.
+
+## Handoff
+
+- If license or security concerns emerge, recommend loading skeptic/threat-model for threat analysis.
+- If the evaluation reveals broader framework or platform adoption questions, recommend loading scout/technology-radar.
 
 ## Output Format
 

@@ -1,7 +1,7 @@
 ---
-name: "Motion Design"
+name: motion-design
 department: "artisan"
-description: "Animation principles, micro-interaction specs, and reduced-motion support"
+description: "Use when designing the motion language for a feature or system. Covers transition specs, micro-interaction definitions, choreography principles, performance constraints, and reduced-motion alternatives. Do not use for visual design critique (use visual-audit) or design token architecture (use design-system-architecture)."
 version: 1
 triggers:
   - "animation"
@@ -21,6 +21,10 @@ triggers:
 
 Design the motion language for a feature or system, including transition specs, micro-interaction definitions, choreography principles, and reduced-motion alternatives.
 
+## Scope Constraints
+
+Reads existing animation code, CSS transitions, and motion specifications for analysis. Does not modify source files or execute animations. Does not generate production animation code directly.
+
 ## Inputs
 
 - Feature or component requiring motion design
@@ -28,12 +32,24 @@ Design the motion language for a feature or system, including transition specs, 
 - Performance constraints (target FPS, device capabilities)
 - Accessibility requirements (prefers-reduced-motion support)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Identify motion opportunities
+- [ ] Step 2: Define motion principles
+- [ ] Step 3: Spec each animation
+- [ ] Step 4: Design choreography
+- [ ] Step 5: Reduced-motion alternatives
+- [ ] Step 6: Performance considerations
 
 ### Step 1: Identify Motion Opportunities
 
 Catalog where motion adds meaning:
-- **State transitions:** Loading → loaded, collapsed → expanded, hidden → visible
+- **State transitions:** Loading to loaded, collapsed to expanded, hidden to visible
 - **Navigation transitions:** Screen push/pop, modal present/dismiss, tab switch
 - **Feedback responses:** Button press, form submission, error shake, success check
 - **Attention guidance:** New item appears, notification badge, scroll-to-target
@@ -80,6 +96,8 @@ Verify motion feasibility:
 - **will-change hints:** Add for elements that will animate
 - **60fps budget:** Each frame must complete in <16.6ms
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what feature is being designed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -118,6 +136,11 @@ Verify motion feasibility:
 | List stagger | Staggered slide-up | Single fade |
 | Loading | Spinner | Spinner (kept) |
 ```
+
+## Handoff
+
+- Hand off to visual-audit if motion design reveals visual hierarchy issues needing interface-level critique.
+- Hand off to design-system-architecture if animation tokens (durations, easings) need integration into the design token system.
 
 ## Quality Checks
 

@@ -1,7 +1,7 @@
 ---
-name: "Device Integration"
+name: device-integration
 department: "pathfinder"
-description: "Hardware API integration — sensors, permissions, biometrics"
+description: "Use when designing integration strategies for device hardware APIs including camera, sensors, biometrics, and Bluetooth. Covers permission flows, cross-platform abstraction evaluation, fallback behavior, and power impact analysis. Do not use for platform guideline compliance (use platform-audit) or navigation architecture (use navigation-design)."
 version: 1
 triggers:
   - "camera"
@@ -24,6 +24,10 @@ triggers:
 
 Design the integration strategy for device hardware APIs (camera, sensors, biometrics, Bluetooth, etc.), including permission flows, fallback behavior, and cross-platform abstraction.
 
+## Scope Constraints
+
+Reads hardware API documentation, framework references, and permission configurations for integration analysis. Does not modify files or execute code. Does not access device hardware, sensors, or biometric data directly.
+
 ## Inputs
 
 - Feature requirements involving hardware capabilities
@@ -31,7 +35,19 @@ Design the integration strategy for device hardware APIs (camera, sensors, biome
 - Cross-platform framework (if applicable)
 - Privacy requirements and data sensitivity
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Inventory required capabilities
+- [ ] Step 2: Map permission requirements
+- [ ] Step 3: Design permission flow
+- [ ] Step 4: Evaluate cross-platform abstraction
+- [ ] Step 5: Design fallback behavior
+- [ ] Step 6: Power and performance impact
 
 ### Step 1: Inventory Required Capabilities
 
@@ -87,6 +103,8 @@ Assess battery and performance cost:
 - Bluetooth scanning intervals and power modes
 - Camera session lifecycle management
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what feature is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -123,6 +141,11 @@ Assess battery and performance cost:
 |-----------|------------|------------|
 | GPS       | ~50mA      | Use significant-change monitoring |
 ```
+
+## Handoff
+
+- Hand off to platform-audit if permission flows or hardware usage need validation against iOS HIG or Material Design guidelines.
+- Hand off to navigation-design if hardware API interactions require navigation changes such as permission-gated screen flows.
 
 ## Quality Checks
 

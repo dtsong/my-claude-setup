@@ -1,7 +1,7 @@
 ---
-name: "ML Workflow"
+name: ml-workflow
 department: "alchemist"
-description: "Design ML workflows — experiment tracking, feature stores, model training, serving, monitoring for drift"
+description: "Use when designing end-to-end ML workflows. Covers experiment tracking, feature engineering and storage, model training pipelines, serving and deployment, A/B testing, and drift monitoring. Do not use for data warehouse schema design (use schema-evaluation) or ETL pipeline architecture (use pipeline-design)."
 version: 1
 triggers:
   - "ML"
@@ -25,6 +25,10 @@ triggers:
 
 Design end-to-end ML workflows covering experiment tracking, feature engineering and storage, model training pipelines, model serving and deployment, A/B testing for models, and monitoring for data and model drift. Produces a workflow architecture, tool selection rationale, and operational runbook.
 
+## Scope Constraints
+
+Reads ML code, configuration files, experiment logs, and infrastructure specs for analysis. Does not train models, execute experiments, or deploy to production.
+
 ## Inputs
 
 - ML problem type (classification, regression, ranking, recommendation, NLP, CV)
@@ -34,7 +38,20 @@ Design end-to-end ML workflows covering experiment tracking, feature engineering
 - Team size and ML maturity (first model vs established ML platform)
 - Infrastructure constraints (cloud provider, GPU availability, budget)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Define the ML problem
+- [ ] Step 2: Design feature engineering pipeline
+- [ ] Step 3: Design experiment tracking
+- [ ] Step 4: Design training pipeline
+- [ ] Step 5: Design model serving
+- [ ] Step 6: Design A/B testing
+- [ ] Step 7: Design monitoring and drift detection
 
 ### Step 1: Define the ML Problem Clearly
 
@@ -98,6 +115,13 @@ Plan ongoing model health monitoring:
 - **Operational monitoring:** Latency, error rates, throughput, GPU utilization for serving infrastructure.
 
 Define retraining policy: scheduled (weekly/monthly), triggered (drift detected), or continuous (online learning).
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
+## Handoff
+
+- Hand off to pipeline-design if the workflow reveals data ingestion or ETL orchestration needs.
+- Hand off to operator/deployment-plan if model serving surfaces deployment or infrastructure architecture concerns.
 
 ## Output Format
 
