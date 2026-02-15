@@ -1,0 +1,107 @@
+[
+  {
+    "id": "architect-pos-01",
+    "input": "Design the database schema for a multi-tenant SaaS billing system with subscription tiers and usage tracking",
+    "expected_skill": "schema-design",
+    "type": "positive",
+    "description": "Multi-tenant schema design with complex entity relationships"
+  },
+  {
+    "id": "architect-pos-02",
+    "input": "Define the REST API contract for our user management service including pagination, filtering, and error responses",
+    "expected_skill": "api-design",
+    "type": "positive",
+    "description": "REST API contract design with pagination and error handling"
+  },
+  {
+    "id": "architect-pos-03",
+    "input": "Analyze our monorepo structure and map the dependency graph between the 12 internal packages",
+    "expected_skill": "codebase-context",
+    "type": "positive",
+    "description": "Codebase architecture analysis and dependency mapping"
+  },
+  {
+    "id": "architect-pos-04",
+    "input": "Plan a zero-downtime migration from our single PostgreSQL database to a read-replica setup with connection pooling",
+    "expected_skill": "schema-design",
+    "type": "positive",
+    "description": "Database migration planning with zero-downtime requirement"
+  },
+  {
+    "id": "architect-pos-05",
+    "input": "Design the webhook delivery system API with retry logic, signature verification, and event type filtering",
+    "expected_skill": "api-design",
+    "type": "positive",
+    "description": "Webhook API design with delivery guarantees"
+  },
+  {
+    "id": "architect-pos-06",
+    "input": "Our Next.js app has server actions, tRPC routes, and REST endpoints all mixed together — map the current architecture and recommend a unified approach",
+    "expected_skill": "codebase-context",
+    "type": "positive",
+    "description": "Architecture assessment for inconsistent API layer"
+  },
+  {
+    "id": "architect-pos-07",
+    "input": "Add a polymorphic comments table that supports comments on posts, tasks, and documents with proper foreign key constraints",
+    "expected_skill": "schema-design",
+    "type": "positive",
+    "description": "Polymorphic association schema design"
+  },
+  {
+    "id": "architect-pos-08",
+    "input": "Design the RPC interface between our order service and inventory service with idempotency keys and circuit breaking",
+    "expected_skill": "api-design",
+    "type": "positive",
+    "description": "Service-to-service RPC contract with resilience patterns"
+  },
+  {
+    "id": "architect-pos-09",
+    "input": "We're seeing N+1 query problems on the team dashboard — review the data model and suggest denormalization or indexing strategies",
+    "expected_skill": "schema-design",
+    "type": "positive",
+    "description": "Query performance via schema and indexing review"
+  },
+  {
+    "id": "architect-pos-10",
+    "input": "Map the integration points between our Supabase backend, Stripe webhooks, and SendGrid email service to identify coupling risks",
+    "expected_skill": "codebase-context",
+    "type": "positive",
+    "description": "Integration architecture mapping across third-party services"
+  },
+  {
+    "id": "architect-neg-01",
+    "input": "Design the star schema for our analytics data warehouse with customer dimensions and order fact tables",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Warehouse schema design — should route to alchemist, not architect"
+  },
+  {
+    "id": "architect-neg-02",
+    "input": "Set up a Kubernetes deployment with horizontal pod autoscaling and health check probes",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Infrastructure deployment — should route to operator, not architect"
+  },
+  {
+    "id": "architect-neg-03",
+    "input": "Profile the slow API endpoint and optimize the response time from 2s to under 200ms",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Performance tuning — should route to tuner, not architect"
+  },
+  {
+    "id": "architect-neg-04",
+    "input": "Build a RAG pipeline that retrieves relevant documentation chunks and generates answers via Claude",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "AI/RAG pipeline — should route to oracle, not architect"
+  },
+  {
+    "id": "architect-neg-05",
+    "input": "Classify which fields in our user table contain PII and define encryption requirements per sensitivity tier",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Data classification for compliance — should route to guardian, not architect"
+  }
+]

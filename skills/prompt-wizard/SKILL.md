@@ -192,6 +192,28 @@ This wizard implements patterns from Claude Code best practices:
 
 ---
 
+## Output Format
+
+```
+## Task
+Fix login form to trim whitespace from email input.
+
+## Task Type
+Bug Fix
+
+## Context
+- Read `src/auth/login.ts` — authentication logic
+- Read `src/components/LoginForm.tsx` — form component
+
+## Requirements
+- Trim whitespace before validation
+- Show error for invalid email format
+
+## Verification
+- [ ] Existing tests pass
+- [ ] Manual test: login with spaces succeeds
+```
+
 ## Example Output
 
 ### Input (from interview)

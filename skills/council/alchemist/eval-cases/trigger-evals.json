@@ -1,0 +1,107 @@
+[
+  {
+    "id": "alchemist-pos-01",
+    "input": "Design a star schema for our e-commerce analytics warehouse with customer, product, and time dimensions around an order_facts table",
+    "expected_skill": "schema-evaluation",
+    "type": "positive",
+    "description": "Star schema design for analytics warehouse"
+  },
+  {
+    "id": "alchemist-pos-02",
+    "input": "Build an Airflow DAG that ingests daily CSV exports from Salesforce, validates schema, and loads into our Snowflake staging layer",
+    "expected_skill": "pipeline-design",
+    "type": "positive",
+    "description": "Batch ingestion pipeline with orchestration and validation"
+  },
+  {
+    "id": "alchemist-pos-03",
+    "input": "Set up an MLflow experiment tracking workflow for our churn prediction model with feature store integration",
+    "expected_skill": "ml-workflow",
+    "type": "positive",
+    "description": "ML experiment tracking with feature store"
+  },
+  {
+    "id": "alchemist-pos-04",
+    "input": "Our dim_customer table uses SCD Type 1 but we need historical tracking — migrate to SCD Type 2 with effective date ranges",
+    "expected_skill": "schema-evaluation",
+    "type": "positive",
+    "description": "SCD type migration for historical tracking"
+  },
+  {
+    "id": "alchemist-pos-05",
+    "input": "Design a streaming pipeline using Kafka Connect to capture CDC events from PostgreSQL and land them in our data lake as Parquet files",
+    "expected_skill": "pipeline-design",
+    "type": "positive",
+    "description": "CDC streaming pipeline with Kafka to data lake"
+  },
+  {
+    "id": "alchemist-pos-06",
+    "input": "Define the feature engineering pipeline for our recommendation model — temporal features, embedding lookups, and feature freshness SLAs",
+    "expected_skill": "ml-workflow",
+    "type": "positive",
+    "description": "Feature engineering pipeline with freshness requirements"
+  },
+  {
+    "id": "alchemist-pos-07",
+    "input": "Evaluate whether we should use a data vault or Kimball dimensional model for our enterprise data warehouse given multiple source systems",
+    "expected_skill": "schema-evaluation",
+    "type": "positive",
+    "description": "Warehouse modeling approach evaluation"
+  },
+  {
+    "id": "alchemist-pos-08",
+    "input": "Create a dbt project with staging, intermediate, and marts layers for our Stripe payment data with data quality tests at each layer",
+    "expected_skill": "pipeline-design",
+    "type": "positive",
+    "description": "dbt project design with medallion layers and quality tests"
+  },
+  {
+    "id": "alchemist-pos-09",
+    "input": "Design the model training pipeline with automated retraining triggers based on prediction drift detection",
+    "expected_skill": "ml-workflow",
+    "type": "positive",
+    "description": "Automated retraining pipeline with drift detection"
+  },
+  {
+    "id": "alchemist-pos-10",
+    "input": "Our Looker dashboards are slow because the underlying fact table has 500M rows with no partitioning — redesign the grain and partitioning strategy",
+    "expected_skill": "schema-evaluation",
+    "type": "positive",
+    "description": "Fact table optimization with grain and partitioning redesign"
+  },
+  {
+    "id": "alchemist-neg-01",
+    "input": "Design a normalized PostgreSQL schema for the user accounts, roles, and permissions in our SaaS application",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Application database schema — should route to architect, not alchemist"
+  },
+  {
+    "id": "alchemist-neg-02",
+    "input": "Review the AES-256 encryption of PII columns in our database at-rest encryption setup",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Encryption review — should route to cipher, not alchemist"
+  },
+  {
+    "id": "alchemist-neg-03",
+    "input": "Set up Prometheus and Grafana dashboards for monitoring our Kubernetes cluster resource usage",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Infrastructure monitoring — should route to operator, not alchemist"
+  },
+  {
+    "id": "alchemist-neg-04",
+    "input": "Build a fine-tuning pipeline for our GPT-based customer support chatbot using RLHF",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "LLM fine-tuning — should route to oracle, not alchemist"
+  },
+  {
+    "id": "alchemist-neg-05",
+    "input": "Optimize the React bundle size and reduce the Lighthouse performance score from 45 to 90",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Frontend performance — should route to tuner, not alchemist"
+  }
+]

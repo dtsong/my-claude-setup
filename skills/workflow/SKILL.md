@@ -30,6 +30,21 @@ Types: feat, fix, refactor, test, docs, chore
 - Make extremely concise. Sacrifice grammar for concision.
 - End with list of unresolved questions, if any.
 
+## Output Format
+
+```
+Plan: add email validation to signup form
+
+1. Write test for valid/invalid emails
+2. Add validateEmail() to src/lib/validators.ts
+3. Wire into SignupForm.tsx onSubmit
+4. Run tests, verify build
+
+Commit: feat: add email validation to signup form
+
+Open questions: none
+```
+
 ## Don'ts
 - Don't refactor unrelated code
 - Don't add dependencies without asking

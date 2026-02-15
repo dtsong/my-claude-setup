@@ -1,0 +1,107 @@
+[
+  {
+    "id": "guardian-pos-01",
+    "input": "Conduct a GDPR compliance review of our user registration flow — we collect email, phone, location, and employer data",
+    "expected_skill": "compliance-review",
+    "type": "positive",
+    "description": "GDPR compliance review for data collection flow"
+  },
+  {
+    "id": "guardian-pos-02",
+    "input": "Classify all fields in our customer database by sensitivity tier and define handling requirements for each tier",
+    "expected_skill": "data-classification",
+    "type": "positive",
+    "description": "Full data sensitivity classification with handling rules"
+  },
+  {
+    "id": "guardian-pos-03",
+    "input": "Design an immutable audit log system that tracks who accessed patient records, when, and for what purpose",
+    "expected_skill": "audit-trail-design",
+    "type": "positive",
+    "description": "Audit trail design for healthcare data access"
+  },
+  {
+    "id": "guardian-pos-04",
+    "input": "We're expanding to the EU market — review our cookie consent implementation and analytics tracking for GDPR Article 7 compliance",
+    "expected_skill": "compliance-review",
+    "type": "positive",
+    "description": "Cookie consent and tracking compliance for EU expansion"
+  },
+  {
+    "id": "guardian-pos-05",
+    "input": "Our app processes payment card data — identify which fields are PCI-DSS scope and define the required protection controls",
+    "expected_skill": "data-classification",
+    "type": "positive",
+    "description": "PCI-DSS scope identification and data classification"
+  },
+  {
+    "id": "guardian-pos-06",
+    "input": "Design the audit event catalog for our financial trading platform — every order placement, modification, and cancellation must be traceable",
+    "expected_skill": "audit-trail-design",
+    "type": "positive",
+    "description": "Financial audit event catalog design"
+  },
+  {
+    "id": "guardian-pos-07",
+    "input": "A user submitted a right-to-erasure request — map all places their data exists across our services, backups, and third-party integrations",
+    "expected_skill": "compliance-review",
+    "type": "positive",
+    "description": "Right-to-erasure data mapping across systems"
+  },
+  {
+    "id": "guardian-pos-08",
+    "input": "We're integrating a third-party analytics vendor that receives user behavioral data — what data processing agreement terms do we need?",
+    "expected_skill": "compliance-review",
+    "type": "positive",
+    "description": "Third-party DPA requirements for data transfer"
+  },
+  {
+    "id": "guardian-pos-09",
+    "input": "Define data retention schedules for our user accounts, transaction records, and support tickets across different jurisdictions",
+    "expected_skill": "audit-trail-design",
+    "type": "positive",
+    "description": "Multi-jurisdiction data retention policy design"
+  },
+  {
+    "id": "guardian-pos-10",
+    "input": "Our health tracking app collects heart rate and sleep data — determine if this qualifies as HIPAA PHI and what consent mechanisms we need",
+    "expected_skill": "data-classification",
+    "type": "positive",
+    "description": "HIPAA PHI classification for health data with consent requirements"
+  },
+  {
+    "id": "guardian-neg-01",
+    "input": "Create a STRIDE threat model for the new file upload feature identifying spoofing, tampering, and elevation risks",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Threat modeling — should route to skeptic, not guardian"
+  },
+  {
+    "id": "guardian-neg-02",
+    "input": "Review the seccomp filter and namespace isolation for containers running untrusted user code",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "OS-level isolation — should route to warden, not guardian"
+  },
+  {
+    "id": "guardian-neg-03",
+    "input": "Audit the TLS certificate chain and cipher suite configuration on our production load balancer",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Cryptographic configuration audit — should route to cipher, not guardian"
+  },
+  {
+    "id": "guardian-neg-04",
+    "input": "Design the entity-relationship model for our multi-tenant organization hierarchy with roles and permissions",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Application schema design — should route to architect, not guardian"
+  },
+  {
+    "id": "guardian-neg-05",
+    "input": "Set up data quality checks for null rates and schema drift in our Snowflake staging tables",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Data quality in pipeline context — should route to alchemist, not guardian"
+  }
+]

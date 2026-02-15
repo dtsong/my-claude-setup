@@ -20,6 +20,23 @@ tools: [Bash]
 
 Fast git operations for checking repository state.
 
+## Output Format
+
+```
+On branch feat/auth-flow (3 ahead of main)
+
+Staged:
+  M  src/auth/login.ts
+  A  src/auth/session.ts
+
+Unstaged:
+  M  src/components/Header.tsx
+
+Recent commits:
+  a1b2c3d  feat: add session management
+  d4e5f6a  fix: login redirect loop
+```
+
 ## Common Commands
 - `git status` - working tree state
 - `git diff` - unstaged changes
