@@ -1,7 +1,7 @@
 ---
-name: "Prompt Engineering"
+name: prompt-engineering
 department: "oracle"
-description: "System prompt design, chain-of-thought patterns, structured output, and prompt versioning"
+description: "Use when designing, evaluating, or versioning system prompts for LLM-powered features. Covers instruction structure, chain-of-thought patterns, output format constraints, few-shot example selection, and prompt versioning strategy. Do not use for RAG pipeline design (use rag-architecture) or AI evaluation frameworks (use ai-evaluation)."
 version: 1
 triggers:
   - "prompt"
@@ -20,6 +20,10 @@ triggers:
 
 Design, evaluate, and version system prompts for LLM-powered features, including instruction structure, chain-of-thought patterns, output format constraints, and few-shot example selection.
 
+## Scope Constraints
+
+Reads feature requirements, data format examples, and quality constraints for prompt design analysis. Does not execute LLM calls, modify production prompts, or access API keys directly.
+
 ## Inputs
 
 - Feature requirements (what the LLM should do)
@@ -28,7 +32,19 @@ Design, evaluate, and version system prompts for LLM-powered features, including
 - Quality requirements (accuracy, consistency, tone)
 - Cost and latency constraints (model selection guidance)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Define the task precisely
+- [ ] Step 2: Structure the system prompt
+- [ ] Step 3: Design chain-of-thought (if applicable)
+- [ ] Step 4: Design output format
+- [ ] Step 5: Select and craft few-shot examples
+- [ ] Step 6: Design versioning strategy
 
 ### Step 1: Define the Task Precisely
 
@@ -82,6 +98,8 @@ Plan for prompt evolution:
 - **Rollback:** How to revert to a previous version quickly
 - **Changelog:** What changed and why, linked to eval results
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -127,6 +145,11 @@ Plan for prompt evolution:
 **Rationale:** [Why this model for this task]
 **Cost estimate:** [$/1K requests]
 ```
+
+## Handoff
+
+- Hand off to rag-architecture if prompt design reveals retrieval or context assembly requirements.
+- Hand off to ai-evaluation if prompt versioning requires an evaluation framework or regression testing.
 
 ## Quality Checks
 

@@ -1,7 +1,7 @@
 ---
-name: "Cost Analysis"
+name: cost-analysis
 department: "operator"
-description: "Infrastructure cost modeling, scaling projections, and optimization recommendations"
+description: "Use when modeling infrastructure costs, projecting scaling expenses, or identifying optimization opportunities across cloud providers and third-party services. Covers per-unit cost estimation, growth milestone projections, and budget alerting setup. Do not use for deployment strategy design (use deployment-plan) or monitoring architecture (use observability-design)."
 version: 1
 triggers:
   - "cost"
@@ -20,6 +20,10 @@ triggers:
 
 Model infrastructure costs at current and projected scale, identify optimization opportunities, and establish cost monitoring with budget alerting. Produces a cost breakdown that enables informed architecture and scaling decisions.
 
+## Scope Constraints
+
+Reads infrastructure inventories, pricing documentation, and usage metrics for cost analysis. Does not modify files, provision resources, or access billing APIs or financial systems directly.
+
 ## Inputs
 
 - Current infrastructure inventory (services, providers, tiers)
@@ -27,7 +31,19 @@ Model infrastructure costs at current and projected scale, identify optimization
 - Growth projections or scaling targets
 - Budget constraints or cost reduction goals
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Inventory infrastructure components
+- [ ] Step 2: Estimate per-unit costs at current scale
+- [ ] Step 3: Model cost projections at scale
+- [ ] Step 4: Identify optimization opportunities
+- [ ] Step 5: Design cost monitoring and alerting
+- [ ] Step 6: Plan budget allocation and review cadence
 
 ### Step 1: Inventory Infrastructure Components
 
@@ -85,6 +101,8 @@ Define the financial process:
 - **Approval process**: Threshold for new infrastructure spending requiring approval
 - **Cost-benefit framework**: How to evaluate infrastructure investments against engineering time
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -125,6 +143,11 @@ Define the financial process:
 | 90% | $X | Escalate to lead |
 | 100% | $X | Freeze non-critical spending |
 ```
+
+## Handoff
+
+- Hand off to deployment-plan if cost optimization requires changes to deployment strategy (e.g., switching from blue-green to rolling to reduce compute overhead).
+- Hand off to observability-design if cost monitoring needs integration with existing alerting and dashboard infrastructure.
 
 ## Quality Checks
 

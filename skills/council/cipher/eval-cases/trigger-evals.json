@@ -1,0 +1,107 @@
+[
+  {
+    "id": "cipher-pos-01",
+    "input": "Review the AES-GCM encryption implementation in our payment service for key rotation issues",
+    "expected_skill": "crypto-review",
+    "type": "positive",
+    "description": "Symmetric encryption review with key management concern"
+  },
+  {
+    "id": "cipher-pos-02",
+    "input": "Analyze our TLS 1.3 handshake implementation for downgrade attack resistance",
+    "expected_skill": "protocol-analysis",
+    "type": "positive",
+    "description": "Protocol handshake analysis with downgrade concern"
+  },
+  {
+    "id": "cipher-pos-03",
+    "input": "Assess our system's readiness to migrate from ECDH to ML-KEM for key exchange",
+    "expected_skill": "pqc-readiness",
+    "type": "positive",
+    "description": "Post-quantum migration assessment for key exchange"
+  },
+  {
+    "id": "cipher-pos-04",
+    "input": "Check if our HMAC-SHA256 usage for API authentication tokens is secure",
+    "expected_skill": "crypto-review",
+    "type": "positive",
+    "description": "HMAC review for authentication context"
+  },
+  {
+    "id": "cipher-pos-05",
+    "input": "Review the SPDM protocol session binding in our device attestation flow",
+    "expected_skill": "protocol-analysis",
+    "type": "positive",
+    "description": "SPDM protocol with session binding focus"
+  },
+  {
+    "id": "cipher-pos-06",
+    "input": "Plan the transition from RSA-2048 signatures to Dilithium across our certificate infrastructure",
+    "expected_skill": "pqc-readiness",
+    "type": "positive",
+    "description": "PQC signature migration planning"
+  },
+  {
+    "id": "cipher-pos-07",
+    "input": "Verify the nonce generation and IV management in our ChaCha20-Poly1305 implementation",
+    "expected_skill": "crypto-review",
+    "type": "positive",
+    "description": "AEAD nonce/IV management review"
+  },
+  {
+    "id": "cipher-pos-08",
+    "input": "Check our mutual authentication protocol for replay attack vulnerabilities",
+    "expected_skill": "protocol-analysis",
+    "type": "positive",
+    "description": "Protocol replay attack analysis"
+  },
+  {
+    "id": "cipher-pos-09",
+    "input": "Evaluate whether our system can support hybrid classical+PQC key exchange for TLS",
+    "expected_skill": "pqc-readiness",
+    "type": "positive",
+    "description": "Hybrid mode readiness for TLS"
+  },
+  {
+    "id": "cipher-pos-10",
+    "input": "Audit the KDF parameters and PBKDF2 iteration counts in our password storage",
+    "expected_skill": "crypto-review",
+    "type": "positive",
+    "description": "KDF parameter review for password storage"
+  },
+  {
+    "id": "cipher-neg-01",
+    "input": "Design a REST API for user account management with pagination",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "API design task — should route to architect, not cipher"
+  },
+  {
+    "id": "cipher-neg-02",
+    "input": "Review the container isolation between our microservices",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Isolation review — should route to warden, not cipher"
+  },
+  {
+    "id": "cipher-neg-03",
+    "input": "Optimize the database query performance for our analytics dashboard",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Performance task — should route to tuner, not cipher"
+  },
+  {
+    "id": "cipher-neg-04",
+    "input": "Set up monitoring and alerting for our Kubernetes deployment",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "DevOps task — should route to operator, not cipher"
+  },
+  {
+    "id": "cipher-neg-05",
+    "input": "Review the RTL design of the access control module for FSM bypass",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "RTL review — should route to forge, not cipher"
+  }
+]

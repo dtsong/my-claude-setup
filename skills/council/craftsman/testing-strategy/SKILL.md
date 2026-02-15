@@ -1,7 +1,7 @@
 ---
-name: "Testing Strategy"
+name: "testing-strategy"
 department: "craftsman"
-description: "Design comprehensive test strategies with test pyramid coverage and quality gates"
+description: "Use when designing test plans for new features or improving existing test coverage. Covers test pyramid design, coverage targets, quality gates, and test file specifications. Do not use for codebase pattern audits or convention enforcement (use pattern-analysis)."
 version: 1
 triggers:
   - "test"
@@ -22,6 +22,12 @@ triggers:
 
 Design comprehensive test strategies with test pyramid coverage, test file structure, and quality gates.
 
+## Scope Constraints
+
+- Covers test plan design, pyramid layering, coverage targets, and CI quality gates.
+- Does not cover codebase pattern auditing or convention enforcement — hand off to pattern-analysis.
+- Does not cover architectural decisions about system boundaries — hand off to architect department.
+
 ## Inputs
 
 - Feature description and scope
@@ -30,7 +36,20 @@ Design comprehensive test strategies with test pyramid coverage, test file struc
 - Existing test conventions in the codebase
 - Coverage targets or requirements (if any)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+
+- [ ] Step 1: Audit existing test infrastructure
+- [ ] Step 2: Identify testable units
+- [ ] Step 3: Design test pyramid
+- [ ] Step 4: Write test specifications
+- [ ] Step 5: Define coverage targets
+- [ ] Step 6: Plan quality gates
 
 ### Step 1: Audit Existing Test Infrastructure
 
@@ -54,11 +73,11 @@ From the feature, extract:
 ### Step 3: Design the Test Pyramid
 
 ```
-        /  E2E  \        ← Few: critical user paths only (expensive, slow)
+        /  E2E  \        <- Few: critical user paths only (expensive, slow)
        /----------\
-      / Integration \    ← Some: cross-boundary, API contracts, DB queries
+      / Integration \    <- Some: cross-boundary, API contracts, DB queries
      /----------------\
-    /    Unit Tests     \ ← Many: fast, isolated, 80%+ of test count
+    /    Unit Tests     \ <- Many: fast, isolated, 80%+ of test count
    /--------------------\
 ```
 
@@ -106,6 +125,13 @@ For each test case:
   - [ ] No snapshot tests for logic (only for stable UI)
   - [ ] Mocks don't hide real bugs
   - [ ] Test descriptions read as documentation
+
+> **Compaction resilience:** If context is compacted mid-task, check the Progress Checklist for completed steps, re-read this Procedure section, and continue from the next incomplete step.
+
+## Handoff
+
+- If pattern inconsistencies are discovered in test file structure or naming conventions, hand off to **pattern-analysis** for a full codebase convention audit.
+- If test boundaries reveal unclear architectural boundaries or service decomposition issues, hand off to **architect department** for structural analysis.
 
 ## Output Format
 

@@ -1,7 +1,7 @@
 ---
-name: "Threat Model"
+name: threat-model
 department: "skeptic"
-description: "STRIDE-based security threat analysis for proposed features"
+description: "Use when applying STRIDE threat modeling to identify security risks in proposed features. Covers trust boundary mapping, data flow analysis, threat rating, mitigation proposals, and residual risk documentation. Do not use for failure scenario discovery (use failure-mode-analysis) or boundary value testing (use edge-case-enumeration)."
 version: 1
 triggers:
   - "security"
@@ -24,13 +24,21 @@ triggers:
 ## Purpose
 Apply STRIDE threat modeling to identify security risks in proposed features and produce mitigation recommendations.
 
+## Scope Constraints
+
+Analyzes feature proposals, architecture diagrams, and authentication/authorization flows for security threats. Does not execute exploits, modify code, or access production systems. Limited to design-time threat identification and mitigation planning.
+
 ## Inputs
 - Feature description or proposal being analyzed
 - System architecture context (services, data stores, external dependencies)
 - Authentication/authorization flows involved
 - Data sensitivity classification
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: Define Trust Boundaries
 Identify what's inside the trust boundary, what's outside, and where boundaries are crossed. Map out the system perimeter, internal service boundaries, and client/server boundaries.
@@ -61,6 +69,16 @@ For all High+ threats, propose specific, actionable mitigations. Not "add securi
 ### Step 6: Identify Residual Risks
 Document what remains after mitigations are applied. Note accepted risks and their justification.
 
+### Progress Checklist
+- [ ] Step 1: Trust boundaries defined
+- [ ] Step 2: Data flows enumerated
+- [ ] Step 3: STRIDE analysis applied per data flow
+- [ ] Step 4: Threats rated by likelihood x impact
+- [ ] Step 5: Mitigations proposed for High+ threats
+- [ ] Step 6: Residual risks documented
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ### Trust Boundary Diagram
@@ -85,6 +103,11 @@ Document what remains after mitigations are applied. Note accepted risks and the
 
 ### Residual Risk Summary
 - [Risk]: [Why it's accepted] — [Monitoring approach]
+
+## Handoff
+
+- Hand off to failure-mode-analysis if infrastructure failure scenarios are identified during threat modeling.
+- Hand off to architect/codebase-context if architectural vulnerabilities require structural remediation.
 
 ## Quality Checks
 - [ ] Every data flow has full STRIDE analysis

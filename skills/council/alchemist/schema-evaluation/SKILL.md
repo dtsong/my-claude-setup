@@ -1,7 +1,7 @@
 ---
-name: "Schema Evaluation"
+name: schema-evaluation
 department: "alchemist"
-description: "Evaluate and design data warehouse schemas — star, snowflake, data vault, OBT — with grain definition, SCD strategies, and normalization trade-offs"
+description: "Use when evaluating or designing data warehouse schemas for analytical workloads. Covers star schemas, snowflake schemas, data vault, OBT patterns, grain definition, SCD strategies, normalization trade-offs, and data contracts between producers and consumers. Do not use for pipeline orchestration or ETL flow design (use pipeline-design)."
 version: 1
 triggers:
   - "schema"
@@ -25,6 +25,10 @@ triggers:
 
 Evaluate and design data warehouse schemas for analytical workloads. Covers star schemas, snowflake schemas, data vault, and One Big Table (OBT) patterns. Assesses grain definition, normalization trade-offs, slowly changing dimension strategies, and data contracts between producers and consumers.
 
+## Scope Constraints
+
+Reads schema definitions, DDL, ERDs, data dictionaries, and query patterns for analysis. Does not execute queries, modify databases, or manage pipeline orchestration.
+
 ## Inputs
 
 - Business domain and key entities (e.g., e-commerce: orders, products, customers)
@@ -33,7 +37,20 @@ Evaluate and design data warehouse schemas for analytical workloads. Covers star
 - Source systems and their update patterns (CDC, full refresh, event stream)
 - Existing schema (if evaluating rather than designing from scratch)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Define the grain
+- [ ] Step 2: Identify facts and dimensions
+- [ ] Step 3: Choose a modeling approach
+- [ ] Step 4: Design SCD strategy
+- [ ] Step 5: Define data contracts
+- [ ] Step 6: Validate against query patterns
+- [ ] Step 7: Document the schema
 
 ### Step 1: Define the Grain
 
@@ -84,6 +101,13 @@ Test the proposed schema against the required analytical queries:
 ### Step 7: Document the Schema
 
 Produce a complete schema specification with DDL, relationships, and usage notes.
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
+## Handoff
+
+- Hand off to pipeline-design if the evaluation reveals ETL/ELT orchestration or data flow architecture needs.
+- Hand off to guardian/compliance-review if schema design surfaces data governance, PII handling, or regulatory compliance concerns.
 
 ## Output Format
 

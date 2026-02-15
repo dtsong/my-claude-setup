@@ -1,0 +1,107 @@
+[
+  {
+    "id": "forge-pos-01",
+    "input": "Analyze the L3 cache sharing across VMs for cross-tenant side-channel leakage",
+    "expected_skill": "microarch-analysis",
+    "type": "positive",
+    "description": "Cache timing side-channel analysis across VMs"
+  },
+  {
+    "id": "forge-pos-02",
+    "input": "Review the access control checker module in SystemVerilog for bypass paths",
+    "expected_skill": "rtl-security-review",
+    "type": "positive",
+    "description": "RTL access control gate review"
+  },
+  {
+    "id": "forge-pos-03",
+    "input": "Assess the power domain isolation between the crypto engine and untrusted peripherals",
+    "expected_skill": "physical-design-security",
+    "type": "positive",
+    "description": "Power domain security isolation review"
+  },
+  {
+    "id": "forge-pos-04",
+    "input": "Evaluate Spectre v2 exposure in the branch predictor shared across hyperthreads",
+    "expected_skill": "microarch-analysis",
+    "type": "positive",
+    "description": "Speculative execution attack vector assessment"
+  },
+  {
+    "id": "forge-pos-05",
+    "input": "Check the FSM encoding in the security state machine for fault injection resistance",
+    "expected_skill": "rtl-security-review",
+    "type": "positive",
+    "description": "FSM security encoding review"
+  },
+  {
+    "id": "forge-pos-06",
+    "input": "Review the clock domain crossing near the secure boot logic for metastability risks",
+    "expected_skill": "physical-design-security",
+    "type": "positive",
+    "description": "Clock domain crossing security review"
+  },
+  {
+    "id": "forge-pos-07",
+    "input": "Map the speculative execution window depth for transient execution attacks on this core design",
+    "expected_skill": "microarch-analysis",
+    "type": "positive",
+    "description": "Speculative window quantification"
+  },
+  {
+    "id": "forge-pos-08",
+    "input": "Audit the Verilog register access control for the debug interface lockout mechanism",
+    "expected_skill": "rtl-security-review",
+    "type": "positive",
+    "description": "RTL debug interface security review"
+  },
+  {
+    "id": "forge-pos-09",
+    "input": "Evaluate DPA resistance of the AES engine physical implementation",
+    "expected_skill": "physical-design-security",
+    "type": "positive",
+    "description": "Differential power analysis resistance assessment"
+  },
+  {
+    "id": "forge-pos-10",
+    "input": "Assess port contention covert channels between the attacker process and victim on the same core",
+    "expected_skill": "microarch-analysis",
+    "type": "positive",
+    "description": "Contention-based covert channel analysis"
+  },
+  {
+    "id": "forge-neg-01",
+    "input": "Review our AES-GCM encryption key rotation policy",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Crypto review — should route to cipher, not forge"
+  },
+  {
+    "id": "forge-neg-02",
+    "input": "Audit the kernel KASLR and SMAP configuration for our ARM64 deployment",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Kernel hardening — should route to warden, not forge"
+  },
+  {
+    "id": "forge-neg-03",
+    "input": "Write a TLA+ specification for the mutual exclusion protocol",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Formal spec — should route to prover, not forge"
+  },
+  {
+    "id": "forge-neg-04",
+    "input": "Design the database schema for our new user management system",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Schema design — should route to architect, not forge"
+  },
+  {
+    "id": "forge-neg-05",
+    "input": "Analyze the container namespace isolation for privilege escalation risks",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Isolation review — should route to warden, not forge"
+  }
+]

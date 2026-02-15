@@ -1,7 +1,7 @@
 ---
-name: "ADR Template"
+name: adr-template
 department: "chronicler"
-description: "Architecture Decision Record creation with options analysis and review triggers"
+description: "Use when recording significant architectural or design decisions that affect the system. Covers decision framing, context documentation, options analysis with tradeoff evaluation, consequence mapping, and review trigger definition. Do not use for documentation strategy planning (use documentation-plan) or release changelog creation (use changelog-design)."
 version: 1
 triggers:
   - "ADR"
@@ -19,6 +19,10 @@ triggers:
 
 Create Architecture Decision Records that capture the context, options considered, decision rationale, and consequences of significant technical choices. Produces structured ADR documents that serve as the institutional memory of the project.
 
+## Scope Constraints
+
+Reads existing ADRs, system context, and stakeholder input to produce a structured decision record. Does not implement the chosen option or modify system architecture.
+
 ## Inputs
 
 - The architectural question or decision being made
@@ -26,7 +30,20 @@ Create Architecture Decision Records that capture the context, options considere
 - Stakeholder concerns and priorities
 - Related previous decisions (existing ADRs)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Identify the decision to record
+- [ ] Step 2: Describe context
+- [ ] Step 3: Enumerate options considered
+- [ ] Step 4: Evaluate each option
+- [ ] Step 5: Document the decision
+- [ ] Step 6: Specify consequences
+- [ ] Step 7: Define review triggers
 
 ### Step 1: Identify the Decision to Record
 
@@ -87,6 +104,8 @@ Specify when this decision should be revisited:
 - **Team changes**: "Revisit if team grows beyond N engineers or splits into multiple teams"
 - **Time-based**: "Review after 12 months regardless of other triggers"
 - **Pain indicators**: "Revisit if [specific friction point] becomes a recurring issue"
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
 
 ## Output Format
 
@@ -149,6 +168,11 @@ We will [chosen approach].
 - [ ] [Team change]: Revisit if [condition]
 - [ ] [Time-based]: Review by [date]
 ```
+
+## Handoff
+
+- Hand off to documentation-plan if the ADR reveals gaps in project documentation strategy or onboarding materials.
+- Hand off to changelog-design if the decision introduces breaking changes that require consumer communication and migration guides.
 
 ## Quality Checks
 

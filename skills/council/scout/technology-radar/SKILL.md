@@ -1,7 +1,7 @@
 ---
-name: "Technology Radar"
+name: "technology-radar"
 department: "scout"
-description: "Technology maturity assessment with adoption recommendation and risk analysis"
+description: "Use when evaluating frameworks, tools, or platforms for adoption, migration, or stack decisions. Covers maturity assessment, ecosystem health, team readiness, migration cost, and long-term viability with radar quadrant placement. Do not use for comparing individual libraries (use library-evaluation) or analyzing competing products (use competitive-analysis)."
 version: 1
 triggers:
   - "framework"
@@ -20,6 +20,12 @@ triggers:
 
 Assess technology maturity and fitness for the project, placing it on a radar quadrant with a clear adoption recommendation and risk profile.
 
+## Scope Constraints
+
+- Evaluates technologies, frameworks, tools, and platforms — not individual utility libraries.
+- Focuses on maturity, ecosystem health, and project fit — not feature-by-feature product comparisons.
+- Does not produce migration implementation plans; flag migration complexity for handoff.
+
 ## Inputs
 
 - Technology, framework, or tool to evaluate
@@ -28,7 +34,11 @@ Assess technology maturity and fitness for the project, placing it on a radar qu
 - Team size, skills, and familiarity
 - Timeline and urgency
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: Categorize the Technology
 
@@ -92,6 +102,23 @@ Evidence for placement:
 - Deployment model compatibility (serverless, edge, traditional server)?
 - Scaling characteristics for expected load?
 - Security posture and vulnerability response history?
+
+### Progress Checklist
+
+- [ ] Step 1: Technology categorized
+- [ ] Step 2: Maturity level assessed
+- [ ] Step 3: Ecosystem health evaluated
+- [ ] Step 4: Team familiarity checked
+- [ ] Step 5: Migration cost estimated
+- [ ] Step 6: Long-term viability assessed
+- [ ] Step 7: Project alignment evaluated
+
+> **Compaction resilience:** If context was compacted, re-read this SKILL.md and check the Progress Checklist for completed steps before continuing.
+
+## Handoff
+
+- If migration complexity is significant, recommend loading operator/deployment-plan for migration planning.
+- If security posture concerns emerge, recommend loading skeptic/threat-model for threat analysis.
 
 ## Output Format
 

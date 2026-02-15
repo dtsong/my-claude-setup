@@ -1,7 +1,7 @@
 ---
-name: "Journey Mapping"
+name: journey-mapping
 department: "advocate"
-description: "Map complete user journeys with entry points, states, emotions, and decision points"
+description: "Use when mapping complete user journeys through multi-step flows, onboarding sequences, or feature workflows. Covers entry points, happy paths, alternate paths, error states, friction analysis, and delight opportunities. Do not use for individual component interaction specs (use interaction-design)."
 version: 1
 triggers:
   - "user flow"
@@ -21,6 +21,10 @@ triggers:
 
 Map complete user journeys with entry points, states, emotions, and decision points to ensure features serve real user needs.
 
+## Scope Constraints
+
+Reads feature descriptions, user stories, and existing screen documentation for journey analysis. Does not modify files or execute code. Does not access user analytics data or production systems directly.
+
 ## Inputs
 
 - Feature description or user story
@@ -28,7 +32,20 @@ Map complete user journeys with entry points, states, emotions, and decision poi
 - Existing screens/views if modifying an existing flow
 - Any known constraints (platform, auth requirements, data dependencies)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Identify the user persona
+- [ ] Step 2: Define entry points
+- [ ] Step 3: Map the happy path
+- [ ] Step 4: Map alternate paths
+- [ ] Step 5: Map error and edge paths
+- [ ] Step 6: Identify friction points
+- [ ] Step 7: Design delight moments
 
 ### Step 1: Identify the User Persona
 
@@ -92,6 +109,8 @@ Where can we exceed expectations:
 - Micro-interactions (subtle animations that confirm actions)
 - Shortcuts (auto-complete, recent items, suggested actions)
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what feature is being mapped, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ### Journey Map Table
@@ -113,6 +132,11 @@ Where can we exceed expectations:
 
 - **Friction:** [Step X] — [description of friction and mitigation]
 - **Delight:** [Step Y] — [description of delight opportunity]
+
+## Handoff
+
+- Hand off to interaction-design if component-level interaction specs are needed for UI elements identified in the journey.
+- Hand off to craftsman/pattern-analysis if implementation patterns are needed for the mapped user flows.
 
 ## Quality Checks
 

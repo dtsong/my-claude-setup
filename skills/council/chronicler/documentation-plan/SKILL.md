@@ -1,7 +1,7 @@
 ---
-name: "Documentation Plan"
+name: documentation-plan
 department: "chronicler"
-description: "Documentation architecture with audience mapping, onboarding paths, and maintenance schedules"
+description: "Use when designing documentation architecture for a project or team. Covers audience mapping, Diataxis framework classification, onboarding path design, format and location decisions, documentation testing, and maintenance scheduling. Do not use for recording individual architecture decisions (use adr-template) or creating versioned changelogs (use changelog-design)."
 version: 1
 triggers:
   - "documentation"
@@ -20,6 +20,10 @@ triggers:
 
 Design a comprehensive documentation architecture that maps content types to audiences, defines onboarding paths, and establishes maintenance schedules. Produces a documentation strategy that scales with the team and codebase.
 
+## Scope Constraints
+
+Reads existing documentation, project structure, and team context to produce a documentation strategy. Does not create or modify actual documentation files or deploy documentation infrastructure.
+
 ## Inputs
 
 - Project type and scope (library, application, platform, API)
@@ -27,7 +31,20 @@ Design a comprehensive documentation architecture that maps content types to aud
 - Current documentation state (what exists, what's missing, what's stale)
 - Team size and growth expectations
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Identify documentation audiences
+- [ ] Step 2: Map documentation types needed
+- [ ] Step 3: Define documentation structure
+- [ ] Step 4: Specify format and location
+- [ ] Step 5: Plan developer onboarding flow
+- [ ] Step 6: Design documentation testing
+- [ ] Step 7: Define maintenance schedule
 
 ### Step 1: Identify Documentation Audiences
 
@@ -94,6 +111,8 @@ Establish ongoing documentation health:
 - **Deprecation process**: How to mark docs as outdated, redirect to replacements, eventually remove
 - **Contribution guidelines**: How to write docs, style guide, review process for doc PRs
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -144,6 +163,11 @@ Month 1: [Deep-dive] → [Cross-cutting concerns] → [Doc contribution]
 | API Reference | [name] | [name] | [date] |
 | ... | ... | ... | ... |
 ```
+
+## Handoff
+
+- Hand off to adr-template if the documentation plan reveals architectural decisions that need formal recording.
+- Hand off to changelog-design if the documentation audit uncovers version upgrade communication gaps or missing migration guides.
 
 ## Quality Checks
 

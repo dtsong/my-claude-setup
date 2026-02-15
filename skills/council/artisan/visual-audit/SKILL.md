@@ -1,7 +1,7 @@
 ---
-name: "Visual Audit"
+name: visual-audit
 department: "artisan"
-description: "Structured visual design critique with specific actionable feedback"
+description: "Use when performing structured visual design critique of an interface. Covers hierarchy, contrast, spacing, typography, color, and component consistency with actionable fix recommendations. Do not use for design token architecture (use design-system-architecture) or animation specifications (use motion-design)."
 version: 1
 triggers:
   - "visual"
@@ -21,6 +21,10 @@ triggers:
 
 Perform a structured visual design critique of an interface, producing specific actionable feedback on hierarchy, contrast, spacing, typography, color, and overall coherence.
 
+## Scope Constraints
+
+Reads screenshots, mockups, or live implementation for visual analysis. Does not modify source code or design files. Does not generate new designs or components.
+
 ## Inputs
 
 - Screenshots, mockups, or live implementation of the interface
@@ -28,7 +32,19 @@ Perform a structured visual design critique of an interface, producing specific 
 - Target context (marketing page, app dashboard, settings screen, etc.)
 - Accessibility requirements (WCAG AA, AAA, or custom)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Squint test
+- [ ] Step 2: Hierarchy audit
+- [ ] Step 3: Typography audit
+- [ ] Step 4: Color and contrast audit
+- [ ] Step 5: Spacing and alignment audit
+- [ ] Step 6: Component consistency audit
 
 ### Step 1: Squint Test
 
@@ -80,6 +96,8 @@ Check for visual consistency:
 - **Icon style:** Icons are from one set (outlined, filled, or mixed intentionally)
 - **Form elements:** Inputs, selects, and textareas share a visual language
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what interface is being audited, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -116,6 +134,11 @@ Check for visual consistency:
 2. [Second quick win]
 3. [Third quick win]
 ```
+
+## Handoff
+
+- Hand off to design-system-architecture if audit reveals inconsistent or missing design tokens across the interface.
+- Hand off to motion-design if audit identifies state transitions or feedback interactions lacking animation specs.
 
 ## Quality Checks
 

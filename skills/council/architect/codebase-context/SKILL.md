@@ -1,7 +1,7 @@
 ---
-name: "Codebase Context"
+name: "codebase-context"
 department: "architect"
-description: "Deep infrastructure analysis and context briefing for all council agents"
+description: "Use when analyzing an existing codebase for architecture, tech stack, conventions, and infrastructure. Covers project structure mapping, data model discovery, integration point cataloging, and constraint identification. Do not use for schema changes (use schema-design) or API contract definition (use api-design)."
 version: 1
 triggers:
   - "codebase"
@@ -18,6 +18,12 @@ triggers:
 
 Analyze the existing codebase and produce a comprehensive context briefing covering architecture, data model, patterns, and constraints. This output becomes shared context for ALL council agents — it is the foundation every other skill builds on.
 
+## Scope Constraints
+
+- Produces read-only analysis; does not modify any project files.
+- Covers architecture, data model, conventions, infrastructure, and integrations.
+- Does not design new schemas or API contracts — hand off to schema-design or api-design.
+
 ## Inputs
 
 - Project root directory ($WORKSPACE)
@@ -25,7 +31,21 @@ Analyze the existing codebase and produce a comprehensive context briefing cover
 - Package manifests (package.json, pyproject.toml, Cargo.toml, etc.)
 - Configuration files (tsconfig.json, next.config.js, .env.example, etc.)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+<!-- Track completion across compaction boundaries -->
+- [ ] Step 1: Read Project Configuration
+- [ ] Step 2: Map Directory Structure
+- [ ] Step 3: Identify Core Architectural Patterns
+- [ ] Step 4: Map the Existing Data Model
+- [ ] Step 5: Catalog Key Conventions
+- [ ] Step 6: Note Infrastructure Constraints
+- [ ] Step 7: Identify Integration Points
 
 ### Step 1: Read Project Configuration
 
@@ -54,6 +74,13 @@ Document hosting platform, database type and version, auth provider, CDN configu
 ### Step 7: Identify Integration Points
 
 Catalog external APIs, webhooks, third-party services, and any inter-service communication patterns. Note authentication methods for each integration.
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
+## Handoff
+
+- If the analysis reveals schema issues, inconsistencies, or new entity requirements, recommend loading architect/schema-design.
+- If the analysis reveals API surface gaps, endpoint inconsistencies, or missing contracts, recommend loading architect/api-design.
 
 ## Output Format
 

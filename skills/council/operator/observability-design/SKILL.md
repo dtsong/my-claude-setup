@@ -1,7 +1,7 @@
 ---
-name: "Observability Design"
+name: observability-design
 department: "operator"
-description: "Monitoring, alerting, and logging strategy with SLI/SLO definitions"
+description: "Use when designing monitoring, alerting, logging, tracing, and SLI/SLO strategies for services or systems. Covers metric collection, structured logging, distributed tracing, dashboard design, and error budget management. Do not use for deployment pipeline design (use deployment-plan) or infrastructure cost modeling (use cost-analysis)."
 version: 1
 triggers:
   - "monitoring"
@@ -21,6 +21,10 @@ triggers:
 
 Design a comprehensive observability strategy covering metrics, logging, tracing, alerting, and SLI/SLO definitions. Produces a monitoring architecture that enables rapid incident detection, diagnosis, and resolution.
 
+## Scope Constraints
+
+Reads system architecture documentation, existing monitoring configurations, and service definitions for observability analysis. Does not modify files, deploy monitoring agents, or access production telemetry data directly.
+
 ## Inputs
 
 - System architecture (services, databases, APIs, third-party dependencies)
@@ -28,7 +32,20 @@ Design a comprehensive observability strategy covering metrics, logging, tracing
 - Reliability requirements (SLA commitments, uptime targets)
 - Team structure (on-call rotation, escalation paths)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Define observability pillars
+- [ ] Step 2: Design metric collection
+- [ ] Step 3: Define alert thresholds and escalation
+- [ ] Step 4: Plan structured logging
+- [ ] Step 5: Design distributed tracing
+- [ ] Step 6: Specify dashboard requirements
+- [ ] Step 7: Define SLIs/SLOs
 
 ### Step 1: Define Observability Pillars
 
@@ -93,6 +110,8 @@ Establish reliability targets:
 - **Error budgets**: Calculate error budget from SLO, define burn rate alerts (fast burn, slow burn)
 - **SLO review cadence**: Weekly error budget check, monthly SLO review, quarterly target adjustment
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -156,6 +175,11 @@ Establish reliability targets:
 | SLO Status | Engineering | Error budget, burn rate, compliance | 5m |
 | Business Metrics | Product | Adoption, conversions, revenue | 1h |
 ```
+
+## Handoff
+
+- Hand off to deployment-plan if observability findings reveal deployment pipeline gaps (e.g., missing health checks, no canary metrics integration).
+- Hand off to cost-analysis if telemetry storage, metric cardinality, or log retention volumes raise infrastructure cost concerns.
 
 ## Quality Checks
 

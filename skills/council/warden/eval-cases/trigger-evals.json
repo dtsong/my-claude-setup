@@ -1,0 +1,107 @@
+[
+  {
+    "id": "warden-pos-01",
+    "input": "Review the container namespace isolation between our multi-tenant services",
+    "expected_skill": "isolation-review",
+    "type": "positive",
+    "description": "Container namespace isolation review"
+  },
+  {
+    "id": "warden-pos-02",
+    "input": "Audit the kernel KASLR and stack canary configuration for our ARM64 production servers",
+    "expected_skill": "kernel-hardening",
+    "type": "positive",
+    "description": "Kernel memory protection audit"
+  },
+  {
+    "id": "warden-pos-03",
+    "input": "Verify that IOMMU is properly configured for all DMA-capable devices in our server fleet",
+    "expected_skill": "hw-sw-boundary",
+    "type": "positive",
+    "description": "IOMMU DMA protection verification"
+  },
+  {
+    "id": "warden-pos-04",
+    "input": "Check the seccomp-bpf filter for our sandboxed renderer process",
+    "expected_skill": "isolation-review",
+    "type": "positive",
+    "description": "Seccomp filter review for sandbox"
+  },
+  {
+    "id": "warden-pos-05",
+    "input": "Review the syscall surface available to unprivileged users on our hardened kernel",
+    "expected_skill": "kernel-hardening",
+    "type": "positive",
+    "description": "Syscall surface reduction audit"
+  },
+  {
+    "id": "warden-pos-06",
+    "input": "Check if MTE and PAC are enabled in the kernel for our ARM64 deployment",
+    "expected_skill": "hw-sw-boundary",
+    "type": "positive",
+    "description": "ARM hardware security feature enablement check"
+  },
+  {
+    "id": "warden-pos-07",
+    "input": "Enumerate all crossing points between our TEE enclave and the untrusted OS",
+    "expected_skill": "isolation-review",
+    "type": "positive",
+    "description": "TEE boundary crossing point enumeration"
+  },
+  {
+    "id": "warden-pos-08",
+    "input": "Verify the secure boot chain from UEFI through signed kernel to dm-verity rootfs",
+    "expected_skill": "kernel-hardening",
+    "type": "positive",
+    "description": "Boot chain integrity verification"
+  },
+  {
+    "id": "warden-pos-09",
+    "input": "Assess whether the SMMU configuration prevents DMA attacks from the GPU",
+    "expected_skill": "hw-sw-boundary",
+    "type": "positive",
+    "description": "SMMU GPU DMA protection assessment"
+  },
+  {
+    "id": "warden-pos-10",
+    "input": "Test for container escape paths through mounted Docker socket and host PID namespace",
+    "expected_skill": "isolation-review",
+    "type": "positive",
+    "description": "Container escape bypass testing"
+  },
+  {
+    "id": "warden-neg-01",
+    "input": "Review the AES key rotation mechanism in our encryption service",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Crypto review — should route to cipher, not warden"
+  },
+  {
+    "id": "warden-neg-02",
+    "input": "Analyze the Verilog FSM for the memory controller access control logic",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "RTL review — should route to forge, not warden"
+  },
+  {
+    "id": "warden-neg-03",
+    "input": "Write a TLA+ specification for the distributed consensus protocol",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Formal spec — should route to prover, not warden"
+  },
+  {
+    "id": "warden-neg-04",
+    "input": "Design the caching strategy for our API gateway",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Caching strategy — should route to tuner, not warden"
+  },
+  {
+    "id": "warden-neg-05",
+    "input": "Create a threat model for the new payment processing feature",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Threat model — should route to skeptic, not warden"
+  }
+]

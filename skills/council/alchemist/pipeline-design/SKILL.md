@@ -1,7 +1,7 @@
 ---
-name: "Pipeline Design"
+name: pipeline-design
 department: "alchemist"
-description: "Design data pipelines — ETL vs ELT, orchestration, batch vs streaming, idempotency, data quality, lineage"
+description: "Use when designing data pipelines for moving, transforming, and delivering data. Covers ETL vs ELT pattern selection, orchestration tool choice, batch vs streaming trade-offs, idempotency guarantees, data quality checkpoints, and lineage tracking. Do not use for schema modeling (use schema-evaluation) or ML workflows (use ml-workflow)."
 version: 1
 triggers:
   - "pipeline"
@@ -27,6 +27,10 @@ triggers:
 
 Design data pipelines that reliably move, transform, and deliver data from source systems to consumption layers. Covers ETL vs ELT pattern selection, orchestration tool choice, batch vs streaming trade-offs, idempotency guarantees, data quality checkpoints, and lineage tracking.
 
+## Scope Constraints
+
+Reads pipeline configurations, DAG definitions, orchestration manifests, and infrastructure specs for analysis. Does not execute pipelines, deploy infrastructure, or modify production configurations.
+
 ## Inputs
 
 - Source systems and their data formats (databases, APIs, event streams, files)
@@ -36,7 +40,20 @@ Design data pipelines that reliably move, transform, and deliver data from sourc
 - Existing infrastructure (cloud provider, orchestration tools, current pipelines)
 - Team size and expertise (SQL-heavy? Python-heavy? Platform team available?)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Map source-to-destination flows
+- [ ] Step 2: Choose ETL vs ELT pattern
+- [ ] Step 3: Select batch vs streaming
+- [ ] Step 4: Design for idempotency
+- [ ] Step 5: Define data quality checkpoints
+- [ ] Step 6: Plan lineage and observability
+- [ ] Step 7: Select orchestration tool
 
 ### Step 1: Map Source-to-Destination Flows
 
@@ -101,6 +118,13 @@ Choose the orchestration layer based on team and requirements:
 - **Prefect** — Python-native, dynamic workflows, lightweight. Best for Python-heavy teams with simpler orchestration needs.
 
 Document the choice, alternatives considered, and migration path if the team outgrows the tool.
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
+## Handoff
+
+- Hand off to schema-evaluation if the pipeline design reveals data modeling or warehouse schema concerns.
+- Hand off to warden/incident-analysis if pipeline failures indicate systemic reliability or incident response needs.
 
 ## Output Format
 

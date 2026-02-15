@@ -1,7 +1,7 @@
 ---
-name: "Interaction Design"
+name: interaction-design
 department: "advocate"
-description: "Design component interaction specs with all visual states, transitions, and accessibility requirements"
+description: "Use when designing component interaction specs with visual states, transitions, and accessibility requirements. Covers state matrices, responsive behavior, ARIA compliance, and content constraints. Do not use for multi-step user journey mapping (use journey-mapping)."
 version: 1
 triggers:
   - "component"
@@ -26,6 +26,10 @@ triggers:
 
 Design component interaction specs with all visual states, transitions, and accessibility requirements.
 
+## Scope Constraints
+
+Reads component requirements, design system documentation, and platform guidelines for interaction analysis. Does not modify files or execute code. Does not access running applications or browser environments directly.
+
 ## Inputs
 
 - Component name and purpose
@@ -34,7 +38,19 @@ Design component interaction specs with all visual states, transitions, and acce
 - Existing design system or component library (if any)
 - Platform constraints (web, mobile, both)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Define component purpose
+- [ ] Step 2: Enumerate all visual states
+- [ ] Step 3: Define transitions between states
+- [ ] Step 4: Specify accessibility requirements
+- [ ] Step 5: Define responsive behavior
+- [ ] Step 6: Specify content constraints
 
 ### Step 1: Define Component Purpose
 
@@ -108,6 +124,8 @@ For each state change:
 - Internationalization considerations (text expansion 30-50% for translations)
 - Number formatting, date formatting
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what component is being designed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ### State Matrix
@@ -163,6 +181,11 @@ Slots:
 - children (content)
 - ...
 ```
+
+## Handoff
+
+- Hand off to journey-mapping if user flow analysis is needed for the broader context where the component appears.
+- Hand off to craftsman/pattern-analysis if code implementation patterns are needed for the designed component.
 
 ## Quality Checks
 

@@ -1,7 +1,7 @@
 ---
-name: "Fleet Management"
+name: fleet-management
 department: "sentinel"
-description: "Device provisioning, OTA update strategy, and fleet-scale monitoring"
+description: "Use when designing fleet management infrastructure for IoT device fleets. Covers device provisioning, OTA firmware update strategy, telemetry pipeline design, fleet monitoring, remote management, and scaling projections. Do not use for firmware architecture (use embedded-architecture) or wireless protocol selection (use protocol-design)."
 version: 1
 triggers:
   - "OTA"
@@ -21,6 +21,10 @@ triggers:
 
 Design the fleet management infrastructure for an IoT device fleet, including device provisioning, OTA firmware update strategy, telemetry aggregation, and fleet-scale monitoring.
 
+## Scope Constraints
+
+Produces fleet architecture recommendations covering provisioning, OTA, telemetry, and monitoring. Does not provision actual devices, deploy cloud infrastructure, or manage live certificates. Does not execute firmware builds or signing operations.
+
 ## Inputs
 
 - Expected fleet size (current and projected)
@@ -29,7 +33,11 @@ Design the fleet management infrastructure for an IoT device fleet, including de
 - Monitoring and alerting requirements
 - Regulatory requirements (safety-critical updates, rollback mandates)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: Design Device Provisioning
 
@@ -83,6 +91,17 @@ Design for fleet growth:
 - **Database design:** Time-series storage for telemetry, device registry scaling
 - **Cost modeling:** Per-device cloud cost at 1K, 10K, 100K, 1M devices
 
+### Progress Checklist
+
+- [ ] Step 1: Device provisioning flow designed
+- [ ] Step 2: OTA update system with rollback and staged rollout
+- [ ] Step 3: Telemetry pipeline with aggregation and retention
+- [ ] Step 4: Monitoring dashboards and alert thresholds defined
+- [ ] Step 5: Remote management operations and access control
+- [ ] Step 6: Scaling strategy with cost projections
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what fleet is being designed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -135,6 +154,11 @@ Design for fleet growth:
 | 10,000 | $X | MQTT connections |
 | 100,000 | $X | Telemetry storage |
 ```
+
+## Handoff
+
+- Hand off to embedded-architecture if firmware-level OTA partition or recovery mode design decisions arise during fleet planning.
+- Hand off to operator/observability-design if cloud-side observability infrastructure needs deeper design beyond fleet dashboards.
 
 ## Quality Checks
 

@@ -1,7 +1,7 @@
 ---
-name: "Edge Case Enumeration"
+name: edge-case-enumeration
 department: "skeptic"
-description: "Systematic edge case discovery using structured enumeration techniques"
+description: "Use when systematically discovering edge cases for proposed features using structured enumeration techniques. Covers input boundary analysis, state combinations, concurrency scenarios, temporal edge cases, and permission edge cases. Do not use for security threat analysis (use threat-model) or infrastructure failure discovery (use failure-mode-analysis)."
 version: 1
 triggers:
   - "edge case"
@@ -21,13 +21,21 @@ triggers:
 ## Purpose
 Systematically discover edge cases for proposed features using structured enumeration techniques.
 
+## Scope Constraints
+
+Analyzes feature specifications, input schemas, and state machines for edge case discovery. Does not modify code, execute tests, or access live systems. Limited to design-time enumeration of edge cases and expected behaviors.
+
 ## Inputs
 - Feature specification or user story being analyzed
 - Input fields and their expected types/formats
 - State transitions and lifecycle of the feature
 - User roles and permission model
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
 
 ### Step 1: Identify Input Boundaries
 For each input: document the type, valid range, length constraints, format requirements, and whether it's required or optional.
@@ -61,6 +69,16 @@ For each input, enumerate:
 - **Role transitions**: Admin demoted to user during active session, role upgrade without re-login
 - **Shared resources with mixed permissions**: Viewer accessing editor's link, public/private toggle
 - **Deleted/suspended user data**: References to deleted users, suspended account data visibility, orphaned content
+
+### Progress Checklist
+- [ ] Step 1: Input boundaries identified
+- [ ] Step 2: Boundary value analysis applied
+- [ ] Step 3: State combinations enumerated
+- [ ] Step 4: Concurrent scenarios analyzed
+- [ ] Step 5: Temporal edge cases considered
+- [ ] Step 6: Permission edge cases mapped
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what feature is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
 
 ## Output Format
 
@@ -97,6 +115,11 @@ For each input, enumerate:
 - **P0**: Will break in production, must handle before launch
 - **P1**: Likely to occur, causes poor UX or data issues
 - **P2**: Unlikely but possible, handle if time permits
+
+## Handoff
+
+- Hand off to threat-model if security vulnerabilities are discovered during edge case analysis.
+- Hand off to prover/formal-spec if state machine edge cases require formal verification.
 
 ## Quality Checks
 - [ ] Every input field has boundary value analysis

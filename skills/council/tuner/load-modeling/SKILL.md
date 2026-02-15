@@ -1,7 +1,7 @@
 ---
-name: "Load Modeling"
+name: "load-modeling"
 department: "tuner"
-description: "Capacity planning with traffic projections, scaling triggers, and cost-at-scale modeling"
+description: "Use when planning capacity or projecting infrastructure needs under growth. Covers traffic modeling, endpoint heat maps, scaling triggers, benchmark design, and cost-at-scale estimates. Do not use for runtime bottleneck profiling (use performance-audit) or cache architecture design (use caching-strategy)."
 version: 1
 triggers:
   - "load"
@@ -20,6 +20,11 @@ triggers:
 
 Model application load patterns and plan capacity to handle current and projected traffic. Produces a load model with growth projections, scaling trigger definitions, a benchmark plan for critical paths, and cost-at-scale estimates.
 
+## Scope Constraints
+
+- Reads: Traffic logs, APM dashboards, infrastructure metrics, billing data, SLA documents, architecture diagrams.
+- Cannot: Profile rendering performance or measure Core Web Vitals (use performance-audit). Cannot design cache hierarchies or TTL policies (use caching-strategy). Cannot provision or deploy infrastructure changes.
+
 ## Inputs
 
 - Current traffic data (requests/sec, concurrent users, peak vs average)
@@ -28,7 +33,20 @@ Model application load patterns and plan capacity to handle current and projecte
 - Current infrastructure (instance types, database tier, CDN, serverless limits)
 - SLA requirements (uptime target, max acceptable latency, error rate budget)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Estimate user load patterns
+- [ ] Step 2: Model request distribution across endpoints
+- [ ] Step 3: Identify resource bottlenecks at scale
+- [ ] Step 4: Define horizontal and vertical scaling triggers
+- [ ] Step 5: Design benchmark suite for critical paths
+- [ ] Step 6: Plan capacity thresholds and alerts
+- [ ] Step 7: Model cost-at-scale projections
 
 ### Step 1: Estimate User Load Patterns
 
@@ -93,6 +111,13 @@ Estimate infrastructure cost as traffic grows:
 - Identify cost cliffs (tier upgrades, reserved instance thresholds)
 - Model 3-month, 6-month, and 12-month cost projections
 - Identify cost optimization opportunities (reserved instances, spot/preemptible, caching ROI)
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
+## Handoff
+
+- If bottleneck analysis reveals rendering or query-level performance issues, hand off to **tuner/performance-audit** for detailed profiling and optimization roadmap.
+- If scaling projections show caching as a key cost-reduction lever, hand off to **tuner/caching-strategy** for cache hierarchy design and TTL policies.
 
 ## Output Format
 

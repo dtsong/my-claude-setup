@@ -1,7 +1,7 @@
 ---
-name: "Messaging Strategy"
+name: messaging-strategy
 department: "herald"
-description: "Product copy, value propositions, and feature naming"
+description: "Use when developing product messaging frameworks including value propositions, feature naming, microcopy guidelines, and CTA strategy. Covers voice and tone definition, conversion copy, and upgrade prompt language. Do not use for pricing architecture or paywall placement (use monetization-design) or onboarding funnels and referral systems (use growth-engineering)."
 version: 1
 triggers:
   - "copy"
@@ -21,6 +21,10 @@ triggers:
 
 Develop the product messaging framework, including value propositions, feature naming conventions, microcopy guidelines, and call-to-action strategy.
 
+## Scope Constraints
+
+Analyzes product positioning, audience segments, and conversion copy needs. Does not implement UI changes, modify production content, or access user analytics data directly.
+
 ## Inputs
 
 - Product description and key features
@@ -29,7 +33,19 @@ Develop the product messaging framework, including value propositions, feature n
 - Existing brand voice guidelines (if any)
 - Key conversion points requiring messaging
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Value proposition defined
+- [ ] Step 2: Voice and tone established
+- [ ] Step 3: Features and concepts named
+- [ ] Step 4: Key conversion copy written
+- [ ] Step 5: Microcopy guidelines developed
+- [ ] Step 6: Upgrade and paywall copy created
 
 ### Step 1: Define Value Proposition
 
@@ -79,6 +95,8 @@ For monetization touchpoints:
 - **Pricing page headlines:** Benefit-oriented tier names
 - **Cancellation flow copy:** Empathetic, not guilt-tripping
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what product is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -118,6 +136,11 @@ For monetization touchpoints:
 | Loading | Set expectations | "Generating your report..." |
 | Success | Confirm + next step | "Saved! Share it with your team →" |
 ```
+
+## Handoff
+
+- Hand off to monetization-design if pricing tier structure or paywall placement decisions surface during messaging work.
+- Hand off to growth-engineering if onboarding flow optimization or referral system design needs emerge from conversion copy analysis.
 
 ## Quality Checks
 

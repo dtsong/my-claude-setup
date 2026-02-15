@@ -1,7 +1,7 @@
 ---
-name: "Audit Trail Design"
+name: audit-trail-design
 department: "guardian"
-description: "Audit logging design with event catalogs, log schemas, and retention policies"
+description: "Use when designing audit logging systems for accountability and compliance evidence. Covers event catalogs, log schemas, retention policies, immutability requirements, and compliance reporting. Do not use for regulatory gap analysis (use compliance-review) or data sensitivity classification (use data-classification)."
 version: 1
 triggers:
   - "audit"
@@ -20,6 +20,9 @@ triggers:
 ## Purpose
 Design audit logging systems that provide accountability, traceability, and compliance evidence. Produce event catalogs, log schemas, and retention policies that satisfy regulatory requirements and support forensic investigation.
 
+## Scope Constraints
+Reads system architecture, regulatory requirements, and data classification outputs for audit design. Does not implement logging infrastructure or access production log stores.
+
 ## Inputs
 - System architecture and services to be audited
 - Regulatory requirements (from compliance review if available)
@@ -27,7 +30,19 @@ Design audit logging systems that provide accountability, traceability, and comp
 - User roles and access control model
 - Existing logging infrastructure and constraints
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Identify auditable events
+- [ ] Step 2: Define log schema
+- [ ] Step 3: Specify retention policies
+- [ ] Step 4: Design immutability requirements
+- [ ] Step 5: Plan access controls for audit data
+- [ ] Step 6: Define compliance reporting
 
 ### Step 1: Identify Auditable Events
 Catalog every event that must be recorded for compliance, security, or operational accountability:
@@ -51,40 +66,38 @@ Design a consistent schema that answers who/what/when/where/why for every event:
 - **outcome**: Success/failure, error code if applicable, affected record count
 
 ### Step 3: Specify Retention Policies
-Define how long audit records must be retained based on regulatory and business requirements:
+Define retention based on regulatory and business requirements:
 
-- **Regulatory minimums**: GDPR (no specific minimum, but must demonstrate compliance), HIPAA (6 years), SOC2 (1 year), PCI-DSS (1 year), financial regulations (5-7 years)
-- **Operational needs**: Active query window (30-90 days in hot storage), archival period (cold storage)
-- **Tiered retention**: Hot storage (fast query, 90 days) → Warm storage (indexed, 1 year) → Cold storage (archived, regulatory maximum)
-- **Deletion policy**: Audit logs of deleted user data must be retained for compliance even after user data deletion (log the deletion, don't delete the log)
-- **Cost modeling**: Estimate storage costs per tier and growth rate to inform retention decisions
+- **Regulatory minimums**: HIPAA (6 years), SOC2 (1 year), PCI-DSS (1 year), financial regulations (5-7 years)
+- **Tiered retention**: Hot storage (fast query, 90 days) -> Warm storage (indexed, 1 year) -> Cold storage (archived, regulatory maximum)
+- **Deletion policy**: Audit logs of deleted user data must be retained for compliance even after user data deletion
+- **Cost modeling**: Estimate storage costs per tier and growth rate
 
 ### Step 4: Design Immutability Requirements
 Ensure audit records cannot be tampered with after creation:
 
-- **Write-once storage**: Append-only log stores, WORM (Write Once Read Many) storage for compliance
+- **Write-once storage**: Append-only log stores, WORM storage for compliance
 - **Integrity verification**: Hash chaining or Merkle trees to detect tampering or gaps
-- **Separation of duties**: Audit log administrators cannot modify log contents; different IAM roles for write vs. admin
+- **Separation of duties**: Audit log administrators cannot modify log contents
 - **Tamper evidence**: If a record is modified or deleted, the system must detect and alert
-- **Backup integrity**: Audit log backups must have independent integrity verification
 
 ### Step 5: Plan Access Controls for Audit Data
 Define who can access audit records and under what circumstances:
 
-- **Read access**: Security team (full access), compliance officers (filtered views), engineering (operational logs only, no PII fields)
-- **Search/query access**: Define which fields are searchable, which require elevated permissions
+- **Read access**: Security team (full), compliance officers (filtered), engineering (operational only, no PII)
 - **Export controls**: Bulk export requires approval, exports are themselves audited
-- **PII in audit logs**: Mask or encrypt PII fields within audit records; provide decryption only for authorized investigations
-- **Cross-team access**: Support/customer success may need filtered audit views for user-facing inquiries — define scope limits
+- **PII in audit logs**: Mask or encrypt PII fields; provide decryption only for authorized investigations
+- **Cross-team access**: Support/customer success may need filtered views — define scope limits
 
 ### Step 6: Define Compliance Reporting
 Specify the reports and dashboards that audit data must support:
 
-- **Regulatory reports**: Data subject access requests (all events for a given user), breach timeline reconstruction, consent audit trail
-- **Operational dashboards**: Failed authentication trends, unusual access patterns, bulk data export monitoring
-- **Periodic compliance evidence**: SOC2 control evidence generation, HIPAA access review reports, PCI-DSS log review evidence
-- **Ad-hoc investigation**: Query capabilities for forensic analysis — filter by user, time range, event type, resource, outcome
+- **Regulatory reports**: Data subject access requests, breach timeline reconstruction, consent audit trail
+- **Operational dashboards**: Failed authentication trends, unusual access patterns, bulk export monitoring
+- **Periodic evidence**: SOC2 control evidence, HIPAA access review reports, PCI-DSS log review evidence
 - **Alerting**: Real-time alerts for high-severity events (mass data export, privilege escalation, repeated auth failures)
+
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
 
 ## Output Format
 
@@ -139,6 +152,11 @@ Specify the reports and dashboards that audit data must support:
 | Compliance Officer | All | Yes (masked) | With approval | No |
 | Engineering | Operational only | No | No | No |
 | Audit Log Admin | Metadata only | No | No | Yes (config, not content) |
+
+## Handoff
+
+- Hand off regulatory compliance gaps discovered during audit design to compliance-review for full gap analysis.
+- Hand off data sensitivity questions to data-classification if audit events contain unclassified data elements.
 
 ## Quality Checks
 - [ ] Every auditable event category is represented in the event catalog

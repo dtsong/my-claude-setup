@@ -1,7 +1,7 @@
 ---
-name: "Data Classification"
+name: data-classification
 department: "guardian"
-description: "Data sensitivity classification with handling requirements per tier"
+description: "Use when classifying data elements by sensitivity tier and defining per-tier handling requirements. Covers data inventory, sensitivity classification, PII flow mapping, encryption and masking specifications, and cross-boundary transfer documentation. Do not use for regulatory gap analysis (use compliance-review) or audit logging design (use audit-trail-design)."
 version: 1
 triggers:
   - "data classification"
@@ -21,6 +21,9 @@ triggers:
 ## Purpose
 Classify data elements by sensitivity tier, define handling requirements for each tier, and map PII flows to ensure appropriate protections are applied throughout the data lifecycle.
 
+## Scope Constraints
+Reads data models, schemas, and architecture documentation for classification analysis. Does not modify schemas, apply encryption, or access production data stores directly.
+
 ## Inputs
 - Data model or schema being analyzed
 - Data elements and their sources (user input, system generated, third-party)
@@ -28,7 +31,19 @@ Classify data elements by sensitivity tier, define handling requirements for eac
 - Integration points and data sharing arrangements
 - Applicable regulatory context (from compliance review if available)
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Inventory data elements
+- [ ] Step 2: Classify by sensitivity tier
+- [ ] Step 3: Map PII flows
+- [ ] Step 4: Define handling requirements per tier
+- [ ] Step 5: Identify cross-boundary data transfers
+- [ ] Step 6: Specify encryption and masking requirements
 
 ### Step 1: Inventory Data Elements
 Catalog every data element in scope. For each element, document:
@@ -86,6 +101,8 @@ Define specific technical controls for each data element:
 - **Display masking**: SSN shows last 4 only, credit cards show last 4 only, emails partially masked in admin views
 - **Test data**: Restricted and Confidential data must be synthesized or anonymized for non-production
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what system is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ### Data Classification Matrix
@@ -115,6 +132,11 @@ Define specific technical controls for each data element:
                               [Analytics]     [Email SaaS]    [Backup Store]
                               (anonymized)    (DPA in place)  (AES-256)
 ```
+
+## Handoff
+
+- Hand off regulatory gap analysis to compliance-review if classification reveals unaddressed regulatory obligations.
+- Hand off audit logging requirements to audit-trail-design for access event logging on Confidential and Restricted data.
 
 ## Quality Checks
 - [ ] Every data element in scope is inventoried and classified

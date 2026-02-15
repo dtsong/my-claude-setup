@@ -1,7 +1,7 @@
 ---
-name: "Monetization Design"
+name: monetization-design
 department: "herald"
-description: "Pricing tiers, subscription architecture, and paywall strategy"
+description: "Use when designing monetization architecture including pricing tiers, paywall placement, subscription infrastructure, and upgrade flows. Covers freemium models, billing integration, and retention mechanics. Do not use for product copy or naming conventions (use messaging-strategy) or onboarding funnels and A/B tests (use growth-engineering)."
 version: 1
 triggers:
   - "pricing"
@@ -22,6 +22,10 @@ triggers:
 
 Design the monetization architecture for a product, including pricing tier structure, paywall placement strategy, subscription infrastructure, and upgrade flow design.
 
+## Scope Constraints
+
+Analyzes product feature sets, competitive pricing, and billing architecture patterns. Does not implement payment integrations, modify production billing systems, or access financial data directly.
+
 ## Inputs
 
 - Product feature set (what exists, what's being built)
@@ -30,7 +34,19 @@ Design the monetization architecture for a product, including pricing tier struc
 - Existing billing infrastructure (Stripe, RevenueCat, etc.)
 - App Store / Play Store requirements for in-app purchases
 
-## Process
+## Input Sanitization
+
+No user-provided values are used in commands or file paths. All inputs are treated as read-only analysis targets.
+
+## Procedure
+
+### Progress Checklist
+- [ ] Step 1: Value metrics defined
+- [ ] Step 2: Tier structure designed
+- [ ] Step 3: Paywall placement designed
+- [ ] Step 4: Upgrade flow designed
+- [ ] Step 5: Subscription infrastructure designed
+- [ ] Step 6: Retention mechanics designed
 
 ### Step 1: Define Value Metrics
 
@@ -84,6 +100,8 @@ Reduce subscription churn:
 - **Annual discount:** Incentivize annual plans (typically 20% discount)
 - **Usage reinforcement:** Show users the value they've received ("You saved 10 hours this month")
 
+> **Compaction resilience**: If context was lost during a long session, re-read the Inputs section to reconstruct what product is being analyzed, check the Progress Checklist for completed steps, then resume from the earliest incomplete step.
+
 ## Output Format
 
 ```markdown
@@ -125,6 +143,11 @@ Reduce subscription churn:
 | Cancellation initiated | Exit survey + discount offer | Immediate |
 | Payment failed | Dunning email sequence | Day 1, 3, 7 |
 ```
+
+## Handoff
+
+- Hand off to growth-engineering if onboarding funnel optimization or A/B test instrumentation needs arise during monetization analysis.
+- Hand off to messaging-strategy if upgrade prompt copy, paywall messaging, or cancellation flow language needs refinement.
 
 ## Quality Checks
 
