@@ -11,6 +11,19 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-write operations — fetches review comments, posts replies, and applies code fixes based on feedback.
+- May modify local source files when applying suggested fixes.
+- Does not merge PRs or change merge status — use gh-pr-merge skill for that.
+- Does not request additional reviewers — use gh-pr-request skill for that.
+
+## Input Sanitization
+
+- PR numbers: must be positive integers.
+- Reply text: reject null bytes.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
+
 # /gh-pr-respond - Respond to Review Comments
 
 View and respond to review comments on a pull request.

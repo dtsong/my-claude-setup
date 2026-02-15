@@ -7,6 +7,19 @@ description: Creating or modifying Dockerfiles with verification-first approach
 
 Generate production-ready Dockerfiles through iterative verification.
 
+## Scope Constraints
+
+- Read access to codebase for analysis; write access limited to Dockerfile and .dockerignore
+- Executes `docker build` and `docker run` for verification only — no deployment or registry push
+- Does not modify application source code or dependency files
+- Does not configure CI/CD pipelines — delegates to cicd-generation skill
+
+## Input Sanitization
+
+- Base image names: alphanumeric, hyphens, dots, slashes, colons only — reject shell metacharacters and null bytes
+- Port numbers: integers 1-65535 only
+- File paths in COPY directives: reject `..` traversal and null bytes
+
 ## Core Principles
 
 1. **Verification-first**: Examine codebase BEFORE adding ANY instruction

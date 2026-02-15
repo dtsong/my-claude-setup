@@ -10,6 +10,20 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-write operations — labels, assigns, and closes GitHub issues in batch.
+- Does not create new issues — use gh-issue skill for that.
+- Does not modify repository settings, branch protections, or code.
+- Does not manage PRs — only triages issues.
+
+## Input Sanitization
+
+- Issue numbers: must be positive integers.
+- Label names: reject null bytes and shell metacharacters (`; & | $ \` \\ < >`).
+- Assignee usernames: alphanumeric characters and hyphens only.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
+
 # /gh-triage - Batch Issue Triage
 
 Review and triage unlabeled or unassigned issues efficiently.

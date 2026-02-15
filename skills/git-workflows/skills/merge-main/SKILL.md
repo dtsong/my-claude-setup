@@ -11,6 +11,18 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Write operation — creates merge commits in the local repository
+- Fetches from remote to update the target branch before merging
+- Does not push to remote — use push skill for that
+- Does not resolve conflicts — use conflicts skill if merge produces conflicts
+
+## Input Sanitization
+
+- Target branch name: only alphanumeric characters, hyphens, underscores, and forward slashes. Reject spaces, `..`, shell metacharacters, or null bytes.
+- Flags: only `--no-commit` accepted. Reject arbitrary strings.
+
 # /git-merge-main - Merge Main Into Feature Branch
 
 Merge the latest main branch into your current feature branch to get updates.

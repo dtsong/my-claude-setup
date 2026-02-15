@@ -13,6 +13,18 @@ user_invocable: true
 
 An interactive wizard that applies Claude Code best practices to help you craft effective prompts for any task.
 
+## Scope Constraints
+
+- Read-only conversational skill: interviews user and generates prompt text
+- Does not read, modify, or create project files
+- Does not execute code or run any tools beyond user interaction
+
+## Input Sanitization
+
+- All user inputs (task descriptions, scope, context): free text, reject null bytes
+- File paths referenced in context: reject `..` traversal, null bytes, and shell metacharacters
+- URLs in external docs: validate well-formed URL format
+
 ## Modes
 
 ### 1. Create Mode (Default)

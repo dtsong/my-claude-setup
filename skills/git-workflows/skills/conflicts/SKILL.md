@@ -11,6 +11,17 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-write operation — reads conflicting files and may stage resolved files via `git add`
+- Does not create commits — user must run `git merge --continue` or `git rebase --continue` after resolution
+- Does not push to remote or abort operations — use abort skill to cancel, push skill to publish
+- Scoped to files with active conflict markers only
+
+## Input Sanitization
+
+- File paths (`--file`): reject `..` traversal, null bytes, and shell metacharacters. Must be a path within the repository working tree.
+
 # /git-conflicts - Guided Conflict Resolution
 
 Get help resolving merge, rebase, or cherry-pick conflicts.

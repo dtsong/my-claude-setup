@@ -7,6 +7,12 @@ description: Generating CI/CD pipelines (GitHub Actions) with security-first app
 
 Generate production-ready GitHub Actions workflows.
 
+## Input Sanitization
+
+- Workflow file names: alphanumeric, hyphens, and underscores only — reject `..`, shell metacharacters, or null bytes
+- Action references: `owner/action@ref` format — reject shell metacharacters and null bytes
+- Secret names: uppercase alphanumeric and underscores only
+
 ## Core Principles
 
 1. **Fail-fast**: Quick checks (lint, type) before slow ops (build, test)

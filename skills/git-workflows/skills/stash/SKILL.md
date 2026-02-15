@@ -11,6 +11,19 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Write operation — saves and restores uncommitted changes to/from the stash stack
+- Does not create commits on any branch — stashes are stored separately
+- Does not push, fetch, or interact with remotes
+- `clear` subcommand is destructive — permanently deletes all stashes
+
+## Input Sanitization
+
+- Stash messages: reject null bytes. All other printable characters allowed.
+- Stash references: must match `stash@{N}` format where N is a non-negative integer. Reject arbitrary strings, shell metacharacters, or null bytes.
+- Subcommands: only `save`, `pop`, `apply`, `list`, `show`, `drop`, `clear` accepted.
+
 # /git-stash - Stash Management
 
 Save, restore, list, and manage stashed changes.

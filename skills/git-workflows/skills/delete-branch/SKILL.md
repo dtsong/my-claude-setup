@@ -11,6 +11,18 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Destructive write operation — deletes local branches and optionally remote branches
+- Protected branches (main, master, develop, production) require explicit `--force`
+- Does not modify files, commits, or working tree — only removes branch refs
+- Does not create PRs or interact with CI — use github-workflow for that
+
+## Input Sanitization
+
+- Branch names: only alphanumeric characters, hyphens, underscores, and forward slashes. Reject spaces, `..`, shell metacharacters, or null bytes.
+- Batch flags: only `--merged`, `--stale`, `--remote`, `--force` accepted. Reject arbitrary strings.
+
 # /git-delete-branch - Delete Branches Safely
 
 Delete local and/or remote branches with safety checks.

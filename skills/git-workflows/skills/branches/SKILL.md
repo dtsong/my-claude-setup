@@ -11,6 +11,16 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-only git operations — does not modify repository state (except `git fetch --prune` to refresh remote tracking)
+- Does not create, delete, or switch branches
+- Does not push or pull changes
+
+## Input Sanitization
+
+- Filter flags: only `--all`, `--merged`, `--no-merged`, `--stale` accepted. Reject arbitrary strings or shell metacharacters.
+
 # /git-branches - List and Visualize Branches
 
 Show all branches with their status, tracking info, and sync state.

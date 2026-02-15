@@ -10,6 +10,18 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-only operations — queries commits, PRs, issues, and releases to summarize recent repository activity.
+- Does not create, modify, or close any GitHub resources.
+- Does not provide health scoring — use gh-health skill for that.
+
+## Input Sanitization
+
+- Date values (--since): must be valid ISO 8601 date strings.
+- Author identifiers: must be valid GitHub usernames — alphanumeric characters and hyphens only.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
+
 # /gh-activity - Recent Activity Summary
 
 Show recent activity in the repository including commits, PRs, issues, and releases.

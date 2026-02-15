@@ -10,6 +10,18 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Destructive write operation — rewrites commit history by combining multiple commits via soft reset
+- Operates on local commits only — does not push to remote
+- Requires `--force-with-lease` push after squashing already-pushed commits
+- Does not modify files — only restructures commit history
+
+## Input Sanitization
+
+- Commit count: must be a positive integer greater than 1, or `--since <branch>`, or `--all`. Reject zero, negative numbers, non-numeric input, and shell metacharacters.
+- Branch name (`--since`): only alphanumeric characters, hyphens, underscores, and forward slashes. Reject spaces, `..`, or null bytes.
+
 # /git-squash - Squash Commits
 
 Combine multiple commits into fewer, cleaner commits non-interactively.

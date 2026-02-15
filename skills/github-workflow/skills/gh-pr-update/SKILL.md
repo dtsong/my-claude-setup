@@ -10,6 +10,19 @@ version: "1.0.0"
 user_invocable: true
 ---
 
+## Scope Constraints
+
+- Read-write operations — updates a PR branch by merging or rebasing onto the base branch.
+- May force-push when rebasing (uses --force-with-lease for safety).
+- Does not merge PRs into the base branch — use gh-pr-merge skill for that.
+- Does not modify repository settings or branch protection rules.
+
+## Input Sanitization
+
+- PR numbers: must be positive integers.
+- Branch names: alphanumeric characters, hyphens, underscores, and forward slashes only.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
+
 # /gh-pr-update - Update PR Branch
 
 Update a pull request's branch with the latest changes from the base branch.

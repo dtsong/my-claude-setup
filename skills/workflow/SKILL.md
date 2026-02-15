@@ -6,6 +6,17 @@ model: sonnet
 
 # Workflow
 
+## Scope Constraints
+
+- Advisory skill defining development process, commit format, and coding discipline
+- Does not execute commands, modify files, or interact with git directly
+- Boundaries: delegates git operations to git-status, git-workflows, and github-workflow skills
+
+## Input Sanitization
+
+- Commit messages: free text, reject null bytes
+- Plan content: free text, reject null bytes
+
 ## Development Flow
 1. Brainstorm → plan → implement (for non-trivial features)
 2. Write failing test first, then implementation
