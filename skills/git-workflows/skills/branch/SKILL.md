@@ -175,4 +175,9 @@ When `--suggest` is used, generate names based on description:
 - Use `/git-switch` to change between branches
 - Use `/git-branches` to see all branches
 - Use `/commit-push-pr` when ready to create PR
-- See reference at `~/.claude/skills/git-workflows/references/naming-conventions.md`
+
+## References
+
+| Path | Load Condition | Content Summary |
+|------|---------------|-----------------|
+| `references/naming-conventions.md` | Branch name validation | Branch naming convention rules and prefix definitions |
