@@ -21,7 +21,9 @@
     "PostToolUse": [
       {
         "matcher": "TaskUpdate",
-        "command": "bash hooks/acceptance-gate.sh"
+        "hooks": [
+          { "type": "command", "command": "bash hooks/acceptance-gate.sh" }
+        ]
       }
     ]
   }
