@@ -135,6 +135,15 @@ These commands must pass for ALL stories:
 
 Save to `$WORKSPACE/.claude/prd/prd-<slug>.md`.
 
+**Contract Detection:** After loading the PRD, check for a sibling acceptance contract:
+- If `--from-prd` was used: look for `acceptance-contract.md` in the same directory as the PRD
+- If PRD was just generated: look for `$WORKSPACE/.claude/prd/contract-<slug>.md` (symlink)
+- If no contract found: generate one from PRD criteria using the same extraction logic as the council engine:
+  1. Extract `- [ ]` items from each `US-NNN` section
+  2. Assign verification method by keyword matching ("displays/shows/renders/UI" → `e2e-test`, "returns/accepts/rejects/validates" → `unit-test`, "calls/sends/receives/integrates" → `integration-test`, default → `unit-test`)
+  3. Write `$WORKSPACE/.claude/acceptance-contract.md`
+  4. Generate BDD test stubs to `$WORKSPACE/.claude/test-stubs/`
+
 **If `--preview`**: Show the PRD and stop. Do not execute.
 
 Present the PRD to the user via AskUserQuestion:
@@ -167,6 +176,11 @@ prd_file: ".claude/prd/prd-<slug>.md"
 - [ ] <criterion>
 (from PRD)
 
+## Contract
+| ID | Criterion | Method | Status | Evidence |
+|----|-----------|--------|--------|----------|
+(mirrored from acceptance-contract.md verification summary)
+
 ## Decisions Made
 (populated during execution)
 
@@ -179,22 +193,30 @@ prd_file: ".claude/prd/prd-<slug>.md"
 Work through user stories from the PRD:
 
 1. **Pick next uncompleted story** (in order)
-2. **Implement** following acceptance criteria
-3. **Document decisions** in state file under "Decisions Made"
-4. **Document failures** in state file under "Failed Approaches"
-5. **Mark criteria as done** `[x]` when verified
-6. **Commit progress** after each story:
+2. **Copy BDD test stubs** from `test-stubs/` into the project test directory (if stubs exist for this story)
+3. **Run stubs → confirm RED**: execute the test stubs and verify they fail. If any stub passes, the stub is wrong — fix it to properly assert the criterion
+4. **Implement** following acceptance criteria, using TDD cycle:
+   - Write minimal code to pass each stub (GREEN)
+   - Refactor while keeping tests green (REFACTOR)
+   - Invoke the `superpowers:test-driven-development` skill for TDD discipline
+5. **Record evidence** for each criterion in the acceptance contract:
+   - Test name + pass/fail result
+   - Command output snippet
+   - Update contract status: test passes → `verified`, test fails → `failed`
+6. **Update contract file** — edit `acceptance-contract.md` status and evidence fields in-place
+7. **Mark criteria as done** `[x]` in state file when verified
+8. **Commit progress** after each story:
    ```bash
    git -C $WORKSPACE add <changed-files>
    git -C $WORKSPACE commit -m "<type>(<scope>): <description> [US-<NNN>]"
    ```
-7. **Create checkpoint** after each story:
-   - Update state file iteration count
-   - Save current state
+9. **Create checkpoint** — update state file iteration count and contract summary
 
 ### Step 7: Verification Phase
 
-After all stories are complete, run quality gates:
+After all stories are complete, run two-stage verification:
+
+**Stage 1: Quality Gates** (existing behavior)
 
 ```bash
 # Run each quality gate command
@@ -204,9 +226,17 @@ npm run lint
 npm test
 ```
 
+**Stage 2: Contract Sweep**
+
+1. Read `acceptance-contract.md`
+2. For each criterion with status `pending`: run the associated test, update status
+3. For each criterion with status `failed`: log the failure, return to execution phase to fix
+4. **Block completion** if any criterion is `pending` or `failed`
+5. Warn on `pending-manual` criteria — list them for the user but don't block
+
 Check results:
-- **ALL pass** → Mark state as complete, report success
-- **ANY fail** → Document failure, return to execution phase to fix
+- **ALL gates pass AND all non-manual criteria verified** → Mark state as complete, report success
+- **ANY gate fails OR any criterion unverified** → Document failure, return to execution phase to fix
 
 ### Step 8: Completion
 
@@ -222,6 +252,8 @@ Ralf Loop Complete
   Goal: <goal>
   Stories: <N>/<N> completed
   Quality Gates: ALL PASSING
+  Acceptance Criteria: <N>/<N> verified (<N> pending-manual)
+  Contract: .claude/acceptance-contract.md
   Commits: <N> commits
 
   PRD: .claude/prd/prd-<slug>.md
