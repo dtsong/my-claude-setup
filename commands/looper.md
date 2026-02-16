@@ -1,6 +1,6 @@
 ---
 description: "Implement GitHub issues into PRs with dependency ordering, quality gate retry loops, and checkpoint/resume."
-argument-hint: "<issues...> [--label <label>] [--milestone <name>] [--combined] [--resume] [--preview] [--max-retries N] [--constraints \"...\"]"
+argument-hint: "<issues...> [--label <label>] [--milestone <name>] [--combined] [--resume] [--preview] [--max-retries N] [--constraints \"...\"] [--contract <path>]"
 allowed-tools: Bash(git checkout:*), Bash(git checkout -b:*), Bash(git pull:*), Bash(git push:*), Bash(git add:*), Bash(git commit:*), Bash(git diff:*), Bash(git status:*), Bash(git log:*), Bash(git branch:*), Bash(git stash:*), Bash(gh issue:*), Bash(gh pr:*), Bash(gh api:*), Bash(gh auth:*), Bash(jq:*), Bash(npm:*), Bash(npx:*), Bash(uv:*), Bash(pytest:*), Bash(source ~/.nvm/nvm.sh:*), Bash(mkdir:*), Read, Edit, Write, Glob, Grep
 ---
 
@@ -32,6 +32,7 @@ Parse the provided arguments: `$ARGUMENTS`
 --preview           Show execution plan, don't run
 --max-retries N     Retry attempts per issue (default: 3)
 --constraints "..." Freeform constraints, plus skip:<cmd> / gate:<cmd> syntax
+--contract <path>   Load acceptance contract for criteria verification
 ```
 
 ### Constraint Syntax
@@ -60,6 +61,7 @@ Extract from `$ARGUMENTS`:
 - `--preview` flag
 - `--max-retries N` (default: 3)
 - `--constraints "..."` text
+- `--contract <path>` (if present, load acceptance contract for criteria mapping)
 
 ### Step 2: Resolve Issues
 
@@ -297,6 +299,14 @@ If ANY gate fails:
 
 When all gates pass:
 
+**Contract Verification (if `--contract` loaded):**
+
+1. Read the acceptance contract file
+2. Map current issue to contract criteria via `US-NNN` identifiers in the issue body
+3. For each mapped criterion: check if the associated test passes, update contract status
+4. If any mapped criterion is `pending` or `failed`: treat as a gate failure → enter retry loop (Step 6e)
+5. Update contract file with evidence for verified criteria
+
 **Commit:**
 ```bash
 git add <changed-files>
@@ -323,6 +333,9 @@ $(for gate in "${GATES[@]}"; do echo "- \`$gate\` ✓"; done)
 
 ## Retry Stats
 Attempts: $ATTEMPTS/$MAX_RETRIES
+
+## Acceptance Criteria
+$(if [ -n "$CONTRACT_PATH" ]; then echo "Contract: $CONTRACT_PATH"; grep -A2 "^| AC-" "$CONTRACT_PATH" | head -20; fi)
 
 Closes #$N"
 ```
@@ -398,6 +411,7 @@ Looper Complete
   PRs created: 4
   Total attempts: 7 (across all issues)
   Quality gates: build ✓ | typecheck ✓ | lint ✓ | test ✓
+  Contract: $(if [ -n "$CONTRACT_PATH" ]; then echo "N/M criteria verified"; else echo "none"; fi)
 
   PRs:
   | Issue | PR   | Title              | Attempts |

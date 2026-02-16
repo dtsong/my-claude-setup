@@ -39,18 +39,19 @@ Parse `$ARGUMENTS` using this priority order — **first matching flag wins:**
 2. `--list [--all]` → List sessions (see [Session Management Commands](#session-management-commands)) and **EXIT**
 3. `--status` → Quick workspace session summary and **EXIT**
 4. `--archive <slug>` → Export session to GitHub issue and **EXIT**
-5. `--cleanup [--all]` → Review and clean stale sessions and **EXIT**
+5. `--lock <slug>` → Re-create GitHub issue from acceptance contract and **EXIT**
+6. `--cleanup [--all]` → Review and clean stale sessions and **EXIT**
 
 **Session modes** (start or resume a session):
-6. `--resume [<slug>] [--pick]` → Resume (see [Resume Logic](#resume-logic))
-7. `--brainstorm` → **brainstorm** mode
-8. `--quick` → **quick** mode
-9. `--deep` → **deep** mode
-10. `--auto` → **auto** mode
-11. `--guided` → **guided** mode
-12. `--meet` → **meeting** mode
-13. `--audit` → **audit** mode
-14. No flag → **standard** mode (default)
+7. `--resume [<slug>] [--pick]` → Resume (see [Resume Logic](#resume-logic))
+8. `--brainstorm` → **brainstorm** mode
+9. `--quick` → **quick** mode
+10. `--deep` → **deep** mode
+11. `--auto` → **auto** mode
+12. `--guided` → **guided** mode
+13. `--meet` → **meeting** mode
+14. `--audit` → **audit** mode
+15. No flag → **standard** mode (default)
 
 Strip the matched flag from `$ARGUMENTS`. Remaining text is the **idea**.
 
@@ -108,6 +109,7 @@ SESSION MANAGEMENT:
   --list --all            List sessions across all workspaces
   --status                Quick workspace session summary
   --archive <slug>        Export session to GitHub issue
+  --lock <slug>          Re-create GitHub issue from acceptance contract
   --cleanup               Review and clean stale sessions
 
 OTHER:
@@ -358,6 +360,8 @@ Slug: <slug>
       "status": "active",
       "agents": [],
       "skills_used": [],
+      "contract_generated": false,
+      "contract_issue": null,
       "archived_to": null
     }
   ]
@@ -912,6 +916,86 @@ Create a backward-compatible symlink for `/ralf` and `/launch`:
 ln -sf "$SESSION_DIR/prd.md" "$WORKSPACE/.claude/prd/prd-<slug>.md"
 ```
 
+### 4.1b Generate Acceptance Contract
+
+After writing the PRD, generate a structured acceptance contract from its criteria:
+
+1. **Read the PRD** at `$SESSION_DIR/prd.md`
+2. **Extract acceptance criteria** from each user story (the `- [ ]` items under each `US-NNN`)
+3. **Assign verification method** per criterion based on keywords:
+   - "displays/shows/renders/UI" → `e2e-test` or `manual-check`
+   - "returns/accepts/rejects/validates" → `unit-test`
+   - "calls/sends/receives/integrates" → `integration-test`
+   - "builds/compiles" → `build-output`
+   - Default → `unit-test`
+4. **Assign test location hints** based on project conventions (from context scan)
+5. **Write the contract** to `$SESSION_DIR/acceptance-contract.md`:
+
+```markdown
+# Acceptance Contract: <Idea>
+Session: <id> | PRD: prd.md | Status: locked
+
+## Quality Gates
+| Gate | Command | Required |
+|------|---------|----------|
+| build | `npm run build` | yes |
+| typecheck | `npx tsc --noEmit` | yes |
+
+## Acceptance Criteria
+
+### US-001: <Story title>
+
+#### AC-001: <Criterion text>
+- **Method:** unit-test | integration-test | e2e-test | build-output | manual-check | metric
+- **Test:** `path/to/test.ts` > "test description"
+- **Status:** pending
+- **Evidence:** —
+- **Verified-by:** —
+
+## Verification Summary
+| ID | Criterion | Method | Status | Evidence |
+|----|-----------|--------|--------|----------|
+| AC-001 | <short> | unit-test | pending | — |
+
+Progress: 0/N verified
+```
+
+6. **Create backward-compatible symlink:**
+   ```bash
+   ln -sf "$SESSION_DIR/acceptance-contract.md" "$WORKSPACE/.claude/prd/contract-<slug>.md"
+   ```
+
+7. **Generate BDD test stub files** from each criterion:
+   - Detect project test framework (Jest, Vitest, pytest, etc.) from context scan
+   - Create `describe/it` blocks with Given/When/Then structure per AC
+   - Stubs throw `Not implemented — AC-NNN pending` (guarantees RED on first run)
+   - Test file locations follow project conventions
+   - Write stubs to `$SESSION_DIR/test-stubs/` and note paths in the contract
+
+   **Generated stub example:**
+   ```typescript
+   // Generated from AC-001: User can create a new project
+   describe('US-001: Project Creation', () => {
+     describe('AC-001: User can create a new project', () => {
+       it('GIVEN a logged-in user WHEN they submit a project name THEN a new project is created', () => {
+         // TODO: Implement — this test must fail first (RED)
+         throw new Error('Not implemented — AC-001 pending');
+       });
+     });
+   });
+   ```
+
+8. **Auto-create GitHub issue** from the contract:
+   ```bash
+   gh issue create \
+     --title "[AC] <Idea> — Acceptance Contract" \
+     --label "acceptance-contract,tracking" \
+     --body "$CONTRACT_BODY"
+   ```
+   - Body contains task-list checkboxes from contract criteria + quality gates
+   - Store issue URL in contract file and session index (`contract_issue: "<url>"`)
+   - During execution, update GitHub issue checkboxes via `gh api` when criteria are verified
+
 ### 4.2 Task Decomposition
 
 Create tasks via `TaskCreate` for each user story. Set up dependencies with `TaskUpdate`.
@@ -937,6 +1021,10 @@ User Stories (<N> total):
 1. US-001: <title> — <1-line description>
 2. US-002: <title> — <1-line description>
 ...
+
+Acceptance Contract: <N> criteria across <N> stories
+Verification methods: <N> unit-test, <N> integration-test, <N> e2e-test, <N> manual-check
+Contract: .claude/$THEME_ID/sessions/<session-id>/acceptance-contract.md
 
 Does this scope match what you had in mind?
 ```
@@ -1009,6 +1097,29 @@ Auto-commit during execution:
 git -C $WORKSPACE add <changed-files>
 git -C $WORKSPACE commit -m "<type>(<scope>): <description>"
 ```
+
+#### Verification Sweep
+
+After all team agents complete their tasks, the conductor runs a contract verification sweep:
+
+1. Read `$SESSION_DIR/acceptance-contract.md`
+2. For each `pending` criterion: run the associated test or verification command, update status
+3. For `failed` criteria: re-assign to the appropriate agent for remediation
+4. Present the contract summary table to the user:
+
+```
+Acceptance Contract — Verification Summary
+
+| ID | Criterion | Method | Status | Evidence |
+|----|-----------|--------|--------|----------|
+| AC-001 | <short> | unit-test | verified | test-file:line |
+| AC-002 | <short> | e2e-test | failed | — |
+
+Progress: N/M verified | F failed | P pending-manual
+```
+
+5. **Block completion** until all non-manual criteria are `verified`
+6. Update the GitHub issue checkboxes via `gh api` for each verified criterion
 
 ### Path B: Ralf Handoff
 
@@ -1158,6 +1269,8 @@ $WORKSPACE/.claude/$THEME_ID/
       meeting-notes.md                        # Meeting mode only
       plan.md
       prd.md
+      acceptance-contract.md                # Acceptance contract (Phase 4.1b)
+      test-stubs/                           # BDD test stubs generated from contract
       audit/                                  # Deep audit artifacts (Phase 5D)
         state.md                              # Audit loop state + pass history
         coverage.md                           # Zone coverage map
@@ -1270,6 +1383,9 @@ Export a session to a GitHub issue for long-term storage.
 
 ## PRD
 <full prd.md, if exists>
+
+## Acceptance Contract
+<full acceptance-contract.md, if exists>
 
 ## Decision Log
 <extracted from design.md Tension Resolutions + Decision Log tables>
