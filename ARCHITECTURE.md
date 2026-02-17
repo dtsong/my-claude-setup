@@ -13,7 +13,7 @@ The deliberation system uses a **shared engine + themed layer** pattern. All wor
 ```
 Phase 0: Intake        → User describes their idea
 Phase 1: Interview     → 2-3 rounds of targeted questions (no agents spawned yet)
-Phase 2: Assembly      → Score all 16 agents, select 3-7, user approves roster
+Phase 2: Assembly      → Score all 20 agents, select 3-7, user approves roster
 Phase 3: Deliberation  → 3 rounds: Position → Challenge → Converge
 Phase 4: Planning      → Synthesize design document + PRD
 Phase 5: Action        → Execute via team, /ralf, or manual review
@@ -120,7 +120,7 @@ skills/council/
 │       └── SKILL.md
 ├── advocate/
 │   └── ...
-└── (16 departments total)
+└── (20 departments total)
 ```
 
 ### SKILL.md Format
@@ -143,7 +143,7 @@ Each skill template contains:
 
 After each session, the conductor appends observations to the skill's Evolution Notes. The `registry.json` tracks usage counts. If a skill consistently needs the same adjustment, its process steps are updated.
 
-Academy agents share skills from `skills/council/` — no duplication of the 48 SKILL.md files.
+Academy agents share skills from `skills/council/` — no duplication of the 57 SKILL.md files.
 
 ---
 
