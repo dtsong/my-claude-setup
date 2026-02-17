@@ -1,6 +1,6 @@
 # my-claude-setup
 
-A portable Claude Code configuration system — 34 agents, 48 skills, 8 deliberation modes, session persistence, and lifecycle hooks. Clone it, install it, and every Claude Code session gets multi-agent deliberation, opinionated project scaffolding, and workspace-aware context injection.
+A portable Claude Code configuration system — 38 agents, 57 skills, 8 deliberation modes, session persistence, and lifecycle hooks. Clone it, install it, and every Claude Code session gets multi-agent deliberation, opinionated project scaffolding, and workspace-aware context injection.
 
 ## Prerequisites
 
@@ -87,7 +87,7 @@ Contributions are welcome, especially anything that improves first-time adoption
 
 ### Multi-Agent Deliberation
 
-`/council` and `/academy` assemble 3-7 specialized agents from a roster of 16 to deliberate on design decisions. These agents will explore your codebase independently, write position statements, challenge each other's recommendations, and converge on a unified design document with explicit trade-off resolution.
+`/council` and `/academy` assemble 3-7 specialized agents from a roster of 20 to deliberate on design decisions. These agents will explore your codebase independently, write position statements, challenge each other's recommendations, and converge on a unified design document with explicit trade-off resolution.
 
 Eight modes control depth and involvement:
 
@@ -178,7 +178,7 @@ Workspaces are project-specific context configs that auto-load based on git remo
 | `/ops` | Operations control center |
 | `/g` | Git porcelain |
 
-## The 16 Agents
+## The 20 Agents
 
 Each agent brings a distinct cognitive lens. Sessions use 3-7 agents selected for relevance.
 
@@ -200,6 +200,10 @@ Each agent brings a distinct cognitive lens. Sessions use 3-7 agents selected fo
 | Herald | Bronze | Growth, monetization, onboarding, retention |
 | Sentinel | Titanium | IoT, embedded, edge, device protocols |
 | Oracle | Violet | AI/LLM integration, RAG, prompt engineering |
+| Forge | Graphite | Microarchitecture, silicon design, RTL security |
+| Cipher | Obsidian | Cryptographic engineering, protocol security, key management |
+| Warden | Slate | OS kernel security, process isolation, privilege boundaries |
+| Prover | Pearl | Formal methods, mathematical verification, security invariants |
 
 The **Steward** (Platinum) serves as the conductor persona — always active, never spawned as a separate agent.
 
@@ -209,14 +213,14 @@ The **Academy** theme mirrors the full roster with Fire Emblem class names (Sage
 
 ```bash
 my-claude-setup/
-├── agents/              # 34 agent persona files (17 council + 17 academy)
+├── agents/              # 38 agent persona files (21 council + 17 academy)
 ├── commands/            # 16 slash commands + shared engine
 │   ├── _council-engine.md  # Shared deliberation engine (~1200 lines)
 │   ├── council.md       # Council theme layer
 │   ├── academy.md       # Academy theme layer
 │   └── *.md             # Individual commands
-├── skills/              # 48 structured skill templates
-│   ├── council/         # 16 departments × 3 skills each
+├── skills/              # 57 structured skill templates
+│   ├── council/         # 20 departments × 2-3 skills each
 │   └── language-conventions/  # Python, TypeScript, Terraform references
 ├── hooks/               # Lifecycle hook scripts
 │   └── pre-compact-handover.sh  # Auto-save before compaction

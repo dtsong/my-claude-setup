@@ -1,6 +1,6 @@
 # Council — Multi-Agent Deliberation System
 
-The Council is a structured decision-making system for ambitious software projects. Instead of getting a single AI perspective on a design problem, the Council assembles a team of 3-7 specialized agents from a roster of 16 that each bring a distinct lens — architecture, security, UX, mobile, visual design, growth, IoT, AI/LLM, and more — and puts them through a formal deliberation process. The result is a design document and execution plan that has been stress-tested from multiple angles before a single line of code is written.
+The Council is a structured decision-making system for ambitious software projects. Instead of getting a single AI perspective on a design problem, the Council assembles a team of 3-7 specialized agents from a roster of 20 that each bring a distinct lens — architecture, security, UX, mobile, visual design, growth, IoT, AI/LLM, and more — and puts them through a formal deliberation process. The result is a design document and execution plan that has been stress-tested from multiple angles before a single line of code is written.
 
 **The core insight:** a single perspective tends to anchor on its first plausible idea and stop exploring. Multiple independent perspectives, forced to challenge each other, produce designs that survive contact with reality.
 
@@ -106,7 +106,7 @@ After the interview, the conductor writes a structured summary with relevance sc
 
 ### Phase 2: Assembly (Agent Selection)
 
-Each of the 16 agents is scored (0-10) based on keyword matches from the interview, semantic relevance, and mandatory bonuses (e.g., the Architect always gets +2 for new functionality, the Guardian gets +2 for features handling user data).
+Each of the 20 agents is scored (0-10) based on keyword matches from the interview, semantic relevance, and mandatory bonuses (e.g., the Architect always gets +2 for new functionality, the Guardian gets +2 for features handling user data).
 
 The conductor shows you the proposed council with scores and rationale. You can approve, add an agent, remove one, or restart the interview.
 
@@ -138,7 +138,7 @@ You choose how to execute:
 
 ## The Agent Roster
 
-The Council has 16 agents plus a Maestro facilitator persona. Each session uses 3-7 of them, selected for relevance.
+The Council has 20 agents plus a Steward (Maestro) facilitator persona. Each session uses 3-7 of them, selected for relevance.
 
 | # | Agent | Color | What They Care About | When They're Selected |
 |---|-------|-------|---------------------|----------------------|
@@ -158,6 +158,10 @@ The Council has 16 agents plus a Maestro facilitator persona. Each session uses 
 | 14 | [**Herald**](herald/DEPARTMENT.md) | Bronze | Growth, monetization, onboarding, retention | User-facing features with growth/monetization implications — gets +2 mandatory bonus |
 | 15 | [**Sentinel**](sentinel/DEPARTMENT.md) | Titanium | IoT, embedded, edge, device protocols | IoT/embedded/hardware features — gets +2 mandatory bonus |
 | 16 | [**Oracle**](oracle/DEPARTMENT.md) | Violet | AI/LLM integration, RAG, prompt engineering | AI/LLM integration features — gets +2 mandatory bonus |
+| 17 | [**Forge**](forge/DEPARTMENT.md) | Graphite | Microarchitecture, silicon design, RTL security, timing, physical implementation | Silicon/hardware security work — gets +2 mandatory bonus |
+| 18 | [**Cipher**](cipher/DEPARTMENT.md) | Obsidian | Cryptographic engineering, protocol security, key management, post-quantum readiness | Crypto/protocol security work — gets +2 mandatory bonus |
+| 19 | [**Warden**](warden/DEPARTMENT.md) | Slate | OS kernel security, process isolation, privilege boundaries, HW/SW security interface | Kernel/OS security work — gets +2 mandatory bonus |
+| 20 | [**Prover**](prover/DEPARTMENT.md) | Pearl | Formal methods, mathematical verification, security invariants, property specification | Formal verification work — gets +2 mandatory bonus |
 | — | **Steward** (Maestro) | Platinum | Orchestration, synthesis, facilitation | Always active as conductor persona (not spawned) |
 
 ### Reading an Agent Definition
@@ -243,6 +247,10 @@ Each agent manages a "department" of 2-3 focused skills. Skills are structured p
 | [Herald](herald/DEPARTMENT.md) | [growth-engineering](herald/growth-engineering/SKILL.md), [monetization-design](herald/monetization-design/SKILL.md), [messaging-strategy](herald/messaging-strategy/SKILL.md) | Onboarding funnels, pricing architectures, product messaging frameworks |
 | [Sentinel](sentinel/DEPARTMENT.md) | [embedded-architecture](sentinel/embedded-architecture/SKILL.md), [protocol-design](sentinel/protocol-design/SKILL.md), [fleet-management](sentinel/fleet-management/SKILL.md) | Firmware architectures, protocol stack designs, fleet management plans |
 | [Oracle](oracle/DEPARTMENT.md) | [prompt-engineering](oracle/prompt-engineering/SKILL.md), [rag-architecture](oracle/rag-architecture/SKILL.md), [ai-evaluation](oracle/ai-evaluation/SKILL.md) | Prompt designs, RAG pipeline architectures, evaluation frameworks |
+| [Forge](forge/DEPARTMENT.md) | [microarch-analysis](forge/microarch-analysis/SKILL.md), [rtl-security-review](forge/rtl-security-review/SKILL.md), [physical-design-security](forge/physical-design-security/SKILL.md) | Microarchitecture assessments, RTL security reviews, physical design security audits |
+| [Cipher](cipher/DEPARTMENT.md) | [crypto-review](cipher/crypto-review/SKILL.md), [protocol-analysis](cipher/protocol-analysis/SKILL.md), [pqc-readiness](cipher/pqc-readiness/SKILL.md) | Cryptographic reviews, protocol security analysis, post-quantum readiness assessments |
+| [Warden](warden/DEPARTMENT.md) | [isolation-review](warden/isolation-review/SKILL.md), [kernel-hardening](warden/kernel-hardening/SKILL.md), [hw-sw-boundary](warden/hw-sw-boundary/SKILL.md) | Process isolation reviews, kernel hardening plans, HW/SW boundary security audits |
+| [Prover](prover/DEPARTMENT.md) | [formal-spec](prover/formal-spec/SKILL.md), [invariant-analysis](prover/invariant-analysis/SKILL.md) | Formal specifications, security invariant analysis |
 
 ### Skill Evolution
 
@@ -360,7 +368,7 @@ Create a new directory under an agent's department with a `SKILL.md` containing:
 
 ```
 agents/
-  council-architect.md        # Agent persona definitions (17 files)
+  council-architect.md        # Agent persona definitions (21 files)
   council-advocate.md
   council-skeptic.md
   council-craftsman.md
@@ -376,6 +384,10 @@ agents/
   council-herald.md
   council-sentinel.md
   council-oracle.md
+  council-forge.md
+  council-cipher.md
+  council-warden.md
+  council-prover.md
   council-steward.md          # Maestro facilitator persona (not spawnable)
 
 commands/
@@ -393,7 +405,7 @@ skills/council/
     ...
   skeptic/
     ...
-  (and so on for all 16 departments)
+  (and so on for all 20 departments)
 ```
 
 ### Key Files to Read
@@ -415,7 +427,7 @@ The Council is built on primitives provided by [Claude Code](https://claude.com/
 
 - **[Agent Teams](https://code.claude.com/docs/en/agent-teams)** — The Council uses agent teams to coordinate multiple Claude Code sessions working in parallel. Each council member is a teammate with its own context window, and the conductor (team lead) orchestrates deliberation rounds, synthesizes findings, and manages the shared task list. The [structured deliberation pattern](https://code.claude.com/docs/en/agent-teams#when-to-use-agent-teams) (Position, Challenge, Converge) maps directly to the "competing hypotheses" use case described in Anthropic's documentation.
 
-- **[Custom Subagents](https://code.claude.com/docs/en/sub-agents)** — Each council member (Architect, Skeptic, Alchemist, etc.) is defined as a custom subagent with a dedicated persona, cognitive framework, and tool access. Agent markdown files in `~/.claude/agents/` give each member a distinct system prompt, model configuration, and behavioral heuristics. The [agent definition format](https://code.claude.com/docs/en/sub-agents#write-subagent-files) (YAML frontmatter + markdown body) is used for all 16 council members plus the Steward facilitator persona.
+- **[Custom Subagents](https://code.claude.com/docs/en/sub-agents)** — Each council member (Architect, Skeptic, Alchemist, etc.) is defined as a custom subagent with a dedicated persona, cognitive framework, and tool access. Agent markdown files in `~/.claude/agents/` give each member a distinct system prompt, model configuration, and behavioral heuristics. The [agent definition format](https://code.claude.com/docs/en/sub-agents#write-subagent-files) (YAML frontmatter + markdown body) is used for all 20 council members plus the Steward facilitator persona.
 
 - **[Skills](https://code.claude.com/docs/en/skills)** — Each council member's department skills (e.g., `schema-evaluation`, `pipeline-design`, `threat-model`) are implemented as Claude Code skills with structured process steps, output formats, and quality checks. Skills are loaded contextually during deliberation based on topic relevance, following the [skill invocation pattern](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill).
 
