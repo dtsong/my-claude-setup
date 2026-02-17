@@ -378,6 +378,22 @@ install() {
 
   echo ""
   echo "Done. Installed ${#installed_pairs[@]} link(s)."
+  echo ""
+  echo "Setup complete — here's what you got:"
+  echo ""
+  if [[ "$PRESET" == "skills" ]]; then
+    echo "  Skills auto-load when Claude detects a matching task."
+    echo "  Example: ask Claude to \"create a Terraform module\" and the"
+    echo "  terraform-skill activates automatically."
+  else
+    echo "  /brainstorm \"idea\"     Quick 3-agent gut check"
+    echo "  /council \"idea\"        Full multi-agent deliberation"
+    echo "  /help                  See everything that's available"
+  fi
+  echo ""
+  echo "Try this first:"
+  echo "  /brainstorm \"What should we build?\""
+  echo ""
   echo "Tip: rerun with --preset core or --preset full to adopt more of the setup."
 }
 
