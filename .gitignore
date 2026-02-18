@@ -1,5 +1,4 @@
 # Sensitive / machine-specific
-settings.json
 settings.local.json
 **/settings.local.json
 
