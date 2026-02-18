@@ -92,6 +92,66 @@ This prompts you with "What's the big idea?" and starts the interview from there
 
 A council session moves through six phases. You're actively involved in Phases 0-2 (providing input, approving the council composition). Phases 3-5 are largely autonomous.
 
+```mermaid
+flowchart TD
+    classDef userNode fill:#1b4332,color:#d8f3dc,stroke:#2d6a4f
+    classDef artifactNode fill:#1c3461,color:#dbe4ff,stroke:#364fc7
+    classDef actionNode fill:#3b1f2b,color:#fcc2d7,stroke:#9c36b5
+
+    START(["💡 Your Idea"])
+
+    subgraph P0["⓪  Intake"]
+        p0u[/"👤 Answer: 'What's the big idea?'"/]:::userNode
+    end
+
+    subgraph P1["①  Interview  ·  2–3 rounds"]
+        p1p["Conductor scans your codebase & asks targeted questions"]
+        p1u[/"👤 Answer each round — scope, constraints, priorities"/]:::userNode
+        p1a[("📄 interview-summary.md")]:::artifactNode
+        p1p --> p1u --> p1a
+    end
+
+    subgraph P2["②  Assembly  ·  Agent Selection"]
+        p2p["20 agents scored by relevance — 3–7 selected"]
+        p2u[/"👤 Approve, add, or remove agents from the lineup"/]:::userNode
+        p2a[("📄 assembly.md  ·  Team spawned")]:::artifactNode
+        p2p --> p2u --> p2a
+    end
+
+    subgraph P3["③  Deliberation  ·  3 rounds"]
+        p3r1["Round 1 · Position — agents explore codebase independently"]
+        p3r2["Round 2 · Challenge — tension pairs challenge each other's designs"]
+        p3r3["Round 3 · Converge — agents reconcile and finalize positions"]
+        p3u[/"👤 Review key decisions & resolved tensions"/]:::userNode
+        p3a[("📄 design.md  ·  decision-log.md")]:::artifactNode
+        p3r1 --> p3r2 --> p3r3 --> p3u --> p3a
+    end
+
+    subgraph P4["④  Planning"]
+        p4p["Conductor synthesizes PRD with user stories & acceptance criteria"]
+        p4u[/"👤 Scope review — approve or adjust before execution"/]:::userNode
+        p4a[("📄 prd.md  ·  acceptance-contract.md  ·  test-stubs/")]:::artifactNode
+        p4p --> p4u --> p4a
+    end
+
+    subgraph P5["⑤  Action"]
+        p5c{{"Choose execution path"}}:::actionNode
+        p5b["🤖 Team Execution\nagents implement the plan"]
+        p5r["🚀 /ralf --from-prd\nautonomous execution loop"]
+        p5l["🛠 /launch --from-prd\nisolated worktree"]
+        p5c --> p5b
+        p5c --> p5r
+        p5c --> p5l
+    end
+
+    START --> P0
+    P0 --> P1
+    P1 --> P2
+    P2 --> P3
+    P3 --> P4
+    P4 --> P5
+```
+
 ### Phase 0: Intake
 
 You describe your idea. Be as specific or as vague as you like — the interview will fill in the gaps.
