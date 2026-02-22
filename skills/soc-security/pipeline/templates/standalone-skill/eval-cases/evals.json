@@ -1,0 +1,12 @@
+{
+  "skill": "SKILL_NAME",
+  "cases": [
+    {
+      "id": "01-basic-case",
+      "name": "Basic functionality test",
+      "tier": 1,
+      "input": {},
+      "file": "cases/01-basic-case.md"
+    }
+  ]
+}

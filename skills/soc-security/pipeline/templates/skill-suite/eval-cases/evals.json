@@ -1,0 +1,13 @@
+{
+  "suite": "SUITE_NAME",
+  "cases": [
+    {
+      "id": "01-basic-routing",
+      "name": "Basic routing test",
+      "tier": 1,
+      "input": {},
+      "expected_specialist": "specialist-a",
+      "file": "cases/01-basic-routing.md"
+    }
+  ]
+}

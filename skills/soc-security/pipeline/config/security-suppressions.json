@@ -1,0 +1,5 @@
+{
+  "spec_version": "1.3",
+  "suppressions": [],
+  "_comment": "Per-file security check suppressions. Each entry: {\"file\": \"path/to/file.md\", \"rule\": \"rule-id\", \"rationale\": \"why\"}"
+}

@@ -1,0 +1,412 @@
+{
+  "version": "1.0.0",
+  "suite": "soc-security-skills",
+  "cases": [
+    {
+      "id": "COORD-001",
+      "file": "coordinator/eval-routing-basic.md",
+      "tier": 1,
+      "skill": "soc-security-skills",
+      "type": "routing"
+    },
+    {
+      "id": "COORD-002",
+      "file": "coordinator/eval-routing-ambiguous.md",
+      "tier": 2,
+      "skill": "soc-security-skills",
+      "type": "routing"
+    },
+    {
+      "id": "COORD-003",
+      "file": "coordinator/eval-routing-multi-domain.md",
+      "tier": 3,
+      "skill": "soc-security-skills",
+      "type": "routing"
+    },
+    {
+      "id": "TM-001",
+      "file": "threat-model-skill/eval-stride-simple.md",
+      "tier": 1,
+      "skill": "threat-model-skill",
+      "type": "activation"
+    },
+    {
+      "id": "TM-002",
+      "file": "threat-model-skill/eval-stride-multi-domain.md",
+      "tier": 2,
+      "skill": "threat-model-skill",
+      "type": "activation"
+    },
+    {
+      "id": "TM-003",
+      "file": "threat-model-skill/eval-attack-tree.md",
+      "tier": 2,
+      "skill": "threat-model-skill",
+      "type": "activation"
+    },
+    {
+      "id": "TM-004",
+      "file": "threat-model-skill/eval-standards-extraction.md",
+      "tier": 3,
+      "skill": "threat-model-skill",
+      "type": "activation"
+    },
+    {
+      "id": "TM-005",
+      "file": "threat-model-skill/eval-boundary-confusion.md",
+      "tier": 3,
+      "skill": "threat-model-skill",
+      "type": "activation"
+    },
+    {
+      "id": "VS-001",
+      "file": "verification-scaffold-skill/eval-tier-assignment.md",
+      "tier": 1,
+      "skill": "verification-scaffold-skill",
+      "type": "activation"
+    },
+    {
+      "id": "VS-002",
+      "file": "verification-scaffold-skill/eval-sva-generation.md",
+      "tier": 2,
+      "skill": "verification-scaffold-skill",
+      "type": "activation"
+    },
+    {
+      "id": "VS-003",
+      "file": "verification-scaffold-skill/eval-checklist-creation.md",
+      "tier": 2,
+      "skill": "verification-scaffold-skill",
+      "type": "activation"
+    },
+    {
+      "id": "VS-004",
+      "file": "verification-scaffold-skill/eval-multi-threat-input.md",
+      "tier": 3,
+      "skill": "verification-scaffold-skill",
+      "type": "activation"
+    },
+    {
+      "id": "VS-005",
+      "file": "verification-scaffold-skill/eval-boundary-confusion.md",
+      "tier": 3,
+      "skill": "verification-scaffold-skill",
+      "type": "activation"
+    },
+    {
+      "id": "CP-001",
+      "file": "compliance-pipeline-skill/eval-fips-gap-analysis.md",
+      "tier": 1,
+      "skill": "compliance-pipeline-skill",
+      "type": "activation"
+    },
+    {
+      "id": "CP-002",
+      "file": "compliance-pipeline-skill/eval-iso21434-mapping.md",
+      "tier": 1,
+      "skill": "compliance-pipeline-skill",
+      "type": "activation"
+    },
+    {
+      "id": "CP-003",
+      "file": "compliance-pipeline-skill/eval-cross-standard-overlap.md",
+      "tier": 2,
+      "skill": "compliance-pipeline-skill",
+      "type": "activation"
+    },
+    {
+      "id": "CP-004",
+      "file": "compliance-pipeline-skill/eval-dice-attestation-compliance.md",
+      "tier": 2,
+      "skill": "compliance-pipeline-skill",
+      "type": "activation"
+    },
+    {
+      "id": "CP-005",
+      "file": "compliance-pipeline-skill/eval-multi-standard-gap-remediation.md",
+      "tier": 3,
+      "skill": "compliance-pipeline-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EB-001",
+      "file": "executive-brief-skill/eval-single-finding-brief.md",
+      "tier": 1,
+      "skill": "executive-brief-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EB-002",
+      "file": "executive-brief-skill/eval-risk-register-summary.md",
+      "tier": 1,
+      "skill": "executive-brief-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EB-003",
+      "file": "executive-brief-skill/eval-multi-finding-abstraction.md",
+      "tier": 2,
+      "skill": "executive-brief-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EB-004",
+      "file": "executive-brief-skill/eval-ciso-action-items.md",
+      "tier": 2,
+      "skill": "executive-brief-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EB-005",
+      "file": "executive-brief-skill/eval-cross-domain-portfolio.md",
+      "tier": 3,
+      "skill": "executive-brief-skill",
+      "type": "activation"
+    },
+    {
+      "id": "KS-001",
+      "file": "kernel-security-skill/eval-kaslr-assessment.md",
+      "tier": 1,
+      "skill": "kernel-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "KS-002",
+      "file": "kernel-security-skill/eval-iommu-config-review.md",
+      "tier": 1,
+      "skill": "kernel-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "KS-003",
+      "file": "kernel-security-skill/eval-seccomp-policy-audit.md",
+      "tier": 2,
+      "skill": "kernel-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "KS-004",
+      "file": "kernel-security-skill/eval-privilege-escalation-surface.md",
+      "tier": 2,
+      "skill": "kernel-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "KS-005",
+      "file": "kernel-security-skill/eval-full-kernel-hardening.md",
+      "tier": 3,
+      "skill": "kernel-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "MA-001",
+      "file": "microarch-attack-skill/eval-spectre-v1-basic.md",
+      "tier": 1,
+      "skill": "microarch-attack-skill",
+      "type": "activation"
+    },
+    {
+      "id": "MA-002",
+      "file": "microarch-attack-skill/eval-cache-timing-simple.md",
+      "tier": 1,
+      "skill": "microarch-attack-skill",
+      "type": "activation"
+    },
+    {
+      "id": "MA-003",
+      "file": "microarch-attack-skill/eval-mds-analysis.md",
+      "tier": 2,
+      "skill": "microarch-attack-skill",
+      "type": "activation"
+    },
+    {
+      "id": "MA-004",
+      "file": "microarch-attack-skill/eval-branch-predictor-attack.md",
+      "tier": 2,
+      "skill": "microarch-attack-skill",
+      "type": "activation"
+    },
+    {
+      "id": "MA-005",
+      "file": "microarch-attack-skill/eval-full-transient-execution.md",
+      "tier": 3,
+      "skill": "microarch-attack-skill",
+      "type": "activation"
+    },
+    {
+      "id": "PS-001",
+      "file": "physical-sca-skill/eval-dpa-basic.md",
+      "tier": 1,
+      "skill": "physical-sca-skill",
+      "type": "activation"
+    },
+    {
+      "id": "PS-002",
+      "file": "physical-sca-skill/eval-spa-power-analysis.md",
+      "tier": 1,
+      "skill": "physical-sca-skill",
+      "type": "activation"
+    },
+    {
+      "id": "PS-003",
+      "file": "physical-sca-skill/eval-fault-injection-glitching.md",
+      "tier": 2,
+      "skill": "physical-sca-skill",
+      "type": "activation"
+    },
+    {
+      "id": "PS-004",
+      "file": "physical-sca-skill/eval-jil-scoring-crypto.md",
+      "tier": 2,
+      "skill": "physical-sca-skill",
+      "type": "activation"
+    },
+    {
+      "id": "PS-005",
+      "file": "physical-sca-skill/eval-comprehensive-sca-iso17825.md",
+      "tier": 3,
+      "skill": "physical-sca-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EH-001",
+      "file": "emerging-hw-security-skill/eval-pqc-algorithm-review.md",
+      "tier": 1,
+      "skill": "emerging-hw-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EH-002",
+      "file": "emerging-hw-security-skill/eval-chiplet-trust-basic.md",
+      "tier": 1,
+      "skill": "emerging-hw-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EH-003",
+      "file": "emerging-hw-security-skill/eval-ucie-security-analysis.md",
+      "tier": 2,
+      "skill": "emerging-hw-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EH-004",
+      "file": "emerging-hw-security-skill/eval-ai-accelerator-threat.md",
+      "tier": 2,
+      "skill": "emerging-hw-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "EH-005",
+      "file": "emerging-hw-security-skill/eval-heterogeneous-compute-full.md",
+      "tier": 3,
+      "skill": "emerging-hw-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "TS-001",
+      "file": "tlaplus-security-skill/eval-access-control-simple.md",
+      "tier": 1,
+      "skill": "tlaplus-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "TS-002",
+      "file": "tlaplus-security-skill/eval-boot-sequence-safety.md",
+      "tier": 1,
+      "skill": "tlaplus-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "TS-003",
+      "file": "tlaplus-security-skill/eval-key-management-liveness.md",
+      "tier": 2,
+      "skill": "tlaplus-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "TS-004",
+      "file": "tlaplus-security-skill/eval-noninterference-property.md",
+      "tier": 2,
+      "skill": "tlaplus-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "TS-005",
+      "file": "tlaplus-security-skill/eval-full-refinement-mapping.md",
+      "tier": 3,
+      "skill": "tlaplus-security-skill",
+      "type": "activation"
+    },
+    {
+      "id": "NAV-001",
+      "file": "navigation/nav-threat-vs-verification.md",
+      "tier": 1,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    },
+    {
+      "id": "NAV-002",
+      "file": "navigation/nav-compliance-vs-executive.md",
+      "tier": 1,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    },
+    {
+      "id": "NAV-003",
+      "file": "navigation/nav-microarch-vs-physical.md",
+      "tier": 2,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    },
+    {
+      "id": "NAV-004",
+      "file": "navigation/nav-kernel-vs-threat.md",
+      "tier": 2,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    },
+    {
+      "id": "NAV-005",
+      "file": "navigation/nav-tlaplus-vs-verification.md",
+      "tier": 2,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    },
+    {
+      "id": "NAV-006",
+      "file": "navigation/nav-emerging-vs-microarch.md",
+      "tier": 2,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    },
+    {
+      "id": "NAV-007",
+      "file": "navigation/nav-three-way-ambiguity.md",
+      "tier": 3,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    },
+    {
+      "id": "NAV-008",
+      "file": "navigation/nav-negative-boundary-software.md",
+      "tier": 1,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    },
+    {
+      "id": "NAV-009",
+      "file": "navigation/nav-negative-boundary-network.md",
+      "tier": 1,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    },
+    {
+      "id": "NAV-010",
+      "file": "navigation/nav-sequential-handoff.md",
+      "tier": 3,
+      "skill": "soc-security-skills",
+      "type": "navigation"
+    }
+  ]
+}

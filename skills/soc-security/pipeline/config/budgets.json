@@ -1,0 +1,114 @@
+{
+  "spec_version": "1.3",
+  "coordinator_max_words": 600,
+  "coordinator_max_tokens": 800,
+  "specialist_max_words": 1500,
+  "specialist_max_tokens": 2000,
+  "reference_max_words": 1100,
+  "reference_max_tokens": 1500,
+  "standalone_max_words": 1500,
+  "standalone_max_tokens": 2000,
+  "max_simultaneous_tokens": 5500,
+  "overrides": {
+    "skills/threat-model-skill/SKILL.md": {
+      "max_words": 3000,
+      "rationale": "STRIDE framework coverage + 5 technology domains + 3 analysis frameworks require structured per-domain guidance that prevents misclassification"
+    },
+    "skills/verification-scaffold-skill/SKILL.md": {
+      "max_words": 2900,
+      "rationale": "3-tier verification model + SVA annotation requirements + domain-specific property patterns ensure correct tier assignment and honest coverage annotations"
+    },
+    "skills/compliance-pipeline-skill/SKILL.md": {
+      "max_words": 2600,
+      "rationale": "3-stage pipeline + gap classification taxonomy + SPECULATIVE review gate require precise procedural guidance to prevent false compliance claims"
+    },
+    "skills/executive-brief-skill/SKILL.md": {
+      "max_words": 2400,
+      "rationale": "4-layer abstraction model + 3 audience levels + traceability requirements demand structured translation guidance preserving evidence chains"
+    },
+    "skills/kernel-security-skill/SKILL.md": {
+      "max_words": 2200,
+      "rationale": "5-phase analysis covering memory/isolation/attack-surface/escalation + HW/SW boundary focus requires structured checklists preventing incomplete isolation assessment"
+    },
+    "skills/physical-sca-skill/SKILL.md": {
+      "max_words": 2200,
+      "rationale": "JIL scoring methodology + ISO 17825 mapping + countermeasure residual risk assessment are specialized domain knowledge not in Claude's training"
+    },
+    "skills/emerging-hw-security-skill/SKILL.md": {
+      "max_words": 2000,
+      "rationale": "4 paradigms + maturity-aware analysis + migration risk assessment require structured guidance preventing generic emerging-tech claims"
+    },
+    "skills/tlaplus-security-skill/SKILL.md": {
+      "max_words": 1900,
+      "rationale": "Property type classification + model checking feasibility + explicit assumptions/limitations framework prevents overconfident formal claims"
+    },
+    "skills/microarch-attack-skill/SKILL.md": {
+      "max_words": 1700,
+      "rationale": "Attack catalog coverage + speculative window quantification + mitigation hierarchy require structured assessment preventing generic side-channel claims"
+    },
+    "skills/microarch-attack-skill/references/speculation-barrier-patterns.md": {
+      "max_words": 1800,
+      "rationale": "Hardware/software mitigation catalog with implementation-specific barrier patterns and residual risk notes \u2014 compression would lose mitigation detail engineers need"
+    },
+    "skills/executive-brief-skill/references/executive-templates.md": {
+      "max_words": 1700,
+      "rationale": "3 audience-level templates (board, CISO, program) with structural requirements \u2014 each template is minimal but all three are needed for audience selection"
+    },
+    "skills/emerging-hw-security-skill/references/chiplet-security-model-heterogeneous.md": {
+      "max_words": 1700,
+      "rationale": "Heterogeneous compute trust boundary model covering CPU+GPU+NPU+accelerator interactions \u2014 domain-specific content not in Claude's training data"
+    },
+    "skills/tlaplus-security-skill/references/tlaplus-security-patterns-auth-access.md": {
+      "max_words": 1600,
+      "rationale": "Complete TLA+ module for authentication + access control security properties \u2014 code examples cannot be compressed without breaking correctness"
+    },
+    "skills/tlaplus-security-skill/references/tlaplus-security-patterns-refinement-capability.md": {
+      "max_words": 1600,
+      "rationale": "Complete TLA+ module for refinement checking + capability-based security \u2014 code examples cannot be compressed without breaking correctness"
+    },
+    "skills/tlaplus-security-skill/references/tlaplus-security-patterns-key-noninterference.md": {
+      "max_words": 1400,
+      "rationale": "Complete TLA+ module for key management + noninterference properties \u2014 formal specifications require exact operator definitions"
+    },
+    "skills/tlaplus-security-skill/references/tlaplus-security-patterns-boot-rollback.md": {
+      "max_words": 1300,
+      "rationale": "Complete TLA+ module for secure boot + rollback protection \u2014 formal specifications require exact operator definitions"
+    },
+    "skills/threat-model-skill": {
+      "max_simultaneous_tokens": 6100,
+      "rationale": "3-framework analysis (STRIDE + attack trees + standards) with 5 technology domains and dedicated output template references require larger specialist and split reference files"
+    },
+    "skills/verification-scaffold-skill": {
+      "max_simultaneous_tokens": 6100,
+      "rationale": "3-tier verification model with SVA authoring guide split across syntax/annotations/patterns requires larger specialist and domain-specific reference files"
+    },
+    "skills/threat-model-skill/references/output-templates-examples.md": {
+      "max_words": 1400,
+      "rationale": "Worked examples for coverage boundary, confidence summary, caveat block, attack tree, and complete structure \u2014 each template is minimal"
+    },
+    "skills/verification-scaffold-skill/references/sva-authoring-guide-patterns.md": {
+      "max_words": 1300,
+      "rationale": "SVA patterns, anti-patterns, and synthesis considerations \u2014 code examples cannot be compressed without losing correctness"
+    },
+    "skills/emerging-hw-security-skill/references/pqc-implementation-guide-algorithms.md": {
+      "max_words": 1300,
+      "rationale": "ML-KEM and ML-DSA hardware implementation details including NTT butterfly security \u2014 domain-specific content not in Claude's training"
+    },
+    "skills/emerging-hw-security-skill/references/chiplet-security-model-ucie-trust.md": {
+      "max_words": 1200,
+      "rationale": "UCIe trust model covering D2D security, flit integrity, and link-layer encryption \u2014 protocol-specific detail"
+    },
+    "skills/tlaplus-security-skill/references/model-checking-guide-debugging.md": {
+      "max_words": 1200,
+      "rationale": "TLC debugging techniques including trace interpretation and common pitfalls \u2014 practical guidance not available in general TLA+ documentation"
+    },
+    "skills/kernel-security-skill/references/kernel-hardening-checklist-surface.md": {
+      "max_words": 1200,
+      "rationale": "Attack surface reduction and HW interface hardening checklist items \u2014 each item is a minimal description+verification+impact entry"
+    },
+    "skills/microarch-attack-skill/references/microarch-attack-methodology.md": {
+      "max_words": 1200,
+      "rationale": "Speculative window quantification and attack classification methodology \u2014 domain-specific assessment framework"
+    }
+  }
+}
