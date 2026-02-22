@@ -61,10 +61,10 @@ Strip the matched flag from `$ARGUMENTS`. Remaining text is the **idea**.
 |------|--------|--------|--------|-------------|--------|
 | brainstorm | 0 + inline | 3 (sonnet) | 0 | 0 | Inline chat only |
 | quick | 0, 2, 3(1-round), 4(light) | 3 | 1 | 1 | design-sketch.md, task list |
-| standard | 0, 1, 2, 3, 4, 5 | 3-7 | 3 | 6-7 | Full design doc, PRD |
-| deep | 0, 1, 2, 3, 4, 5D | 3-7 | 3 | 5-6 | Full design doc, PRD, audit report |
-| auto | 0, 2, 3, 4, 5 | 3-7 | 3 | 0 | Full design doc, PRD, code |
-| guided | 0, 1, 2, 3, 4, 5 | 3-7 | 3 + gates | 8+ | Full design doc, PRD |
+| standard | 0, 1, 2, 3, 4, 5 | 3-7 | 3 | 6-7 | Full design doc, PRD, GitHub issues |
+| deep | 0, 1, 2, 3, 4, 5D | 3-7 | 3 | 5-6 | Full design doc, PRD, audit report, GitHub issues |
+| auto | 0, 2, 3, 4, 5 | 3-7 | 3 | 0 | Full design doc, PRD, GitHub issues |
+| guided | 0, 1, 2, 3, 4, 5 | 3-7 | 3 + gates | 8+ | Full design doc, PRD, GitHub issues |
 | meeting | 0, 1(light), 2, 3-meeting | 3-7 | Meeting protocol | 2-3 | meeting-notes.md |
 | audit | 0, context, 5D | 3-5 | 0 | 2-3 | Deep audit report |
 
@@ -866,7 +866,7 @@ Present a summary to the user inline, then reference the full notes file.
 
 **Quick mode:** Generate a **task list** (not a full PRD). Numbered tasks with brief descriptions. Present action path choice to user: team execution, ralf, or export. No Phase 5 — output is the sketch + task list.
 
-**Auto mode:** Generate PRD. Auto-approve without user review. Default to **team execution** action path.
+**Auto mode:** Generate PRD. Auto-approve without user review. Default to **GitHub Issues export** action path.
 
 ### 4.1 Generate PRD
 
@@ -1051,6 +1051,7 @@ How would you like to proceed?
 ```
 
 Options:
+- **Export to GitHub Issues (Recommended)** — Create one issue per user story with acceptance criteria and dependencies
 - **Team execution** — Assign tasks to agents
 - **Ralf handoff** — PRD goes to `/ralf` for autonomous execution
 - **Launch handoff** — PRD goes to `/launch` in a separate worktree
@@ -1138,6 +1139,92 @@ Tell the user to run:
 ### Path D: Deep Audit
 
 Read and follow [Phase 5D: Deep Audit](#phase-5d-deep-audit).
+
+### Path E: GitHub Issues Export
+
+Export user stories from the PRD as individual GitHub issues with acceptance criteria and dependency tracking.
+
+1. **Read artifacts:**
+   - `$SESSION_DIR/prd.md` — extract user stories, acceptance criteria, technical notes
+   - `$SESSION_DIR/acceptance-contract.md` — extract verification methods and test locations
+
+2. **Detect repo context:**
+   ```bash
+   REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
+   ```
+   If `gh` fails, warn the user and abort: "GitHub CLI not authenticated. Run `gh auth login` first."
+
+3. **Create milestone** (idempotent):
+   ```bash
+   gh api repos/$REPO/milestones --method POST -f title="$IDEA" -f state=open 2>/dev/null || true
+   MILESTONE_NUMBER=$(gh api repos/$REPO/milestones --jq '.[] | select(.title=="'"$IDEA"'") | .number')
+   ```
+
+4. **Create issues in dependency order.** For each user story (US-001, US-002, etc.):
+   ```bash
+   gh issue create \
+     --title "[US-NNN] <Story title>" \
+     --label "user-story,$THEME_ID-<session-slug>" \
+     --milestone "$IDEA" \
+     --body "$ISSUE_BODY"
+   ```
+
+   **Issue body template:**
+   ```markdown
+   ## User Story
+   As a <user>, I want <capability> so that <benefit>.
+
+   ## Acceptance Criteria
+   - [ ] <AC-NNN>: <Criterion 1>
+   - [ ] <AC-NNN>: <Criterion 2>
+
+   ## Testing
+   | Criterion | Method | Test Location |
+   |-----------|--------|---------------|
+   | AC-NNN | unit-test | `path/to/test.ts` |
+
+   ## Technical Notes
+   <Relevant technical notes from PRD for this story>
+
+   ## Dependencies
+   - Blocked by #<N> <!-- only if prior stories are prerequisites -->
+
+   ---
+   Tracking: <acceptance-contract-issue-url>
+   Session: `<session-id>`
+   ```
+
+   Track each created issue number for dependency linking in subsequent issues.
+
+5. **Update acceptance contract issue** — append a cross-reference section to the existing contract issue body listing all created user story issues:
+   ```bash
+   gh issue edit <contract-issue-number> --body "$UPDATED_BODY"
+   ```
+
+6. **Write issue map** to `$SESSION_DIR/issues.md`:
+   ```markdown
+   # GitHub Issues: <Idea>
+   Session: <session-id> | Milestone: <milestone-url>
+
+   | Issue | Title | Labels | Depends On |
+   |-------|-------|--------|------------|
+   | #<N> | [US-001] <title> | user-story | — |
+   | #<N> | [US-002] <title> | user-story | #<N> |
+   ```
+
+7. **Print summary** to the user:
+   ```
+   GitHub Issues Created — <N> issues in milestone "<Idea>"
+
+   | # | Title | Dependencies |
+   |---|-------|--------------|
+   | <issue#> | [US-001] <title> | — |
+   | <issue#> | [US-002] <title> | Blocked by #<N> |
+
+   Milestone: <milestone-url>
+   Acceptance Contract: <contract-issue-url>
+   Issue map: $SESSION_DIR/issues.md
+   ```
 
 **Guided mode:** During team execution (Path A), add per-task approval before each agent starts work:
 ```
@@ -1271,6 +1358,7 @@ $WORKSPACE/.claude/$THEME_ID/
       prd.md
       acceptance-contract.md                # Acceptance contract (Phase 4.1b)
       test-stubs/                           # BDD test stubs generated from contract
+      issues.md                             # GitHub issue map (Path E export)
       audit/                                  # Deep audit artifacts (Phase 5D)
         state.md                              # Audit loop state + pass history
         coverage.md                           # Zone coverage map
