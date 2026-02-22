@@ -26,12 +26,6 @@ Diagnose non-CSS UI bugs by running symptom-targeted checks against the componen
 - Does not modify source code or run shell commands
 - Investigates only components within the ComponentMap — stops at library boundaries (`@radix-ui`, `shadcn/ui`, `@mui`, etc.)
 
-## Input Sanitization
-
-- ComponentMap paths: must resolve within `.claude/qa-cache/` — reject `..` traversal, null bytes, and shell metacharacters
-- Symptom descriptions and classifications: free text input, reject null bytes
-- Source file paths from ComponentMap: validate existence before reading — reject paths outside project root
-
 ## Inputs
 
 - **ComponentMap** (required): Path to `.claude/qa-cache/component-maps/{route-slug}.json`

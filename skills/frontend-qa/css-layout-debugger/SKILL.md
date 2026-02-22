@@ -28,12 +28,6 @@ Diagnose CSS/layout/styling issues through a 6-phase pipeline mirroring browser 
 - Does not modify source code or run shell commands
 - Inspects only components and styles within the ComponentMap — stops at external library internals
 
-## Input Sanitization
-
-- ComponentMap paths: must resolve within `.claude/qa-cache/` — reject `..` traversal, null bytes, and shell metacharacters
-- Route paths: only alphanumeric characters, hyphens, underscores, forward slashes, and brackets — reject `..` or null bytes
-- Symptom descriptions: free text input, reject null bytes
-
 ## Inputs
 
 - **ComponentMap** (required): Path to `.claude/qa-cache/component-maps/{route-slug}.json`

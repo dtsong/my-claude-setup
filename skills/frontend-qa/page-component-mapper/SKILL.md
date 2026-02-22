@@ -9,11 +9,11 @@ description: >
   diagnosing bugs, fixing code, or generating tests — those are handled by specialist
   skills after mapping is complete.
 model:
-  preferred: sonnet
-  acceptable: [sonnet, opus]
-  minimum: sonnet
-  allow_downgrade: false
-  reasoning_demand: medium
+  preferred: haiku
+  acceptable: [haiku, sonnet, opus]
+  minimum: haiku
+  allow_downgrade: true
+  reasoning_demand: low
 ---
 
 # Page Component Mapper
