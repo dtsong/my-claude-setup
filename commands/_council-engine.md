@@ -1154,19 +1154,71 @@ Export user stories from the PRD as individual GitHub issues with acceptance cri
    ```
    If `gh` fails, warn the user and abort: "GitHub CLI not authenticated. Run `gh auth login` first."
 
-3. **Create milestone** (idempotent):
+3. **Create milestone** (with error discrimination):
    ```bash
-   gh api repos/$REPO/milestones --method POST -f title="$IDEA" -f state=open 2>/dev/null || true
+   MILESTONE_RESULT=$(gh api repos/$REPO/milestones --method POST -f title="$IDEA" -f state=open 2>&1)
+   MILESTONE_EXIT=$?
+   if [ $MILESTONE_EXIT -ne 0 ]; then
+     if echo "$MILESTONE_RESULT" | grep -q "already_exists"; then
+       # Duplicate — expected, proceed normally
+     else
+       # Real error — warn but continue
+       echo "Warning: Milestone creation failed: $MILESTONE_RESULT"
+     fi
+   fi
    MILESTONE_NUMBER=$(gh api repos/$REPO/milestones --jq '.[] | select(.title=="'"$IDEA"'") | .number')
    ```
 
-4. **Create issues in dependency order.** For each user story (US-001, US-002, etc.):
+   **Validate milestone before proceeding:**
+   ```bash
+   if [ -z "$MILESTONE_NUMBER" ]; then
+     echo "Error: Milestone '$IDEA' not found after creation attempt. Check repo permissions."
+     # Abort — do not proceed to issue creation
+     exit 1
+   fi
+   ```
+
+4. **Create labels** (idempotent, best-effort):
+   ```bash
+   gh label create "user-story" --description "User story from council PRD" --color "0E8A16" 2>/dev/null || true
+   LABEL_RESULT=$(gh label create "$THEME_ID-<session-slug>" --description "Council session: <slug>" --color "5319E7" 2>&1)
+   if [ $? -ne 0 ] && ! echo "$LABEL_RESULT" | grep -q "already_exists"; then
+     echo "Warning: Could not create session label — issues will be created without it"
+   fi
+   ```
+
+5. **Initialize issue map** — write `$SESSION_DIR/issues.md` header before the loop:
+   ```markdown
+   # GitHub Issues: <Idea>
+   Session: <session-id> | Milestone: <milestone-url>
+
+   | Issue | Title | Labels | Depends On |
+   |-------|-------|--------|------------|
+   ```
+
+6. **Create issues in dependency order.** For each user story (US-001, US-002, etc.):
+
+   **Idempotency check** — before creating, search for an existing issue:
+   ```bash
+   EXISTING=$(gh issue list --label "$THEME_ID-<session-slug>" --search "[US-NNN]" --json number,title --jq '.[0].number // empty')
+   if [ -n "$EXISTING" ]; then
+     echo "Skipped [US-NNN] — already exists as #$EXISTING"
+     # Record in issues.md and continue to next story
+   fi
+   ```
+
+   **Create issue** (only if no existing match):
    ```bash
    gh issue create \
      --title "[US-NNN] <Story title>" \
      --label "user-story,$THEME_ID-<session-slug>" \
      --milestone "$IDEA" \
      --body "$ISSUE_BODY"
+   ```
+
+   **Append to issue map immediately** after each successful creation or skip:
+   ```
+   | #<N> | [US-NNN] <title> | user-story | <depends-on or —> |
    ```
 
    **Issue body template:**
@@ -1196,23 +1248,12 @@ Export user stories from the PRD as individual GitHub issues with acceptance cri
 
    Track each created issue number for dependency linking in subsequent issues.
 
-5. **Update acceptance contract issue** — append a cross-reference section to the existing contract issue body listing all created user story issues:
+7. **Update acceptance contract issue** — append a cross-reference section to the existing contract issue body listing all created user story issues:
    ```bash
    gh issue edit <contract-issue-number> --body "$UPDATED_BODY"
    ```
 
-6. **Write issue map** to `$SESSION_DIR/issues.md`:
-   ```markdown
-   # GitHub Issues: <Idea>
-   Session: <session-id> | Milestone: <milestone-url>
-
-   | Issue | Title | Labels | Depends On |
-   |-------|-------|--------|------------|
-   | #<N> | [US-001] <title> | user-story | — |
-   | #<N> | [US-002] <title> | user-story | #<N> |
-   ```
-
-7. **Print summary** to the user:
+8. **Print summary** to the user:
    ```
    GitHub Issues Created — <N> issues in milestone "<Idea>"
 
