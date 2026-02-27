@@ -30,5 +30,6 @@
     "swift-lsp@claude-plugins-official": true,
     "figma@claude-plugins-official": true
   },
+  "skipDangerousModePermissionPrompt": true,
   "effortLevel": "medium"
 }
