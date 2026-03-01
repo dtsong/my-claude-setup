@@ -7,7 +7,7 @@ argument-hint: "[IDEA...]"
 
 Fast feedback from 3 parallel perspectives. No files, no ceremony.
 
-> **Tip:** This is also available as `/council --brainstorm` or `/academy --brainstorm`.
+> **Tip:** This is also available as `/council --brainstorm`.
 
 ## Usage
 
