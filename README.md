@@ -1,6 +1,6 @@
 # my-claude-setup
 
-A portable Claude Code configuration system — 38 agents, 57 skills, 8 deliberation modes, session persistence, and lifecycle hooks. Clone it, install it, and every Claude Code session gets multi-agent deliberation, opinionated project scaffolding, and workspace-aware context injection.
+A portable Claude Code configuration system — 21 agents, 57 skills, 8 deliberation modes, session persistence, and lifecycle hooks. Clone it, install it, and every Claude Code session gets multi-agent deliberation, opinionated project scaffolding, and workspace-aware context injection.
 
 ## Prerequisites
 
@@ -87,7 +87,7 @@ Contributions are welcome, especially anything that improves first-time adoption
 
 ### Multi-Agent Deliberation
 
-`/council` and `/academy` assemble 3-7 specialized agents from a roster of 20 to deliberate on design decisions. These agents will explore your codebase independently, write position statements, challenge each other's recommendations, and converge on a unified design document with explicit trade-off resolution.
+`/council` assembles 3-7 specialized agents from a roster of 20 to deliberate on design decisions. These agents will explore your codebase independently, write position statements, challenge each other's recommendations, and converge on a unified design document with explicit trade-off resolution.
 
 Eight modes control depth and involvement:
 
@@ -144,8 +144,7 @@ Workspaces are project-specific context configs that auto-load based on git remo
 
 | Command | Description |
 |---------|-------------|
-| `/council [--mode] "idea"` | Multi-agent deliberation (Council theme) |
-| `/academy [--mode] "idea"` | Multi-agent deliberation (Fire Emblem Academy theme) |
+| `/council [--mode] "idea"` | Multi-agent deliberation |
 | `/brainstorm "idea"` | Quick 3-agent gut check |
 
 ### Project Setup
@@ -207,17 +206,14 @@ Each agent brings a distinct cognitive lens. Sessions use 3-7 agents selected fo
 
 The **Steward** (Platinum) serves as the conductor persona — always active, never spawned as a separate agent.
 
-The **Academy** theme mirrors the full roster with Fire Emblem class names (Sage, Troubadour, Thief, etc.), house tensions, support conversations, and class promotion mechanics.
-
 ## Directory Layout
 
 ```bash
 my-claude-setup/
-├── agents/              # 38 agent persona files (21 council + 17 academy)
+├── agents/              # 21 council agent personas
 ├── commands/            # 16 slash commands + shared engine
 │   ├── _council-engine.md  # Shared deliberation engine (~1200 lines)
 │   ├── council.md       # Council theme layer
-│   ├── academy.md       # Academy theme layer
 │   └── *.md             # Individual commands
 ├── skills/              # 57 structured skill templates
 │   ├── council/         # 20 departments × 2-3 skills each
@@ -259,7 +255,6 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for details on:
 - Adding new agents (persona file + department + skills + roster entry)
 - Creating commands (markdown prompt templates with frontmatter)
 - Building skills (structured templates with process steps and quality checks)
-- Adding themes (supply 14 extension points to the shared engine)
 
 ## License
 

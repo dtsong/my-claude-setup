@@ -6,7 +6,7 @@ Technical reference for contributors and deep customizers. For usage, see [READM
 
 ## Engine Architecture
 
-The deliberation system uses a **shared engine + themed layer** pattern. All workflow logic lives in `commands/_council-engine.md` (~1200 lines). Themed command files (`council.md`, `academy.md`) supply configuration variables.
+The deliberation system uses a **shared engine + themed layer** pattern. All workflow logic lives in `commands/_council-engine.md` (~1200 lines). The themed command file (`council.md`) supplies configuration variables.
 
 ### Phase Flow
 
@@ -25,20 +25,20 @@ Each themed command file defines 14 variables:
 
 | Variable | Purpose | Example |
 |----------|---------|---------|
-| `$THEME_ID` | Directory prefix for sessions | `council`, `academy` |
-| `$THEME_NAME` | Display name | `Council`, `Officers Academy` |
+| `$THEME_ID` | Directory prefix for sessions | `council` |
+| `$THEME_NAME` | Display name | `Council` |
 | `$ROSTER_TABLE` | Agent roster with names, colors, files, subagent types | *(see council.md)* |
 | `$INTAKE_PROMPT` | Phase 0 question text | "What's the big idea?" |
-| `$AGENT_FILE_PREFIX` | Filename prefix for personas | `council-`, `academy-` |
-| `$MODIFIER_RULES` | Scoring bonuses and anti-redundancy penalties | *(theme-specific)* |
-| `$CHALLENGE_RULES` | How tension pairs are identified | Organic vs. house-based |
+| `$AGENT_FILE_PREFIX` | Filename prefix for personas | `council-` |
+| `$MODIFIER_RULES` | Scoring bonuses and anti-redundancy penalties | *(see council.md)* |
+| `$CHALLENGE_RULES` | How tension pairs are identified | Organic (from positions) |
 | `$CONDUCTOR_PERSONA` | Agent file the conductor embodies | `council-steward` |
 | `$SESSION_DIR_ROOT` | Root path for sessions | `.claude/council/sessions/` |
-| `$TEAM_PREFIX` | Prefix for team names | `council-`, `academy-` |
+| `$TEAM_PREFIX` | Prefix for team names | `council-` |
 | `$GLOBAL_REGISTRY_PATH` | Cross-workspace registry path | `~/.claude/council/global-registry.json` |
 | `$INDEX_PATH` | Workspace index path | `.claude/council/index.json` |
-| `$PHASE_LABELS` | Themed labels for each phase | *(theme-specific)* |
-| `$EXTRA_MECHANICS` | Theme-specific mechanics | Academy: support conversations, class promotion, house tensions |
+| `$PHASE_LABELS` | Themed labels for each phase | *(see council.md)* |
+| `$EXTRA_MECHANICS` | Theme-specific mechanics | *(none for council)* |
 
 ### Mode System
 
@@ -68,22 +68,6 @@ Agent personas live in `agents/`. Each is a markdown file with YAML frontmatter.
 name: "Architect"
 description: "Council Blue Lens — system design, data models, APIs, integration patterns"
 model: "claude-opus-4-6"
----
-```
-
-### Academy Agent Format
-
-Academy agents extend council agents with themed framing:
-
-```yaml
----
-name: "Sage"
-base_persona: "council-architect"
-description: "Academy Cerulean Lens — system design, data models, APIs, integration patterns"
-model: "claude-opus-4-6"
-house: "Faculty"
-class: "Sage"
-promotion: "Archsage"
 ---
 ```
 
@@ -143,7 +127,7 @@ Each skill template contains:
 
 After each session, the conductor appends observations to the skill's Evolution Notes. The `registry.json` tracks usage counts. If a skill consistently needs the same adjustment, its process steps are updated.
 
-Academy agents share skills from `skills/council/` — no duplication of the 57 SKILL.md files.
+Skills are not duplicated — all 57 SKILL.md files live in `skills/council/`.
 
 ---
 
@@ -221,7 +205,7 @@ Utility scripts in `scripts/`:
 
 | Script | Purpose |
 |--------|---------|
-| `launch-agent.sh` | Launch a council/academy agent with context |
+| `launch-agent.sh` | Launch a council agent with context |
 | `run-agent.sh` | Run an agent task to completion |
 | `agent-broadcast.sh` | Broadcast a message to all active agents |
 | `agent-status.sh` | Check status of running agents |
@@ -241,8 +225,6 @@ Utility scripts in `scripts/`:
 3. Create 2-3 skill directories under the department, each with a `SKILL.md`
 4. Add the agent to the roster table in `commands/council.md`
 5. Add the department to `skills/council/registry.json`
-6. Optionally create an academy mirror at `agents/academy-<class>.md` with the additional `base_persona`, `house`, `class`, and `promotion` fields
-
 ### Adding a New Command
 
 Create `commands/<name>.md` with frontmatter:
@@ -262,4 +244,4 @@ Create `skills/council/<department>/<skill-name>/SKILL.md` with sections: Purpos
 
 ### Adding a New Theme
 
-Create a new command file (e.g., `commands/mytheme.md`) that defines all 14 extension point variables and references `_council-engine.md`. Create 17 agent files with your theme's framing. The engine handles all workflow logic.
+Create a new command file (e.g., `commands/mytheme.md`) that defines all 14 extension point variables and references `_council-engine.md`. Create agent files with your theme's framing. The engine handles all workflow logic.

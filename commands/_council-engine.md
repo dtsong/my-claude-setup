@@ -1,6 +1,6 @@
 # Shared Deliberation Engine
 
-This is the **theme-agnostic orchestration core** used by both `/council` and `/academy` (and future themed variants). It is not a standalone command — it is referenced by themed command files that supply configuration variables.
+This is the **theme-agnostic orchestration core** for `/council` (and future themed variants). It is not a standalone command — it is referenced by themed command files that supply configuration variables.
 
 ---
 
@@ -8,23 +8,23 @@ This is the **theme-agnostic orchestration core** used by both `/council` and `/
 
 Each themed command file must define these variables before referencing this engine:
 
-| Variable | Purpose | Example (Council) | Example (Academy) |
-|----------|---------|--------------------|--------------------|
-| `$THEME_ID` | Directory prefix for sessions, teams, artifacts | `council` | `academy` |
-| `$THEME_NAME` | Display name in user-facing messages | `Council` | `Officers Academy` |
-| `$ROSTER_TABLE` | Agent roster with names, colors, files, subagent types | *(see council.md)* | *(see academy.md)* |
-| `$INTAKE_PROMPT` | Phase 0 question text | "What's the big idea?" | "What challenge brings you to the Officers Academy?" |
-| `$AGENT_FILE_PREFIX` | Filename prefix for agent personas | `council-` | `academy-` |
-| `$MODIFIER_RULES` | Mandatory bonuses and anti-redundancy penalties | *(see council.md)* | *(see academy.md)* |
-| `$CHALLENGE_RULES` | How Round 2 tension pairs are identified | Organic (from positions) | House tensions (structured) |
-| `$CONDUCTOR_PERSONA` | Agent file the conductor embodies | `council-steward` | `academy-professor` |
-| `$SESSION_DIR_ROOT` | Root path for sessions | `.claude/council/sessions/` | `.claude/academy/sessions/` |
-| `$TEAM_PREFIX` | Prefix for team names | `council-` | `academy-` |
-| `$GLOBAL_REGISTRY_PATH` | Path for cross-workspace registry | `~/.claude/council/global-registry.json` | `~/.claude/academy/global-registry.json` |
-| `$INDEX_PATH` | Relative path to workspace index | `.claude/council/index.json` | `.claude/academy/index.json` |
-| `$PHASE_LABELS` | Themed labels for each phase | *(see council.md)* | *(see academy.md)* |
-| `$ASSEMBLY_LABEL` | Header for the assembly table | "Council Assembly — Agent Selection" | "Academy Assembly — Unit Selection" |
-| `$EXTRA_MECHANICS` | Theme-specific mechanics to execute during workflow | *(none)* | Support Conversations, Class Promotion, House Tensions |
+| Variable | Purpose | Example |
+|----------|---------|---------|
+| `$THEME_ID` | Directory prefix for sessions, teams, artifacts | `council` |
+| `$THEME_NAME` | Display name in user-facing messages | `Council` |
+| `$ROSTER_TABLE` | Agent roster with names, colors, files, subagent types | *(see council.md)* |
+| `$INTAKE_PROMPT` | Phase 0 question text | "What's the big idea?" |
+| `$AGENT_FILE_PREFIX` | Filename prefix for agent personas | `council-` |
+| `$MODIFIER_RULES` | Mandatory bonuses and anti-redundancy penalties | *(see council.md)* |
+| `$CHALLENGE_RULES` | How Round 2 tension pairs are identified | Organic (from positions) |
+| `$CONDUCTOR_PERSONA` | Agent file the conductor embodies | `council-steward` |
+| `$SESSION_DIR_ROOT` | Root path for sessions | `.claude/council/sessions/` |
+| `$TEAM_PREFIX` | Prefix for team names | `council-` |
+| `$GLOBAL_REGISTRY_PATH` | Path for cross-workspace registry | `~/.claude/council/global-registry.json` |
+| `$INDEX_PATH` | Relative path to workspace index | `.claude/council/index.json` |
+| `$PHASE_LABELS` | Themed labels for each phase | *(see council.md)* |
+| `$ASSEMBLY_LABEL` | Header for the assembly table | "Council Assembly — Agent Selection" |
+| `$EXTRA_MECHANICS` | Theme-specific mechanics to execute during workflow | *(none for council)* |
 
 ---
 
@@ -70,7 +70,7 @@ Strip the matched flag from `$ARGUMENTS`. Remaining text is the **idea**.
 
 ### Mode Interaction with `$EXTRA_MECHANICS`
 
-When the themed command defines `$EXTRA_MECHANICS` (e.g., Academy's support conversations, house tensions, class promotion), apply these rules per mode:
+When the themed command defines `$EXTRA_MECHANICS`, apply these rules per mode:
 
 | Mode | Extra Mechanics Behavior |
 |------|--------------------------|
@@ -188,7 +188,7 @@ Each agent manages a **department** of focused skills — structured prompt temp
 
 ### Skill Structure
 
-Skills are stored in `.claude/skills/council/` and are **shared across all themes**. Both `/council` and `/academy` agents reference the same skill files.
+Skills are stored in `.claude/skills/council/`.
 
 ```
 .claude/skills/council/

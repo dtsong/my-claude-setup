@@ -30,4 +30,4 @@ Convention references for consistent, opinionated project setup. Each reference 
 These references are consumed by:
 - `/new-python`, `/new-typescript`, `/new-terraform` scaffolding commands
 - Direct reading during code reviews and convention discussions
-- Council/Academy agents for project context
+- Council agents for project context
