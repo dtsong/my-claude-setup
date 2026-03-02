@@ -866,7 +866,7 @@ Present a summary to the user inline, then reference the full notes file.
 
 **Quick mode:** Generate a **task list** (not a full PRD). Numbered tasks with brief descriptions. Present action path choice to user: team execution, ralf, or export. No Phase 5 — output is the sketch + task list.
 
-**Auto mode:** Generate PRD. Auto-approve without user review. Default to **GitHub Issues export** action path.
+**Auto mode:** Generate PRD. Auto-approve without user review. Default to **Ship** action path (Path F: export issues then implement, review, and merge).
 
 ### 4.1 Generate PRD
 
@@ -1051,7 +1051,8 @@ How would you like to proceed?
 ```
 
 Options:
-- **Export to GitHub Issues (Recommended)** — Create one issue per user story with acceptance criteria and dependencies
+- **Ship (Recommended)** — Export issues, implement, review, and merge all PRs automatically via `/ship`
+- **Export to GitHub Issues** — Create one issue per user story with acceptance criteria and dependencies
 - **Team execution** — Assign tasks to agents
 - **Ralf handoff** — PRD goes to `/ralf` for autonomous execution
 - **Launch handoff** — PRD goes to `/launch` in a separate worktree
@@ -1265,7 +1266,22 @@ Export user stories from the PRD as individual GitHub issues with acceptance cri
    Milestone: <milestone-url>
    Acceptance Contract: <contract-issue-url>
    Issue map: $SESSION_DIR/issues.md
+
+   Next: /ship --from-session <session-id>
    ```
+
+### Path F: Ship (Issues to Merged PRs)
+
+Run Path E (GitHub Issues Export) first, then automatically invoke `/ship` to implement, review, and merge all issues.
+
+1. Execute Path E steps 1-8 (create GitHub issues with acceptance criteria and dependencies)
+2. After Path E completes, invoke:
+   ```
+   /ship --from-session <session-slug>
+   ```
+   The `--from-session` flag reads `$SESSION_DIR/issues.md` for issue numbers and auto-sets `--contract` from `$SESSION_DIR/acceptance-contract.md`.
+
+3. `/ship` handles the full pipeline: implement each issue via `/looper`, review PRs via `/pr-review-toolkit:review-pr`, fix findings autonomously, and merge in dependency order.
 
 **Guided mode:** During team execution (Path A), add per-task approval before each agent starts work:
 ```
