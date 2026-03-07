@@ -10,7 +10,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash hooks/acceptance-gate.sh"
+            "command": "bash \"$HOME/Development/my-claude-setup/hooks/acceptance-gate.sh\""
           }
         ]
       }
@@ -30,6 +30,5 @@
     "swift-lsp@claude-plugins-official": true,
     "figma@claude-plugins-official": true
   },
-  "skipDangerousModePermissionPrompt": true,
-  "effortLevel": "medium"
+  "skipDangerousModePermissionPrompt": true
 }

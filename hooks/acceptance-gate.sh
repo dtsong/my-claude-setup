@@ -10,15 +10,15 @@ set -euo pipefail
 
 # Parse hook input from stdin (JSON with tool_name, tool_input, etc.)
 INPUT=$(cat)
-TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty')
-TOOL_INPUT=$(echo "$INPUT" | jq -r '.tool_input // empty')
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null) || exit 0
+TOOL_INPUT=$(echo "$INPUT" | jq -r '.tool_input // empty' 2>/dev/null) || exit 0
 
 # Only gate on TaskUpdate → completed
 if [[ "$TOOL_NAME" != "TaskUpdate" ]]; then
   exit 0
 fi
 
-STATUS=$(echo "$TOOL_INPUT" | jq -r '.status // empty')
+STATUS=$(echo "$TOOL_INPUT" | jq -r '.status // empty' 2>/dev/null) || exit 0
 if [[ "$STATUS" != "completed" ]]; then
   exit 0
 fi
