@@ -73,6 +73,15 @@ A comprehensive suite of GitHub workflow skills using the `gh` CLI and GitHub MC
 /gh-activity           # Recent activity
 ```
 
+## Gotchas
+
+- `gh` commands without `--json` output human-readable tables that are unreliable to parse — always use `--json field1,field2` for programmatic use
+- `gh api` results are paginated (30 items default) — use `--paginate` for complete results or `--jq` to filter
+- `gh pr create` from a branch with no upstream fails — always `git push -u origin <branch>` first
+- `gh pr merge --auto` requires branch protection rules enabled on the repo — fails silently without them
+- `hub` CLI syntax is deprecated and incompatible with `gh` — never suggest `hub` commands
+- `gh issue create --label` fails if the label doesn't exist — create labels first with `gh label create`
+
 ## Related Skills
 
 - `/commit` - Create commits with conventional messages

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "git-workflows-pos-01",
+    "input": "Rebase my feature branch onto main and handle any conflicts that come up",
+    "expected_skill": "git-workflows",
+    "type": "positive",
+    "description": "Interactive rebase onto main branch with conflict handling"
+  },
+  {
+    "id": "git-workflows-pos-02",
+    "input": "I have merge conflicts in three files after pulling from origin — help me resolve them",
+    "expected_skill": "git-workflows",
+    "type": "positive",
+    "description": "Merge conflict resolution across multiple files"
+  },
+  {
+    "id": "git-workflows-pos-03",
+    "input": "Create a feature branch from the latest main and set up tracking with the remote",
+    "expected_skill": "git-workflows",
+    "type": "positive",
+    "description": "Feature branch creation with remote tracking setup"
+  },
+  {
+    "id": "git-workflows-pos-04",
+    "input": "Squash my last 5 commits into a single clean commit before merging to main",
+    "expected_skill": "git-workflows",
+    "type": "positive",
+    "description": "Commit squashing for clean merge history"
+  },
+  {
+    "id": "git-workflows-pos-05",
+    "input": "Stash my current changes, switch to the hotfix branch, then re-apply my stash when I come back",
+    "expected_skill": "git-workflows",
+    "type": "positive",
+    "description": "Git stash workflow for branch switching"
+  },
+  {
+    "id": "git-workflows-pos-06",
+    "input": "Sync my local branches with the remote — prune deleted branches and fast-forward all tracking branches",
+    "expected_skill": "git-workflows",
+    "type": "positive",
+    "description": "Remote synchronization with branch cleanup"
+  },
+  {
+    "id": "git-workflows-neg-01",
+    "input": "Create a pull request on GitHub with a description and request reviews from the team",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "GitHub PR creation — should route to github-workflow, not git-workflows"
+  },
+  {
+    "id": "git-workflows-neg-02",
+    "input": "Set up a GitHub Actions CI pipeline that runs tests on every push and PR",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "CI pipeline setup — should route to cicd-generation, not git-workflows"
+  },
+  {
+    "id": "git-workflows-neg-03",
+    "input": "Review the code changes in this pull request and leave comments on potential issues",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Code review on PR — should route to code review tooling, not git-workflows"
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "terraform-pos-01",
+    "input": "Create a Terraform module for provisioning an AWS VPC with public and private subnets across three availability zones",
+    "expected_skill": "terraform-skill",
+    "type": "positive",
+    "description": "Terraform module creation for AWS networking infrastructure"
+  },
+  {
+    "id": "terraform-pos-02",
+    "input": "Write a Terraform test using the native test framework to validate our S3 bucket module enforces encryption and versioning",
+    "expected_skill": "terraform-skill",
+    "type": "positive",
+    "description": "Native Terraform test framework usage for module validation"
+  },
+  {
+    "id": "terraform-pos-03",
+    "input": "My terraform state is out of sync after a failed apply — help me debug and recover the state file",
+    "expected_skill": "terraform-skill",
+    "type": "positive",
+    "description": "Terraform state debugging and recovery after failed apply"
+  },
+  {
+    "id": "terraform-pos-04",
+    "input": "Configure the Azure provider with managed identity authentication and set up a remote backend in Azure Storage",
+    "expected_skill": "terraform-skill",
+    "type": "positive",
+    "description": "Terraform provider configuration with remote backend setup"
+  },
+  {
+    "id": "terraform-pos-05",
+    "input": "Set up trivy and checkov security scanning for our Terraform modules in the CI pipeline",
+    "expected_skill": "terraform-skill",
+    "type": "positive",
+    "description": "Infrastructure-as-code security scanning implementation"
+  },
+  {
+    "id": "terraform-pos-06",
+    "input": "Refactor our monolithic main.tf into a module-based structure with separate environments using workspaces",
+    "expected_skill": "terraform-skill",
+    "type": "positive",
+    "description": "Terraform project restructuring with workspaces and modules"
+  },
+  {
+    "id": "terraform-neg-01",
+    "input": "Deploy our microservice to Kubernetes with horizontal pod autoscaling and configure the ingress controller",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Kubernetes deployment and scaling — should route to operator, not terraform-skill"
+  },
+  {
+    "id": "terraform-neg-02",
+    "input": "Design the PostgreSQL database schema for our multi-tenant application with row-level security",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Database schema design — should route to architect, not terraform-skill"
+  },
+  {
+    "id": "terraform-neg-03",
+    "input": "Create a GitHub Actions workflow that runs linting, tests, and deploys to staging on every push to main",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "CI/CD pipeline creation — should route to cicd-generation, not terraform-skill"
+  }
+]

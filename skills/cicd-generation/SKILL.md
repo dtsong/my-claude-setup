@@ -1,6 +1,6 @@
 ---
 name: cicd-generation
-description: Generating CI/CD pipelines (GitHub Actions) with security-first approach
+description: "Use when creating GitHub Actions workflows, adding CI/CD to a project, or reviewing pipeline security. Produces fail-fast, security-hardened workflows with OIDC auth and SHA-pinned actions. Triggers on 'add CI', 'create workflow', 'github actions'."
 ---
 
 # CI/CD Generation Skill
@@ -143,6 +143,15 @@ strategy:
     os: [ubuntu-latest, macos-latest]
     node: [18, 20, 22]
 ```
+
+## Gotchas
+
+- `@v4` action references are mutable tags — a compromised action repo can push new code to the same tag. Pin to full SHA for security-critical workflows
+- `permissions: write-all` grants the workflow token access to everything — always use minimal, explicit permissions per job
+- `continue-on-error: true` hides real failures in CI — only use for explicitly optional steps with a comment explaining why
+- `actions/checkout` with default `fetch-depth: 1` breaks `git log`, `git diff`, and changelog generation — use `fetch-depth: 0` for full history
+- Caching `node_modules` instead of the npm/yarn cache leads to stale dependencies — cache the package manager cache, not installed packages
+- `GITHUB_TOKEN` permissions differ between `pull_request` and `pull_request_target` events — the latter runs with base branch permissions (security risk for fork PRs)
 
 ## Anti-patterns to Avoid
 

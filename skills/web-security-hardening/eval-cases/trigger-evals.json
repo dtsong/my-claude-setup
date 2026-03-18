@@ -1,0 +1,65 @@
+[
+  {
+    "id": "web-security-pos-01",
+    "input": "Run a security audit on our Express.js API — check for common vulnerabilities like injection, broken auth, and missing headers",
+    "expected_skill": "web-security-hardening",
+    "type": "positive",
+    "description": "Comprehensive web application security audit"
+  },
+  {
+    "id": "web-security-pos-02",
+    "input": "Review our CORS configuration — we're allowing wildcard origins in production and need to lock it down",
+    "expected_skill": "web-security-hardening",
+    "type": "positive",
+    "description": "CORS policy review and hardening"
+  },
+  {
+    "id": "web-security-pos-03",
+    "input": "Implement rate limiting on our login and password reset endpoints to prevent brute force attacks",
+    "expected_skill": "web-security-hardening",
+    "type": "positive",
+    "description": "Rate limiting implementation for auth endpoints"
+  },
+  {
+    "id": "web-security-pos-04",
+    "input": "Audit our password hashing — we're using MD5 and need to migrate to bcrypt or argon2 with proper salt rounds",
+    "expected_skill": "web-security-hardening",
+    "type": "positive",
+    "description": "Password hashing audit and migration to secure algorithm"
+  },
+  {
+    "id": "web-security-pos-05",
+    "input": "Review and configure our Content-Security-Policy headers to prevent XSS while still allowing our CDN assets",
+    "expected_skill": "web-security-hardening",
+    "type": "positive",
+    "description": "CSP header configuration for XSS prevention"
+  },
+  {
+    "id": "web-security-pos-06",
+    "input": "Check our file upload endpoint for path traversal, size limits, and content-type validation vulnerabilities",
+    "expected_skill": "web-security-hardening",
+    "type": "positive",
+    "description": "File upload security validation review"
+  },
+  {
+    "id": "web-security-neg-01",
+    "input": "Profile our API endpoints and reduce the p99 latency from 800ms to under 200ms",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Performance optimization — should route to tuner, not web-security-hardening"
+  },
+  {
+    "id": "web-security-neg-02",
+    "input": "Review our React app for accessibility — check ARIA labels, keyboard navigation, and screen reader compatibility",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "UI accessibility review — should route to advocate, not web-security-hardening"
+  },
+  {
+    "id": "web-security-neg-03",
+    "input": "Set up IAM roles and policies for our AWS infrastructure with least-privilege access to S3 and RDS",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Infrastructure IAM security — should route to operator, not web-security-hardening"
+  }
+]

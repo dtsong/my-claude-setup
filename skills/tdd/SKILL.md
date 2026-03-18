@@ -58,6 +58,29 @@ Practical guidance for test-driven development: writing good tests, designing te
 Reference: [which reference file was consulted]
 ```
 
+## Gotchas
+
+- Tests that assert implementation details (e.g., checking internal method calls) break on every refactor — test behavior and outputs, not how the code does it
+- Mocking at the wrong boundary (e.g., mocking the function under test, or mocking too deep) — mock at system boundaries (HTTP, DB, filesystem), not internal modules
+- Assertion-free "tests" that just call code without checking results — every test needs at least one meaningful assertion
+- `beforeAll` shared state between tests causes order-dependent failures — prefer `beforeEach` for fresh state per test
+- Testing private methods directly indicates poor interface design — if you need to test it, it should be part of the public API
+- Snapshot tests that get `--update`d without review become rubber stamps — review every snapshot diff carefully
+
+```typescript
+// WRONG: testing implementation details
+expect(service.internalCache.size).toBe(3);
+// RIGHT: testing behavior
+expect(await service.getUser("abc")).toEqual({ id: "abc", name: "Alice" });
+
+// WRONG: mocking the thing you're testing
+vi.spyOn(calculator, 'add').mockReturnValue(5);
+expect(calculator.add(2, 3)).toBe(5); // tests nothing
+// RIGHT: mock dependencies, test the unit
+vi.spyOn(httpClient, 'get').mockResolvedValue({ rate: 1.5 });
+expect(await converter.convert(100, 'USD', 'EUR')).toBe(150);
+```
+
 ## References
 
 | Path | Load Condition | Content Summary |

@@ -1,6 +1,6 @@
 ---
 name: dockerfile-generation
-description: Creating or modifying Dockerfiles with verification-first approach
+description: "Use when creating Dockerfiles, optimizing container images, or reviewing Docker configurations. Produces multi-stage, security-hardened builds with proper layer caching. Triggers on 'create Dockerfile', 'dockerize', 'optimize container'."
 ---
 
 # Dockerfile Generation Skill
@@ -101,6 +101,15 @@ docker run --rm test-image:local 2>&1 | head -50
 **Stop conditions:**
 - Container starts and responds correctly
 - 5 iterations reached (escalate to user)
+
+## Gotchas
+
+- `COPY . .` before `COPY package*.json && npm install` busts the dependency cache on every source change — always copy deps files first
+- Alpine-based images use `musl` not `glibc` — native Node.js addons (bcrypt, sharp) may fail with cryptic errors. Use `-slim` for compatibility
+- `RUN apt-get update && apt-get install` without `rm -rf /var/lib/apt/lists/*` bloats the image by 30-100MB
+- Multi-stage builds discard everything not explicitly `COPY --from=builder` — forgetting to copy a config file causes silent runtime failures
+- `EXPOSE` is documentation only — it does NOT publish the port. You still need `-p` at runtime
+- Running as root (default) means container compromise = full host access — always add a non-root user with UID 10001+
 
 ## Anti-patterns to Avoid
 

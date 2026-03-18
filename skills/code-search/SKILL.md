@@ -30,6 +30,14 @@ Found 5 matches for "handleAuth" in 3 files:
   src/middleware.ts:12     import { handleAuth } from "@/lib/auth";
 ```
 
+## Gotchas
+
+- Using `grep` or `rg` via Bash instead of the Grep tool — the Grep tool has optimized permissions and better output formatting
+- Forgetting `--glob` or `--type` filtering returns matches from `node_modules`, `.git`, and vendored code — always scope searches
+- Glob patterns are for file names only, not content — use Grep for content, Glob for finding files by path pattern
+- `Grep` uses ripgrep regex, not grep regex — literal braces need escaping (`interface\{\}` not `interface{}`)
+- Reading an entire large file when you only need a section — use `offset` and `limit` parameters on Read
+
 ## Examples
 - "find all usages of X" → Grep for X
 - "where is the config file" → Glob for config patterns

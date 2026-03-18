@@ -1,6 +1,6 @@
 ---
 name: workflow
-description: Development workflow, commit format, and coding discipline rules
+description: "Use when planning implementation steps, deciding commit format, or structuring development approach. Provides brainstorm-plan-implement flow with conventional commits. Triggers on 'how should I approach this', 'commit format'."
 model: sonnet
 ---
 
@@ -44,6 +44,12 @@ Commit: feat: add email validation to signup form
 
 Open questions: none
 ```
+
+## Gotchas
+
+- Amending (`--amend`) after a pre-commit hook failure destroys the previous commit — hook failure means commit didn't happen, so `--amend` modifies the WRONG commit. Always create a new commit after fixing hook issues.
+- `git add .` or `git add -A` stages secrets (`.env`, credentials) — always add specific files by name
+- Skipping verification ("it works, I'll just commit") leads to broken builds — always run the actual test/build command and check output before committing
 
 ## Don'ts
 - Don't refactor unrelated code
