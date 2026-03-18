@@ -118,6 +118,28 @@ Define sources in `_<source>__sources.yml` with `loaded_at_field` and freshness 
 | `dbt deps` | Install packages |
 | `dbt docs generate && dbt docs serve` | Documentation site |
 
+## Gotchas
+
+- `ref()` only in staging-and-above, `source()` only in staging — using `source()` in marts bypasses the staging contract and breaks lineage
+- Incremental models without `unique_key` silently duplicate rows on re-runs — always set `unique_key` for merge strategy
+- `ephemeral` models can't be tested directly or selected with `dbt test --select` — test via downstream consumers
+- `dbt run` doesn't run tests — always use `dbt build` to get run + test in DAG order
+- `--full-refresh` on a large incremental model can blow warehouse credits — scope with `--select` first
+- Jinja whitespace control: `{%- -%}` vs `{% %}` — trailing whitespace breaks `compile` output silently
+- `packages.yml` version ranges (`>=1.0,<2.0`) can pull breaking changes — pin exact versions in production
+
+```sql
+-- WRONG: source() in marts (skips staging layer)
+SELECT * FROM {{ source('stripe', 'payments') }}
+-- RIGHT: ref staging model
+SELECT * FROM {{ ref('stg_stripe__payments') }}
+
+-- WRONG: incremental without unique_key (duplicates on re-run)
+{{ config(materialized='incremental') }}
+-- RIGHT: always specify unique_key
+{{ config(materialized='incremental', unique_key='payment_id') }}
+```
+
 ## Reference Files
 
 Load on demand when detailed guidance is needed:

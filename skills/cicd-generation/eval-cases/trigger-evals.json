@@ -1,0 +1,58 @@
+[
+  {
+    "id": "cicd-pos-01",
+    "input": "Create a GitHub Actions workflow for our Node.js monorepo that runs lint, type-check, and tests with fail-fast on PR",
+    "expected_skill": "cicd-generation",
+    "type": "positive",
+    "description": "GitHub Actions CI workflow creation for Node.js monorepo"
+  },
+  {
+    "id": "cicd-pos-02",
+    "input": "Add CI to this Python project — I need linting with ruff, testing with pytest, and coverage reporting",
+    "expected_skill": "cicd-generation",
+    "type": "positive",
+    "description": "Adding CI pipeline to an existing Python project"
+  },
+  {
+    "id": "cicd-pos-03",
+    "input": "Review our GitHub Actions pipeline for security issues — are we using SHA-pinned actions and avoiding script injection?",
+    "expected_skill": "cicd-generation",
+    "type": "positive",
+    "description": "CI/CD pipeline security review for GitHub Actions"
+  },
+  {
+    "id": "cicd-pos-04",
+    "input": "Set up matrix testing in our workflow to run tests across Node 18, 20, and 22 on both Ubuntu and macOS",
+    "expected_skill": "cicd-generation",
+    "type": "positive",
+    "description": "GitHub Actions matrix strategy configuration for cross-platform testing"
+  },
+  {
+    "id": "cicd-pos-05",
+    "input": "Configure OIDC-based deployment from GitHub Actions to AWS without storing long-lived credentials as secrets",
+    "expected_skill": "cicd-generation",
+    "type": "positive",
+    "description": "OIDC authentication setup for GitHub Actions to AWS deployment"
+  },
+  {
+    "id": "cicd-neg-01",
+    "input": "Rebase my feature branch onto main and resolve the merge conflicts in the config files",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Local git operations — should route to git-workflows, not cicd-generation"
+  },
+  {
+    "id": "cicd-neg-02",
+    "input": "Write a Terraform module to provision the CI runner infrastructure with auto-scaling groups",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Infrastructure provisioning with Terraform — should route to terraform-skill, not cicd-generation"
+  },
+  {
+    "id": "cicd-neg-03",
+    "input": "Create a multi-stage Dockerfile for our Go application with a distroless production image",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Docker image creation — should route to dockerfile-generation, not cicd-generation"
+  }
+]

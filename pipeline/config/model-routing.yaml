@@ -1,0 +1,51 @@
+# Model Routing Configuration
+# See specs/SKILL-MODEL-ROUTING-SPEC.md for full specification.
+spec_version: "1.4"
+
+# Default model preferences by skill classification
+defaults:
+  coordinator:
+    preferred: sonnet
+    minimum: sonnet
+    reasoning_demand: low
+  specialist:
+    preferred: sonnet
+    minimum: sonnet
+    reasoning_demand: medium
+  standalone:
+    preferred: sonnet
+    minimum: sonnet
+    reasoning_demand: medium
+
+# Budget zone thresholds (percentage of max_simultaneous_tokens)
+zones:
+  green: 0.70
+  yellow: 0.90
+  red: 1.00
+
+# Task type defaults
+task_types:
+  mechanical:
+    preferred: sonnet
+    description: "File tracing, pattern matching, structure validation"
+  analytical:
+    preferred: sonnet
+    description: "Classification, code review, gap analysis"
+  reasoning:
+    preferred: opus
+    description: "Adversarial security analysis, formal verification, vulnerability chain synthesis"
+
+# Tier-to-model mapping
+tiers:
+  haiku:
+    claude_code: claude-haiku-4-5-20251001
+    cost_ratio: 1
+  sonnet:
+    claude_code: claude-sonnet-4-6
+    cost_ratio: 5
+  opus:
+    claude_code: claude-opus-4-6
+    cost_ratio: 25
+
+# Per-skill overrides (empty by default — suites populate as needed)
+overrides: {}

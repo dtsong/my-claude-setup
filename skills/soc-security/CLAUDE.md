@@ -21,7 +21,7 @@ Specification and the Skill Security Hardening Specification.
 - Skills accepting user input must include `## Input Sanitization` before using
   that input in commands or file paths
 
-Repo-wide suppressions: `pipeline/config/security-suppressions.json`
+Repo-wide suppressions: `../../pipeline/config/security-suppressions.json`
 
 ## Structural Integrity (Hard — Blocks Commits)
 
@@ -40,7 +40,7 @@ Repo-wide suppressions: `pipeline/config/security-suppressions.json`
 - Specialist / Standalone: ≤2,000 tokens (~1,500 words)
 - Reference: ≤1,500 tokens (~1,100 words)
 - Exceeding targets is acceptable when justified by output quality
-- Document overrides in `pipeline/config/budgets.json` with eval data
+- Document overrides in `../../pipeline/config/budgets.json` with eval data
 
 ## Description Quality (Advisory — Warns Only)
 
@@ -48,7 +48,7 @@ Repo-wide suppressions: `pipeline/config/security-suppressions.json`
 - **≥20 words** (target 40-80) with activation directive opening
 - **Negative boundaries** — "Do NOT use for..." with correct alternative named
 - **MCP tools** use `ServerName:tool_name` format (not bare tool names)
-- See `SKILL-TRIGGER-RELIABILITY-SPEC.md` for full description formula
+- See `../../pipeline/specs/SKILL-TRIGGER-RELIABILITY-SPEC.md` for full description formula
 
 ## Model Routing
 
@@ -64,8 +64,8 @@ reasoning (debugging, architecture) uses opus.
 
 User overrides always win. Skill `minimum` is respected unless explicitly overridden.
 
-Config: `pipeline/config/model-routing.yaml`
-Full spec: `pipeline/specs/SKILL-MODEL-ROUTING-SPEC.md`
+Config: `../../pipeline/config/model-routing.yaml`
+Full spec: `../../pipeline/specs/SKILL-MODEL-ROUTING-SPEC.md`
 
 ## Writing Rules
 
@@ -122,11 +122,11 @@ tests on real tasks. Observe navigation patterns. Iterate based on actual behavi
 Three types: **trigger evals** (does it activate?), **output evals** (correct result?),
 **navigation evals** (reads the right files?). All three are necessary.
 
-Full specs:
-- `pipeline/specs/SKILL-GOVERNANCE-SPEC.md`
-- `pipeline/specs/SKILL-SECURITY-SPEC.md`
-- `pipeline/specs/SKILL-MODEL-ROUTING-SPEC.md`
-- `pipeline/specs/SKILL-TRIGGER-RELIABILITY-SPEC.md`
+Full specs (at repo root):
+- `../../pipeline/specs/SKILL-GOVERNANCE-SPEC.md`
+- `../../pipeline/specs/SKILL-SECURITY-SPEC.md`
+- `../../pipeline/specs/SKILL-MODEL-ROUTING-SPEC.md`
+- `../../pipeline/specs/SKILL-TRIGGER-RELIABILITY-SPEC.md`
 
 <!-- /skill-governance -->
 
@@ -139,12 +139,12 @@ pre-commit install
 pre-commit install --hook-type commit-msg
 
 # Source shell helpers (add to your shell profile)
-source pipeline/shell-helpers.sh
+source ../../pipeline/shell-helpers.sh
 ```
 
 ## Budget Configuration
 
-Token budgets are configured in `pipeline/config/budgets.json`. Per-file budgets
+Token budgets are configured in `../../pipeline/config/budgets.json`. Per-file budgets
 are advisory targets — they warn but never block commits. Document overrides with
 rationale when exceeding targets improves output quality.
 

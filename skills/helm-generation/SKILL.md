@@ -1,6 +1,6 @@
 ---
 name: helm-generation
-description: Generating Helm values files with minimal-diff approach
+description: "Use when creating Helm values.yaml files, converting docker-compose to Helm, or reviewing Helm configurations. Produces minimal-diff values that only override chart defaults. Triggers on 'helm values', 'create values.yaml', 'deploy to kubernetes'."
 ---
 
 # Helm Values Generation Skill
@@ -125,6 +125,15 @@ serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT:role/ROLE
 ```
+
+## Gotchas
+
+- `tag: 1.2.3` without quotes is parsed as a float (1.2) then truncated — always quote version strings: `tag: "1.2.3"`
+- `enabled: "true"` is a string, not a boolean — Helm templates checking `if .Values.enabled` will always be true (non-empty string)
+- Including `name:` or `namespace:` in values.yaml has no effect — these are CLI args: `helm install <name> -n <ns>`
+- `helm upgrade` without `--install` fails if the release doesn't exist — use `helm upgrade --install` for idempotent deployments
+- Copying all chart defaults with minor changes makes diffs unreadable and breaks on chart upgrades — only override what differs
+- OCI-based charts (`oci://`) require `helm registry login` first — authentication errors are cryptic
 
 ## Anti-patterns to Avoid
 

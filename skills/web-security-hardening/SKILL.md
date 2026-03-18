@@ -99,6 +99,28 @@ Check for:
 - No MD5, SHA1, or plain SHA256 for passwords
 - No plaintext password storage or logging
 
+## Gotchas
+
+- CORS `credentials: true` + `origin: '*'` fails silently in browsers — must specify explicit origin when using credentials
+- `helmet()` defaults changed between v4 and v5 — CSP is no longer set by default in v5, must configure explicitly
+- CSP `unsafe-inline` negates most XSS protection — if you need inline scripts, use nonces or hashes instead
+- `express.json()` without `limit` accepts arbitrarily large payloads — always set `limit: '1mb'` or similar
+- `httpOnly` cookies prevent XSS token theft but NOT CSRF — still need CSRF tokens or SameSite=Strict
+- Rate limiting per IP fails behind reverse proxies — must set `trust proxy` and use `X-Forwarded-For`
+- `bcrypt` silently truncates passwords at 72 bytes — use Argon2 for long passphrases or pre-hash with SHA-256
+
+```javascript
+// WRONG: credentials with wildcard origin (silently fails)
+app.use(cors({ origin: '*', credentials: true }));
+// RIGHT: explicit origin
+app.use(cors({ origin: 'https://app.example.com', credentials: true }));
+
+// WRONG: helmet v5 without CSP (no longer set by default)
+app.use(helmet());
+// RIGHT: explicit CSP
+app.use(helmet({ contentSecurityPolicy: { directives: { defaultSrc: ["'self'"] } } }));
+```
+
 ## Audit Report Format
 
 ```markdown

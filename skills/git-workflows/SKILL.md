@@ -72,6 +72,15 @@ A comprehensive suite of git workflow skills for local repository operations.
 /git-squash            # Clean up history
 ```
 
+## Gotchas
+
+- Interactive rebase (`git rebase -i`) requires a TTY and fails in Claude Code — use `git rebase` (non-interactive) or `git rebase --onto`
+- `git checkout` is ambiguous (branches vs files) — prefer `git switch` for branches, `git restore` for files
+- Force-push (`--force`) to protected branches is rejected by most remotes — use `--force-with-lease` which fails if remote has new commits
+- `git stash` doesn't stash untracked files — use `git stash -u` to include untracked
+- `git pull` with diverged branches creates merge commits — use `git pull --rebase` or `git pull --ff-only` to avoid surprise merges
+- `git add .` stages everything including `.env` files and secrets — always use `git add <specific-files>` or check `git status` first
+
 ## Related Skills
 
 - `/commit` - Create commits with conventional messages

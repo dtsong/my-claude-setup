@@ -1,0 +1,65 @@
+[
+  {
+    "id": "dbt-pos-01",
+    "input": "Create a staging model for the raw Stripe payments table with proper column renaming, type casting, and deduplication",
+    "expected_skill": "dbt-skill",
+    "type": "positive",
+    "description": "dbt staging model creation with standard transformations"
+  },
+  {
+    "id": "dbt-pos-02",
+    "input": "Write dbt tests to validate referential integrity between orders and customers, and add a uniqueness test on order_id",
+    "expected_skill": "dbt-skill",
+    "type": "positive",
+    "description": "dbt generic and custom test creation for data quality"
+  },
+  {
+    "id": "dbt-pos-03",
+    "input": "Configure an incremental materialization strategy for our large events table using merge with a unique key and lookback window",
+    "expected_skill": "dbt-skill",
+    "type": "positive",
+    "description": "dbt incremental model configuration with merge strategy"
+  },
+  {
+    "id": "dbt-pos-04",
+    "input": "Set up dbt sources for our Fivetran-synced Salesforce tables with freshness checks and loaded_at_field configuration",
+    "expected_skill": "dbt-skill",
+    "type": "positive",
+    "description": "dbt source configuration with freshness monitoring"
+  },
+  {
+    "id": "dbt-pos-05",
+    "input": "Write a Jinja macro that generates a pivot table from any column dynamically and reuse it across multiple models",
+    "expected_skill": "dbt-skill",
+    "type": "positive",
+    "description": "Reusable dbt Jinja macro development for dynamic SQL"
+  },
+  {
+    "id": "dbt-pos-06",
+    "input": "Organize our dbt project into staging, intermediate, and marts layers following the dbt best practices guide",
+    "expected_skill": "dbt-skill",
+    "type": "positive",
+    "description": "dbt project restructuring with standard layer conventions"
+  },
+  {
+    "id": "dbt-neg-01",
+    "input": "Optimize this slow SQL query that joins five tables — it's taking 45 seconds and we need it under 2 seconds",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Raw SQL performance tuning — should route to tuner, not dbt-skill"
+  },
+  {
+    "id": "dbt-neg-02",
+    "input": "Set up Fivetran connectors to sync our Salesforce and HubSpot data into Snowflake on a 15-minute schedule",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "ETL pipeline configuration (Fivetran) — should route to operator or data engineering, not dbt-skill"
+  },
+  {
+    "id": "dbt-neg-03",
+    "input": "Grant warehouse admin privileges and configure auto-suspend and auto-resume settings for our Snowflake warehouse",
+    "expected_skill": null,
+    "type": "negative",
+    "description": "Data warehouse administration — should route to operator, not dbt-skill"
+  }
+]

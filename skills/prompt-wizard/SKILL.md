@@ -268,6 +268,14 @@ Bug Fix
 
 ---
 
+## Gotchas
+
+- Overly specific file context ("read all 47 files in src/") causes Claude to spend tokens on irrelevant code — list only the 3-5 most relevant files
+- Too many verification criteria (10+ checkboxes) dilutes focus — keep to 3-5 critical verification steps
+- Vague scope boundaries ("don't change too much") are unenforceable — be explicit: "Only modify files in `src/auth/`"
+- Including error messages without reproduction steps wastes debugging time — always pair errors with exact steps to reproduce
+- Prompts that describe the solution instead of the problem constrain Claude's approach — state the desired outcome, not the implementation
+
 ## Usage
 
 ```bash
