@@ -216,30 +216,37 @@ Parse review output for severity headers:
 When review fails, enter autonomous fix cycle (max `--max-review-cycles` iterations, counting from cycle 1 = initial review):
 
 1. Update state: mark issue as `fixing`
-2. Fix critical findings first, then important findings
-3. Re-run ALL quality gates (a fix may break gates):
+2. Classify each finding as AUTO-FIX or ASK per `commands/references/ship-review-rules.md § Fix-First Classification`
+3. Apply all AUTO-FIX items in a single commit:
+   ```bash
+   git add <changed-files>
+   git commit -m "fix: auto-fix review findings for #$ISSUE_NUMBER"
+   ```
+4. Batch all ASK items into one AskUserQuestion — wait for user response before continuing
+5. Apply user-approved fixes
+6. Re-run ALL quality gates (a fix may break gates):
    ```bash
    # Detect and run gates same as looper Step 6d
    ```
-4. Commit fixes:
+7. Commit remaining fixes:
    ```bash
    git add <changed-files>
    git commit -m "fix: address review findings for #$ISSUE_NUMBER
 
    Review cycle $CYCLE/$MAX_CYCLES"
    ```
-5. Push to feature branch:
+8. Push to feature branch:
    ```bash
    git push origin HEAD
    ```
-6. Re-invoke review:
+9. Re-invoke review:
    ```
    /pr-review-toolkit:review-pr all
    ```
-7. Re-classify per Step 9
-8. If PASS → proceed to merge
-9. If FAIL and cycles remaining → repeat from step 2
-10. If FAIL and no cycles remaining → mark `review-failed`, skip to next issue
+10. Re-classify per Step 9
+11. If PASS → proceed to merge
+12. If FAIL and cycles remaining → repeat from step 2
+13. If FAIL and no cycles remaining → mark `review-failed`, skip to next issue
 
 ### Step 11: Merge
 
