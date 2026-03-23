@@ -34,6 +34,50 @@ Extract severity counts from section headers:
 
 If a section header says `(0 found)` or is absent, that count is 0.
 
+## Fix-First Classification
+
+After parsing severity, classify each finding by fix strategy:
+
+### AUTO-FIX (Apply Immediately)
+
+Mechanical, low-risk fixes with deterministic correct solutions:
+
+- Unused imports or variables
+- Missing trailing commas / semicolons (per project linter config)
+- Simple type errors with obvious fixes (e.g., `string` vs `String`)
+- Formatting violations (whitespace, indentation)
+- Missing `await` on async calls
+- Stale `console.log` / debug statements
+- Import ordering violations
+
+**Rule:** Apply all AUTO-FIX items in a single commit before entering the fix cycle.
+Commit message: `fix: auto-fix review findings for #$ISSUE_NUMBER`
+
+### ASK (Batch for User Decision)
+
+Findings requiring judgment, architectural knowledge, or trade-off decisions:
+
+- API design changes (renaming, restructuring endpoints)
+- Business logic changes ("should this validate X?")
+- Performance trade-offs (caching strategy, query optimization approach)
+- Security findings with multiple valid mitigation paths
+- Architectural changes (moving code between modules, changing patterns)
+
+**Rule:** Batch all ASK items into one AskUserQuestion:
+
+```
+Review found N findings requiring your judgment:
+1. [finding] — Options: A) [option], B) [option] [Recommended: A]
+2. [finding] — Options: A) [option], B) [option]
+Reply with your choices or 'skip all' to defer.
+```
+
+### Classification Precedence
+
+1. If a Critical finding is AUTO-FIX → still auto-fix it (severity does not block automation)
+2. If all remaining findings are ASK → present to user instead of burning a fix cycle
+3. If a finding is ambiguous → classify as ASK (err toward user involvement)
+
 ## Pass/Fail Classification
 
 | Critical | Important | Result |
