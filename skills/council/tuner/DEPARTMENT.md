@@ -27,13 +27,6 @@ The Tuner's department of focused skills for performance optimization, caching a
 | Reports high latency without specifying whether it is rendering, caching, or infrastructure | performance-audit | Medium |
 | Mentions scaling concerns that could involve both caching and capacity planning | load-modeling | Medium |
 
-## Load Directive
+## Shared Directives
 
-Load one specialist skill at a time using the Skill tool. Read the classification logic table to select the appropriate specialist, then invoke the skill. Do not pre-load multiple specialists simultaneously.
-
-## Handoff Protocol
-
-When the specialist skill output reveals issues in another department's domain:
-1. Complete the current skill's output format.
-2. Note the cross-domain findings in the output.
-3. Recommend loading the appropriate department and skill (e.g., "Hand off infrastructure scaling findings to operator/deployment-plan for deployment architecture").
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).

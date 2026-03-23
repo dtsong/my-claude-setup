@@ -26,13 +26,6 @@ The Advocate's department of focused skills for championing the user's perspecti
 | General UX review, usability concerns, user-facing feature assessment | journey-mapping | Medium |
 | Design system component, responsive behavior, state management for UI elements | interaction-design | Medium |
 
-## Load Directive
+## Shared Directives
 
-Load one specialist skill at a time using the Skill tool. Read the classification logic table to select the appropriate specialist, then invoke the skill. Do not pre-load multiple specialists simultaneously.
-
-## Handoff Protocol
-
-When the specialist skill output reveals issues in another department's domain:
-1. Complete the current skill's output format.
-2. Note the cross-domain findings in the output.
-3. Recommend loading the appropriate department and skill (e.g., "Hand off interaction pattern implementation needs to craftsman/pattern-analysis for code pattern assessment").
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).

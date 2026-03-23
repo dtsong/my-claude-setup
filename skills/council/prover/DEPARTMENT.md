@@ -25,13 +25,6 @@ The Prover's department of focused skills for writing formal specifications, ide
 | State machine design needing formal verification | formal-spec | Medium |
 | Security claims needing enumeration before specification | invariant-analysis then formal-spec | Medium |
 
-## Load Directive
+## Shared Directives
 
-Load one specialist skill at a time using the Skill tool. Read the classification logic table to select the appropriate specialist, then invoke the skill. Do not pre-load multiple specialists simultaneously.
-
-## Handoff Protocol
-
-When the specialist skill output reveals issues in another department's domain:
-1. Complete the current skill's output format.
-2. Note the cross-domain findings in the output.
-3. Recommend loading the appropriate department and skill (e.g., "Hand off protocol verification needs to cipher/protocol-analysis for state machine security analysis").
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).
