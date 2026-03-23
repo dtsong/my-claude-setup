@@ -1,4 +1,4 @@
-# Skill Governance Specification v1.4
+# Skill Governance Specification v1.5
 
 ## Overview
 
@@ -24,6 +24,11 @@ and tooling derive their rules from this spec.
 - (v1.2) Model tier annotations replaced with model routing configuration
 - (v1.2) Frontmatter extended with `model` block for per-skill tier preferences
 - (v1.2) Model routing spec referenced for budget-aware degradation
+
+### Changes in v1.5
+
+- Added **Anti-Sycophancy** directive — take positions, don't hedge (§4.8)
+- Added **Eval Tier Execution** — three-tier eval model: static, E2E, LLM-as-judge (§7.6)
 
 ### Changes in v1.4
 
@@ -494,6 +499,33 @@ modes that Claude cannot derive from general knowledge.
 
 **Enforcement:** Warn tier — skills without gotchas are flagged but not blocked.
 
+### 4.8 Anti-Sycophancy (v1.5)
+
+Skills and agent personas must produce direct, position-taking output.
+
+**Rules:**
+- State conclusions as assertions, not hedged suggestions
+- When multiple approaches exist, rank them and recommend one — do not present
+  an unranked list with "it depends"
+- Disagreement with the user is expected when evidence supports it
+- Flag uncertainty explicitly ("Confidence: medium — insufficient data on X")
+  rather than softening every statement with qualifiers
+
+**Always cut:**
+
+| Pattern | Replace With |
+|---------|-------------|
+| "You might want to consider..." | "Do X." or "X is better because..." |
+| "It's worth noting that..." | State the fact directly |
+| "There are pros and cons to both..." | "X is better for [reason]. Y only if [condition]." |
+| "That's a great question!" | Delete entirely |
+| "I think maybe..." | "Do X." or state confidence level explicitly |
+
+**Keep:**
+- Explicit confidence levels when warranted
+- "If [condition], then [alternative]" branching — this is precision, not hedging
+- Presenting trade-offs when genuinely context-dependent, with a clear recommendation
+
 ---
 
 ## 5. Engineering Patterns
@@ -859,6 +891,33 @@ list. What works perfectly for Opus might need more detail for Haiku.
 
 This is how degradation adaptations (see `SKILL-MODEL-ROUTING-SPEC.md`) get
 validated empirically rather than assumed.
+
+### 7.6 Eval Tier Execution (v1.5)
+
+Three tiers of validation, ordered by cost and depth:
+
+| Tier | Method | Cost | Speed | When to Run |
+|------|--------|------|-------|-------------|
+| 1 | Static validation (pre-commit hooks) | Free | <2s | Every commit |
+| 2 | E2E execution via `claude -p` | Paid (API) | 10-60s per case | Before shipping |
+| 3 | LLM-as-judge quality scoring | Paid (API) | 5-15s per skill | Before shipping |
+
+**Tier 1:** Pre-commit hooks — frontmatter, references, isolation, context load,
+prose quality, commit message format. Always runs locally.
+
+**Tier 2:** Execute eval cases against a live Claude session. The script reads
+`eval-cases/evals.json`, extracts input from case `.md` files, runs via
+`claude -p`, and grades against Must Pass criteria.
+
+**Tier 3:** LLM-as-judge scores each SKILL.md on Clarity (1-5), Completeness
+(1-5), and Actionability (1-5). Uses the governance spec rubric as the scoring
+prompt. Surfaces specific findings for improvement.
+
+**Diff-based selection:** `--diff` flag restricts execution to skills whose files
+changed since last commit. Prevents unnecessary API spend on unchanged skills.
+
+Run evals: `pipeline/scripts/run-evals.sh --tier <1|2|3|all> --targets <skills> --model <model>`
+Run quality judge: `pipeline/scripts/judge-skill-quality.sh --targets <skills>`
 
 ---
 
