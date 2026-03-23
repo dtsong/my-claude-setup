@@ -27,13 +27,6 @@ The Sentinel's department of focused skills for embedded firmware design, wirele
 | Battery life optimization, sleep mode design, flash partitioning | embedded-architecture | Medium |
 | Device-to-cloud communication pipeline, remote diagnostics | fleet-management | Medium |
 
-## Load Directive
+## Shared Directives
 
-Load one specialist skill at a time using the Skill tool. Read the classification logic table to select the appropriate specialist, then invoke the skill. Do not pre-load multiple specialists simultaneously.
-
-## Handoff Protocol
-
-When the specialist skill output reveals issues in another department's domain:
-1. Complete the current skill's output format.
-2. Note the cross-domain findings in the output.
-3. Recommend loading the appropriate department and skill (e.g., "Hand off device security concerns to skeptic/threat-model for threat analysis").
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).

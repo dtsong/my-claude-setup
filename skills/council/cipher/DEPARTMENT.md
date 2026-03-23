@@ -27,13 +27,6 @@ The Cipher's department of focused skills for reviewing cryptographic implementa
 | Certificate management, HSM integration, attestation protocols | crypto-review | Medium |
 | Crypto agility with migration scope | crypto-review then pqc-readiness | Medium |
 
-## Load Directive
+## Shared Directives
 
-Load one specialist skill at a time using the Skill tool. Read the classification logic table to select the appropriate specialist, then invoke the skill. Do not pre-load multiple specialists simultaneously.
-
-## Handoff Protocol
-
-When the specialist skill output reveals issues in another department's domain:
-1. Complete the current skill's output format.
-2. Note the cross-domain findings in the output.
-3. Recommend loading the appropriate department and skill (e.g., "Hand off protocol state machine findings to prover/formal-spec for formal verification").
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).

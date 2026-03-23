@@ -27,13 +27,6 @@ The Pathfinder's department of focused skills for mobile development, cross-plat
 | Cross-platform UI consistency, responsive design, platform-specific overrides | platform-audit | Medium |
 | Permission flow design, hardware fallback behavior with navigation implications | device-integration then navigation-design | Medium |
 
-## Load Directive
+## Shared Directives
 
-Load one specialist skill at a time using the Skill tool. Read the classification logic table to select the appropriate specialist, then invoke the skill. Do not pre-load multiple specialists simultaneously.
-
-## Handoff Protocol
-
-When the specialist skill output reveals issues in another department's domain:
-1. Complete the current skill's output format.
-2. Note the cross-domain findings in the output.
-3. Recommend loading the appropriate department and skill (e.g., "Hand off API integration findings to architect/api-design for interface specification").
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).
