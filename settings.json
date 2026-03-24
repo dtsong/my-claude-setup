@@ -28,7 +28,16 @@
     "swift-lsp@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
-    "context7@claude-plugins-official": true
+    "context7@claude-plugins-official": true,
+    "skill-codex@skill-codex": true
+  },
+  "extraKnownMarketplaces": {
+    "skill-codex": {
+      "source": {
+        "source": "github",
+        "repo": "skills-directory/skill-codex"
+      }
+    }
   },
   "skipDangerousModePermissionPrompt": true
 }
