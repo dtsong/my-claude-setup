@@ -19,7 +19,8 @@
     "advocate": {
       "skills": {
         "journey-mapping": { "uses": 0, "last_used": null, "sessions": [] },
-        "interaction-design": { "uses": 0, "last_used": null, "sessions": [] }
+        "interaction-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "i18n-review": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "craftsman": {

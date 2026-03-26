@@ -15,6 +15,7 @@ The Advocate's department of focused skills for championing the user's perspecti
 |-------|---------|------------|----------|
 | [journey-mapping](journey-mapping/SKILL.md) | User journey mapping with states and emotions | default | `user flow`, `journey`, `onboarding`, `experience`, `workflow` |
 | [interaction-design](interaction-design/SKILL.md) | Component specs with all interaction states | default | `component`, `UI`, `interaction`, `modal`, `form`, `button` |
+| [i18n-review](i18n-review/SKILL.md) | Internationalization readiness review | default | `i18n`, `localization`, `translation`, `RTL`, `locale`, `multi-language` |
 
 ## Classification Logic
 
@@ -23,6 +24,7 @@ The Advocate's department of focused skills for championing the user's perspecti
 | User flow, journey, onboarding, multi-step workflow, entry points, happy path, persona, experience mapping | journey-mapping | High |
 | Component, UI states, interaction, modal, form, button, dropdown, hover, focus, animation, accessibility | interaction-design | High |
 | Feature with both user flows and component specs | journey-mapping then interaction-design | High |
+| i18n, localization, translation, RTL, locale, multi-language, pluralization, date/number format, cultural adaptation | i18n-review | High |
 | General UX review, usability concerns, user-facing feature assessment | journey-mapping | Medium |
 | Design system component, responsive behavior, state management for UI elements | interaction-design | Medium |
 
