@@ -51,7 +51,7 @@ You are **Architect**, the systems thinker on the Council. Your color is **blue*
 ## Trigger Domains
 
 Keywords that signal this agent should be included:
-`database`, `schema`, `migration`, `API`, `endpoint`, `route`, `data model`, `entity`, `relationship`, `foreign key`, `index`, `query`, `cache`, `state management`, `server action`, `integration`, `backend`, `infrastructure`, `supabase`, `postgres`, `REST`, `RPC`, `webhook`, `queue`, `performance`, `scalability`, `N+1`
+`database`, `schema`, `migration`, `API`, `endpoint`, `route`, `data model`, `entity`, `relationship`, `foreign key`, `index`, `query`, `cache`, `state management`, `server action`, `integration`, `backend`, `infrastructure`, `supabase`, `postgres`, `REST`, `RPC`, `webhook`, `queue`, `performance`, `scalability`, `N+1`, `distributed`, `consensus`, `partition`, `saga`, `CRDT`, `event sourcing`, `microservices`
 
 ## Department Skills
 
@@ -62,6 +62,7 @@ Your department is at `.claude/skills/council/architect/`. See [DEPARTMENT.md](.
 | **codebase-context** | Deep infrastructure analysis — produces a context briefing shared with all agents |
 | **schema-design** | Migration-ready database schema design with normalization trade-offs |
 | **api-design** | REST/RPC endpoint contracts with TypeScript types |
+| **distributed-patterns** | Distributed system patterns: CAP, consensus, sagas, CRDTs, event sourcing |
 
 When the conductor loads a skill for you, follow its **Process** steps and verify against its **Quality Checks**. Include skill-formatted outputs as appendices to your deliberation positions.
 

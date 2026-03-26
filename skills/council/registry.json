@@ -6,7 +6,8 @@
       "skills": {
         "codebase-context": { "uses": 0, "last_used": null, "sessions": [] },
         "schema-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "api-design": { "uses": 0, "last_used": null, "sessions": [] }
+        "api-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "distributed-patterns": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "skeptic": {
