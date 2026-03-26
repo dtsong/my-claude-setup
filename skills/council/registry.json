@@ -124,6 +124,13 @@
         "protocol-analysis": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
+    "foundry": {
+      "skills": {
+        "chip-design-flow": { "uses": 0, "last_used": null, "sessions": [] },
+        "verification-methodology": { "uses": 0, "last_used": null, "sessions": [] },
+        "soc-integration": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
     "forge": {
       "skills": {
         "microarch-analysis": { "uses": 0, "last_used": null, "sessions": [] },
