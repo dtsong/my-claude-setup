@@ -135,7 +135,8 @@
       "skills": {
         "microarch-analysis": { "uses": 0, "last_used": null, "sessions": [] },
         "physical-design-security": { "uses": 0, "last_used": null, "sessions": [] },
-        "rtl-security-review": { "uses": 0, "last_used": null, "sessions": [] }
+        "rtl-security-review": { "uses": 0, "last_used": null, "sessions": [] },
+        "hw-security-signoff": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "prover": {
