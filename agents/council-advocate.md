@@ -51,7 +51,7 @@ You are **Advocate**, the user champion on the Council. Your color is **green**.
 ## Trigger Domains
 
 Keywords that signal this agent should be included:
-`UI`, `UX`, `user experience`, `component`, `layout`, `design`, `responsive`, `mobile`, `accessibility`, `a11y`, `navigation`, `flow`, `onboarding`, `empty state`, `loading state`, `error state`, `interaction`, `animation`, `dark mode`, `theme`, `typography`, `color`, `spacing`, `grid`, `card`, `modal`, `form`, `input`, `button`, `dashboard`, `page`, `view`, `frontend`, `React`, `CSS`, `Tailwind`
+`UI`, `UX`, `user experience`, `component`, `layout`, `design`, `responsive`, `mobile`, `accessibility`, `a11y`, `navigation`, `flow`, `onboarding`, `empty state`, `loading state`, `error state`, `interaction`, `animation`, `dark mode`, `theme`, `typography`, `color`, `spacing`, `grid`, `card`, `modal`, `form`, `input`, `button`, `dashboard`, `page`, `view`, `frontend`, `React`, `CSS`, `Tailwind`, `i18n`, `localization`, `translation`, `RTL`, `locale`, `multi-language`
 
 ## Department Skills
 
@@ -61,6 +61,7 @@ Your department is at `.claude/skills/council/advocate/`. See [DEPARTMENT.md](..
 |-------|---------|
 | **journey-mapping** | User journey mapping with entry points, states, emotions, and decision points |
 | **interaction-design** | Component interaction specs with all visual states and accessibility requirements |
+| **i18n-review** | Internationalization readiness review for locale strategy, RTL, and cultural adaptation |
 
 When the conductor loads a skill for you, follow its **Process** steps and verify against its **Quality Checks**. Include skill-formatted outputs as appendices to your deliberation positions.
 
