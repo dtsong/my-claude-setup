@@ -28,7 +28,8 @@
     "craftsman": {
       "skills": {
         "testing-strategy": { "uses": 0, "last_used": null, "sessions": [] },
-        "pattern-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+        "pattern-analysis": { "uses": 0, "last_used": null, "sessions": [] },
+        "e2e-testing": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "scout": {

@@ -15,6 +15,7 @@ The Craftsman's department of focused skills for ensuring code quality, test cov
 |-------|---------|------------|----------|
 | [testing-strategy](testing-strategy/SKILL.md) | Test plan with coverage targets and test pyramid | default | `test`, `testing`, `coverage`, `unit test`, `e2e` |
 | [pattern-analysis](pattern-analysis/SKILL.md) | Codebase pattern audit and convention enforcement | default | `pattern`, `convention`, `consistency`, `refactor`, `code quality` |
+| [e2e-testing](e2e-testing/SKILL.md) | E2E test suite design and visual regression | default | `e2e`, `end-to-end`, `visual regression`, `cross-browser`, `Playwright`, `Cypress` |
 
 ## Classification Logic
 
@@ -22,6 +23,7 @@ The Craftsman's department of focused skills for ensuring code quality, test cov
 |--------------|----------|------------|
 | Request mentions test plans, coverage targets, test pyramid, or TDD | testing-strategy | High |
 | Request mentions pattern audit, convention enforcement, or code consistency | pattern-analysis | High |
+| e2e, end-to-end, visual regression, cross-browser, Playwright, Cypress, browser testing, screenshot testing, smoke test | e2e-testing | High |
 | Request mentions refactoring with emphasis on maintaining existing patterns | pattern-analysis | Medium |
 | Request mentions CI quality gates or regression testing setup | testing-strategy | Medium |
 
