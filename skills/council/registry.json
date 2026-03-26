@@ -46,7 +46,8 @@
       "skills": {
         "deployment-plan": { "uses": 0, "last_used": null, "sessions": [] },
         "observability-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "cost-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+        "cost-analysis": { "uses": 0, "last_used": null, "sessions": [] },
+        "finops-analysis": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "chronicler": {

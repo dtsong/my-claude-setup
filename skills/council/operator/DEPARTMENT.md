@@ -16,6 +16,7 @@ The Operator's department of focused skills for deployment pipelines, observabil
 | [deployment-plan](deployment-plan/SKILL.md) | Deployment strategy, rollback, and release planning | default | `deploy`, `rollback`, `release`, `staging`, `production` |
 | [observability-design](observability-design/SKILL.md) | Monitoring, alerting, and logging strategy | default | `monitoring`, `alerting`, `logging`, `observability`, `Sentry` |
 | [cost-analysis](cost-analysis/SKILL.md) | Infrastructure cost modeling and optimization | default | `cost`, `pricing`, `budget`, `compute`, `scaling` |
+| [finops-analysis](finops-analysis/SKILL.md) | Cloud cost attribution, reserved capacity, right-sizing, unit economics | default | `FinOps`, `cloud cost`, `cost optimization`, `unit economics`, `reserved instances` |
 
 ## Classification Logic
 
@@ -23,7 +24,8 @@ The Operator's department of focused skills for deployment pipelines, observabil
 |-------------|----------|------------|
 | Deploy, rollback, release, CI/CD, pipeline, blue-green, canary, staging, production | deployment-plan | High |
 | Monitoring, alerting, logging, observability, Sentry, metrics, tracing, dashboard, SLO | observability-design | High |
-| Cost, pricing, budget, compute, scaling, infrastructure cost, reserved instances, optimization | cost-analysis | High |
+| Cost, pricing, budget, compute, scaling, infrastructure cost, optimization | cost-analysis | High |
+| FinOps, cloud cost attribution, reserved capacity, right-sizing, spot/preemptible, unit economics, cost anomaly | finops-analysis | High |
 | Environment configuration, feature flags, zero-downtime | deployment-plan | Medium |
 | Error budgets, burn rate, SLI definitions | observability-design | Medium |
 
