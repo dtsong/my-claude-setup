@@ -72,7 +72,7 @@ ASSEMBLY_LABEL: "Council Assembly — Agent Selection"
 
 ---
 
-## Agent Roster (20 Perspectives + Maestro)
+## Agent Roster (21 Perspectives + Maestro)
 
 | # | Agent | Color | Lens | File | Subagent Type |
 |---|-------|-------|------|------|---------------|
@@ -96,11 +96,12 @@ ASSEMBLY_LABEL: "Council Assembly — Agent Selection"
 | 18 | **Cipher** | Obsidian | Cryptographic engineering, protocol security, PQC | `council-cipher` | `Cipher` |
 | 19 | **Warden** | Slate | OS kernel security, isolation, privilege boundaries | `council-warden` | `Warden` |
 | 20 | **Prover** | Pearl | Formal methods, verification, security invariants | `council-prover` | `Prover` |
+| 21 | **Foundry** | Copper | Constructive chip design, verification, SoC integration | `council-foundry` | `Foundry` |
 | — | **Steward** | Platinum | Orchestration, synthesis, facilitation (Maestro) | `council-steward` | *(not spawned)* |
 
 The **Steward** (Maestro) is not a spawned agent — it is the facilitator persona the conductor adopts during sessions. See `agents/council-steward.md` for the full persona.
 
-Selection cap remains at **7 agents max** per session. The larger roster (20) gives more to choose from, not more in every session.
+Selection cap remains at **7 agents max** per session. The larger roster (21) gives more to choose from, not more in every session.
 
 ---
 
@@ -114,6 +115,7 @@ Selection cap remains at **7 agents max** per session. The larger roster (20) gi
     codebase-context/SKILL.md            # "Tech chief" — infra analysis + context briefing
     schema-design/SKILL.md               # Database schema design
     api-design/SKILL.md                  # REST/RPC endpoint contracts
+    distributed-patterns/SKILL.md        # Distributed system patterns
   skeptic/
     DEPARTMENT.md
     threat-model/SKILL.md                # STRIDE-based threat analysis
@@ -123,10 +125,13 @@ Selection cap remains at **7 agents max** per session. The larger roster (20) gi
     DEPARTMENT.md
     journey-mapping/SKILL.md             # User journey with states + emotions
     interaction-design/SKILL.md          # Component specs with all states
+    i18n-review/SKILL.md                 # Internationalization readiness review
+    a11y-audit/SKILL.md                  # WCAG 2.2 AA accessibility audit
   craftsman/
     DEPARTMENT.md
     testing-strategy/SKILL.md            # Test plan with coverage targets
     pattern-analysis/SKILL.md            # Codebase pattern audit + conventions
+    e2e-testing/SKILL.md                 # E2E test design + visual regression
   scout/
     DEPARTMENT.md
     library-evaluation/SKILL.md          # Structured library scoring + comparison
@@ -142,6 +147,7 @@ Selection cap remains at **7 agents max** per session. The larger roster (20) gi
     deployment-plan/SKILL.md             # Deployment strategy + rollback procedures
     observability-design/SKILL.md        # Monitoring, alerting, logging strategy
     cost-analysis/SKILL.md               # Infrastructure cost modeling
+    finops-analysis/SKILL.md             # Cloud cost attribution + unit economics
   chronicler/
     DEPARTMENT.md
     documentation-plan/SKILL.md          # Documentation architecture + audiences
@@ -187,11 +193,17 @@ Selection cap remains at **7 agents max** per session. The larger roster (20) gi
     prompt-engineering/SKILL.md          # System prompts + structured output
     rag-architecture/SKILL.md            # Chunking + embeddings + vector DB
     ai-evaluation/SKILL.md              # Golden datasets + hallucination detection
+  foundry/
+    DEPARTMENT.md
+    chip-design-flow/SKILL.md            # RTL-to-GDSII design flow
+    verification-methodology/SKILL.md    # UVM testbench + coverage closure
+    soc-integration/SKILL.md             # AMBA/AXI, IP qualification, DFT
   forge/
     DEPARTMENT.md
     microarch-analysis/SKILL.md          # Microarchitectural attack surface analysis
     rtl-security-review/SKILL.md         # RTL-level security review
     physical-design-security/SKILL.md    # Physical implementation security
+    hw-security-signoff/SKILL.md         # Builder-to-auditor handoff contract
   cipher/
     DEPARTMENT.md
     crypto-review/SKILL.md               # Cryptographic implementation review
@@ -229,6 +241,7 @@ Selection cap remains at **7 agents max** per session. The larger roster (20) gi
 - **Cipher** gets +2 for any feature involving cryptographic operations, protocol security, or key management
 - **Warden** gets +2 for any feature involving kernel security, process isolation, or privilege boundaries
 - **Prover** gets +2 for any feature requiring formal verification, security invariants, or protocol correctness proofs
+- **Foundry** gets +2 for any chip design, verification methodology, or EDA flow work
 
 ### Anti-Redundancy Penalties (-2)
 
@@ -246,6 +259,7 @@ If two agents overlap heavily for this idea, penalize the less relevant one by -
 - **Prover vs Craftsman** (quality overlap): Unit/integration testing → penalize Prover -2. Formal verification or protocol correctness → penalize Craftsman -2.
 - **Forge vs Warden** (HW/SW overlap): Pure software isolation → penalize Forge -2. Pure silicon design → penalize Warden -2. HW/SW boundary → both valid.
 - **Cipher vs Forge** (side-channel overlap): Software crypto implementation → penalize Forge -2. Hardware crypto / physical side-channel → penalize Cipher -2.
+- **Forge vs Foundry** (hardware overlap): Constructive RTL design, verification, or EDA flow → penalize Forge -2. Security audit of hardware design → penalize Foundry -2. Builder-to-auditor handoff → both valid.
 
 ---
 
@@ -275,6 +289,8 @@ Examples of common tension pairs:
 - Forge flags speculative execution risk, Architect says software mitigation is acceptable
 - Cipher wants separate HSM for key management, Operator flags infrastructure complexity
 - Warden wants minimal kernel surface, Sentinel needs kernel modules for device drivers
+- Foundry wants aggressive timing closure, Forge flags security implications of clock optimization
+- Foundry wants full-scan DFT, Forge flags scan chain access to security-critical state
 
 Select 2-4 tension pairs. Not every disagreement is worth a full challenge round — focus on tensions where the resolution would meaningfully change the design.
 
@@ -304,6 +320,7 @@ When executing via team (Path A), assign tasks based on agent strengths:
 - **Cipher** — Cryptographic implementation review, protocol analysis, key management design, PQC migration tasks
 - **Warden** — Kernel hardening, isolation boundary review, HW/SW interface security, privilege boundary tasks
 - **Prover** — Formal specification writing, invariant analysis, model checking configuration, verification tasks
+- **Foundry** — RTL authoring, synthesis constraint definition, verification environment setup, SoC integration, DFT planning tasks
 
 ---
 
