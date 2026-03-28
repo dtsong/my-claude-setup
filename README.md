@@ -58,7 +58,7 @@ The installer supports incremental adoption:
 - `--preset core` also links command and agent markdown
 - `--preset full` adds scripts, hook scripts, and workspaces
 
-For a walkthrough, see `docs/adoption.md`.
+For a walkthrough, see `docs/adoption.md`. For details on automatic behaviors (skill auto-loading, workspace context injection, session handovers, hooks), see [`docs/how-it-works.md`](docs/how-it-works.md).
 
 ## Road to v1.0.0
 
