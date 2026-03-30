@@ -72,7 +72,7 @@ ASSEMBLY_LABEL: "Council Assembly — Agent Selection"
 
 ---
 
-## Agent Roster (21 Perspectives + Maestro)
+## Agent Roster (22 Perspectives + Maestro)
 
 | # | Agent | Color | Lens | File | Subagent Type |
 |---|-------|-------|------|------|---------------|
@@ -97,6 +97,7 @@ ASSEMBLY_LABEL: "Council Assembly — Agent Selection"
 | 19 | **Warden** | Slate | OS kernel security, isolation, privilege boundaries | `council-warden` | `Warden` |
 | 20 | **Prover** | Pearl | Formal methods, verification, security invariants | `council-prover` | `Prover` |
 | 21 | **Foundry** | Copper | Constructive chip design, verification, SoC integration | `council-foundry` | `Foundry` |
+| 22 | **Accountant** | Emerald | Accounting domain expertise, professional standards, practitioner workflows | `council-accountant` | `Accountant` |
 | — | **Steward** | Platinum | Orchestration, synthesis, facilitation (Maestro) | `council-steward` | *(not spawned)* |
 
 The **Steward** (Maestro) is not a spawned agent — it is the facilitator persona the conductor adopts during sessions. See `agents/council-steward.md` for the full persona.
@@ -218,6 +219,14 @@ Selection cap remains at **7 agents max** per session. The larger roster (21) gi
     DEPARTMENT.md
     formal-spec/SKILL.md                 # TLA+ specification + model checking
     invariant-analysis/SKILL.md          # Security invariant identification
+  accountant/
+    DEPARTMENT.md                        # Department index
+    core/reconciliation/SKILL.md         # Bank and GL reconciliation
+    core/journal-engine/SKILL.md         # Double-entry creation and validation
+    tax/tax-research/SKILL.md            # IRC/regulation lookup methodology
+    audit/risk-assessment/SKILL.md       # Audit risk assessment and sampling
+    reporting/financial-statements/SKILL.md  # Financial statement preparation
+    advisory/variance-analysis/SKILL.md  # Budget vs actual analysis
 ```
 
 ---
@@ -242,6 +251,7 @@ Selection cap remains at **7 agents max** per session. The larger roster (21) gi
 - **Warden** gets +2 for any feature involving kernel security, process isolation, or privilege boundaries
 - **Prover** gets +2 for any feature requiring formal verification, security invariants, or protocol correctness proofs
 - **Foundry** gets +2 for any chip design, verification methodology, or EDA flow work
+- **Accountant** gets +2 for any feature involving financial calculations, accounting standards, tax compliance, audit procedures, or financial reporting
 
 ### Anti-Redundancy Penalties (-2)
 
@@ -260,6 +270,8 @@ If two agents overlap heavily for this idea, penalize the less relevant one by -
 - **Forge vs Warden** (HW/SW overlap): Pure software isolation → penalize Forge -2. Pure silicon design → penalize Warden -2. HW/SW boundary → both valid.
 - **Cipher vs Forge** (side-channel overlap): Software crypto implementation → penalize Forge -2. Hardware crypto / physical side-channel → penalize Cipher -2.
 - **Forge vs Foundry** (hardware overlap): Constructive RTL design, verification, or EDA flow → penalize Forge -2. Security audit of hardware design → penalize Foundry -2. Builder-to-auditor handoff → both valid.
+- **Accountant vs Guardian** (compliance overlap): General privacy/governance → penalize Accountant -2. Accounting-specific professional standards (AICPA, Circular 230) → penalize Guardian -2.
+- **Accountant vs Alchemist** (data overlap): General data pipelines → penalize Accountant -2. Financial data modeling with accounting semantics → penalize Alchemist -2.
 
 ---
 
@@ -321,6 +333,7 @@ When executing via team (Path A), assign tasks based on agent strengths:
 - **Warden** — Kernel hardening, isolation boundary review, HW/SW interface security, privilege boundary tasks
 - **Prover** — Formal specification writing, invariant analysis, model checking configuration, verification tasks
 - **Foundry** — RTL authoring, synthesis constraint definition, verification environment setup, SoC integration, DFT planning tasks
+- **Accountant** — Financial data modeling, GAAP/IFRS compliance review, tax calculation validation, audit trail design, accounting workflow tasks
 
 ---
 

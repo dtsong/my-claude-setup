@@ -1,0 +1,104 @@
+{
+  "version": "2.0",
+  "last_updated": "2026-03-28",
+  "departments": {
+    "integrator": {
+      "skills": {
+        "requirements-decomposition": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "interface-control": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "v-model-planning": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "shield": {
+      "skills": {
+        "safety-analysis": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "leakage-current": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "single-fault-analysis": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "regulator": {
+      "skills": {
+        "regulatory-strategy": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "risk-management": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "iec60601-review": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "analog": {
+      "skills": {
+        "noise-analysis": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "front-end-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "defibrillation-protection": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "tracer": {
+      "skills": {
+        "stackup-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "emc-strategy": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "power-integrity": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "firmware": {
+      "skills": {
+        "rtos-architecture": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "bootloader-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "iec62304-compliance": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "silicon": {
+      "skills": {
+        "hw-sw-partitioning": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "fpga-architecture": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "verification-strategy": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "pulse": {
+      "skills": {
+        "transducer-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "beamformer-architecture": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "pulser-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "sensor": {
+      "skills": {
+        "potentiostat-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "electrode-interface": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "wearable-form-factor": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "power": {
+      "skills": {
+        "power-tree-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "bms-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "isolation-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "fabricator": {
+      "skills": {
+        "dfm-review": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "bom-optimization": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "test-fixture-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "verifier": {
+      "skills": {
+        "dvt-protocol": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "measurement-uncertainty": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "statistical-methods": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "link": {
+      "skills": {
+        "wireless-design": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "protocol-selection": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "cybersecurity-review": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    },
+    "thermal": {
+      "skills": {
+        "thermal-simulation": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "derating-analysis": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] },
+        "environmental-qualification": { "uses": 0, "last_used": null, "sessions": [], "effectiveness": [], "avg_effectiveness": null, "evolution_count": 0, "last_evolved": null, "flags": [] }
+      }
+    }
+  }
+}

@@ -16,6 +16,7 @@ The Foundry's department of focused skills for constructive hardware design, fro
 | [chip-design-flow](chip-design-flow/SKILL.md) | RTL-to-GDSII flow with synthesis and physical design | default | `RTL`, `synthesis`, `tape-out`, `place and route`, `timing closure`, `SDC` |
 | [verification-methodology](verification-methodology/SKILL.md) | UVM testbench architecture and coverage-driven closure | default | `UVM`, `verification`, `coverage`, `constrained random`, `assertions`, `formal` |
 | [soc-integration](soc-integration/SKILL.md) | SoC bus fabric, memory map, IP qualification, DFT | default | `SoC`, `AMBA`, `AXI`, `IP integration`, `DFT`, `register map` |
+| [verilator-simulation](verilator-simulation/SKILL.md) | Verilator lint, sim, trace, coverage, C++ co-sim | default | `verilator`, `VCD`, `FST`, `DPI-C`, `verilator coverage` |
 
 ## Classification Logic
 
@@ -24,6 +25,7 @@ The Foundry's department of focused skills for constructive hardware design, fro
 | RTL authoring, synthesis, place-and-route, timing closure, SDC constraints, floor plan, GDSII, tape-out, EDA flow | chip-design-flow | High |
 | UVM, testbench, coverage-driven verification, constrained random, assertions, formal verification, coverage closure | verification-methodology | High |
 | SoC integration, AMBA/AXI bus, memory map, interrupt controller, IP qualification, DFT, scan, BIST, ATPG | soc-integration | High |
+| Verilator simulation, lint, trace, VCD/FST waveform, coverage with verilator, DPI-C co-simulation | verilator-simulation | High |
 | General RTL design quality or coding style questions | chip-design-flow | Medium |
 | Block-level verification planning | verification-methodology | Medium |
 
