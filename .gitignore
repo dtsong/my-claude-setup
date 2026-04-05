@@ -38,6 +38,13 @@ skills/skills
 agents/agents
 scripts/scripts
 
+# Private repo symlinks (installed by my-claude-setup-private)
+skills/ece
+skills/soc-security
+skills/research-consulting-skills
+agents/ece-*.md
+commands/ece.md
+
 # Python bytecode
 __pycache__/
 
