@@ -4,13 +4,70 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+          }
+        ]
+      },
       {
         "matcher": "TaskUpdate",
         "hooks": [
           {
             "type": "command",
             "command": "bash \"$HOME/Development/my-claude-setup/hooks/acceptance-gate.sh\""
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/cost_sink_alert.py\""
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
           }
         ]
       }
@@ -39,5 +96,6 @@
       }
     }
   },
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "model": "opus"
 }
