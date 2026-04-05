@@ -44,6 +44,10 @@ skills/soc-security
 skills/research-consulting-skills
 agents/ece-*.md
 commands/ece.md
+skills/council/chronicler/artifact-design
+skills/council/operator/autonomous-scheduling
+skills/council/operator/workflow-orchestration
+skills/council/oracle/context-compounding
 
 # Python bytecode
 __pycache__/
