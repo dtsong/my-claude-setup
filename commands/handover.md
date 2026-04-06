@@ -109,3 +109,13 @@ And give a 1-sentence summary of what was captured.
 - If a section genuinely has nothing (e.g., no open questions), write "None" rather than inventing content
 - Do NOT ask the user what to include — you already have the full context, just write it
 - If the session was trivial (e.g., only a greeting), say so and skip the handover
+
+### Session-End Signal Recognition
+
+When any of these signals appear in conversation, proactively suggest running `/handover` if the session produced substantive work:
+
+- Explicit closure: "wrap up," "park this," "goodnight," "let's stop here," "I'm done for today"
+- Implicit closure: "one last thing" followed by completion, long idle after a major milestone
+- Context boundary: switching to a completely unrelated topic after deep work
+
+Do NOT auto-run the handover — suggest it. Example: "This session had significant decisions worth capturing. Want me to run `/handover` before we wrap?"

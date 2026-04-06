@@ -8,6 +8,7 @@ description: >
   needed. Do NOT use for creating new diagrams (use generate-diagram) or
   plotting data (use generate-plot).
 user-invocable: true
+distribution: repo
 allowed-tools:
   - mcp__paperbanana__evaluate_diagram
   - Read

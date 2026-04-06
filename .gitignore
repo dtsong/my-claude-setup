@@ -44,9 +44,18 @@ skills/soc-security
 skills/research-consulting-skills
 agents/ece-*.md
 commands/ece.md
+skills/council/chronicler/artifact-design
+skills/council/operator/autonomous-scheduling
+skills/council/operator/workflow-orchestration
+skills/council/oracle/context-compounding
 
 # Python bytecode
 __pycache__/
 
 # macOS
 .DS_Store
+skills/paperbanana/
+
+# Local symlinks from skill-governance repo
+skills/heavy-file-ingestion
+commands/heavy-file-ingestion.md
