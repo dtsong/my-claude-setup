@@ -54,3 +54,8 @@ __pycache__/
 
 # macOS
 .DS_Store
+skills/paperbanana/
+
+# Local symlinks from skill-governance repo
+skills/heavy-file-ingestion
+commands/heavy-file-ingestion.md

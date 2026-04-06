@@ -8,6 +8,7 @@ description: >
   scoring existing diagrams (use evaluate-diagram) or plotting data from
   CSV/JSON (use generate-plot).
 user-invocable: true
+distribution: repo
 allowed-tools:
   - mcp__paperbanana__generate_diagram
   - Read

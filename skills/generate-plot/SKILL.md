@@ -8,6 +8,7 @@ description: >
   use for methodology diagrams from text (use generate-diagram) or diagram
   scoring (use evaluate-diagram).
 user-invocable: true
+distribution: repo
 allowed-tools:
   - mcp__paperbanana__generate_plot
   - Read
