@@ -1,6 +1,6 @@
-# Council — Multi-Agent Deliberation System
+# Council - Multi-Agent Deliberation System
 
-The Council is a structured decision-making system for ambitious software projects. Instead of getting a single AI perspective on a design problem, the Council assembles a team of 3-7 specialized agents from a roster of 20 that each bring a distinct lens — architecture, security, UX, mobile, visual design, growth, IoT, AI/LLM, and more — and puts them through a formal deliberation process. The result is a design document and execution plan that has been stress-tested from multiple angles before a single line of code is written.
+The Council is a structured decision-making system for ambitious software projects. Instead of getting a single AI perspective on a design problem, the Council assembles a team of 3-7 specialized agents from a roster of 22 that each bring a distinct lens - architecture, security, UX, mobile, visual design, growth, IoT, AI/LLM, silicon, accounting, and more - and puts them through a formal deliberation process. The result is a design document and execution plan that has been stress-tested from multiple angles before a single line of code is written.
 
 **The core insight:** a single perspective tends to anchor on its first plausible idea and stop exploring. Multiple independent perspectives, forced to challenge each other, produce designs that survive contact with reality.
 
@@ -10,6 +10,8 @@ The Council is a structured decision-making system for ambitious software projec
 
 - [Why Use the Council](#why-use-the-council)
 - [Quick Start](#quick-start)
+- [Mode Cheat Sheet](#mode-cheat-sheet)
+- [Recipes by Persona](#recipes-by-persona)
 - [How a Session Works](#how-a-session-works)
 - [The Agent Roster](#the-agent-roster)
 - [Understanding the Deliberation Process](#understanding-the-deliberation-process)
@@ -27,14 +29,14 @@ The Council is a structured decision-making system for ambitious software projec
 
 You're about to build something non-trivial. Maybe it's a new authentication system, a data warehouse, a real-time collaboration feature, or a migration off a legacy platform. You could start coding immediately, but the risk is high: you'll make architectural decisions early that constrain you later, miss edge cases that become expensive bugs, or over-engineer parts that didn't need it while under-investing in parts that did.
 
-The Council is designed for exactly this moment — the gap between "I know what I want to build" and "I know how to build it well."
+The Council is designed for exactly this moment - the gap between "I know what I want to build" and "I know how to build it well."
 
 What it does differently from just asking Claude:
 
-- **Multiple independent perspectives** — Instead of one AI reasoning about security *and* UX *and* performance *and* data modeling all at once, each concern gets a dedicated agent with deep expertise in that domain.
-- **Structured conflict** — Agents are explicitly asked to challenge each other. When the Architect wants a new database table, the Strategist can push back on scope. When the Advocate wants a rich UI flow, the Skeptic flags complexity risks. These tensions get resolved, not ignored.
-- **Grounded in your actual codebase** — Agents explore your project before deliberating. Their recommendations reference your actual file structure, tech stack, and conventions — not generic best practices.
-- **Reproducible artifacts** — Every session produces a design document, decision log, and PRD that live in your repo. You can review them, share them with your team, or hand them off for execution.
+- **Multiple independent perspectives** - Instead of one AI reasoning about security *and* UX *and* performance *and* data modeling all at once, each concern gets a dedicated agent with deep expertise in that domain.
+- **Structured conflict** - Agents are explicitly asked to challenge each other. When the Architect wants a new database table, the Strategist can push back on scope. When the Advocate wants a rich UI flow, the Skeptic flags complexity risks. These tensions get resolved, not ignored.
+- **Grounded in your actual codebase** - Agents explore your project before deliberating. Their recommendations reference your actual file structure, tech stack, and conventions - not generic best practices.
+- **Reproducible artifacts** - Every session produces a design document, decision log, and PRD that live in your repo. You can review them, share them with your team, or hand them off for execution.
 
 ---
 
@@ -88,6 +90,77 @@ This prompts you with "What's the big idea?" and starts the interview from there
 
 ---
 
+## Mode Cheat Sheet
+
+The same engine drives several modes - pick by how much rigor (and time) the question deserves.
+
+| Mode | Use When | Time Cost | Output |
+|---|---|---|---|
+| `--brainstorm "idea"` (or `/brainstorm`) | Gut-check a half-formed thought before investing more | ~1-2 min | 3 short takes from Architect / Strategist / Skeptic - no plan, no artifacts |
+| `--quick "idea"` | Small feature, you know roughly what you want, want a quick shape | ~5-10 min | Skip interview, 1 deliberation round, lightweight design sketch |
+| *(default)* `/council "idea"` | New feature with multiple concerns, real architectural choices | ~20-40 min | Full interview → assembly → 3 rounds → design + PRD |
+| `--deep "idea"` | Hard-to-reverse decision, regulated domain, or migration | ~45-90 min | Default flow + mandatory codebase audit and stricter convergence |
+| `--auto "idea"` | You trust the council to drive - minimal touchpoints | ~25-45 min | Default flow without per-phase approvals |
+| `--guided "idea"` | High-stakes, want explicit approval gates at every phase | varies | Default flow with hard stops between phases |
+| `--meet "question"` | Open question, no implementation expected | ~15-25 min | Discussion artifacts only - no PRD, no plan |
+| `--audit "topic"` | Audit existing code (security, perf, etc.), not designing new | ~20-40 min | Direct codebase audit by relevant agents, no interview |
+
+`/council --help` shows the full list. Resume, list, archive, and cleanup commands are covered in [Session Management](#session-management).
+
+## Recipes by Persona
+
+Paste-ready starting points for common situations. Each recipe shows the kind of council shape that mode tends to assemble - actual selection still depends on your interview answers.
+
+### Solo founder / fast iteration
+```
+/council --quick "Add Stripe-backed paid tier with free trial"
+```
+Why: scope-sensitive, user-facing, monetization. Council typically lands on Strategist + Herald + Architect + Advocate. You get a directional design without spending an hour.
+
+### Staff engineer planning a migration
+```
+/council --deep "Migrate from REST to gRPC for internal services"
+```
+Why: hard to reverse, touches every service. Deep mode forces a codebase audit. Expect Architect + Operator + Skeptic + Tuner + Chronicler with explicit tension resolution and an ADR.
+
+### Hardware / firmware lead
+```
+/council "Design a BLE-connected wearable with OTA updates and secure boot"
+```
+Why: triggers Sentinel + Cipher + Forge or Foundry + Warden mandatory bonuses. Surfaces HW/SW boundary trade-offs (Forge vs. Warden, Cipher vs. Operator) that single-AI runs miss.
+
+### AI / ML product lead
+```
+/council "Build a RAG-powered search over our internal docs"
+```
+Why: Oracle + Alchemist + Tuner + Strategist combo. The Oracle's `ai-evaluation` skill produces a golden dataset plan before any chunking decisions get baked in.
+
+### Compliance-heavy team (fintech, healthcare, accounting)
+```
+/council --deep "Add automated tax-loss harvesting to our brokerage app"
+```
+Why: triggers Guardian + Accountant + Skeptic + Architect mandatory bonuses. Surfaces accounting-specific standards (Circular 230, wash-sale rule) that Guardian alone wouldn't catch.
+
+### Designer-engineer pair shipping a redesign
+```
+/council "Redesign the onboarding flow with a new visual system"
+```
+Why: Artisan + Advocate + Herald + Strategist. Artisan's `design-system-architecture` skill prevents design-system overhaul from creeping into MVP scope.
+
+### "Should we even do this?" exploratory
+```
+/council --meet "Should we rewrite our React Native app in Flutter?"
+```
+Why: discussion-only mode, no PRD. Pathfinder + Architect + Strategist + Skeptic debate without forcing a build plan. Good for executive offsites or kickoff meetings.
+
+### Auditing existing code
+```
+/council --audit "Review our auth and session-handling for OWASP compliance"
+```
+Why: skips interview, dispatches Skeptic + Cipher + Warden + Guardian directly against the codebase. Output is a remediation list, not a design.
+
+---
+
 ## How a Session Works
 
 A council session moves through six phases. You're actively involved in Phases 0-2 (providing input, approving the council composition). Phases 3-5 are largely autonomous.
@@ -106,22 +179,22 @@ flowchart TD
 
     subgraph P1["①  Interview  ·  2–3 rounds"]
         p1p["Conductor scans your codebase & asks targeted questions"]
-        p1u[/"👤 Answer each round — scope, constraints, priorities"/]:::userNode
+        p1u[/"👤 Answer each round - scope, constraints, priorities"/]:::userNode
         p1a[("📄 interview-summary.md")]:::artifactNode
         p1p --> p1u --> p1a
     end
 
     subgraph P2["②  Assembly  ·  Agent Selection"]
-        p2p["20 agents scored by relevance — 3–7 selected"]
+        p2p["22 agents scored by relevance - 3–7 selected"]
         p2u[/"👤 Approve, add, or remove agents from the lineup"/]:::userNode
         p2a[("📄 assembly.md  ·  Team spawned")]:::artifactNode
         p2p --> p2u --> p2a
     end
 
     subgraph P3["③  Deliberation  ·  3 rounds"]
-        p3r1["Round 1 · Position — agents explore codebase independently"]
-        p3r2["Round 2 · Challenge — tension pairs challenge each other's designs"]
-        p3r3["Round 3 · Converge — agents reconcile and finalize positions"]
+        p3r1["Round 1 · Position - agents explore codebase independently"]
+        p3r2["Round 2 · Challenge - tension pairs challenge each other's designs"]
+        p3r3["Round 3 · Converge - agents reconcile and finalize positions"]
         p3u[/"👤 Review key decisions & resolved tensions"/]:::userNode
         p3a[("📄 design.md  ·  decision-log.md")]:::artifactNode
         p3r1 --> p3r2 --> p3r3 --> p3u --> p3a
@@ -129,7 +202,7 @@ flowchart TD
 
     subgraph P4["④  Planning"]
         p4p["Conductor synthesizes PRD with user stories & acceptance criteria"]
-        p4u[/"👤 Scope review — approve or adjust before execution"/]:::userNode
+        p4u[/"👤 Scope review - approve or adjust before execution"/]:::userNode
         p4a[("📄 prd.md  ·  acceptance-contract.md  ·  test-stubs/")]:::artifactNode
         p4p --> p4u --> p4a
     end
@@ -154,33 +227,33 @@ flowchart TD
 
 ### Phase 0: Intake
 
-You describe your idea. Be as specific or as vague as you like — the interview will fill in the gaps.
+You describe your idea. Be as specific or as vague as you like - the interview will fill in the gaps.
 
 ### Phase 1: Interview (2-3 rounds)
 
-The conductor (the main Claude session) interviews you directly. No agents are spawned yet. The conductor has already scanned your project — it knows your tech stack, directory structure, and conventions — so questions are specific to your situation.
+The conductor (the main Claude session) interviews you directly. No agents are spawned yet. The conductor has already scanned your project - it knows your tech stack, directory structure, and conventions - so questions are specific to your situation.
 
-Each round targets 3-4 of the 16 perspectives based on relevance. For example, if you're building a feature that handles user PII, the conductor will ask compliance-oriented questions early. If it's a performance-critical feature, it'll dig into load expectations and latency requirements.
+Each round targets 3-4 of the 22 perspectives based on relevance. For example, if you're building a feature that handles user PII, the conductor will ask compliance-oriented questions early. If it's a performance-critical feature, it'll dig into load expectations and latency requirements.
 
 After the interview, the conductor writes a structured summary with relevance scores for each perspective.
 
 ### Phase 2: Assembly (Agent Selection)
 
-Each of the 20 agents is scored (0-10) based on keyword matches from the interview, semantic relevance, and mandatory bonuses (e.g., the Architect always gets +2 for new functionality, the Guardian gets +2 for features handling user data).
+Each of the 22 agents is scored (0-10) based on keyword matches from the interview, semantic relevance, and mandatory bonuses (e.g., the Architect always gets +2 for new functionality, the Guardian gets +2 for features handling user data).
 
 The conductor shows you the proposed council with scores and rationale. You can approve, add an agent, remove one, or restart the interview.
 
-Typically 3-7 agents are selected. Not every session needs every perspective — a straightforward internal tool might only need the Architect, Craftsman, and Operator, while a cross-platform mobile feature handling sensitive data might assemble seven agents including the Advocate, Pathfinder, Skeptic, and Guardian.
+Typically 3-7 agents are selected. Not every session needs every perspective - a straightforward internal tool might only need the Architect, Craftsman, and Operator, while a cross-platform mobile feature handling sensitive data might assemble seven agents including the Advocate, Pathfinder, Skeptic, and Guardian.
 
 ### Phase 3: Deliberation (3 rounds)
 
 This is where the magic happens. Each selected agent is spawned as a separate Claude Code session with its own context window, persona, and cognitive framework.
 
-**Round 1 — Position:** Every agent simultaneously explores your codebase and writes their position statement. The Architect proposes a system design. The Skeptic identifies risks. The Advocate maps the user journey. Each writes independently, grounded in your actual code.
+**Round 1 - Position:** Every agent simultaneously explores your codebase and writes their position statement. The Architect proposes a system design. The Skeptic identifies risks. The Advocate maps the user journey. Each writes independently, grounded in your actual code.
 
-**Round 2 — Challenge:** The conductor identifies 2-4 tension pairs — agents whose positions conflict or create interesting trade-offs — and sends each agent their counterpart's position to respond to. This is where the Architect's "add a new table" gets challenged by the Strategist's "can we do this without new infrastructure?" and genuine design trade-offs get surfaced.
+**Round 2 - Challenge:** The conductor identifies 2-4 tension pairs - agents whose positions conflict or create interesting trade-offs - and sends each agent their counterpart's position to respond to. This is where the Architect's "add a new table" gets challenged by the Strategist's "can we do this without new infrastructure?" and genuine design trade-offs get surfaced.
 
-**Round 3 — Converge:** Every agent reads the challenge-round exchanges and writes their final position: what they're sticking with, what concessions they're making, and what they refuse to compromise on.
+**Round 3 - Converge:** Every agent reads the challenge-round exchanges and writes their final position: what they're sticking with, what concessions they're making, and what they refuse to compromise on.
 
 ### Phase 4: Planning
 
@@ -189,51 +262,53 @@ The conductor synthesizes all final positions into a unified design document, re
 ### Phase 5: Action
 
 You choose how to execute:
-- **Team execution** — The council agents implement the plan themselves
-- **Ralf handoff** — The PRD goes to `/ralf` for autonomous execution
-- **Launch handoff** — The PRD goes to `/launch` in a separate worktree
-- **Review first** — Read everything before deciding
+- **Team execution** - The council agents implement the plan themselves
+- **Ralf handoff** - The PRD goes to `/ralf` for autonomous execution
+- **Launch handoff** - The PRD goes to `/launch` in a separate worktree
+- **Review first** - Read everything before deciding
 
 ---
 
 ## The Agent Roster
 
-The Council has 20 agents plus a Steward (Maestro) facilitator persona. Each session uses 3-7 of them, selected for relevance.
+The Council has 22 agents plus a Steward (Maestro) facilitator persona. Each session uses 3-7 of them, selected for relevance.
 
 | # | Agent | Color | What They Care About | When They're Selected |
 |---|-------|-------|---------------------|----------------------|
-| 1 | [**Architect**](architect/DEPARTMENT.md) | Blue | System design, APIs, data models, integration patterns | Almost always — gets +2 for any new functionality |
-| 2 | [**Advocate**](advocate/DEPARTMENT.md) | Green | User experience, product thinking, accessibility | Any user-facing feature — gets +2 mandatory bonus |
-| 3 | [**Skeptic**](skeptic/DEPARTMENT.md) | Red | Risk, security, failure modes, devil's advocate | Auth/security work — gets +2 mandatory bonus |
+| 1 | [**Architect**](architect/DEPARTMENT.md) | Blue | System design, APIs, data models, integration patterns | Almost always - gets +2 for any new functionality |
+| 2 | [**Advocate**](advocate/DEPARTMENT.md) | Green | User experience, product thinking, accessibility | Any user-facing feature - gets +2 mandatory bonus |
+| 3 | [**Skeptic**](skeptic/DEPARTMENT.md) | Red | Risk, security, failure modes, devil's advocate | Auth/security work - gets +2 mandatory bonus |
 | 4 | [**Craftsman**](craftsman/DEPARTMENT.md) | Purple | Testing strategy, DX, code quality, patterns | Complex features needing test strategy |
 | 5 | [**Scout**](scout/DEPARTMENT.md) | Cyan | Research, precedent, library evaluation | Features needing external dependencies or prior art |
 | 6 | [**Strategist**](strategist/DEPARTMENT.md) | Gold | Business value, scope, MVP, prioritization | Scope-sensitive or phased rollout features |
 | 7 | [**Operator**](operator/DEPARTMENT.md) | Orange | DevOps, deployment, infrastructure, monitoring | Features with non-standard deployment needs |
 | 8 | [**Chronicler**](chronicler/DEPARTMENT.md) | Ivory | Documentation, knowledge architecture, onboarding | Features requiring significant docs or ADRs |
-| 9 | [**Guardian**](guardian/DEPARTMENT.md) | Silver | Compliance, governance, privacy, audit trails | Features handling user data or PII — gets +2 mandatory bonus |
-| 10 | [**Tuner**](tuner/DEPARTMENT.md) | Amber | Performance, scalability, caching, optimization | High-traffic or latency-sensitive features — gets +2 mandatory bonus |
-| 11 | [**Alchemist**](alchemist/DEPARTMENT.md) | Indigo | Data engineering, data science, ML, analytics | Data pipelines, warehousing, ML workflows — gets +2 mandatory bonus |
-| 12 | [**Pathfinder**](pathfinder/DEPARTMENT.md) | Coral | Mobile, cross-platform, native apps | Mobile/cross-platform features — gets +2 mandatory bonus |
-| 13 | [**Artisan**](artisan/DEPARTMENT.md) | Rose | Visual design, design systems, motion | UI-heavy features or design system work — gets +2 mandatory bonus |
-| 14 | [**Herald**](herald/DEPARTMENT.md) | Bronze | Growth, monetization, onboarding, retention | User-facing features with growth/monetization implications — gets +2 mandatory bonus |
-| 15 | [**Sentinel**](sentinel/DEPARTMENT.md) | Titanium | IoT, embedded, edge, device protocols | IoT/embedded/hardware features — gets +2 mandatory bonus |
-| 16 | [**Oracle**](oracle/DEPARTMENT.md) | Violet | AI/LLM integration, RAG, prompt engineering | AI/LLM integration features — gets +2 mandatory bonus |
-| 17 | [**Forge**](forge/DEPARTMENT.md) | Graphite | Microarchitecture, silicon design, RTL security, timing, physical implementation | Silicon/hardware security work — gets +2 mandatory bonus |
-| 18 | [**Cipher**](cipher/DEPARTMENT.md) | Obsidian | Cryptographic engineering, protocol security, key management, post-quantum readiness | Crypto/protocol security work — gets +2 mandatory bonus |
-| 19 | [**Warden**](warden/DEPARTMENT.md) | Slate | OS kernel security, process isolation, privilege boundaries, HW/SW security interface | Kernel/OS security work — gets +2 mandatory bonus |
-| 20 | [**Prover**](prover/DEPARTMENT.md) | Pearl | Formal methods, mathematical verification, security invariants, property specification | Formal verification work — gets +2 mandatory bonus |
-| — | **Steward** (Maestro) | Platinum | Orchestration, synthesis, facilitation | Always active as conductor persona (not spawned) |
+| 9 | [**Guardian**](guardian/DEPARTMENT.md) | Silver | Compliance, governance, privacy, audit trails | Features handling user data or PII - gets +2 mandatory bonus |
+| 10 | [**Tuner**](tuner/DEPARTMENT.md) | Amber | Performance, scalability, caching, optimization | High-traffic or latency-sensitive features - gets +2 mandatory bonus |
+| 11 | [**Alchemist**](alchemist/DEPARTMENT.md) | Indigo | Data engineering, data science, ML, analytics | Data pipelines, warehousing, ML workflows - gets +2 mandatory bonus |
+| 12 | [**Pathfinder**](pathfinder/DEPARTMENT.md) | Coral | Mobile, cross-platform, native apps | Mobile/cross-platform features - gets +2 mandatory bonus |
+| 13 | [**Artisan**](artisan/DEPARTMENT.md) | Rose | Visual design, design systems, motion | UI-heavy features or design system work - gets +2 mandatory bonus |
+| 14 | [**Herald**](herald/DEPARTMENT.md) | Bronze | Growth, monetization, onboarding, retention | User-facing features with growth/monetization implications - gets +2 mandatory bonus |
+| 15 | [**Sentinel**](sentinel/DEPARTMENT.md) | Titanium | IoT, embedded, edge, device protocols | IoT/embedded/hardware features - gets +2 mandatory bonus |
+| 16 | [**Oracle**](oracle/DEPARTMENT.md) | Violet | AI/LLM integration, RAG, prompt engineering | AI/LLM integration features - gets +2 mandatory bonus |
+| 17 | [**Forge**](forge/DEPARTMENT.md) | Graphite | Microarchitecture, silicon design, RTL security, timing, physical implementation | Silicon/hardware security work - gets +2 mandatory bonus |
+| 18 | [**Cipher**](cipher/DEPARTMENT.md) | Obsidian | Cryptographic engineering, protocol security, key management, post-quantum readiness | Crypto/protocol security work - gets +2 mandatory bonus |
+| 19 | [**Warden**](warden/DEPARTMENT.md) | Slate | OS kernel security, process isolation, privilege boundaries, HW/SW security interface | Kernel/OS security work - gets +2 mandatory bonus |
+| 20 | [**Prover**](prover/DEPARTMENT.md) | Pearl | Formal methods, mathematical verification, security invariants, property specification | Formal verification work, gets +2 mandatory bonus |
+| 21 | [**Foundry**](foundry/DEPARTMENT.md) | Copper | Constructive chip design, verification methodology, SoC integration, EDA flows | Chip design / verification / EDA flow work, gets +2 mandatory bonus |
+| 22 | [**Accountant**](accountant/DEPARTMENT.md) | Emerald | Accounting domain expertise, professional standards, practitioner workflows | Financial calculations, GAAP/IFRS, tax, audit, financial reporting; gets +2 mandatory bonus |
+| n/a | **Steward** (Maestro) | Platinum | Orchestration, synthesis, facilitation | Always active as conductor persona (not spawned) |
 
 ### Reading an Agent Definition
 
 Each agent's definition file (e.g., [`agents/council-architect.md`](../../agents/council-architect.md)) contains:
 
-- **Cognitive Framework** — The mental models the agent uses to reason. The Architect thinks in C4 models and domain-driven design. The Pathfinder thinks in platform conventions and offline-first architecture. The Oracle thinks in cost-latency-quality triangles and evaluation-driven development.
-- **Trained Skills** — The specific technical capabilities the agent draws on.
-- **Communication Style** — How the agent presents its reasoning. The Architect is precise and structural. The Sentinel is specification-precise and failure-scenario-driven. The Herald is metric-driven and funnel-aware.
-- **Decision Heuristics** — 5 core rules the agent follows. These are the agent's "gut instincts" — heuristics like "Start with the data model" (Architect) or "Design for power-off" (Sentinel) or "Start with the eval harness" (Oracle).
-- **Known Blind Spots** — What each agent tends to get wrong. The Architect over-engineers for hypothetical futures. The Pathfinder over-invests in offline-first when connectivity is guaranteed. The Artisan over-polishes at the expense of shipping. These self-checks help agents stay grounded.
-- **Deliberation Formats** — Templates for Position, Challenge, and Converge rounds that ensure structured, comparable output across agents.
+- **Cognitive Framework** - The mental models the agent uses to reason. The Architect thinks in C4 models and domain-driven design. The Pathfinder thinks in platform conventions and offline-first architecture. The Oracle thinks in cost-latency-quality triangles and evaluation-driven development.
+- **Trained Skills** - The specific technical capabilities the agent draws on.
+- **Communication Style** - How the agent presents its reasoning. The Architect is precise and structural. The Sentinel is specification-precise and failure-scenario-driven. The Herald is metric-driven and funnel-aware.
+- **Decision Heuristics** - 5 core rules the agent follows. These are the agent's "gut instincts" - heuristics like "Start with the data model" (Architect) or "Design for power-off" (Sentinel) or "Start with the eval harness" (Oracle).
+- **Known Blind Spots** - What each agent tends to get wrong. The Architect over-engineers for hypothetical futures. The Pathfinder over-invests in offline-first when connectivity is guaranteed. The Artisan over-polishes at the expense of shipping. These self-checks help agents stay grounded.
+- **Deliberation Formats** - Templates for Position, Challenge, and Converge rounds that ensure structured, comparable output across agents.
 
 ---
 
@@ -241,7 +316,7 @@ Each agent's definition file (e.g., [`agents/council-architect.md`](../../agents
 
 The three-round deliberation is designed to avoid the two failure modes of group decision-making: **groupthink** (everyone agrees too quickly) and **deadlock** (no one budges).
 
-### Round 1: Position — Independent Exploration
+### Round 1: Position - Independent Exploration
 
 Each agent explores the codebase independently and writes a position with:
 - A core recommendation (1-2 sentences)
@@ -249,9 +324,9 @@ Each agent explores the codebase independently and writes a position with:
 - Risks if their perspective is ignored (2-3 concrete consequences)
 - Dependencies on other agents' domains
 
-Because agents work in parallel with separate context windows, there's no anchoring — the Skeptic's threat model isn't influenced by the Architect's system design, and vice versa.
+Because agents work in parallel with separate context windows, there's no anchoring - the Skeptic's threat model isn't influenced by the Architect's system design, and vice versa.
 
-### Round 2: Challenge — Structured Conflict
+### Round 2: Challenge - Structured Conflict
 
 The conductor reads all positions and identifies **tension pairs**: agents whose recommendations create genuine trade-offs. Examples:
 
@@ -263,15 +338,15 @@ The conductor reads all positions and identifies **tension pairs**: agents whose
 
 Each agent in a tension pair receives their counterpart's position and must respond with: **Maintain**, **Modify**, or **Defer**. This forces explicit engagement with opposing views rather than ignoring them.
 
-Agents not in any tension pair skip this round — there's no value in having the Chronicler challenge the Architect on database schema design.
+Agents not in any tension pair skip this round - there's no value in having the Chronicler challenge the Architect on database schema design.
 
-### Round 3: Converge — Resolution
+### Round 3: Converge - Resolution
 
 Every agent reads the challenge exchanges and writes a final position:
-- **Revised recommendation** — reflecting any shifts from the debate
-- **Concessions made** — what they gave up and why (this is critical for the decision log)
-- **Non-negotiables** — what they refuse to compromise on and why
-- **Implementation notes** — specific technical details for execution
+- **Revised recommendation** - reflecting any shifts from the debate
+- **Concessions made** - what they gave up and why (this is critical for the decision log)
+- **Non-negotiables** - what they refuse to compromise on and why
+- **Implementation notes** - specific technical details for execution
 
 The conductor synthesizes these final positions into a unified design document with an explicit tension resolution table.
 
@@ -283,21 +358,21 @@ Each agent manages a "department" of 2-3 focused skills. Skills are structured p
 
 ### How Skills Are Used
 
-1. **During Assembly** — The conductor matches skill triggers against the idea and interview transcript, selecting 1-2 skills per agent
-2. **During Deliberation** — Skill content is inlined into agent prompts. Agents follow the Process steps and include skill-formatted outputs as appendices
-3. **During Execution** — Task assignments include relevant skills so agents follow structured methodology
+1. **During Assembly** - The conductor matches skill triggers against the idea and interview transcript, selecting 1-2 skills per agent
+2. **During Deliberation** - Skill content is inlined into agent prompts. Agents follow the Process steps and include skill-formatted outputs as appendices
+3. **During Execution** - Task assignments include relevant skills so agents follow structured methodology
 
 ### Skills by Department
 
 | Department | Skills | What They Produce |
 |-----------|--------|-------------------|
-| [Architect](architect/DEPARTMENT.md) | [codebase-context](architect/codebase-context/SKILL.md), [schema-design](architect/schema-design/SKILL.md), [api-design](architect/api-design/SKILL.md) | Infrastructure analysis, migration-ready schemas, API contracts |
-| [Advocate](advocate/DEPARTMENT.md) | [journey-mapping](advocate/journey-mapping/SKILL.md), [interaction-design](advocate/interaction-design/SKILL.md) | User journey maps, component specs with all states |
+| [Architect](architect/DEPARTMENT.md) | [codebase-context](architect/codebase-context/SKILL.md), [schema-design](architect/schema-design/SKILL.md), [api-design](architect/api-design/SKILL.md), [distributed-patterns](architect/distributed-patterns/SKILL.md) | Infrastructure analysis, migration-ready schemas, API contracts, distributed system patterns |
+| [Advocate](advocate/DEPARTMENT.md) | [journey-mapping](advocate/journey-mapping/SKILL.md), [interaction-design](advocate/interaction-design/SKILL.md), [i18n-review](advocate/i18n-review/SKILL.md), [a11y-audit](advocate/a11y-audit/SKILL.md) | User journey maps, component specs with all states, i18n readiness, WCAG 2.2 AA audits |
 | [Skeptic](skeptic/DEPARTMENT.md) | [threat-model](skeptic/threat-model/SKILL.md), [failure-mode-analysis](skeptic/failure-mode-analysis/SKILL.md), [edge-case-enumeration](skeptic/edge-case-enumeration/SKILL.md) | STRIDE threat analysis, failure scenarios, edge case catalogs |
-| [Craftsman](craftsman/DEPARTMENT.md) | [testing-strategy](craftsman/testing-strategy/SKILL.md), [pattern-analysis](craftsman/pattern-analysis/SKILL.md) | Test plans with coverage targets, codebase pattern audits |
+| [Craftsman](craftsman/DEPARTMENT.md) | [testing-strategy](craftsman/testing-strategy/SKILL.md), [pattern-analysis](craftsman/pattern-analysis/SKILL.md), [e2e-testing](craftsman/e2e-testing/SKILL.md) | Test plans with coverage targets, codebase pattern audits, E2E and visual regression |
 | [Scout](scout/DEPARTMENT.md) | [library-evaluation](scout/library-evaluation/SKILL.md), [competitive-analysis](scout/competitive-analysis/SKILL.md), [technology-radar](scout/technology-radar/SKILL.md) | Library scorecards, feature comparison matrices, tech maturity assessments |
 | [Strategist](strategist/DEPARTMENT.md) | [mvp-scoping](strategist/mvp-scoping/SKILL.md), [impact-estimation](strategist/impact-estimation/SKILL.md), [analytics-design](strategist/analytics-design/SKILL.md) | MoSCoW prioritization, RICE scoring, telemetry event plans |
-| [Operator](operator/DEPARTMENT.md) | [deployment-plan](operator/deployment-plan/SKILL.md), [observability-design](operator/observability-design/SKILL.md), [cost-analysis](operator/cost-analysis/SKILL.md) | Deployment strategies, monitoring configs, cost models |
+| [Operator](operator/DEPARTMENT.md) | [deployment-plan](operator/deployment-plan/SKILL.md), [observability-design](operator/observability-design/SKILL.md), [cost-analysis](operator/cost-analysis/SKILL.md), [finops-analysis](operator/finops-analysis/SKILL.md) | Deployment strategies, monitoring configs, cost models, FinOps unit economics |
 | [Chronicler](chronicler/DEPARTMENT.md) | [documentation-plan](chronicler/documentation-plan/SKILL.md), [adr-template](chronicler/adr-template/SKILL.md), [changelog-design](chronicler/changelog-design/SKILL.md) | Doc architecture, ADRs, changelog and migration guides |
 | [Guardian](guardian/DEPARTMENT.md) | [compliance-review](guardian/compliance-review/SKILL.md), [data-classification](guardian/data-classification/SKILL.md), [audit-trail-design](guardian/audit-trail-design/SKILL.md) | GDPR reviews, data classification schemes, audit logging designs |
 | [Tuner](tuner/DEPARTMENT.md) | [performance-audit](tuner/performance-audit/SKILL.md), [caching-strategy](tuner/caching-strategy/SKILL.md), [load-modeling](tuner/load-modeling/SKILL.md) | Performance baselines, cache hierarchy designs, capacity plans |
@@ -307,10 +382,12 @@ Each agent manages a "department" of 2-3 focused skills. Skills are structured p
 | [Herald](herald/DEPARTMENT.md) | [growth-engineering](herald/growth-engineering/SKILL.md), [monetization-design](herald/monetization-design/SKILL.md), [messaging-strategy](herald/messaging-strategy/SKILL.md) | Onboarding funnels, pricing architectures, product messaging frameworks |
 | [Sentinel](sentinel/DEPARTMENT.md) | [embedded-architecture](sentinel/embedded-architecture/SKILL.md), [protocol-design](sentinel/protocol-design/SKILL.md), [fleet-management](sentinel/fleet-management/SKILL.md) | Firmware architectures, protocol stack designs, fleet management plans |
 | [Oracle](oracle/DEPARTMENT.md) | [prompt-engineering](oracle/prompt-engineering/SKILL.md), [rag-architecture](oracle/rag-architecture/SKILL.md), [ai-evaluation](oracle/ai-evaluation/SKILL.md) | Prompt designs, RAG pipeline architectures, evaluation frameworks |
-| [Forge](forge/DEPARTMENT.md) | [microarch-analysis](forge/microarch-analysis/SKILL.md), [rtl-security-review](forge/rtl-security-review/SKILL.md), [physical-design-security](forge/physical-design-security/SKILL.md) | Microarchitecture assessments, RTL security reviews, physical design security audits |
+| [Forge](forge/DEPARTMENT.md) | [microarch-analysis](forge/microarch-analysis/SKILL.md), [rtl-security-review](forge/rtl-security-review/SKILL.md), [physical-design-security](forge/physical-design-security/SKILL.md), [hw-security-signoff](forge/hw-security-signoff/SKILL.md) | Microarchitecture assessments, RTL security reviews, physical design security audits, builder-to-auditor sign-off contracts |
 | [Cipher](cipher/DEPARTMENT.md) | [crypto-review](cipher/crypto-review/SKILL.md), [protocol-analysis](cipher/protocol-analysis/SKILL.md), [pqc-readiness](cipher/pqc-readiness/SKILL.md) | Cryptographic reviews, protocol security analysis, post-quantum readiness assessments |
 | [Warden](warden/DEPARTMENT.md) | [isolation-review](warden/isolation-review/SKILL.md), [kernel-hardening](warden/kernel-hardening/SKILL.md), [hw-sw-boundary](warden/hw-sw-boundary/SKILL.md) | Process isolation reviews, kernel hardening plans, HW/SW boundary security audits |
 | [Prover](prover/DEPARTMENT.md) | [formal-spec](prover/formal-spec/SKILL.md), [invariant-analysis](prover/invariant-analysis/SKILL.md) | Formal specifications, security invariant analysis |
+| [Foundry](foundry/DEPARTMENT.md) | [chip-design-flow](foundry/chip-design-flow/SKILL.md), [verification-methodology](foundry/verification-methodology/SKILL.md), [soc-integration](foundry/soc-integration/SKILL.md), [verilator-simulation](foundry/verilator-simulation/SKILL.md) | RTL-to-GDSII flow, UVM verification, AMBA/AXI SoC integration, Verilator simulation harnesses |
+| [Accountant](accountant/DEPARTMENT.md) | *(department index, skills planned: reconciliation, journal-engine, tax-research, risk-assessment, financial-statements, variance-analysis)* | Double-entry validation, GAAP/IFRS preparation, tax research methodology, audit risk and sampling |
 
 ### Skill Evolution
 
@@ -350,7 +427,7 @@ Sessions can be exported to GitHub issues for long-term storage:
 /council --archive <slug>
 ```
 
-This creates a GitHub issue with the full design document, interview transcript, deliberation records, and decision log — then optionally cleans up local files.
+This creates a GitHub issue with the full design document, interview transcript, deliberation records, and decision log - then optionally cleans up local files.
 
 ### Cross-Workspace Tracking
 
@@ -368,8 +445,8 @@ A unified document synthesizing all agents' final positions:
 - Risk assessment (threat model, failure modes, mitigations)
 - Quality strategy (test plan, coverage targets)
 - Sections for each agent that participated
-- **Tension Resolution table** — exactly which trade-offs were made and why
-- **Decision Log** — every significant decision with options considered, choice made, and reasoning
+- **Tension Resolution table** - exactly which trade-offs were made and why
+- **Decision Log** - every significant decision with options considered, choice made, and reasoning
 
 ### PRD
 
@@ -428,7 +505,7 @@ Create a new directory under an agent's department with a `SKILL.md` containing:
 
 ```
 agents/
-  council-architect.md        # Agent persona definitions (21 files)
+  council-architect.md        # Agent persona definitions (23 files: 22 specialists + Steward)
   council-advocate.md
   council-skeptic.md
   council-craftsman.md
@@ -448,6 +525,8 @@ agents/
   council-cipher.md
   council-warden.md
   council-prover.md
+  council-foundry.md
+  council-accountant.md
   council-steward.md          # Maestro facilitator persona (not spawnable)
 
 commands/
@@ -465,17 +544,19 @@ skills/council/
     ...
   skeptic/
     ...
-  (and so on for all 20 departments)
+  (and so on for all 22 departments)
 ```
+
+Several departments also ship `eval-cases/trigger-evals.json` files alongside their skills. These hold trigger-evaluation cases the conductor uses to score skill relevance during assembly; they are data, not skills.
 
 ### Key Files to Read
 
 If you want to understand how this works, read these in order:
 
-1. **This README** — The overview you're reading now
-2. **[`commands/council.md`](../../commands/council.md)** — The full orchestration specification. This is the conductor's instruction manual and contains all the logic for interviews, scoring, deliberation rounds, and session management.
-3. **Any agent file** (e.g., [`agents/council-architect.md`](../../agents/council-architect.md)) — To understand how agent personas are structured
-4. **Any SKILL.md** (e.g., [`skeptic/threat-model/SKILL.md`](skeptic/threat-model/SKILL.md)) — To see the structured skill format with process steps and quality checks
+1. **This README** - The overview you're reading now
+2. **[`commands/council.md`](../../commands/council.md)** - The full orchestration specification. This is the conductor's instruction manual and contains all the logic for interviews, scoring, deliberation rounds, and session management.
+3. **Any agent file** (e.g., [`agents/council-architect.md`](../../agents/council-architect.md)) - To understand how agent personas are structured
+4. **Any SKILL.md** (e.g., [`skeptic/threat-model/SKILL.md`](skeptic/threat-model/SKILL.md)) - To see the structured skill format with process steps and quality checks
 
 ---
 
@@ -485,13 +566,13 @@ The Council is built on primitives provided by [Claude Code](https://claude.com/
 
 ### Core Primitives Used
 
-- **[Agent Teams](https://code.claude.com/docs/en/agent-teams)** — The Council uses agent teams to coordinate multiple Claude Code sessions working in parallel. Each council member is a teammate with its own context window, and the conductor (team lead) orchestrates deliberation rounds, synthesizes findings, and manages the shared task list. The [structured deliberation pattern](https://code.claude.com/docs/en/agent-teams#when-to-use-agent-teams) (Position, Challenge, Converge) maps directly to the "competing hypotheses" use case described in Anthropic's documentation.
+- **[Agent Teams](https://code.claude.com/docs/en/agent-teams)** - The Council uses agent teams to coordinate multiple Claude Code sessions working in parallel. Each council member is a teammate with its own context window, and the conductor (team lead) orchestrates deliberation rounds, synthesizes findings, and manages the shared task list. The [structured deliberation pattern](https://code.claude.com/docs/en/agent-teams#when-to-use-agent-teams) (Position, Challenge, Converge) maps directly to the "competing hypotheses" use case described in Anthropic's documentation.
 
-- **[Custom Subagents](https://code.claude.com/docs/en/sub-agents)** — Each council member (Architect, Skeptic, Alchemist, etc.) is defined as a custom subagent with a dedicated persona, cognitive framework, and tool access. Agent markdown files in `~/.claude/agents/` give each member a distinct system prompt, model configuration, and behavioral heuristics. The [agent definition format](https://code.claude.com/docs/en/sub-agents#write-subagent-files) (YAML frontmatter + markdown body) is used for all 20 council members plus the Steward facilitator persona.
+- **[Custom Subagents](https://code.claude.com/docs/en/sub-agents)** - Each council member (Architect, Skeptic, Alchemist, etc.) is defined as a custom subagent with a dedicated persona, cognitive framework, and tool access. Agent markdown files in `~/.claude/agents/` give each member a distinct system prompt, model configuration, and behavioral heuristics. The [agent definition format](https://code.claude.com/docs/en/sub-agents#write-subagent-files) (YAML frontmatter + markdown body) is used for all 20 council members plus the Steward facilitator persona.
 
-- **[Skills](https://code.claude.com/docs/en/skills)** — Each council member's department skills (e.g., `schema-evaluation`, `pipeline-design`, `threat-model`) are implemented as Claude Code skills with structured process steps, output formats, and quality checks. Skills are loaded contextually during deliberation based on topic relevance, following the [skill invocation pattern](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill).
+- **[Skills](https://code.claude.com/docs/en/skills)** - Each council member's department skills (e.g., `schema-evaluation`, `pipeline-design`, `threat-model`) are implemented as Claude Code skills with structured process steps, output formats, and quality checks. Skills are loaded contextually during deliberation based on topic relevance, following the [skill invocation pattern](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill).
 
-- **[Hooks](https://code.claude.com/docs/en/hooks)** — The Council can leverage hooks like [`TeammateIdle`](https://code.claude.com/docs/en/hooks#teammateidle) and [`TaskCompleted`](https://code.claude.com/docs/en/hooks#taskcompleted) to enforce quality gates during deliberation and execution phases.
+- **[Hooks](https://code.claude.com/docs/en/hooks)** - The Council can leverage hooks like [`TeammateIdle`](https://code.claude.com/docs/en/hooks#teammateidle) and [`TaskCompleted`](https://code.claude.com/docs/en/hooks#taskcompleted) to enforce quality gates during deliberation and execution phases.
 
 ### Further Reading
 
@@ -499,7 +580,7 @@ The Council is built on primitives provided by [Claude Code](https://claude.com/
 |----------|-------------------|
 | [Agent Teams](https://code.claude.com/docs/en/agent-teams) | How multi-agent coordination works under the hood |
 | [When to Use Agent Teams](https://code.claude.com/docs/en/agent-teams#when-to-use-agent-teams) | Use cases, trade-offs vs subagents, and token cost considerations |
-| [Custom Subagents](https://code.claude.com/docs/en/sub-agents) | How agent definitions work — frontmatter, tools, permissions, memory |
+| [Custom Subagents](https://code.claude.com/docs/en/sub-agents) | How agent definitions work - frontmatter, tools, permissions, memory |
 | [Skills](https://code.claude.com/docs/en/skills) | How structured skills extend agent capabilities |
 | [Hooks Reference](https://code.claude.com/docs/en/hooks) | Lifecycle hooks for quality gates and automation |
 | [Best Practices](https://code.claude.com/docs/en/agent-teams#best-practices) | Task sizing, avoiding file conflicts, monitoring agents |

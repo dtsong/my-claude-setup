@@ -1,6 +1,6 @@
 {
-  "version": "2.0",
-  "last_updated": "2026-02-14",
+  "version": "2.1",
+  "last_updated": "2026-04-24",
   "departments": {
     "architect": {
       "skills": {
@@ -128,8 +128,12 @@
       "skills": {
         "chip-design-flow": { "uses": 0, "last_used": null, "sessions": [] },
         "verification-methodology": { "uses": 0, "last_used": null, "sessions": [] },
-        "soc-integration": { "uses": 0, "last_used": null, "sessions": [] }
+        "soc-integration": { "uses": 0, "last_used": null, "sessions": [] },
+        "verilator-simulation": { "uses": 0, "last_used": null, "sessions": [] }
       }
+    },
+    "accountant": {
+      "skills": {}
     },
     "forge": {
       "skills": {
