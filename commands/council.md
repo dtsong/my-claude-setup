@@ -220,13 +220,7 @@ Selection cap remains at **7 agents max** per session. The larger roster (21) gi
     formal-spec/SKILL.md                 # TLA+ specification + model checking
     invariant-analysis/SKILL.md          # Security invariant identification
   accountant/
-    DEPARTMENT.md                        # Department index
-    core/reconciliation/SKILL.md         # Bank and GL reconciliation
-    core/journal-engine/SKILL.md         # Double-entry creation and validation
-    tax/tax-research/SKILL.md            # IRC/regulation lookup methodology
-    audit/risk-assessment/SKILL.md       # Audit risk assessment and sampling
-    reporting/financial-statements/SKILL.md  # Financial statement preparation
-    advisory/variance-analysis/SKILL.md  # Budget vs actual analysis
+    DEPARTMENT.md                        # Department index (skills not yet implemented)
 ```
 
 ---
