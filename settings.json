@@ -157,7 +157,6 @@
       "Write(.github/workflows/*)",
       "Bash(rm -rf *)",
       "Bash(sudo *)",
-      "Bash(git push *)",
       "Bash(npm publish *)",
       "Bash(curl * | sh)",
       "Bash(wget *)",
