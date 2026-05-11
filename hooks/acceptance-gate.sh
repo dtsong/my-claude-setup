@@ -65,10 +65,12 @@ if [[ -z "$CONTRACT" ]]; then
 fi
 
 # Parse contract for unverified criteria
-PENDING=$(grep -c '| pending |' "$CONTRACT" 2>/dev/null || echo 0)
-FAILED=$(grep -c '| failed |' "$CONTRACT" 2>/dev/null || echo 0)
-PENDING_MANUAL=$(grep -c '| pending-manual |' "$CONTRACT" 2>/dev/null || echo 0)
-VERIFIED=$(grep -c '| verified |' "$CONTRACT" 2>/dev/null || echo 0)
+# Note: `grep -c` exits 1 on zero matches, so `|| echo 0` would append a
+# second value. Assign a fallback via a separate `||` clause instead.
+PENDING=$(grep -c '| pending |' "$CONTRACT" 2>/dev/null) || PENDING=0
+FAILED=$(grep -c '| failed |' "$CONTRACT" 2>/dev/null) || FAILED=0
+PENDING_MANUAL=$(grep -c '| pending-manual |' "$CONTRACT" 2>/dev/null) || PENDING_MANUAL=0
+VERIFIED=$(grep -c '| verified |' "$CONTRACT" 2>/dev/null) || VERIFIED=0
 
 UNVERIFIED=$((PENDING + FAILED))
 
@@ -85,7 +87,7 @@ if [[ "$UNVERIFIED" -gt 0 ]]; then
   fi
   echo ""
   echo "Unverified criteria:"
-  grep '| pending \|| failed |' "$CONTRACT" | while IFS='|' read -r _ id criterion method status _; do
+  grep -E '\| (pending|failed) \|' "$CONTRACT" | while IFS='|' read -r _ id criterion method status _; do
     id=$(echo "$id" | xargs)
     criterion=$(echo "$criterion" | xargs)
     status=$(echo "$status" | xargs)
