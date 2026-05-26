@@ -1,0 +1,101 @@
+{
+  "name": "ALAN YU",
+  "subtitle": "Retail Systems Manager  ·  Omnichannel Integration  ·  Retail",
+  "contact": "San Diego, CA  ·  469-387-6395  ·  Alan.lin.yu@gmail.com",
+
+  "summary": "Retail systems professional with **15+ years** managing enterprise POS, OMS, ERP, and omnichannel platforms for global luxury brands across the Americas (US, Canada, Mexico, Brazil, Argentina). Specialized in Cegid–Salesforce integration, Tibco ESB orchestration, and SQL-driven troubleshooting across **51 stores and 5 countries**. Integrating AI-assisted workflows into daily operations to accelerate SQL development, incident documentation, and reporting. Known for delivering complex rollouts on time, reducing costs, and building the systems and processes teams rely on.",
+
+  "expertise": [
+    "Retail Systems Management (POS, ERP, OMS, CRM, WMS)  ·  Omnichannel & API Integration  ·  IT Project Management",
+    "AI-Assisted IT Operations  ·  QA & Test Automation  ·  Vendor & Partner Management  ·  SLA Governance",
+    "Cloud-Ready Infrastructure  ·  ITSM & Ticketing  ·  Process Improvement  ·  Team Training & Documentation"
+  ],
+
+  "experience": [
+    {
+      "company": "Hermès of Paris",
+      "location": "New York, NY",
+      "dates": "April 2018 – Present",
+      "title": "Retail Systems Analyst (Americas Lead)",
+      "intro": "Primary IT owner for retail and omnichannel systems across the Americas, supporting **51 stores across 5 countries**. Managed vendor relationships, led platform upgrades, and partnered with business and technical teams to keep systems reliable and scalable.",
+      "bullets": [
+        "Managed **3 major Cegid Y2 upgrades** across 51 stores / 5 countries with **no deployment downtime**, completing each rollout on or ahead of schedule.",
+        "Led Cegid–Salesforce integration project serving employee sales; improved data-sync reliability and **reduced reconciliation time by 60%**.",
+        "Built centralized ITSM infrastructure using Jira and Confluence; **reduced ticket volume by 40%** and cut mean time to resolution (MTTR) by **2 hours/day** within the first year.",
+        "Implemented Ranorex test automation for non-regression testing, automating **109 test cases** and cutting QA cycle time by **30% per release**.",
+        "Delivered omnichannel integration connecting **51 physical stores** with Magento/Salesforce e-commerce, enabling unified inventory visibility and improving order fulfillment accuracy.",
+        "Used Microsoft SQL to troubleshoot system issues, build operational reports, and optimize data flows between Cegid, SAP, Tibco, and Scale, reducing manual investigation time and supporting faster incident resolution.",
+        "Adopted AI-assisted tooling (Claude) to accelerate SQL query development, incident write-ups, and internal documentation, cutting turnaround time on reporting tasks by approximately **50%**."
+      ]
+    },
+    {
+      "company": "Christian Louboutin",
+      "location": "New York, NY",
+      "dates": "November 2017 – April 2018",
+      "title": "Retail Systems Analyst",
+      "bullets": [
+        "Engineered a custom scripted integration between Cegid Y2 and V2K WMS, eliminating manual data-entry steps and improving inventory accuracy across store and warehouse operations.",
+        "Automated the sample sale pricing process, replacing a manual workflow and significantly reducing pricing errors and prep time for sale events."
+      ]
+    },
+    {
+      "company": "Alexander Wang",
+      "location": "New York, NY",
+      "dates": "November 2015 – October 2017",
+      "title": "Systems Analyst",
+      "bullets": [
+        "Led end-to-end deployment of desktop management, antivirus, and remote support platforms, improving security posture and IT response capability across the organization.",
+        "Redesigned helpdesk workflows, enforced SLAs, and built comprehensive documentation, significantly reducing ticket backlog and response times and restoring IT credibility with business stakeholders.",
+        "Achieved a **33% reduction in vendor costs** through contract renegotiation and introduction of more efficient in-house solutions.",
+        "Trained staff on new systems and produced IT runbooks that accelerated onboarding and reduced reliance on tribal knowledge."
+      ]
+    },
+    {
+      "company": "Active Network",
+      "location": "Dallas, TX",
+      "dates": "October 2014 – May 2015",
+      "title": "Point of Sale Systems Manager",
+      "bullets": [
+        "Managed a team overseeing **24,000+ POS devices** across multiple client accounts, maintaining uptime and coordinating hardware and software support.",
+        "Deployed **1,850 POS devices** for a Minnesota client significantly ahead of schedule, demonstrating strong project planning and cross-team coordination.",
+        "Designed a Windows deployment engineering lab at headquarters to standardize software provisioning and accelerate future rollouts.",
+        "Created deployment plans, installation guides, and workflow documentation that were adopted as department standard procedures."
+      ]
+    },
+    {
+      "company": "The Michaels Companies, Inc.",
+      "location": "Irving, TX",
+      "dates": "November 2013 – March 2014",
+      "title": "Consulting Project Manager",
+      "intro": "Engaged as a consulting PM to support a large-scale POS Transformation initiative spanning **1,200+ retail stores** nationwide.",
+      "bullets": [
+        "Led project management for POS infrastructure deployment and systems transformation across **1,200+ store locations**, coordinating cross-functional teams and external vendors.",
+        "Managed project budget and resource planning, including review and evaluation of vendor statements of work (SOWs) to ensure scope alignment and cost control.",
+        "Created and maintained comprehensive project plans for NCR Human Factors Engineering workstreams, ensuring milestone tracking and stakeholder visibility.",
+        "Oversaw lab environment management for Retalix POS integration testing, supporting QA validation prior to enterprise-wide rollout.",
+        "Provided project administration across all workstreams, maintaining documentation, status reporting, and coordination between IT and business teams."
+      ]
+    },
+    {
+      "company": "Barneys New York",
+      "location": "New York, NY",
+      "dates": "November 2011 – October 2013",
+      "title": "Technology Administrator",
+      "intro": "Managed technology operations and served as project manager for the nationwide rollout and ongoing tracking of 250+ mobile POS devices running on iPad and iPod iOS platforms.",
+      "bullets": [
+        "Oversaw nationwide deployment and day-to-day management of **250+ iPad/iPod-based mobile POS devices**, maintaining uptime and device tracking across all locations.",
+        "Delivered end-user and customer-facing support on proprietary touchscreen systems and in-house servers, resolving issues quickly to minimize disruption to sales operations.",
+        "Planned and executed network integration projects including infrastructure upgrades, switch configuration, and connectivity improvements across store locations.",
+        "Recognized for resolving complex system issues through SQL database troubleshooting, report development, and data analysis that supported store operations and management visibility."
+      ]
+    }
+  ],
+
+  "skills": [
+    { "category": "Retail Platforms", "items": "Cegid Y2, SAP, Teamwork Retail, Micros POS, Magento, Salesforce Commerce Cloud" },
+    { "category": "Integration & Middleware", "items": "Tibco ESB, REST APIs, Webhooks, Adyen, Avalara Tax, Scale (WMS), RLM ERP, JOOR, SKYPAD" },
+    { "category": "Data & Automation", "items": "Microsoft SQL Server, Ranorex (QA Automation), AI-Assisted Query Development (Claude, ChatGPT)" },
+    { "category": "IT Operations & Tooling", "items": "Jira, Confluence, Active Directory, Meraki MDM, Microsoft Server, VPN, TCP/IP LANs" },
+    { "category": "Cloud & Infrastructure", "items": "SaaS platform administration, cloud-hosted retail systems" }
+  ]
+}
