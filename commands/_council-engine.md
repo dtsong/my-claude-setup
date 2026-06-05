@@ -283,7 +283,7 @@ The idea becomes audit criteria. The intake prompt becomes: "What should the aud
    - Read `package.json` / `pyproject.toml` for tech stack
    - `ls` top-level directories
    - `git branch --show-current` + `git log --oneline -3`
-3. Launch **3 Task agents** in parallel (single message, 3 tool calls). Each uses `subagent_type: "general-purpose"` and `model: "sonnet"`:
+3. Launch **3 Task agents** in parallel (single message, 3 tool calls). Each uses `subagent_type: "general-purpose"` and `model: "haiku"`:
 
    **Architect:** Systems/technical perspective — where it fits, what to build, architectural considerations (2-4 sentences).
 
@@ -1347,7 +1347,7 @@ A persistent, self-healing audit system that strategically divides the codebase 
 Spawn audit agents **in waves** of 2-4 zones at a time:
 
 1. **Select zones** for this wave. Priority: `pending` > `needs-review` > previously-flagged. Skip `clean` zones.
-2. **Spawn 2-4 `general-purpose` agents**, one per zone, with audit criteria and file list.
+2. **Spawn 2-4 `general-purpose` agents**, one per zone, with audit criteria and file list. Use `model: "haiku"` for these zone scanners — they perform mechanical pattern-matching against explicit criteria, and findings are cross-checked in the convergence loop (5D.4) and gap-detection sweep (5D.5). If a pass surfaces unexpectedly subtle findings, the conductor may re-spawn a flagged zone with `model: "sonnet"` for a deeper second look.
 3. **Wait for all wave agents** to complete.
 4. **Collect findings** from each zone report.
 5. **Update coverage map and findings log.**
