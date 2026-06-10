@@ -44,7 +44,9 @@ What it does differently from just asking Claude:
 
 ### Prerequisites
 
-The Council runs on [Claude Code](https://claude.com/claude-code) with agent teams enabled. Add this to your `settings.json`:
+The Council runs on [Claude Code](https://claude.com/claude-code) ≥ 2.1.154 with dynamic workflows available — deliberation runs as a background workflow and degrades to agent teams or sequential agent calls when workflows are unavailable.
+
+Optionally, enable the experimental agent-teams runtime to unlock `--meet` live steering and Path A team execution. Add this to your `settings.json`:
 
 ```json
 {
