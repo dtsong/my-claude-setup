@@ -32,7 +32,7 @@ Useful commands:
 
 ```bash
 ./install.sh --list-skills
-./install.sh --skills git-status,github-workflow,workflow
+./install.sh --skills github-workflow,workflow
 ./install.sh --dry-run
 ./install.sh --uninstall
 ```

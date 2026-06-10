@@ -24,7 +24,7 @@ Install only a few skill packs:
 
 ```bash
 ./install.sh --list-skills
-./install.sh --skills git-status,github-workflow,workflow
+./install.sh --skills github-workflow,workflow
 ```
 
 ## Notes on Vercel React Best Practices
