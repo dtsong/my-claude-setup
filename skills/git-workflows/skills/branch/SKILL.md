@@ -1,6 +1,6 @@
 ---
-name: "Git Branch"
-description: "Create new branches with naming conventions"
+name: "git-branch"
+description: "Use when creating a new git branch following the project's branch naming conventions."
 triggers:
   - "git branch"
   - "new branch"
@@ -192,4 +192,4 @@ When `--suggest` is used, generate names based on description:
 
 | Path | Load Condition | Content Summary |
 |------|---------------|-----------------|
-| `references/naming-conventions.md` | Branch name validation | Branch naming convention rules and prefix definitions |
+| `../../references/naming-conventions.md` | Branch name validation | Branch naming convention rules and prefix definitions |

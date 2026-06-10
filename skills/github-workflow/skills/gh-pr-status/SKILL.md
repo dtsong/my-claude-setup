@@ -1,6 +1,6 @@
 ---
-name: "GitHub PR Status"
-description: "Check PR status, CI results, and merge readiness"
+name: "gh-pr-status"
+description: "Use when checking pull request status, CI results, review state, and merge readiness."
 triggers:
   - "gh-pr-status"
   - "pr status"

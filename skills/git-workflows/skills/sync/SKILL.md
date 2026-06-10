@@ -1,6 +1,6 @@
 ---
-name: "Git Sync"
-description: "Fetch and show remote changes without modifying local branch"
+name: "git-sync"
+description: "Use when fetching and reviewing remote changes without modifying the local branch state."
 triggers:
   - "git sync"
   - "git fetch"

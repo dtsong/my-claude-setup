@@ -1,6 +1,6 @@
 ---
-name: "Git Branches"
-description: "List and visualize branch status"
+name: "git-branches"
+description: "Use when listing local and remote branches or visualizing branch status and divergence."
 triggers:
   - "git branches"
   - "list branches"

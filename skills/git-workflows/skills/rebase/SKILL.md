@@ -1,6 +1,6 @@
 ---
-name: "Git Rebase"
-description: "Rebase current branch onto main with guidance"
+name: "git-rebase"
+description: "Use when rebasing the current branch onto main with guidance through each step."
 triggers:
   - "git rebase"
   - "rebase onto main"

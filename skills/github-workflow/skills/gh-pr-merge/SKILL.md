@@ -1,6 +1,6 @@
 ---
-name: "GitHub PR Merge"
-description: "Merge a pull request with strategy selection"
+name: "gh-pr-merge"
+description: "Use when merging a pull request with an explicit merge, squash, or rebase strategy."
 triggers:
   - "gh-pr-merge"
   - "merge pr"

@@ -1,6 +1,6 @@
 ---
-name: "GitHub Activity"
-description: "Recent repository activity summary"
+name: "gh-activity"
+description: "Use when summarizing recent repository activity across commits, pull requests, and issues."
 triggers:
   - "gh-activity"
   - "recent activity"

@@ -1,6 +1,6 @@
 ---
-name: "Git Push"
-description: "Push commits to remote with upstream handling"
+name: "git-push"
+description: "Use when pushing commits to the remote, including first-push upstream tracking setup."
 triggers:
   - "git push"
   - "push changes"

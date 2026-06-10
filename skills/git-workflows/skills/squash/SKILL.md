@@ -1,6 +1,6 @@
 ---
-name: "Git Squash"
-description: "Squash commits non-interactively for cleaner history"
+name: "git-squash"
+description: "Use when squashing multiple commits non-interactively to produce a cleaner linear history."
 triggers:
   - "git squash"
   - "squash commits"

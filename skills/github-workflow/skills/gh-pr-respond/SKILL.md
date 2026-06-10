@@ -1,6 +1,6 @@
 ---
-name: "GitHub PR Respond"
-description: "View and respond to PR review comments"
+name: "gh-pr-respond"
+description: "Use when viewing and responding to pull request review comments thread by thread."
 triggers:
   - "gh-pr-respond"
   - "pr comments"

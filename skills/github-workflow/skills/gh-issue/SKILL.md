@@ -1,6 +1,6 @@
 ---
-name: "GitHub Issue"
-description: "Create, link, and manage GitHub issues with templates"
+name: "gh-issue"
+description: "Use when creating, linking, or managing GitHub issues with the repository's issue templates."
 triggers:
   - "gh-issue"
   - "create issue"

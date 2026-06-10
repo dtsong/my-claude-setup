@@ -1,6 +1,6 @@
 ---
-name: "GitHub Tag"
-description: "Create semantic version tags"
+name: "gh-tag"
+description: "Use when creating and pushing semantic version tags for a release cut."
 triggers:
   - "gh-tag"
   - "create tag"

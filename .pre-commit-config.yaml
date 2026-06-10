@@ -1,0 +1,55 @@
+# Skill governance enforcement — see pipeline/specs/SKILL-GOVERNANCE-SPEC.md §8.3
+# Hard-tier hooks block the commit; warn-tier hooks print advisories and always pass.
+# Security runs first — fail fast on critical findings.
+default_stages: [pre-commit]
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+
+  - repo: local
+    hooks:
+      - id: skill-frontmatter
+        name: skill-frontmatter (hard)
+        entry: python3 pipeline/hooks/check_frontmatter.py
+        language: system
+        files: ^skills/.*\.md$
+
+      - id: skill-references
+        name: skill-references (hard)
+        entry: python3 pipeline/hooks/check_references.py
+        language: system
+        files: ^skills/.*\.md$
+
+      - id: skill-isolation
+        name: skill-isolation (hard)
+        entry: python3 pipeline/hooks/check_isolation.py
+        language: system
+        files: ^skills/.*\.md$
+
+      - id: skill-context-load
+        name: skill-context-load (hard)
+        entry: python3 pipeline/hooks/check_context_load.py
+        language: system
+        files: ^skills/.*\.md$
+
+      - id: skill-token-budget
+        name: skill-token-budget (warn)
+        entry: python3 pipeline/hooks/check_token_budget.py
+        language: system
+        files: ^skills/.*\.md$
+        verbose: true
+
+      - id: skill-prose-check
+        name: skill-prose-check (warn)
+        entry: python3 pipeline/hooks/check_prose.py
+        language: system
+        files: ^skills/.*\.md$
+        verbose: true
+
+      - id: skill-commit-msg
+        name: skill-commit-msg (hard)
+        entry: python3 pipeline/hooks/check_commit_msg.py
+        language: system
+        stages: [commit-msg]

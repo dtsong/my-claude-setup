@@ -1,6 +1,6 @@
 ---
-name: "Git Merge Main"
-description: "Merge main branch into current feature branch"
+name: "git-merge-main"
+description: "Use when merging the main branch into the current feature branch to pick up upstream changes."
 triggers:
   - "git merge main"
   - "merge main"

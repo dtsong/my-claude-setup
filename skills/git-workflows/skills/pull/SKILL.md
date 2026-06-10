@@ -1,6 +1,6 @@
 ---
-name: "Git Pull"
-description: "Pull remote changes with merge or rebase strategy"
+name: "git-pull"
+description: "Use when pulling remote changes with an explicit merge or rebase strategy choice."
 triggers:
   - "git pull"
   - "get latest"

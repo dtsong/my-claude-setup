@@ -1,6 +1,6 @@
 ---
-name: "GitHub Changelog"
-description: "Generate changelog from merged PRs and commits"
+name: "gh-changelog"
+description: "Use when generating a changelog from merged pull requests and commits since the last release."
 triggers:
   - "gh-changelog"
   - "changelog"

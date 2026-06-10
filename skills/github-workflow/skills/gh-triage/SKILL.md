@@ -1,6 +1,6 @@
 ---
-name: "GitHub Triage"
-description: "Batch label and prioritize GitHub issues"
+name: "gh-triage"
+description: "Use when batch labeling, prioritizing, and assigning GitHub issues during triage sessions."
 triggers:
   - "gh-triage"
   - "triage issues"

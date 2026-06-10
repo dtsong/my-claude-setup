@@ -1,6 +1,6 @@
 ---
-name: "GitHub Mine"
-description: "Show my assigned and mentioned GitHub items"
+name: "gh-mine"
+description: "Use when listing GitHub issues and pull requests assigned to or mentioning the current user."
 triggers:
   - "gh-mine"
   - "my issues"

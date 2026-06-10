@@ -15,7 +15,9 @@ except ImportError:
     HAS_YAML = False
 
 REQUIRED_FIELDS = {"name", "description"}
-VALID_OPTIONAL = {"model", "version"}
+# license/metadata are standard Claude Code skill fields; department/triggers
+# are council-suite routing fields consumed by the council engine
+VALID_OPTIONAL = {"model", "version", "license", "metadata", "department", "triggers"}
 VALID_MODEL_PREFERRED = {"haiku", "sonnet", "opus"}
 VALID_MODEL_REASONING = {"low", "medium", "high"}
 KEBAB_RE = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")

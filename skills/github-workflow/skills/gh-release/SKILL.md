@@ -1,6 +1,6 @@
 ---
-name: "GitHub Release"
-description: "Create a GitHub release with changelog"
+name: "gh-release"
+description: "Use when creating a GitHub release with generated changelog notes and version tagging."
 triggers:
   - "gh-release"
   - "new release"

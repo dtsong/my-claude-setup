@@ -16,6 +16,10 @@ BACKTICK_PATH_RE = re.compile(r"`([^`]+(?:\.md|/))`")
 TABLE_PATH_RE = re.compile(r"\|\s*`?([^|`\s]+(?:\.md|/))`?\s*\|")
 BARE_PATH_RE = re.compile(r"(?:^|\s)((?:references|shared-references)/[^\s)>\]]+(?:\.md|/))")
 
+# Directories that make up a skill's own bundle — the only paths whose
+# existence this hook enforces (everything else is illustrative prose)
+BUNDLE_DIRS = {"references", "shared-references", "templates", "scripts", "assets", "examples"}
+
 
 def find_references(text):
     """Find all file path references in text. Returns list of (line_num, path)."""
@@ -56,6 +60,10 @@ def _looks_like_file_path(s):
     """Heuristic: does this string look like a relative file path?"""
     # Must contain a / (directory separator)
     if "/" not in s:
+        return False
+    # Single-segment directory mentions (`tests/`, `__tests__/`) describe the
+    # target project's layout, not a skill reference file
+    if s.endswith("/") and "/" not in s[:-1]:
         return False
     # Filter out URLs
     if s.startswith("http://") or s.startswith("https://"):
@@ -103,9 +111,24 @@ def check_file(filepath, repo_root):
                     search_bases.append(entry_path)
 
     for line_num, ref_path in refs:
+        # Installed-path references resolve against the repo root, since
+        # ~/.claude/{skills,commands,...} are symlinks into this repo
+        if ref_path.startswith("~/.claude/"):
+            check_path = ref_path[len("~/.claude/"):]
+            bases = [repo_root] if repo_root else []
+        else:
+            # Only skill-bundle paths are reference-integrity concerns;
+            # anything else (src/, docs/, .claude/ runtime dirs, absolute
+            # paths) is illustrative prose about the target project
+            first_segment = ref_path.split("/", 1)[0]
+            if first_segment not in BUNDLE_DIRS:
+                continue
+            check_path = ref_path
+            bases = search_bases
+
         found = False
-        for base in search_bases:
-            resolved = os.path.normpath(os.path.join(base, ref_path))
+        for base in bases:
+            resolved = os.path.normpath(os.path.join(base, check_path))
             if os.path.exists(resolved):
                 found = True
                 break

@@ -1,5 +1,5 @@
 ---
-name: "Prompt Wizard"
+name: "prompt-wizard"
 description: "Interactive wizard to craft effective prompts using Claude Code best practices"
 triggers:
   - "prompt wizard"

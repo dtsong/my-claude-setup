@@ -1,6 +1,6 @@
 ---
-name: "GitHub PR Request Review"
-description: "Request reviewers for a pull request"
+name: "gh-pr-request"
+description: "Use when requesting reviewers on a pull request based on ownership and availability."
 triggers:
   - "gh-pr-request"
   - "request review"

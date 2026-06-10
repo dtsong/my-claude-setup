@@ -1,6 +1,6 @@
 ---
-name: "Git Delete Branch"
-description: "Delete local and remote branches with safety checks"
+name: "git-delete-branch"
+description: "Use when deleting local or remote branches with safety checks for unmerged work."
 triggers:
   - "git delete branch"
   - "delete branch"

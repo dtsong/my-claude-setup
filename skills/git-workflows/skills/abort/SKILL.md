@@ -1,6 +1,6 @@
 ---
-name: "Git Abort"
-description: "Abort failed merge, rebase, or cherry-pick operations"
+name: "git-abort"
+description: "Use when a merge, rebase, or cherry-pick has gone wrong and needs to be safely aborted."
 triggers:
   - "git abort"
   - "abort merge"

@@ -1,6 +1,6 @@
 ---
-name: "Git Conflicts"
-description: "Guided conflict resolution for merge and rebase conflicts"
+name: "git-conflicts"
+description: "Use when resolving merge or rebase conflicts with step-by-step guided resolution."
 triggers:
   - "git conflicts"
   - "fix conflicts"

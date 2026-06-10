@@ -1,6 +1,6 @@
 ---
-name: "Git Stash"
-description: "Stash management - save, pop, list, and drop stashed changes"
+name: "git-stash"
+description: "Use when saving, listing, applying, or dropping stashed changes during context switches."
 triggers:
   - "git stash"
   - "stash changes"

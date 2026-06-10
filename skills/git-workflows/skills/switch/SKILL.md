@@ -1,6 +1,6 @@
 ---
-name: "Git Switch"
-description: "Switch branches safely with uncommitted change handling"
+name: "git-switch"
+description: "Use when switching branches safely while handling uncommitted changes via stash or commit."
 triggers:
   - "git switch"
   - "git checkout"

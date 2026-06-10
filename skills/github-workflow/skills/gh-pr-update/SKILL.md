@@ -1,6 +1,6 @@
 ---
-name: "GitHub PR Update"
-description: "Update PR branch with latest changes from base branch"
+name: "gh-pr-update"
+description: "Use when updating a pull request branch with the latest changes from its base branch."
 triggers:
   - "gh-pr-update"
   - "update pr"

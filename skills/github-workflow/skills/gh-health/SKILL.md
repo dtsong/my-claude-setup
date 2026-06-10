@@ -1,6 +1,6 @@
 ---
-name: "GitHub Health"
-description: "Repository health dashboard and status overview"
+name: "gh-health"
+description: "Use when producing a repository health dashboard covering CI, issues, and PR backlog status."
 triggers:
   - "gh-health"
   - "repo health"

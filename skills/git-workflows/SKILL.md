@@ -1,5 +1,5 @@
 ---
-name: "Git Workflows"
+name: "git-workflows"
 description: "Local git operations for syncing, branching, merging, and conflict resolution"
 triggers:
   - "git workflow"

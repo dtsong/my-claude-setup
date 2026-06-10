@@ -1,6 +1,6 @@
 ---
-name: "GitHub Workflow"
-description: "GitHub interactions for issues, PRs, releases, and repository management"
+name: "github-workflow"
+description: "GitHub interactions for issues, pull requests, releases, labels, and repository management via the gh CLI."
 triggers:
   - "github workflow"
   - "github help"
