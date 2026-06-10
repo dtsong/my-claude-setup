@@ -42,6 +42,8 @@ scripts/scripts
 skills/ece
 skills/soc-security
 skills/research-consulting-skills
+skills/resume-tailor
+commands/tailor.md
 agents/ece-*.md
 commands/ece.md
 skills/council/chronicler/artifact-design
