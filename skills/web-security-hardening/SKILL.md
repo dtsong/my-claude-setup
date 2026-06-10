@@ -139,3 +139,10 @@ app.use(helmet({ contentSecurityPolicy: { directives: { defaultSrc: ["'self'"] }
 **Location**: [File/endpoint]
 **Remediation**: [Steps to fix]
 ```
+
+## Scope Constraints
+
+- Application-layer audit only — infrastructure (WAF, network policy, TLS termination) and platform hardening are out of scope
+- Advisory by default: reports findings; applies fixes only when the user asks
+- Checklist targets typical Node/Python web stacks — adapt middleware specifics for other frameworks
+- Not a penetration test: static review of code and config, no live exploitation

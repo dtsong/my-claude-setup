@@ -140,6 +140,13 @@ SELECT * FROM {{ ref('stg_stripe__payments') }}
 {{ config(materialized='incremental', unique_key='payment_id') }}
 ```
 
+## Scope Constraints
+
+- Advisory guidance for dbt project design; runs dbt commands only when the user asks
+- Warehouse specifics assume Snowflake or BigQuery — adapt for other adapters
+- Does not cover dbt Cloud account setup or warehouse-side schema/grant administration
+- Assumes source tables exist; raw ingestion (Fivetran, Airbyte, etc.) is out of scope
+
 ## Reference Files
 
 Load on demand when detailed guidance is needed:
