@@ -617,6 +617,16 @@ After spawning agents but before deliberation, load relevant skills for each age
 
 **Mode applicability:** Standard, Deep, Auto, Guided run full 3-round deliberation. Quick runs 1 round only. Meeting uses [Meeting Protocol](#phase-3-meeting-cross-examination) instead. Brainstorm and Audit skip this phase.
 
+**Preferred substrate:** If the Workflow tool is available, run this phase via the
+`council-deliberate` workflow (`.claude/workflows/council-deliberate.js`) instead of
+hand-orchestrating rounds: pass `{ idea, agents: [<selected persona names>], context,
+sessionDir }` as args (`quick: true` for Quick mode). It executes Position → tension
+pairing → Challenge → Converge → Synthesis deterministically with structured outputs
+and returns the design document; persist its round artifacts and continue at Phase 4.
+Fall back to the manual protocol below when the Workflow tool is unavailable or the
+user asked for an interactive (Guided/Meeting) deliberation, which needs approval
+gates between rounds.
+
 ### Round 1: Position (Parallel)
 
 Send a message to **all agents simultaneously** asking them to write their position statement. **Include loaded skill content inline:**
