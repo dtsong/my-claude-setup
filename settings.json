@@ -1,6 +1,5 @@
 {
   "env": {
-    "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
     "CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
     "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1"
@@ -74,15 +73,6 @@
         ]
       },
       {
-        "matcher": "Read",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/context_decay_alert.py\""
-          }
-        ]
-      },
-      {
         "matcher": "TaskUpdate",
         "hooks": [
           {
@@ -110,10 +100,6 @@
           {
             "type": "command",
             "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
-          },
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/cost_sink_alert.py\""
           }
         ]
       }
