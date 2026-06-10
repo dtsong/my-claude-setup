@@ -1,14 +1,6 @@
 ---
 name: css-layout-debugger
-description: >
-  Use when a user reports CSS, layout, or styling issues in a Next.js application —
-  "element overlapping," "spacing is wrong," "responsive layout broken," "dark mode
-  not working," "Tailwind classes not applying," or "alignment off." Diagnoses through
-  a 6-phase pipeline that mirrors browser evaluation order, covering token resolution,
-  cascade conflicts, layout models, stacking contexts, and viewport responsiveness.
-  Handles Tailwind, CSS Modules, styled-components, and vanilla CSS. Not for
-  JavaScript logic bugs, data fetching issues, or server-side rendering errors —
-  route those to ui-bug-investigator.
+description: "Use when a user reports CSS, layout, or styling issues in a Next.js application. Diagnoses through a 6-phase pipeline that mirrors browser evaluation order, covering token resolution, cascade conflicts, layout models, stacking contexts, and viewport responsiveness. Handles Tailwind, CSS Modules, styled-components, and vanilla CSS. Not for JavaScript logic bugs or data fetching issues — route those to ui-bug-investigator."
 model:
   preferred: sonnet
   acceptable: [sonnet, opus]

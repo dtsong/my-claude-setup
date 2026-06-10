@@ -1,13 +1,6 @@
 ---
 name: page-component-mapper
-description: >
-  Use when investigating any frontend issue before diagnosis or debugging — maps a
-  Next.js route to its full component tree. Resolves "what components render on this
-  page," "show me the component tree for /dashboard," or "trace imports for this
-  route." Produces a ComponentMap artifact with server/client boundaries, props, hooks,
-  data fetching, and styling metadata consumed by all downstream QA skills. Not for
-  diagnosing bugs, fixing code, or generating tests — those are handled by specialist
-  skills after mapping is complete.
+description: "Use when investigating any frontend issue before diagnosis — maps a Next.js route to its full component tree. Produces a ComponentMap artifact with server/client boundaries, props, hooks, data fetching, and styling metadata consumed by all downstream QA skills. Not for diagnosing bugs, fixing code, or generating tests."
 model:
   preferred: haiku
   acceptable: [haiku, sonnet, opus]

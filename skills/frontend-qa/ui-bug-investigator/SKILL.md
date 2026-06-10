@@ -1,12 +1,6 @@
 ---
 name: ui-bug-investigator
-description: >
-  Use when a user reports a non-CSS UI bug in a Next.js App Router application —
-  "blank page," "data not loading," "click does nothing," "hydration mismatch,"
-  "flicker on navigation," or "state not updating." Runs symptom-targeted
-  diagnostic checks against a component map to identify rendering, state, event
-  handling, and data flow issues. Not for CSS layout, styling, or visual design
-  problems — route those to css-layout-debugger.
+description: "Use when a user reports a non-CSS UI bug in a Next.js App Router application — blank page, data not loading, click does nothing, hydration mismatch, flicker on navigation, or state not updating. Runs symptom-targeted diagnostic checks against a component map to identify rendering, state, event handling, and data flow issues. Not for CSS layout or styling problems — route those to css-layout-debugger."
 model:
   preferred: sonnet
   acceptable: [sonnet, opus]

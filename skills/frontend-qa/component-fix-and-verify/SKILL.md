@@ -1,13 +1,6 @@
 ---
 name: component-fix-and-verify
-description: >
-  Use when a diagnosed fix needs to be applied and verified against a Next.js
-  component — "apply this fix," "fix and run tests," or "verify this change."
-  Applies a single diagnosed fix with mandatory diff preview, then runs scoped
-  and broad verification (tsc, lint, tests) with atomic safety and revert
-  capability. Not for diagnosing bugs (use ui-bug-investigator or
-  css-layout-debugger) or generating regression tests (use
-  regression-test-generator).
+description: "Use when a diagnosed fix needs to be applied and verified against a Next.js component. Applies a single diagnosed fix with mandatory diff preview, then runs scoped and broad verification (tsc, lint, tests) with atomic safety and revert capability. Not for diagnosing bugs (use ui-bug-investigator or css-layout-debugger) or generating regression tests (use regression-test-generator)."
 model:
   preferred: sonnet
   acceptable: [sonnet, opus]

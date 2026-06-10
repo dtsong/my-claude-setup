@@ -1,13 +1,6 @@
 ---
 name: regression-test-generator
-description: >
-  Use when a verified fix needs a regression test — "write a test for this fix,"
-  "generate regression test," or "add test coverage for this bug." Auto-detects
-  project test conventions, routes to Vitest+RTL or Playwright based on component
-  type (sync vs async server), generates targeted tests with anti-brittleness
-  constraints, and annotates coverage boundaries. Not for diagnosing bugs, applying
-  fixes, or writing feature tests — use ui-bug-investigator, component-fix-and-verify,
-  or manual test authoring respectively.
+description: "Use when a verified fix needs a regression test. Auto-detects project test conventions, routes to Vitest+RTL or Playwright based on component type (sync vs async server), generates targeted tests with anti-brittleness constraints, and annotates coverage boundaries. Not for diagnosing bugs or applying fixes."
 model:
   preferred: sonnet
   acceptable: [sonnet, opus]

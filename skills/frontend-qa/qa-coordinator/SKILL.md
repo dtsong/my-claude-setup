@@ -1,12 +1,6 @@
 ---
 name: qa-coordinator
-description: >
-  Use when a user reports a frontend bug, visual defect, or unexpected behavior
-  in a Next.js/TypeScript application. Orchestrates a multi-phase QA pipeline —
-  component mapping, diagnosis, fix, and regression testing — by classifying
-  symptoms and dispatching to the appropriate specialist skill. Does not perform
-  diagnosis or fixes directly; delegates all domain work to specialists. Not for
-  backend-only issues, infrastructure problems, or build/deployment failures.
+description: "Use when a user reports a frontend bug, visual defect, or unexpected behavior in a Next.js/TypeScript application. Orchestrates a multi-phase QA pipeline — component mapping, diagnosis, fix, and regression testing — by classifying symptoms and dispatching to the appropriate specialist skill. Not for backend-only issues, infrastructure problems, or build/deployment failures."
 model:
   preferred: haiku
   acceptable: [haiku, sonnet]
