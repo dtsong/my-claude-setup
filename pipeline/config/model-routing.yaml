@@ -44,7 +44,7 @@ tiers:
     claude_code: claude-sonnet-4-6
     cost_ratio: 5
   opus:
-    claude_code: claude-opus-4-6
+    claude_code: claude-opus-4-8
     cost_ratio: 25
 
 # Per-skill overrides (empty by default — suites populate as needed)

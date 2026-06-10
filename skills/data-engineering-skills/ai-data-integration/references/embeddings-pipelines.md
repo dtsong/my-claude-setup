@@ -281,7 +281,7 @@ def answer_question_from_docs(
     # Generate answer with retrieved context
     client = anthropic.Anthropic()
     response = client.messages.create(
-        model="claude-sonnet-4-5-20250929",
+        model="claude-sonnet-4-6",
         max_tokens=1024,
         system="""Answer the user's question based ONLY on the provided documentation context.
 If the answer is not in the context, say "I don't have enough information to answer this."

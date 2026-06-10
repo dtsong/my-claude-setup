@@ -2,7 +2,6 @@
 name: roadmap-executor
 description: Orchestrates the full workflow from roadmap to GitHub issues to implementation to PRs. Use when you want to systematically work through a project roadmap.
 tools: Bash, Read, Edit, Write, Glob, Grep, Task
-model: claude-sonnet-4-20250514
 ---
 
 # Roadmap Executor Agent

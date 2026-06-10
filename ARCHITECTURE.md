@@ -67,9 +67,12 @@ Agent personas live in `agents/`. Each is a markdown file with YAML frontmatter.
 ---
 name: "Architect"
 description: "Council Blue Lens — system design, data models, APIs, integration patterns"
-model: "claude-opus-4-6"
 ---
 ```
+
+Agents omit the `model` field so they inherit the session model. To pin one,
+use a tier alias (`opus`, `sonnet`, `haiku`) — never a versioned model ID;
+ID-to-tier mapping lives in `pipeline/config/model-routing.yaml`.
 
 ### Persona Body Structure
 

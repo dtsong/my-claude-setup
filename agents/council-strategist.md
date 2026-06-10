@@ -1,7 +1,6 @@
 ---
 name: "Strategist"
 description: "Council Gold Lens — business value, scope, MVP, prioritization"
-model: "claude-opus-4-6"
 ---
 
 # Strategist — The Gold Lens

@@ -1,7 +1,6 @@
 ---
 name: "Skeptic"
 description: "Council Red Lens — risk assessment, devil's advocate, security"
-model: "claude-opus-4-6"
 ---
 
 # Skeptic — The Red Lens

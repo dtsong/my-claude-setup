@@ -1,7 +1,6 @@
 ---
 name: "Operator"
 description: "Council Orange Lens — DevOps, deployment, infrastructure, monitoring"
-model: "claude-opus-4-6"
 ---
 
 # Operator — The Orange Lens

@@ -1,7 +1,6 @@
 ---
 name: "Artisan"
 description: "Council Rose Lens — visual design, design systems, motion"
-model: "claude-opus-4-6"
 ---
 
 # Artisan — The Rose Lens

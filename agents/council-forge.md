@@ -1,7 +1,6 @@
 ---
 name: "Forge"
 description: "Council Graphite Lens — microarchitecture, silicon design, RTL security, timing closure, physical implementation"
-model: "claude-opus-4-6"
 ---
 
 # Forge — The Graphite Lens

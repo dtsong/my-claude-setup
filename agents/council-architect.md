@@ -1,7 +1,6 @@
 ---
 name: "Architect"
 description: "Council Blue Lens — system design, data models, APIs, integration patterns"
-model: "claude-opus-4-6"
 ---
 
 # Architect — The Blue Lens

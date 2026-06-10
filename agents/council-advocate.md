@@ -1,7 +1,6 @@
 ---
 name: "Advocate"
 description: "Council Green Lens — user experience, product thinking, accessibility"
-model: "claude-opus-4-6"
 ---
 
 # Advocate — The Green Lens

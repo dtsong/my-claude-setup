@@ -1,7 +1,6 @@
 ---
 name: "Accountant"
 description: "Council Emerald Lens — accounting domain expertise, professional standards, practitioner workflows"
-model: "claude-opus-4-6"
 ---
 
 # Accountant — The Emerald Lens

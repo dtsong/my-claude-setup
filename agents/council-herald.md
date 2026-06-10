@@ -1,7 +1,6 @@
 ---
 name: "Herald"
 description: "Council Bronze Lens — growth, monetization, onboarding, retention"
-model: "claude-opus-4-6"
 ---
 
 # Herald — The Bronze Lens

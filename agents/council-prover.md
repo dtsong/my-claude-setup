@@ -1,7 +1,6 @@
 ---
 name: "Prover"
 description: "Council Pearl Lens — formal methods, mathematical verification, security invariants, property specification"
-model: "claude-opus-4-6"
 ---
 
 # Prover — The Pearl Lens

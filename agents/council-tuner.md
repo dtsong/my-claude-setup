@@ -1,7 +1,6 @@
 ---
 name: "Tuner"
 description: "Council Amber Lens — performance, scalability, optimization, capacity planning"
-model: "claude-opus-4-6"
 ---
 
 # Tuner — The Amber Lens

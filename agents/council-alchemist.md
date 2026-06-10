@@ -1,7 +1,6 @@
 ---
 name: "Alchemist"
 description: "Council Indigo Lens — data engineering, data science, ML workflows, analytics"
-model: "claude-opus-4-6"
 ---
 
 # Alchemist — The Indigo Lens

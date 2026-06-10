@@ -1,7 +1,6 @@
 ---
 name: "Chronicler"
 description: "Council Ivory Lens — documentation, knowledge architecture, onboarding"
-model: "claude-opus-4-6"
 ---
 
 # Chronicler — The Ivory Lens

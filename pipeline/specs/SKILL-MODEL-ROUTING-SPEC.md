@@ -81,7 +81,7 @@ Map abstract tiers to concrete models per platform:
 
 tiers:
   haiku:
-    claude_code: claude-haiku-4-5
+    claude_code: claude-haiku-4-5-20251001
     codex: codex-spark
     description: "Mechanical tasks — file tracing, pattern matching, formatting"
     cost_ratio: 1          # Baseline
@@ -93,7 +93,7 @@ tiers:
     cost_ratio: 5          # ~5x haiku (Sonnet 4.6: $3/$15 per MTok)
 
   opus:
-    claude_code: claude-opus-4-6
+    claude_code: claude-opus-4-8
     codex: gpt-5.3-codex-xl    # hypothetical — map to best available
     description: "Adversarial security analysis, formal verification, vulnerability chain synthesis"
     cost_ratio: 25         # ~25x haiku (Opus: $15/$75 per MTok)
@@ -604,13 +604,13 @@ The per-skill token log format (§5.1) integrates with existing observability:
 
 tiers:
   haiku:
-    claude_code: claude-haiku-4-5
+    claude_code: claude-haiku-4-5-20251001
     cost_ratio: 1
   sonnet:
     claude_code: claude-sonnet-4-6
     cost_ratio: 5
   opus:
-    claude_code: claude-opus-4-6
+    claude_code: claude-opus-4-8
     cost_ratio: 25
 
 budget_zones:
