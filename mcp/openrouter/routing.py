@@ -38,3 +38,19 @@ def resolve_lens_model(routing, lens):
     """Return the model id for a council lens, or the default lens model."""
     return (routing.get("lenses", {}).get(lens)
             or routing.get("defaults", {}).get("lens", CLAUDE))
+
+
+def routed_consult(task, system, prompt, *, routing=None, **consult_kwargs):
+    """Resolve the cheap model for a task class and consult it (Pattern B).
+
+    Returns a {"fallback": "claude", "reason": ...} signal without any network
+    call when the task routes to Claude; otherwise returns the consult result
+    (which is itself fail-soft). Extra kwargs pass through to consult().
+    """
+    table = routing if routing is not None else load_routing()
+    model = resolve_task_model(table, task)
+    if model == CLAUDE:
+        return {"fallback": "claude", "reason": f"task '{task}' routed to claude"}
+
+    from openrouter_client import consult  # local import keeps modules decoupled
+    return consult(model, system, prompt, **consult_kwargs)
