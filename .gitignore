@@ -54,6 +54,10 @@ skills/council/oracle/context-compounding
 # Python bytecode
 __pycache__/
 
+# Python virtual envs
+.venv/
+mcp/openrouter/.venv/
+
 # macOS
 .DS_Store
 skills/paperbanana/

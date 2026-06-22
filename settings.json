@@ -50,6 +50,15 @@
     "defaultMode": "acceptEdits"
   },
   "model": "opus",
+  "mcpServers": {
+    "openrouter": {
+      "command": "/Users/danielsong/Development/my-claude-setup/mcp/openrouter/.venv/bin/python",
+      "args": ["/Users/danielsong/Development/my-claude-setup/mcp/openrouter/server.py"],
+      "env": {
+        "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+      }
+    }
+  },
   "hooks": {
     "PreToolUse": [
       {
