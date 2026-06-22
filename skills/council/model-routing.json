@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "classification": "openai/gpt-4o-mini",
+    "scout-research": "google/gemini-flash-1.5",
+    "scoring": "openai/gpt-4o-mini"
+  },
+  "lenses": {},
+  "defaults": {
+    "lens": "claude",
+    "fallback": "claude"
+  }
+}
