@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenRouter Integration — Design Spec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1116; --panel:#161B22; --panel-2:#1C232D; --line:#2A323D;
+    --text:#E6E9EF; --muted:#8B95A5; --dim:#5C6675;
+    --route-a:#38BDF8; --route-b:#A78BFA;
+    /* council lens hues — used only in the signature */
+    --oracle:#A78BFA; --scout:#38BDF8; --strategist:#FBBF24; --skeptic:#FB7185; --craftsman:#34D399;
+    --maxw:920px;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --disp:"Space Grotesk",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ink);color:var(--text);font-family:var(--body);
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(1100px 500px at 78% -8%,rgba(56,189,248,.08),transparent 60%),
+                     radial-gradient(900px 460px at 12% 4%,rgba(167,139,250,.08),transparent 60%);
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  a{color:var(--route-a);text-decoration:none}
+  a:hover{text-decoration:underline}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--route-a);outline-offset:3px;border-radius:4px}
+
+  /* ---------- hero ---------- */
+  header{padding:84px 0 36px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--route-b)}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(40px,7vw,76px);line-height:.98;letter-spacing:-.02em;margin:22px 0 0;
+     background:linear-gradient(96deg,var(--text) 30%,var(--route-a) 70%,var(--route-b));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:clamp(17px,2.2vw,20px);color:var(--muted);max-width:60ch;margin:20px 0 0}
+
+  /* keystone: the consult() signature */
+  .keystone{margin:40px 0 0;border:1px solid var(--line);border-radius:14px;background:
+    linear-gradient(180deg,var(--panel),var(--ink));overflow:hidden}
+  .keystone .bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--dim)}
+  .keystone .bar b{color:var(--muted);font-weight:500;margin-left:auto;letter-spacing:.04em}
+  .keystone .led{width:10px;height:10px;border-radius:50%;background:var(--route-a);box-shadow:0 0 10px var(--route-a)}
+  .sig{font-family:var(--mono);font-size:clamp(15px,2.3vw,22px);padding:26px 22px;line-height:1.7;overflow-x:auto}
+  .sig .fn{color:var(--route-a)}
+  .sig .arg{color:var(--text)}
+  .sig .pun{color:var(--dim)}
+  .sig .arrow{color:var(--route-b)}
+  .sig .key{color:var(--strategist)}
+
+  /* routing spectrum signature */
+  .route{padding:8px 14px 22px}
+  .route svg{width:100%;height:auto;display:block}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;padding:0 22px 22px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
+  /* ---------- meta strip ---------- */
+  .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:8px 0 0}
+  .meta div{background:var(--panel);padding:16px 18px}
+  .meta dt{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:0}
+  .meta dd{margin:7px 0 0;font-weight:500}
+  .ok{color:var(--craftsman)}
+
+  /* ---------- sections ---------- */
+  section{padding:46px 0;border-top:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin:0 0 22px}
+  .sec-head .n{font-family:var(--mono);font-size:12px;color:var(--route-b);letter-spacing:.1em;padding-top:6px}
+  h2{font-family:var(--disp);font-weight:600;font-size:clamp(24px,3.4vw,32px);letter-spacing:-.01em;margin:0}
+  h3{font-family:var(--disp);font-weight:600;font-size:17px;margin:0 0 6px;letter-spacing:.01em}
+  p{margin:0 0 14px}
+  .muted{color:var(--muted)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .card.accent{border-left:3px solid var(--accent,var(--route-a))}
+  ul{margin:0;padding:0;list-style:none}
+  li{position:relative;padding:5px 0 5px 22px;color:var(--muted)}
+  li::before{content:"";position:absolute;left:2px;top:14px;width:7px;height:7px;border-radius:2px;background:var(--accent,var(--route-a));transform:rotate(45deg)}
+  li b{color:var(--text);font-weight:600}
+
+  code,pre{font-family:var(--mono)}
+  :not(pre)>code{background:var(--panel-2);border:1px solid var(--line);border-radius:5px;padding:.08em .42em;font-size:.88em;color:#CDD6E2}
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;overflow-x:auto;font-size:13.5px;line-height:1.65;color:#CDD6E2;margin:0}
+  pre .c1{color:var(--dim)}
+  pre .c2{color:var(--route-a)}
+  pre .c3{color:var(--strategist)}
+  pre .c4{color:var(--route-b)}
+
+  /* phases — a real sequence */
+  .phase{display:grid;grid-template-columns:auto 1fr;gap:22px}
+  .phase+.phase{margin-top:14px}
+  .phase .idx{font-family:var(--disp);font-weight:700;font-size:34px;color:var(--route-b);line-height:1;
+    position:relative;padding-right:22px}
+  .phase .idx::after{content:"";position:absolute;right:0;top:42px;bottom:-20px;width:1px;background:linear-gradient(var(--route-b),transparent)}
+  .phase:last-child .idx::after{display:none}
+  .phase .body{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--route-a);border-radius:5px;padding:3px 8px;font-weight:700}
+  .tag.b{background:var(--route-b)}
+
+  /* decisions */
+  .dl{display:grid;grid-template-columns:max-content 1fr;gap:10px 26px;align-items:baseline}
+  .dl dt{font-family:var(--mono);font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+  .dl dd{margin:0;font-weight:500}
+  .dl dd b{color:var(--route-a);font-weight:600}
+
+  footer{border-top:1px solid var(--line);padding:30px 0 60px;color:var(--dim);font-family:var(--mono);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  .reveal{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .pulse{animation:flow 3.4s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-28}}
+
+  @media (max-width:680px){
+    .grid2{grid-template-columns:1fr}
+    .meta{grid-template-columns:1fr}
+    .dl{grid-template-columns:1fr;gap:2px 0}
+    .dl dd{margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+    .phase{grid-template-columns:1fr;gap:8px}
+    .phase .idx::after{display:none}
+    header{padding:56px 0 24px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .reveal{animation:none;opacity:1;transform:none}
+    .pulse{animation:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap reveal">
+  <div class="eyebrow">
+    <span>Design Spec</span><span class="dot"></span>
+    <span>2026·06·22</span><span class="dot"></span>
+    <span>Issue&nbsp;#54</span>
+  </div>
+  <h1>OpenRouter<br>Integration</h1>
+  <p class="lede">One MCP primitive that calls any OpenRouter-hosted model from inside a workflow — so council lenses gain cross-vendor diversity and cheap sub-tasks stop paying Opus rates.</p>
+
+  <div class="keystone">
+    <div class="bar"><span class="led"></span>openrouter · mcp tool <b>the one primitive</b></div>
+    <div class="sig"><span class="fn">consult</span><span class="pun">(</span><span class="arg">model</span><span class="pun">,</span> <span class="arg">system</span><span class="pun">,</span> <span class="arg">prompt</span><span class="pun">)</span> <span class="arrow">→</span> <span class="pun">{</span> <span class="key">text</span><span class="pun">,</span> <span class="key">model</span><span class="pun">,</span> <span class="key">usage</span> <span class="pun">}</span></div>
+
+    <div class="route" aria-hidden="true">
+      <svg viewBox="0 0 760 150" role="img">
+        <defs>
+          <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#38BDF8"/><stop offset="1" stop-color="#A78BFA"/></linearGradient>
+        </defs>
+        <!-- source -->
+        <circle cx="70" cy="75" r="9" fill="url(#g)"/>
+        <text x="70" y="110" fill="#8B95A5" font-family="JetBrains Mono,monospace" font-size="12" text-anchor="middle">prompt</text>
+        <!-- routes -->
+        <g fill="none" stroke-width="2" stroke-dasharray="6 8" class="pulse">
+          <path d="M82 75 C 240 75, 300 24, 470 24" stroke="#A78BFA" opacity=".85"/>
+          <path d="M82 75 C 240 75, 300 50, 470 50" stroke="#38BDF8" opacity=".85"/>
+          <path d="M82 75 C 240 75, 300 100, 470 100" stroke="#FBBF24" opacity=".85"/>
+          <path d="M82 75 C 240 75, 300 126, 470 126" stroke="#34D399" opacity=".7"/>
+        </g>
+        <!-- model nodes -->
+        <g font-family="JetBrains Mono,monospace" font-size="12.5">
+          <circle cx="478" cy="24" r="6" fill="#A78BFA"/><text x="498" y="29" fill="#E6E9EF">openai/…  <tspan fill="#5C6675">(Oracle lens)</tspan></text>
+          <circle cx="478" cy="50" r="6" fill="#38BDF8"/><text x="498" y="55" fill="#E6E9EF">google/…  <tspan fill="#5C6675">(Scout lens)</tspan></text>
+          <circle cx="478" cy="100" r="6" fill="#FBBF24"/><text x="498" y="105" fill="#E6E9EF">cheap/…   <tspan fill="#5C6675">(sub-tasks)</tspan></text>
+          <circle cx="478" cy="126" r="6" fill="#34D399"/><text x="498" y="131" fill="#E6E9EF">claude    <tspan fill="#5C6675">(always-on fallback)</tspan></text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <dl class="meta reveal">
+    <div><dt>Status</dt><dd class="ok">Approved design · pending plan</dd></div>
+    <div><dt>Spec</dt><dd>committed <code>ad39bb6</code></dd></div>
+    <div><dt>Relates to</dt><dd>council engine · workflow substrate</dd></div>
+  </dl>
+
+  <section class="reveal">
+    <div class="sec-head"><span class="n">01</span><h2>Overview</h2></div>
+    <p class="muted">Add the ability to call arbitrary OpenRouter-hosted models from inside Claude Code workflows, exposed as a single MCP primitive. Two usage patterns build on it: <b style="color:var(--text)">multi-model council lenses</b> for genuine cross-vendor deliberation, and <b style="color:var(--text)">cheap sub-task routing</b> that reserves Opus for synthesis.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><span class="n">02</span><h2>Goals &amp; non-goals</h2></div>
+    <div class="grid2">
+      <div class="card accent" style="--accent:var(--craftsman)">
+        <h3>Goals</h3>
+        <ul style="--accent:var(--craftsman)">
+          <li>One reusable <b>consult</b> primitive — main loop, subagents, and Workflow agents.</li>
+          <li>Lenses <b>reuse existing persona prompts</b> verbatim; diversity comes from the model.</li>
+          <li>OpenRouter is <b>never a hard dependency</b> — any failure falls back to Claude.</li>
+        </ul>
+      </div>
+      <div class="card accent" style="--accent:var(--skeptic)">
+        <h3>Non-goals</h3>
+        <ul style="--accent:var(--skeptic)">
+          <li>Pointing the whole harness at OpenRouter via <code>ANTHROPIC_BASE_URL</code>.</li>
+          <li>Multi-turn agentic loops on non-Claude models — <b>consult is single-shot</b>.</li>
+          <li>Tool use / function calling on non-Claude models (future extension).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><span class="n">03</span><h2>Architecture</h2></div>
+    <p class="muted">A small <code>openrouter</code> MCP server registered in <code>settings.json&nbsp;→&nbsp;mcpServers</code>. Python, scaffolded by the <code>new-mcp-server</code> skill. Reads <code>OPENROUTER_API_KEY</code> from env; never committed. Maps to <code>POST /api/v1/chat/completions</code>, sets attribution headers, and <b style="color:var(--text)">fails soft</b> so callers can detect errors and fall back.</p>
+    <h3 style="margin:22px 0 10px">Routing config — <code>skills/council/model-routing.json</code></h3>
+<pre><span class="c1">{</span>
+  <span class="c2">"lenses"</span>:   <span class="c1">{</span> <span class="c2">"&lt;lens&gt;"</span>: <span class="c3">"claude"</span> | <span class="c3">"&lt;openrouter-model-id&gt;"</span> <span class="c1">}</span>,
+  <span class="c2">"tasks"</span>:    <span class="c1">{</span> <span class="c2">"classification"</span>: <span class="c3">"&lt;cheap-model&gt;"</span>, <span class="c2">"scout-research"</span>: <span class="c3">"…"</span> <span class="c1">}</span>,
+  <span class="c2">"defaults"</span>: <span class="c1">{</span> <span class="c2">"lens"</span>: <span class="c3">"claude"</span>, <span class="c2">"fallback"</span>: <span class="c3">"claude"</span> <span class="c1">}</span>
+<span class="c1">}</span></pre>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><span class="n">04</span><h2>The two patterns</h2></div>
+    <div class="grid2">
+      <div class="card accent" style="--accent:var(--oracle)">
+        <span class="tag b">Pattern A</span>
+        <h3 style="margin-top:14px">Multi-model council lenses</h3>
+        <p class="muted">A non-Claude lens is dispatched as a <b style="color:var(--text)">thin Claude relay</b> <code>agent()</code>: it calls <code>consult(model, system=&lt;persona&gt;, prompt)</code> and returns the model's text verbatim. The Workflow sandbox can't make HTTP calls itself, but a Claude agent it spawns can reach the MCP tool — so deterministic orchestration stays intact and the lens output is genuinely another vendor's reasoning.</p>
+      </div>
+      <div class="card accent" style="--accent:var(--strategist)">
+        <span class="tag">Pattern B</span>
+        <h3 style="margin-top:14px">Cheap sub-task routing</h3>
+        <p class="muted">Skills and subagents that run a routed task class — classification, scout research, scoring — call <code>consult(&lt;cheap-model&gt;, …)</code> directly. No relay needed: main-loop and subagent contexts already have MCP access. On failure, fall back to the normal Claude path for that sub-task.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><span class="n">05</span><h2>Resilience &amp; testing</h2></div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Degrade gracefully</h3>
+        <p class="muted">Every caller treats a <code>consult</code> error — missing key, 4xx/5xx, timeout — as “use Claude instead.” An OpenRouter outage degrades to today's all-Claude behavior. <code>OPENROUTER_API_KEY</code> lives in the shell env only; the server fails soft and logs once if it's absent.</p>
+      </div>
+      <div class="card">
+        <h3>Verify</h3>
+        <ul>
+          <li><b>Unit</b> — mock OpenRouter; assert request shape, parsing, error→fallback.</li>
+          <li><b>Smoke</b> — one live call to a cheap model behind a flag.</li>
+          <li><b>Integration</b> — quick-mode council run with one non-Claude lens.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><span class="n">06</span><h2>Implementation</h2></div>
+    <div class="phase">
+      <div class="idx">01</div>
+      <div class="body">
+        <span class="tag">Phase 1 · lower risk</span>
+        <h3 style="margin:12px 0 6px">MCP server + Pattern B</h3>
+        <p class="muted" style="margin:0">Build the <code>openrouter</code> MCP server, the routing-config loader, and cheap-routing for one sub-task class. Exercises the primitive end-to-end and is immediately useful.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="idx">02</div>
+      <div class="body">
+        <span class="tag b">Phase 2</span>
+        <h3 style="margin:12px 0 6px">Pattern A — lens relay</h3>
+        <p class="muted" style="margin:0">Add the relay in <code>council-deliberate.js</code> and the <code>lenses</code> routing table; verify diversity in a deliberation run.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-head"><span class="n">07</span><h2>Resolved decisions</h2></div>
+    <dl class="dl">
+      <dt>Lens persona source</dt><dd><b>Reuse existing prompt</b> — the model plays the lens.</dd>
+      <dt>Mechanism</dt><dd><b>MCP server</b> — idiomatic to this MCP-heavy repo.</dd>
+      <dt>Non-Claude execution</dt><dd><b>Thin Claude relay</b> inside the Workflow substrate.</dd>
+      <dt>Server language</dt><dd><b>Python</b>.</dd>
+      <dt>Fallback</dt><dd><b>Always degrade to Claude</b>.</dd>
+    </dl>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>docs/superpowers/specs/2026-06-22-openrouter-integration-design</span>
+  <span>dtsong/my-claude-setup · #54</span>
+</footer>
+
+<script>
+  // Stagger the section reveals; respects reduced-motion via CSS.
+  const items=[...document.querySelectorAll('.reveal')];
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce){
+    items.forEach((el,i)=>el.style.animationDelay=(Math.min(i,9)*0.06)+'s');
+  }
+</script>
+</body>
+</html>
