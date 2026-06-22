@@ -8,6 +8,7 @@ raising, so callers degrade gracefully to their normal Claude path.
 
 import json
 import os
+import urllib.error
 import urllib.request
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
@@ -52,6 +53,8 @@ def parse_success(resp_json):
     (`consult`) converts that into a fallback signal.
     """
     text = resp_json["choices"][0]["message"]["content"]
+    if not isinstance(text, str):
+        raise TypeError("message content is not a string")
     usage = resp_json.get("usage", {})
     return {
         "text": text,
@@ -69,12 +72,22 @@ def fallback_error(message, *, kind):
 
 
 def urllib_transport(url, headers, payload, timeout):
-    """Default transport: POST JSON via stdlib urllib. Returns (status, json)."""
+    """Default transport: POST JSON via stdlib urllib. Returns (status, json).
+
+    urlopen raises HTTPError on 4xx/5xx; we catch it and return (code, body)
+    so consult()'s status check classifies it as an http failure (not transport).
+    """
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(url, data=data, headers=headers, method="POST")
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        body = resp.read().decode("utf-8")
-        return resp.status, json.loads(body)
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.status, json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        try:
+            body = json.loads(exc.read().decode("utf-8"))
+        except Exception:
+            body = {}
+        return exc.code, body
 
 
 def consult(model, system, prompt,

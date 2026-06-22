@@ -1,3 +1,6 @@
+import io
+import urllib.error
+
 import openrouter_client as oc
 
 
@@ -92,5 +95,35 @@ def test_consult_transport_exception_fails_soft():
 def test_consult_bad_shape_fails_soft():
     out = oc.consult("m", "s", "p", api_key="sk-x",
                      transport=lambda *a, **k: (200, {"unexpected": 1}))
+    assert out["fallback"] == "claude"
+    assert out["error_kind"] == "parse"
+
+
+def test_urllib_transport_maps_http_error_to_status(monkeypatch):
+    """urllib_transport should return (code, body) on HTTPError, not raise."""
+    exc = urllib.error.HTTPError(
+        url="https://openrouter.ai/api/v1/chat/completions",
+        code=429, msg="rate", hdrs=None,
+        fp=io.BytesIO(b'{"error":"slow down"}'),
+    )
+
+    def fake_urlopen(req, timeout):
+        raise exc
+
+    monkeypatch.setattr(oc.urllib.request, "urlopen", fake_urlopen)
+    status, body = oc.urllib_transport(oc.OPENROUTER_URL, {}, {}, 10)
+    assert status == 429
+    assert body == {"error": "slow down"}
+
+
+def test_consult_null_content_fails_soft():
+    """content=None in a 200 response should produce error_kind='parse', not succeed."""
+    null_content_body = {
+        "choices": [{"message": {"content": None}}],
+        "usage": {},
+    }
+
+    out = oc.consult("m", "s", "p", api_key="sk-x",
+                     transport=lambda *a, **k: (200, null_content_body))
     assert out["fallback"] == "claude"
     assert out["error_kind"] == "parse"

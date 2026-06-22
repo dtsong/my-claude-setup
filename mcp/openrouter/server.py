@@ -13,14 +13,14 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from mcp.server.fastmcp import FastMCP
-from openrouter_client import consult as consult_impl
+from openrouter_client import consult as consult_impl, DEFAULT_MAX_TOKENS
 
 mcp = FastMCP("openrouter")
 
 
 @mcp.tool()
 def consult(model: str, system: str, prompt: str,
-            max_tokens: int = 1024, temperature: float | None = None) -> dict:
+            max_tokens: int = DEFAULT_MAX_TOKENS, temperature: float | None = None) -> dict:
     """Call an arbitrary OpenRouter-hosted model, single-shot.
 
     Args:

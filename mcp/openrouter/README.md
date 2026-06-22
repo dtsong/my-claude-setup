@@ -40,6 +40,8 @@ sub-task class (currently `classification`, `scout-research`, `scoring`):
 Python consumers (hooks/pipeline scripts) skip the manual steps and call
 `routing.routed_consult(<class>, system, prompt)` directly.
 
+Note: both the tool-failure signal (`{"error", "error_kind", "fallback": "claude"}`) and `routed_consult`'s intentional Claude-skip (`{"fallback": "claude", "reason": ...}`) share the `"fallback": "claude"` key — callers should branch on the presence of `"fallback"`, not on `"error"`, `"error_kind"`, or `"reason"`.
+
 ## Test
 
 ```bash
