@@ -49,7 +49,7 @@
     ],
     "defaultMode": "acceptEdits"
   },
-  "model": "fable",
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -151,5 +151,6 @@
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-ansi",
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "skipWorkflowUsageWarning": true
 }
