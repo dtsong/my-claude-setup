@@ -51,6 +51,17 @@
   },
   "model": "fable",
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "TaskUpdate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/Development/my-claude-setup/hooks/acceptance-gate.sh\""
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "",
@@ -69,15 +80,6 @@
           {
             "type": "command",
             "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
-          }
-        ]
-      },
-      {
-        "matcher": "TaskUpdate",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$HOME/Development/my-claude-setup/hooks/acceptance-gate.sh\""
           }
         ]
       }

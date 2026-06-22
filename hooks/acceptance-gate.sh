@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-# acceptance-gate.sh — PostToolUse enforcement hook
+# acceptance-gate.sh — PreToolUse enforcement hook
 # Blocks task completion when acceptance criteria are unverified.
 #
-# Fires on: TaskUpdate (to completed)
+# Fires on: PreToolUse / TaskUpdate (to completed)
 # Reads: acceptance-contract.md from active session or .claude/prd/
-# Exits: 0 = allow, non-zero = block
+# Exits: 0 = allow, 2 = block (deny the tool; stderr reason is fed to Claude).
+#        PreToolUse + exit 2 prevents the TaskUpdate from running; any other
+#        non-zero is a non-blocking error, so the block message MUST go to
+#        stderr with exit 2 — never stdout with exit 1.
 
 set -euo pipefail
 
@@ -25,42 +28,48 @@ fi
 
 # Find the active acceptance contract
 WORKSPACE="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-CONTRACT=""
 
-# Check active council sessions
-for dir in "$WORKSPACE"/.claude/council/sessions/*/; do
-  if [[ -f "${dir}acceptance-contract.md" ]]; then
-    # Check if session is active (most recent by modification time)
-    CONTRACT="${dir}acceptance-contract.md"
+# Sessions older than this (no contract activity) are treated as abandoned and
+# not enforced — a stale session must never block a newer one. Override via env.
+STALE_HOURS="${ACCEPTANCE_GATE_STALE_HOURS:-72}"
+
+# Portable mtime (epoch seconds): macOS `stat -f`, GNU `stat -c`, else 0.
+mtime() { stat -f %m "$1" 2>/dev/null || stat -c %Y "$1" 2>/dev/null || echo 0; }
+
+# Gather every candidate contract across known locations. nullglob so unmatched
+# globs vanish; the bare ralf path is filtered by the -f test in the loop below.
+shopt -s nullglob
+CANDIDATES=(
+  "$WORKSPACE"/.claude/council/sessions/*/acceptance-contract.md
+  "$WORKSPACE"/.claude/academy/sessions/*/acceptance-contract.md
+  "$WORKSPACE"/.claude/prd/contract-*.md
+  "$WORKSPACE"/.claude/acceptance-contract.md
+)
+shopt -u nullglob
+
+# Enforce the MOST RECENTLY MODIFIED contract (the active session). Selecting by
+# mtime — not glob/alphabetical order — is what stops a dead session from
+# blocking live work in the same repo.
+CONTRACT=""
+NEWEST=0
+for f in "${CANDIDATES[@]}"; do
+  [[ -f "$f" ]] || continue
+  m=$(mtime "$f")
+  if [[ "$m" -gt "$NEWEST" ]]; then
+    NEWEST="$m"
+    CONTRACT="$f"
   fi
 done
 
-# Check active academy sessions
-if [[ -z "$CONTRACT" ]]; then
-  for dir in "$WORKSPACE"/.claude/academy/sessions/*/; do
-    if [[ -f "${dir}acceptance-contract.md" ]]; then
-      CONTRACT="${dir}acceptance-contract.md"
-    fi
-  done
-fi
-
-# Check .claude/prd/ symlinks
-if [[ -z "$CONTRACT" ]]; then
-  for f in "$WORKSPACE"/.claude/prd/contract-*.md; do
-    if [[ -f "$f" ]]; then
-      CONTRACT="$f"
-      break
-    fi
-  done
-fi
-
-# Check ralf's contract location
-if [[ -z "$CONTRACT" && -f "$WORKSPACE/.claude/acceptance-contract.md" ]]; then
-  CONTRACT="$WORKSPACE/.claude/acceptance-contract.md"
-fi
-
 # No contract found — nothing to enforce
 if [[ -z "$CONTRACT" ]]; then
+  exit 0
+fi
+
+# Staleness guard: an active contract not touched within STALE_HOURS is treated
+# as an abandoned session and does not block.
+AGE_HOURS=$(( ( $(date +%s) - NEWEST ) / 3600 ))
+if [[ "$AGE_HOURS" -ge "$STALE_HOURS" ]]; then
   exit 0
 fi
 
@@ -76,6 +85,9 @@ UNVERIFIED=$((PENDING + FAILED))
 
 if [[ "$UNVERIFIED" -gt 0 ]]; then
   TOTAL=$((VERIFIED + PENDING + FAILED + PENDING_MANUAL))
+  # Block message goes to stderr: PreToolUse + exit 2 denies the tool and
+  # surfaces stderr to Claude. stdout here would be ignored by the harness.
+  exec 1>&2
   echo "BLOCKED: Acceptance contract has unverified criteria."
   echo ""
   echo "  Contract: $CONTRACT"
@@ -95,7 +107,7 @@ if [[ "$UNVERIFIED" -gt 0 ]]; then
   done
   echo ""
   echo "Resolve all criteria before marking work as complete."
-  exit 1
+  exit 2
 fi
 
 # All criteria verified (or pending-manual) — allow completion
