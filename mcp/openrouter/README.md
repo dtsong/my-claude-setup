@@ -5,9 +5,13 @@ inside Claude Code workflows. Fail-soft: any error degrades to Claude.
 
 ## Install
 
+`mcp/openrouter/.venv/` is a **required one-time bootstrap** — it is the exact
+interpreter that `settings.json` → `mcpServers.openrouter.command` invokes. The
+server will not start (FileNotFoundError) until this venv exists.
+
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
+python3 -m venv mcp/openrouter/.venv
+mcp/openrouter/.venv/bin/pip install -r mcp/openrouter/requirements.txt
 export OPENROUTER_API_KEY=sk-or-...   # shell env only; never commit
 ```
 

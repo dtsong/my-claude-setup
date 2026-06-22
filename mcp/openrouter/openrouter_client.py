@@ -6,6 +6,10 @@ network. Every failure returns a structured fallback signal rather than
 raising, so callers degrade gracefully to their normal Claude path.
 """
 
+import json
+import os
+import urllib.request
+
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 DEFAULT_MAX_TOKENS = 1024
 DEFAULT_TIMEOUT = 60
@@ -39,11 +43,6 @@ def build_headers(api_key):
         "Content-Type": "application/json",
         **ATTRIBUTION,
     }
-
-
-import json
-import os
-import urllib.request
 
 
 def parse_success(resp_json):
