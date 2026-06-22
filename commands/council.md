@@ -47,6 +47,7 @@ TEAM_PREFIX:            council-
 GLOBAL_REGISTRY_PATH:   ~/.claude/council/global-registry.json
 INDEX_PATH:             .claude/council/index.json
 CHALLENGE_RULES:        organic
+DEFAULT_PROFILE:        balanced
 EXTRA_MECHANICS:        (none)
 ```
 

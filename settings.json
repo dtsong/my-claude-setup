@@ -49,8 +49,28 @@
     ],
     "defaultMode": "acceptEdits"
   },
-  "model": "fable",
+  "model": "opus",
+  "mcpServers": {
+    "openrouter": {
+      "command": "/Users/danielsong/Development/my-claude-setup/mcp/openrouter/.venv/bin/python",
+      "args": ["/Users/danielsong/Development/my-claude-setup/mcp/openrouter/server.py"],
+      "env": {
+        "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+      }
+    }
+  },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "TaskUpdate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$HOME/Development/my-claude-setup/hooks/acceptance-gate.sh\""
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "",
@@ -69,15 +89,6 @@
           {
             "type": "command",
             "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
-          }
-        ]
-      },
-      {
-        "matcher": "TaskUpdate",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$HOME/Development/my-claude-setup/hooks/acceptance-gate.sh\""
           }
         ]
       }
@@ -149,5 +160,6 @@
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-ansi",
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "skipWorkflowUsageWarning": true
 }

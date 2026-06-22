@@ -16,6 +16,7 @@ The Scout's department of focused skills for researching prior art, evaluating e
 | [library-evaluation](library-evaluation/SKILL.md) | Structured library scoring and comparison | default | `library`, `package`, `dependency`, `npm`, `install` |
 | [competitive-analysis](competitive-analysis/SKILL.md) | Feature comparison matrix across competing products | default | `competitive`, `alternative`, `comparison`, `prior art` |
 | [technology-radar](technology-radar/SKILL.md) | Technology maturity assessment and adoption guidance | default | `framework`, `technology`, `tool`, `evaluate`, `choose` |
+| [enterprise-search-strategy](enterprise-search-strategy/SKILL.md) | Internal-knowledge search plan and evidence brief | default | `internal search`, `prior art internal`, `what did we decide`, `find the doc`, `across the org` |
 
 ## Classification Logic
 
@@ -27,6 +28,7 @@ The Scout's department of focused skills for researching prior art, evaluating e
 | Mentions "bundle size", "maintenance health", "license compatibility" | library-evaluation | High |
 | Asks about market landscape, feature gaps, or differentiation | competitive-analysis | Medium |
 | Asks generally about "should we use X" without specifying library vs platform | technology-radar | Medium |
+| Surfacing internal prior decisions, past tickets, ADRs, postmortems before deliberating | enterprise-search-strategy | High |
 
 ## Shared Directives
 

@@ -25,10 +25,25 @@ Each themed command file must define these variables before referencing this eng
 | `$PHASE_LABELS` | Themed labels for each phase | *(see council.md)* |
 | `$ASSEMBLY_LABEL` | Header for the assembly table | "Council Assembly — Agent Selection" |
 | `$EXTRA_MECHANICS` | Theme-specific mechanics to execute during workflow | *(none for council)* |
+| `$ACTION_PATHS` | Phase 5 action paths the theme supports (in addition to Path A team execution) | *(see council.md — Paths B–F)* |
 
 ---
 
 ## Instructions
+
+### Preflight: Orchestration Capability Check
+
+The engine selects an orchestration backend per session — it never requires a single runtime and **never hard-exits** here.
+
+1. **Detect teams:** `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` set to `1` (`printenv CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` via Bash) → teams available.
+2. **Detect workflows:** the Workflow tool is available and `CLAUDE_CODE_DISABLE_WORKFLOWS` is unset/empty (`printenv CLAUDE_CODE_DISABLE_WORKFLOWS`). Workflows require Claude Code ≥ 2.1.154. If a workflow invocation later fails because the runtime is unavailable or disabled by org policy, treat that failure as detection — degrade to the next backend and continue.
+3. **Resolve `$ORCH_BACKEND`** per the mode's Backend column in [Mode Configuration](#mode-configuration):
+   - `inline` modes need neither capability — plain Task calls.
+   - `workflow` modes degrade: workflow → teams → sequential (conductor drives each round with plain parallel Task calls).
+   - `teams-preferred` phases degrade: teams → workflow/sequential degradation (documented at the phase).
+4. Print a one-line notice of the selected backend when it differs from the mode's preferred backend, e.g. `Orchestration: teams (workflows unavailable)` or `Orchestration: sequential (neither workflows nor agent teams available — slower, same artifacts)`.
+
+The resolved backend is recorded in `session.md` (`Backend:`) during Phase 1.1 setup.
 
 ### Argument Parsing & Mode Resolution
 
@@ -53,20 +68,57 @@ Parse `$ARGUMENTS` using this priority order — **first matching flag wins:**
 14. `--audit` → **audit** mode
 15. No flag → **standard** mode (default)
 
+**Option flags** (composable with any session mode — parse and strip before mode resolution):
+- `--profile <lean|balanced|max>` → set `$PROFILE` (see [Cost Profiles & Model Routing](#cost-profiles--model-routing)). Invalid value → print `Invalid profile. Usage: --profile lean|balanced|max` and **EXIT**. If absent: theme's `$DEFAULT_PROFILE`, else `balanced`.
+
 Strip the matched flag from `$ARGUMENTS`. Remaining text is the **idea**.
 
 ### Mode Configuration
 
-| Mode | Phases | Agents | Rounds | Touchpoints | Output |
-|------|--------|--------|--------|-------------|--------|
-| brainstorm | 0 + inline | 3 (sonnet) | 0 | 0 | Inline chat only |
-| quick | 0, 2, 3(1-round), 4(light) | 3 | 1 | 1 | design-sketch.md, task list |
-| standard | 0, 1, 2, 3, 4, 5 | 3-7 | 3 | 6-7 | Full design doc, PRD, GitHub issues |
-| deep | 0, 1, 2, 3, 4, 5D | 3-7 | 3 | 5-6 | Full design doc, PRD, audit report, GitHub issues |
-| auto | 0, 2, 3, 4, 5 | 3-7 | 3 | 0 | Full design doc, PRD, GitHub issues |
-| guided | 0, 1, 2, 3, 4, 5 | 3-7 | 3 + gates | 8+ | Full design doc, PRD, GitHub issues |
-| meeting | 0, 1(light), 2, 3-meeting | 3-7 | Meeting protocol | 2-3 | meeting-notes.md |
-| audit | 0, context, 5D | 3-5 | 0 | 2-3 | Deep audit report |
+| Mode | Phases | Agents | Rounds | Touchpoints | Backend | Budget | Output |
+|------|--------|--------|--------|-------------|---------|--------|--------|
+| brainstorm | 0 + inline | 3 (sonnet) | 0 | 0 | inline | — | Inline chat only |
+| quick | 0, 2, 3(1-round), 4(light) | 3 | 1 | 1 | inline | — | design-sketch.md, task list |
+| standard | 0, 1, 2, 3, 4, 5 | 3-7 | 3 | 6-7 | workflow | ~750K | Full design doc, PRD, GitHub issues |
+| deep | 0, 1, 2, 3, 4, 5D | 3-7 | 3 | 5-6 | workflow | ~1.5M + ~2M audit | Full design doc, PRD, audit report, GitHub issues |
+| auto | 0, 2, 3, 4, 5 | 3-7 | 3 | 0 | workflow | ~750K | Full design doc, PRD, GitHub issues |
+| guided | 0, 1, 2, 3, 4, 5 | 3-7 | 3 + gates | 8+ | workflow ×2 | ~750K split | Full design doc, PRD, GitHub issues |
+| meeting | 0, 1(light), 2, 3-meeting | 3-7 | Meeting protocol | 2-3 | teams-preferred | — | meeting-notes.md |
+| audit | 0, context, 5D | 3-5 | 0 | 2-3 | workflow | ~2M | Deep audit report |
+
+Backend values: `inline` = plain Task calls; `workflow` = background Workflow run (degrades to teams, then sequential); `teams-preferred` = agent teams when available (degrades per phase notes). Budget = token target passed to the workflow invocation (tune per project size).
+
+### Cost Profiles & Model Routing
+
+`$PROFILE` controls which model tier each spawned agent runs on. Resolution order: `--profile` flag > theme `$DEFAULT_PROFILE` > `balanced`. Persist the resolved profile in `session.md` and the index; sessions without a recorded profile resume as `balanced`.
+
+Models are fixed at spawn time, so routing is keyed by **spawn site**:
+
+| Spawn site | lean | balanced | max |
+|------------|------|----------|-----|
+| Brainstorm agents (3× one-shot) | sonnet | sonnet | sonnet |
+| Council agents (Phase 2.4 — live R1→R3, Path A execution) | sonnet | opus | opus |
+| Round 2 challenge agents | opus (fresh one-shots — see Round 2) | — (persistent agents respond) | fable (fresh one-shots; fall back to opus on spawn error) |
+| Audit agents (5D.2 / audit workflow) | sonnet | sonnet | opus |
+| Conductor (interview, synthesis, PRD) | inherits the user's `/model` — guidance only, not controlled by the engine | | |
+
+Pass the routed tier as the `model:` parameter on every Task spawn, and as each roster entry's `model` in workflow args. Always use tier aliases (`sonnet`, `opus`, `fable`) — never pinned `claude-*` model IDs (they go stale; the validator rejects them in agent frontmatter).
+
+**Estimated session cost** (total tokens, 5-agent baseline — scale roughly by `selected agents / 5`):
+
+| Mode | lean | balanced | max |
+|------|------|----------|-----|
+| brainstorm | 10–15K | 10–15K | 10–15K |
+| quick | 20–35K | 30–50K | 45–75K |
+| standard | 80–120K | 120–180K | 180–270K |
+| deep | standard + 50–80K audit | standard + 50–100K audit | standard + 80–150K audit |
+
+Dollar figures live in the README **Cost guide** (pricing is dated there). On Claude Max plans there is no per-token dollar cost — sessions draw on plan rate limits instead.
+
+**Choosing a profile:**
+- `lean` — API-billed / enterprise users: Sonnet positions and converge, Opus only where debate quality pays most (Round 2 challenges).
+- `balanced` (default) — Opus deliberation, Sonnet audits.
+- `max` — Max-plan users chasing ceiling quality: Opus everywhere, Fable for adversarial challenges.
 
 ### Mode Interaction with `$EXTRA_MECHANICS`
 
@@ -113,11 +165,13 @@ SESSION MANAGEMENT:
   --cleanup               Review and clean stale sessions
 
 OTHER:
+  --profile <p>   Cost profile: lean | balanced | max (default: balanced)
   --help          Show this help message
 
 EXAMPLES:
   /<command> "Build a tournament coach"
   /<command> --quick "Add a speed tier sidebar"
+  /<command> --deep --profile lean "Redesign auth" (Sonnet agents, Opus challenges)
   /<command> --meet "Should we migrate to Drizzle?"
   /<command> --auto "Add dark mode toggle"
   /<command> --deep "Redesign the authentication system"
@@ -188,10 +242,10 @@ Each agent manages a **department** of focused skills — structured prompt temp
 
 ### Skill Structure
 
-Skills are stored in `.claude/skills/council/`.
+Skills are stored in `~/.claude/skills/council/` (symlinked to this setup's `skills/council/`).
 
 ```
-.claude/skills/council/
+~/.claude/skills/council/
   registry.json                          # Usage tracking across all departments
   <agent-name>/
     DEPARTMENT.md                        # Department index
@@ -283,7 +337,7 @@ The idea becomes audit criteria. The intake prompt becomes: "What should the aud
    - Read `package.json` / `pyproject.toml` for tech stack
    - `ls` top-level directories
    - `git branch --show-current` + `git log --oneline -3`
-3. Launch **3 Task agents** in parallel (single message, 3 tool calls). Each uses `subagent_type: "general-purpose"` and `model: "sonnet"`:
+3. Launch **3 Task agents** in parallel (single message, 3 tool calls). Each uses `subagent_type: "general-purpose"` with `model:` from the Brainstorm row of the [model routing table](#cost-profiles--model-routing) (`sonnet` in every profile):
 
    **Architect:** Systems/technical perspective — where it fits, what to build, architectural considerations (2-4 sentences).
 
@@ -341,6 +395,8 @@ Date: <today>
 Session ID: <session-id>
 Phase: interview
 Slug: <slug>
+Profile: <resolved $PROFILE>
+Backend: <resolved $ORCH_BACKEND>
 ```
 
 **Update per-workspace index** at `$WORKSPACE/$INDEX_PATH`:
@@ -358,6 +414,7 @@ Slug: <slug>
       "updated": "<ISO 8601>",
       "phase": "interview",
       "status": "active",
+      "profile": "<resolved $PROFILE>",
       "agents": [],
       "skills_used": [],
       "contract_generated": false,
@@ -405,7 +462,7 @@ Before interviewing, scan the project to ground your questions in reality:
 1. Read `$WORKSPACE/CLAUDE.md` for project conventions
 2. Read `package.json` / `pyproject.toml` for tech stack
 3. `ls` top-level directories for project structure
-4. Read `.claude/skills/council/registry.json` for previously-used skills
+4. Read `~/.claude/skills/council/registry.json` for previously-used skills (create empty `{}` file if missing)
 
 Store the scan results mentally — use them to make interview questions specific to the actual project.
 
@@ -516,7 +573,7 @@ Score each agent 0-10:
 - Add agents scoring >= 4 up to cap of 7
 - Maximum 7 agents
 
-**Quick / Auto mode override:** Select top **3** agents by score. No gap analysis, no user approval. Auto-approve and spawn immediately.
+**Quick / Auto mode override:** Select top **3** agents by score. No gap analysis, no user approval. Auto-approve and spawn immediately. Print (don't ask) a one-line estimate first: `Estimated: ~<range from the mode × profile table> tokens (mode: <mode>, profile: <profile>, 3 agents).`
 
 ### 2.3 Present Selection
 
@@ -536,6 +593,11 @@ Not selected:
 | <agent> | <score> | <rationale> |
 | ... | ... | ... |
 
+Estimated cost — mode: <mode>, profile: <profile>, agents: <N>
+  Tokens: ~<range from the mode × profile table, scaled by N/5> total
+  API billing: see README Cost guide for current $/MTok; Claude Max plans draw on rate limits, not dollars
+  Conductor runs on your session model: <current /model> (synthesis + PRD quality follow it)
+
 Approve this selection, or adjust?
 ```
 
@@ -545,9 +607,11 @@ Options:
 - **Remove agent** — "Which agent should be removed?"
 - **Restart interview** — Go back to Phase 1
 
-### 2.4 Spawn Team
+### 2.4 Prepare Roster / Spawn Team (backend-dependent)
 
-Once approved, create the team and spawn selected agents:
+**Workflow / inline / sequential backends:** Do **not** create a team. Record the deliberation roster for Phase 3 instead — for each selected agent: `{ name, agentType: <Subagent Type column from roster table>, model: <council-agent tier from the routing table>, color, skillContent: <inlined in Phase 2.5> }`. Update `$SESSION_DIR/session.md` phase to `deliberation`, run `$EXTRA_MECHANICS` for spawn phase, and continue to Phase 2.5.
+
+**Teams backend:** create the team and spawn selected agents:
 
 ```
 TeamCreate:
@@ -555,13 +619,14 @@ TeamCreate:
   description: "$THEME_NAME session for: <idea>"
 ```
 
-For each selected agent, spawn using the Task tool with `team_name` and `name`:
+For each selected agent, spawn using the Task tool with `team_name`, `name`, and the profile-routed model:
 
 ```
 Task:
   name: "$AGENT_FILE_PREFIX<agent-name>"
   team_name: "$TEAM_PREFIX<session-id>"
   subagent_type: <from roster table>
+  model: <council-agent tier from the routing table>
   prompt: |
     You are <Agent Name>, the <Color> Lens.
 
@@ -590,7 +655,7 @@ Update `$SESSION_DIR/session.md` phase to `deliberation`.
 
 After spawning agents but before deliberation, load relevant skills for each agent:
 
-1. For each selected agent, read their `DEPARTMENT.md` at `.claude/skills/council/<base-agent>/DEPARTMENT.md`
+1. For each selected agent, read their `DEPARTMENT.md` at `~/.claude/skills/council/<base-agent>/DEPARTMENT.md` to get the list of skills available
 2. Match skill triggers against `$IDEA` + interview transcript + interview summary
 3. Select top 1-2 skills per agent (the most relevant to this session's topic)
 4. **Special rule:** If the Architect-equivalent is selected, always load `codebase-context` — its output becomes shared context for all agents
@@ -604,7 +669,7 @@ After spawning agents but before deliberation, load relevant skills for each age
 - ...
 ```
 
-7. Update `.claude/skills/council/registry.json`:
+7. Update `~/.claude/skills/council/registry.json` (create with `{}` if missing):
    - Increment `uses` for each loaded skill
    - Set `last_used` to today's date
    - Append session slug to `sessions` array
@@ -617,15 +682,40 @@ After spawning agents but before deliberation, load relevant skills for each age
 
 **Mode applicability:** Standard, Deep, Auto, Guided run full 3-round deliberation. Quick runs 1 round only. Meeting uses [Meeting Protocol](#phase-3-meeting-cross-examination) instead. Brainstorm and Audit skip this phase.
 
-**Preferred substrate:** If the Workflow tool is available, run this phase via the
-`council-deliberate` workflow (`.claude/workflows/council-deliberate.js`) instead of
-hand-orchestrating rounds: pass `{ idea, agents: [<selected persona names>], context,
-sessionDir }` as args (`quick: true` for Quick mode). It executes Position → tension
-pairing → Challenge → Converge → Synthesis deterministically with structured outputs
-and returns the design document; persist its round artifacts and continue at Phase 4.
-Fall back to the manual protocol below when the Workflow tool is unavailable or the
-user asked for an interactive (Guided/Meeting) deliberation, which needs approval
-gates between rounds.
+### Deliberation via Workflow (primary — workflow backend)
+
+Run the full R1 → pairing → R2 → R3 → synthesis loop as a background Workflow so round texts never enter the conductor's context.
+
+1. Read the canonical script at `~/.claude/skills/council/references/workflows/council-deliberation.template.js` and invoke the **Workflow tool** with that script verbatim (everything session-specific flows through `args` — substitute nothing in the script body):
+
+   ```
+   args:
+     sessionDir: <absolute $SESSION_DIR>
+     workspace: $WORKSPACE
+     idea: $IDEA
+     contextBlock: <PROJECT_CONTEXT block>
+     interviewTranscript: <full transcript, or topic summary for modes without interview>
+     pairingRules: <$CHALLENGE_RULES text from the theme>
+     roster: [{ name, agentType, model, color, skillContent }]   # from Phase 2.4/2.5
+     rounds: 3
+     maxPairs: 4
+     challengeModel: <Round 2 tier from the routing table, or null for balanced (persistent-style prompts still run as fresh agents)>
+     designTemplate: "engine"                                    # script knows the design.md section layout
+   ```
+
+2. The run executes in the background — the session stays responsive; check progress via the workflow's progress view if the user asks.
+3. On completion the workflow returns **only** the structured synthesis payload (tension pairs, Tension Resolutions rows, Decision Log rows, overview). All round files and `design.md` are already on disk under `$SESSION_DIR`.
+4. Continue at [Synthesis](#synthesis) — commit, then present the design-approval touchpoint **from the returned payload**; do not re-read round files into context.
+
+**Guided mode (workflow backend):** invoke the script twice. First with `rounds: 1` (positions only — script returns position summaries), present the positions gate below, then re-invoke with `startAtRound: 2` and the user's feedback as `guidedFeedback`. Round 1 files on disk carry over between invocations.
+
+**Quick mode (inline backend):** no workflow, no team. Run Round 1 as one parallel batch of one-shot Task calls — for each of the 3 selected agents: `subagent_type` from the roster, `model:` from the routing table, prompt = the Round 1 prompt below plus the instruction to read their persona file for formats. Then produce the design sketch as described under Quick mode below.
+
+**Sequential fallback (neither workflows nor teams):** the conductor drives the same three rounds with plain Task calls — R1 as one parallel batch of one-shots (Round 1 prompt below), pairing by conductor judgment as in Round 2 below, R2/R3 as fresh one-shots whose prompts instruct them to read their own prior round file(s) from `$SESSION_DIR/deliberation/` first. Slower, but identical artifacts.
+
+### Deliberation via Teams (teams backend)
+
+When `$ORCH_BACKEND` is teams, drive the persistent teammates through the three rounds below by team message.
 
 ### Round 1: Position (Parallel)
 
@@ -675,7 +765,9 @@ Read all Round 1 positions. Apply `$CHALLENGE_RULES` to identify **2-4 tension p
 
 For themes with structured challenge rules (e.g., house tensions), follow those rules to determine mandatory pairings. For themes with organic challenge rules, identify pairs from position content.
 
-For each tension pair, send both agents each other's position and ask them to respond:
+**Profile override (lean / max):** do **not** message the persistent agents for Round 2. For each tension pair, spawn a fresh one-shot Task per member — `subagent_type` from the roster, `model:` from the Round 2 row of the [routing table](#cost-profiles--model-routing) — whose prompt includes the PROJECT_CONTEXT block and instructs it to read **both** Round 1 position files from `$SESSION_DIR/deliberation/round1/` (its own first) before responding in the Challenge format. Output paths unchanged. If a `fable` spawn errors, retry the spawn with `opus`. Round 3 returns to the persistent agents as normal.
+
+For each tension pair (balanced profile), send both agents each other's position and ask them to respond:
 
 ```
 Round 2: Challenge
@@ -716,7 +808,9 @@ Wait for all agents to respond.
 
 ### Synthesis
 
-Read all Round 3 positions. Synthesize into a unified **Design Document**:
+**Workflow backend:** the workflow has already written `design.md` and returned the structured payload — skip the synthesis writing below and go straight to the commit and the design-approval presentation, sourcing the tables from the returned payload.
+
+**Teams / sequential backends:** read all Round 3 positions. Synthesize into a unified **Design Document**:
 
 ```markdown
 # Design Document: <Idea>
@@ -799,6 +893,8 @@ Options:
 ## Phase 3-Meeting: Cross-Examination Protocol
 
 **Mode: `--meet`** — This phase replaces standard Phase 3 deliberation when running in meeting mode. Agents interact with each other directly — asking questions, challenging claims, and building on each other's ideas.
+
+**Backend: teams-preferred.** Live cross-examination — direct agent-to-agent questions, conditional follow-ups, and the user steering individual panelists (Shift+Down) — is what the agent-teams runtime is for. Without the teams flag, degrade: run sub-rounds 2a/2b as fixed phases of fresh one-shot Tasks that read prior outputs from `$SESSION_DIR`, allow exactly one follow-up phase, and print: `Note: live steering of individual panel members requires CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1.`
 
 ### Round 1: Opening Perspectives
 
@@ -1091,7 +1187,11 @@ Update `$SESSION_DIR/session.md` phase to `action`.
 
 ## Phase 5: Action
 
+The path catalog below is the engineering theme's default. Themed variants may declare additional or alternative paths via `$ACTION_PATHS` (e.g., a finance theme may emit a memo + journal-entries package instead of GitHub issues). Path A (team execution) is the only mandatory path; all others are theme-opt-in.
+
 ### Path A: Team Execution
+
+**Backend: teams-preferred.** The shared task list, dependency unblocking, file locking, and per-task plan approval are team features. Without the teams flag, the conductor executes the same `TaskCreate` dependency list sequentially: for each unblocked task, spawn a one-shot Task (`subagent_type` from the roster, `model:` council-agent tier from the routing table) with the task description + inline skill, mark it complete, and continue until the list is done. The verification sweep below is unchanged.
 
 Assign tasks to agents based on their strengths. Each theme defines its own agent-to-task mapping in its roster. **Skill injection for task assignments:** When assigning a task, include the relevant skill inline:
 
@@ -1342,18 +1442,20 @@ A persistent, self-healing audit system that strategically divides the codebase 
 
 6. **Write empty findings log** to `$SESSION_DIR/audit/findings.md`.
 
-### 5D.2 Agent Spawning Strategy
+### 5D.2 Audit Execution
 
-Spawn audit agents **in waves** of 2-4 zones at a time:
+**Workflow backend (primary):** run the entire audit loop as a background Workflow. Read `~/.claude/skills/council/references/workflows/council-audit.template.js` and invoke the **Workflow tool** with that script verbatim, passing via `args`: `{ sessionDir, workspace, zones (from the coverage map), criteria, auditModel (audit tier from the routing table), maxPasses: 5, contextBlock }`. The script runs waves of up to 4 zone agents in parallel, a gap-detection judge between passes, loops until a pass yields zero new findings (or the pass cap / token budget is hit — noted as "budget-converged" in the report), and writes `audit/report.md`, the coverage map, the findings log, and per-zone reports — on-disk artifacts identical to the conductor-driven loop. The checkpoint system (5D.3) is **not needed** on this path; the workflow runs outside the conductor's context and is resumable in-session. On completion, continue at 5D.4 step 4 (commit + present results).
+
+**Conductor-driven fallback (workflows unavailable):** spawn audit agents **in waves** of 2-4 zones at a time:
 
 1. **Select zones** for this wave. Priority: `pending` > `needs-review` > previously-flagged. Skip `clean` zones.
-2. **Spawn 2-4 `general-purpose` agents**, one per zone, with audit criteria and file list.
+2. **Spawn 2-4 `general-purpose` agents**, one per zone, with `model:` from the audit row of the [routing table](#cost-profiles--model-routing), audit criteria, and file list.
 3. **Wait for all wave agents** to complete.
 4. **Collect findings** from each zone report.
 5. **Update coverage map and findings log.**
 6. **Repeat** for next wave until all zones covered.
 
-### 5D.3 Conductor Checkpoint System
+### 5D.3 Conductor Checkpoint System (fallback path only)
 
 When approaching context limits (or after every 3 waves):
 
@@ -1450,7 +1552,7 @@ Cross-workspace session tracking at `$GLOBAL_REGISTRY_PATH`. Updated whenever a 
 3. **With `--pick`:** Always show interactive picker of all `active` sessions via `AskUserQuestion`.
 
 When resuming:
-1. Read `$SESSION_DIR/session.md` to determine last completed phase
+1. Read `$SESSION_DIR/session.md` to determine last completed phase, the session's `Profile:` (default `balanced` if absent — pre-v1.2 sessions), and `Backend:` (re-run the capability check if absent)
 2. **Check for active audit:** Read `$SESSION_DIR/audit/state.md` if it exists
    - If `active: true`: Load the latest checkpoint from `audit/checkpoints/`, read `audit/coverage.md` and `audit/findings.md`, resume the audit loop from where it left off (Phase 5D continuation)
 3. Read index to get session metadata
@@ -1643,10 +1745,9 @@ When the session is complete:
 
 1. **Evolve skills:** For each loaded skill, append an observation to its `## Evolution Notes`:
    `<!-- YYYY-MM-DD | session-slug | observation about skill effectiveness -->`
-2. Send `shutdown_request` to all remaining agents
-3. Call `TeamDelete` to remove team resources
-4. Update `$SESSION_DIR/session.md` with completion status
-5. **Update index** — set `status: "completed"`, `phase` to final phase reached, update timestamp
-6. **Update global registry** — set session status to `completed`, update workspace metadata
+2. **Teams backend only:** send `shutdown_request` to all remaining agents, then call `TeamDelete` to remove team resources (workflow/inline/sequential sessions have no team to clean up)
+3. Update `$SESSION_DIR/session.md` with completion status
+4. **Update index** — set `status: "completed"`, `phase` to final phase reached, update timestamp
+5. **Update global registry** — set session status to `completed`, update workspace metadata
 
 Artifacts remain in the workspace under `sessions/<session-id>/`. The session history is preserved for reference and future archival.
