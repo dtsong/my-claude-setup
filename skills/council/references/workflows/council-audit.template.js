@@ -26,11 +26,16 @@ export const meta = {
   ],
 }
 
+// Tolerate a JSON-stringified args payload: LLM callers sometimes serialize the
+// object before handing it to the Workflow tool. Parse it back to an object so
+// the contract guard checks real values, not undefined keys off a string.
+const _args = typeof args === 'string' ? JSON.parse(args) : (args || {})
+
 const {
   sessionDir, workspace,
   zones = [], criteria = '', auditModel = 'sonnet',
   maxPasses = 5, contextBlock = '',
-} = args || {}
+} = _args
 
 if (!sessionDir || !workspace || zones.length === 0) {
   throw new Error('council-audit requires args: sessionDir, workspace, zones[]')
