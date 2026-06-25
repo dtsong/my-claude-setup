@@ -686,7 +686,7 @@ After spawning agents but before deliberation, load relevant skills for each age
 
 Run the full R1 → pairing → R2 → R3 → synthesis loop as a background Workflow so round texts never enter the conductor's context.
 
-1. Read the canonical script at `~/.claude/skills/council/references/workflows/council-deliberation.template.js` and invoke the **Workflow tool** with that script verbatim (everything session-specific flows through `args` — substitute nothing in the script body):
+1. Read the canonical script at `~/.claude/skills/council/references/workflows/council-deliberation.template.js` and invoke the **Workflow tool** with that script verbatim (everything session-specific flows through `args` — substitute nothing in the script body). Pass `args` as an **actual JSON object** in the tool call, never a JSON-encoded string — a stringified payload reaches the script as one string and the contract guard throws `requires args: sessionDir, idea, roster[]`:
 
    ```
    args:
