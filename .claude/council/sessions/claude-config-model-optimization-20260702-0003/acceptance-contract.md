@@ -38,22 +38,22 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 #### AC-004: model is a tier alias, no [1m], no pinned claude-* ID
 - **Method:** build-output
 - **Test:** `jq -r .model settings.json` = `opus`
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** jq -r .model settings.json = opus (tier alias, no pin, no [1m])
+- **Verified-by:** looper #60 (feat/60-model-tier-alias)
 
 #### AC-005: 1M stance is one deliberate state (env flag retained, no [1m] anywhere)
 - **Method:** build-output
 - **Test:** `grep -c '\[1m\]' settings.json` returns 0; env flag present
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** grep -c '[1m]' settings.json = 0; CLAUDE_CODE_DISABLE_1M_CONTEXT=1 retained as the deliberate stance
+- **Verified-by:** looper #60 (feat/60-model-tier-alias)
 
 #### AC-006: Escalation rule documented in routing doc
 - **Method:** manual-check
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** docs/model-routing.md section 'Session Default and Escalation' records opus daily / fable ceiling on Max; sonnet default on API
+- **Verified-by:** looper #60 (feat/60-model-tier-alias)
 
 ### US-003: Permissions rewrite (F2)
 
@@ -206,9 +206,9 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-001 | Dispatcher fail-soft | unit-test | verified | see detail |
 | AC-002 | Five events via dispatcher, no private path | build-output | verified | see detail |
 | AC-003 | Missing path no-op | unit-test | verified | see detail |
-| AC-004 | Tier alias model | build-output | pending | — |
-| AC-005 | 1M single state | build-output | pending | — |
-| AC-006 | Escalation rule doc | manual-check | pending | — |
+| AC-004 | Tier alias model | build-output | verified | see detail |
+| AC-005 | 1M single state | build-output | verified | see detail |
+| AC-006 | Escalation rule doc | manual-check | verified | see detail |
 | AC-007 | Workload allowlist | build-output | pending | — |
 | AC-008 | Deny list intact | build-output | pending | — |
 | AC-009 | Local experiment lane | build-output | pending | — |
@@ -230,4 +230,4 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-025 | Reference template | build-output | pending | — |
 | AC-026 | Graceful degradation | manual-check | pending | — |
 
-Progress: 3/26 verified
+Progress: 6/26 verified
