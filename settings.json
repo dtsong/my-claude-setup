@@ -68,7 +68,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash \"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\""
           }
         ]
       }
@@ -79,7 +79,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash \"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\""
           }
         ]
       }
@@ -90,7 +90,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash \"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\""
           }
         ]
       }
@@ -101,7 +101,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash \"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\""
           }
         ]
       }
@@ -112,7 +112,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash \"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\""
           }
         ]
       }

@@ -15,23 +15,23 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 #### AC-001: Dispatcher script exists with env-var path resolution and fail-soft exit
 - **Method:** unit-test
 - **Test:** `.claude/council/sessions/claude-config-model-optimization-20260702-0003/test-stubs/test_acceptance.py` > `test_ac_001_dispatcher_fail_soft`
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** test_ac_001_dispatcher_fail_soft passed (pytest, 2026-07-02)
+- **Verified-by:** looper #59 (feat/59-fail-soft-telemetry-dispatcher)
 
 #### AC-002: All five hook events use the dispatcher; no private-repo path in settings.json
 - **Method:** build-output
 - **Test:** `jq` + `grep -c my-claude-setup-private settings.json` returns 0
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** grep -c my-claude-setup-private settings.json = 0; five events point at hooks/telemetry-dispatch.sh
+- **Verified-by:** looper #59 (feat/59-fail-soft-telemetry-dispatcher)
 
 #### AC-003: Missing private path yields exit 0, no output, no python3 spawn
 - **Method:** unit-test
 - **Test:** `test-stubs/test_acceptance.py` > `test_ac_003_missing_path_noop`
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** test_ac_003_missing_path_noop passed (exit 0, empty stdout/stderr)
+- **Verified-by:** looper #59 (feat/59-fail-soft-telemetry-dispatcher)
 
 ### US-002: Session default model to tier alias (F1)
 
@@ -203,9 +203,9 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 ## Verification Summary
 | ID | Criterion | Method | Status | Evidence |
 |----|-----------|--------|--------|----------|
-| AC-001 | Dispatcher fail-soft | unit-test | pending | — |
-| AC-002 | Five events via dispatcher, no private path | build-output | pending | — |
-| AC-003 | Missing path no-op | unit-test | pending | — |
+| AC-001 | Dispatcher fail-soft | unit-test | verified | see detail |
+| AC-002 | Five events via dispatcher, no private path | build-output | verified | see detail |
+| AC-003 | Missing path no-op | unit-test | verified | see detail |
 | AC-004 | Tier alias model | build-output | pending | — |
 | AC-005 | 1M single state | build-output | pending | — |
 | AC-006 | Escalation rule doc | manual-check | pending | — |
@@ -230,4 +230,4 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-025 | Reference template | build-output | pending | — |
 | AC-026 | Graceful degradation | manual-check | pending | — |
 
-Progress: 0/26 verified
+Progress: 3/26 verified

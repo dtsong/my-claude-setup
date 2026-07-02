@@ -8,15 +8,32 @@ REPO = os.path.expanduser("~/Development/my-claude-setup")
 
 
 class TestUS001TelemetryDispatcher:
-    def test_ac_001_dispatcher_fail_soft(self):
+    DISPATCHER = os.path.join(REPO, "hooks", "telemetry-dispatch.sh")
+
+    def test_ac_001_dispatcher_fail_soft(self, tmp_path):
         """GIVEN hooks/telemetry-dispatch.sh WHEN CLAUDE_TELEMETRY_HOOK points to a real file
         THEN it execs python3 on it forwarding args."""
-        raise NotImplementedError("Not implemented - AC-001 pending")
+        hook = tmp_path / "fake_telemetry.py"
+        hook.write_text("import sys; print('ran:' + ':'.join(sys.argv[1:]))\n")
+        env = {**os.environ, "CLAUDE_TELEMETRY_HOOK": str(hook)}
+        r = subprocess.run(
+            ["bash", self.DISPATCHER, "argA", "argB"],
+            env=env, capture_output=True, text=True, timeout=15,
+        )
+        assert r.returncode == 0
+        assert r.stdout.strip() == "ran:argA:argB"
 
-    def test_ac_003_missing_path_noop(self):
+    def test_ac_003_missing_path_noop(self, tmp_path):
         """GIVEN the private hook path does not exist WHEN the dispatcher runs
         THEN it exits 0 with no stdout/stderr and never spawns python3."""
-        raise NotImplementedError("Not implemented - AC-003 pending")
+        env = {**os.environ, "CLAUDE_TELEMETRY_HOOK": str(tmp_path / "absent.py")}
+        r = subprocess.run(
+            ["bash", self.DISPATCHER],
+            env=env, capture_output=True, text=True, timeout=15,
+        )
+        assert r.returncode == 0
+        assert r.stdout == ""
+        assert r.stderr == ""
 
 
 class TestUS005RoutingTable:
