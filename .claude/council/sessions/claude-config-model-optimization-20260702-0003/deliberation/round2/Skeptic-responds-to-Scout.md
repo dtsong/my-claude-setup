@@ -1,0 +1,16 @@
+# Skeptic Response to Scout
+
+**Their position:** Keep OpenRouter, but split by pattern and account: Pattern B (cheap-task routing) goes to Hold on the Max plan (inverted economics: paying dollars plus 5.5% fee to avoid rate-limit-free Haiku calls) while remaining a Trial on the API account after refreshing the stale 2024-era model IDs; Pattern A (cross-vendor lens diversity) is the durable justification and should be trialed on one council lens.
+
+**My response:** Modify
+
+**Reasoning:** I adopt Scout's economics wholesale: Hold on Pattern B/Max and API-account-only cheap routing (with my cost ceiling and max_tokens clamp) is exactly the mitigation my High-severity cost risk asked for, and their `list_models()`-driven ID refresh closes my stale-ID silent-fallback failure mode. Where I modify my own Round 1 posture is on Pattern A. I re-verified the pipeline: `openrouter_client.py:30-31` sends `system` + `prompt` verbatim with zero redaction anywhere in `routing.py` -> `consult()` -> `build_payload()`, so the egress finding is confirmed, not theoretical. But running my own calibration check (single-user repo, content is mostly public-pattern markdown and persona prompts, vendor API traffic is contractually non-training by default), "Critical, effectively block" overstates the realized impact; the correct framing is "Critical *if unconstrained*, acceptable if scoped." So I move from blocking Pattern A to conditional acceptance under non-negotiable safeguards: (1) a send-allowlist by task class enforced in `routing.py` before `consult()` is called, with file contents, secrets, and repo code categorically forbidden from egress; (2) per-lens model audit (log and assert the actual `model` field in the response) so a silent Claude fallback cannot masquerade as vendor diversity, per the Spoofing row of my STRIDE table; (3) a one-flag kill switch (`defaults.fallback=claude`, empty `tasks` map). And I import Oracle's challenge as a gating condition Scout's Trial must absorb: the diversity benefit is unproven because Claude-tuned personas may not transfer, so the one-lens trial must define a measurable success criterion (does the vendor lens produce non-redundant positions versus a Haiku control?) with an explicit sunset. If the trial cannot demonstrate diversity value, we are paying real egress risk and real dollars for nothing, and OpenRouter's surviving justification collapses to Pattern B on the API account only.
+
+**Concessions made:** Pattern A is not an automatic block; scoped egress of non-sensitive persona/deliberation text is a tolerable, monitored risk. Scout's registry correction (10/67 skills tracked, not zero) also weakens my "newborn counter" claim; I narrow it to "counter is young, still insufficient for deletion decisions."
+
+**Safeguards required before acceptance:**
+- Send-allowlist by task class in `routing.py`; deny any payload carrying file contents or secret-shaped strings.
+- Per-lens actual-model logging with a non-fallback assertion in the relay.
+- Kill switch documented in the PRD; rollback is config-only.
+- Pattern A trial gated on a defined diversity-value metric and sunset date (Oracle's condition).
+- Pattern B enabled only where `account: api`, with per-model cost ceiling.
