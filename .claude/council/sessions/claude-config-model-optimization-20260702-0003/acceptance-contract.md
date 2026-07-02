@@ -60,23 +60,23 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 #### AC-007: Allowlist matches real workload; imagined-TS entries removed
 - **Method:** build-output
 - **Test:** `jq` assertions on permissions.allow
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** allow list = 23 entries: pre-commit/pytest/python3/gh/jq + Write scopes for agents,commands,skills,hooks,pipeline,docs,mcp; npm/tsc/src/tests entries removed
+- **Verified-by:** looper #61 (feat/61-permissions-rewrite)
 
 #### AC-008: Deny list preserved intact
 - **Method:** build-output
 - **Test:** `jq` diff of permissions.deny vs baseline
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** deny list byte-identical (22 entries, asserted in rewrite script)
+- **Verified-by:** looper #61 (feat/61-permissions-rewrite)
 
 #### AC-009: settings.local.json gitignored and documented
 - **Method:** build-output
 - **Test:** `git check-ignore settings.local.json` succeeds; doc grep
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** git check-ignore settings.local.json passes; convention documented in docs/model-routing.md 'Experiment Lane'
+- **Verified-by:** looper #61 (feat/61-permissions-rewrite)
 
 ### US-004: OpenRouter ID refresh (F4)
 
@@ -209,9 +209,9 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-004 | Tier alias model | build-output | verified | see detail |
 | AC-005 | 1M single state | build-output | verified | see detail |
 | AC-006 | Escalation rule doc | manual-check | verified | see detail |
-| AC-007 | Workload allowlist | build-output | pending | — |
-| AC-008 | Deny list intact | build-output | pending | — |
-| AC-009 | Local experiment lane | build-output | pending | — |
+| AC-007 | Workload allowlist | build-output | verified | see detail |
+| AC-008 | Deny list intact | build-output | verified | see detail |
+| AC-009 | Local experiment lane | build-output | verified | see detail |
 | AC-010 | No stale IDs | build-output | pending | — |
 | AC-011 | Refresh mechanism | manual-check | pending | — |
 | AC-012 | OpenRouter tests pass | unit-test | pending | — |
@@ -230,4 +230,4 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-025 | Reference template | build-output | pending | — |
 | AC-026 | Graceful degradation | manual-check | pending | — |
 
-Progress: 6/26 verified
+Progress: 9/26 verified
