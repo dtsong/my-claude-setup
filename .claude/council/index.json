@@ -21,8 +21,8 @@
       "slug": "claude-config-model-optimization",
       "idea": "Examine Claude Code configuration + available models; find optimizations, skill gaps, practical improvements",
       "created": "2026-07-02T00:03:00-07:00",
-      "updated": "2026-07-02T00:25:00-07:00",
-      "phase": "planning",
+      "updated": "2026-07-02T00:55:00-07:00",
+      "phase": "action",
       "status": "active",
       "profile": "max",
       "agents": [
@@ -46,7 +46,7 @@
         "skeptic/threat-model",
         "scout/technology-radar"
       ],
-      "contract_generated": false,
+      "contract_generated": true,
       "contract_issue": null,
       "archived_to": null
     }
