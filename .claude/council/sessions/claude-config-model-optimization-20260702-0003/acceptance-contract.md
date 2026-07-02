@@ -14,23 +14,23 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 
 #### AC-001: Dispatcher script exists with env-var path resolution and fail-soft exit
 - **Method:** unit-test
-- **Test:** `.claude/council/sessions/claude-config-model-optimization-20260702-0003/test-stubs/test_acceptance.py` > `test_ac_001_dispatcher_fail_soft`
+- **Test:** `.claude/council/sessions/claude-config-model-optimization-20260702-0003/test-stubs/test_acceptance.py` > `test_ac_001_*` (env-var forwarding incl. spaces; default-path resolution)
 - **Status:** verified
-- **Evidence:** test_ac_001_dispatcher_fail_soft passed (pytest, 2026-07-02)
+- **Evidence:** test_ac_001_dispatcher_env_var_forwarding + test_ac_001_default_path_resolution passed (pytest, 2026-07-02, review cycle 1)
 - **Verified-by:** looper #59 (feat/59-fail-soft-telemetry-dispatcher)
 
 #### AC-002: All five hook events use the dispatcher; no private-repo path in settings.json
 - **Method:** build-output
-- **Test:** `jq` + `grep -c my-claude-setup-private settings.json` returns 0
+- **Test:** `test-stubs/test_acceptance.py` > `test_ac_002_settings_wiring`
 - **Status:** verified
-- **Evidence:** grep -c my-claude-setup-private settings.json = 0; five events point at hooks/telemetry-dispatch.sh
+- **Evidence:** test_ac_002_settings_wiring (automated pytest: 5 events on dispatcher, 0 private-path occurrences)
 - **Verified-by:** looper #59 (feat/59-fail-soft-telemetry-dispatcher)
 
-#### AC-003: Missing private path yields exit 0, no output, no python3 spawn
+#### AC-003: Missing DEFAULT path yields exit 0 and silence; explicit env misconfig warns (exit 0); child failures never exit 2
 - **Method:** unit-test
-- **Test:** `test-stubs/test_acceptance.py` > `test_ac_003_missing_path_noop`
+- **Test:** `test-stubs/test_acceptance.py` > `test_ac_003_missing_default_noop` (+ explicit-env warn, exit-2 normalization)
 - **Status:** verified
-- **Evidence:** test_ac_003_missing_path_noop passed (exit 0, empty stdout/stderr)
+- **Evidence:** test_ac_003_missing_default_noop (default path absent: exit 0, silent) + test_ac_003_explicit_env_var_missing_warns (explicit misconfig warns on stderr, still exit 0) + test_hook_failure_never_exits_2 (child exit 2 normalized to 1)
 - **Verified-by:** looper #59 (feat/59-fail-soft-telemetry-dispatcher)
 
 ### US-002: Session default model to tier alias (F1)
