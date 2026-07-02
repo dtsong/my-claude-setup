@@ -83,22 +83,22 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 #### AC-010: No 2024-era IDs; replacements validated via list_models()
 - **Method:** build-output
 - **Test:** `grep -cE 'gpt-4o-mini|gemini-flash-1.5' skills/council/model-routing.json` returns 0
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** routing table now openai/gpt-5.4-nano (classification), google/gemini-3.5-flash (scout-research), openai/gpt-5.4-mini (scoring); all 3 verified live against the public catalog 2026-07-02 (338 models; gemini-flash-1.5 confirmed GONE, would have 404ed)
+- **Verified-by:** looper #62 (feat/62-openrouter-id-refresh)
 
 #### AC-011: Refresh mechanism exists (script or documented procedure, wired or scheduled)
 - **Method:** manual-check
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** mcp/openrouter/check_models.py exits 1 on stale IDs; cadence (monthly + before enabling callers) documented in mcp/openrouter/README.md and _id_refresh key in the routing table
+- **Verified-by:** looper #62 (feat/62-openrouter-id-refresh)
 
 #### AC-012: OpenRouter pytest suite passes with new IDs
 - **Method:** unit-test
 - **Test:** `python3 -m pytest mcp/openrouter/tests/ -q`
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** python3 -m pytest mcp/openrouter/tests/ -q: 25 passed, 1 skipped
+- **Verified-by:** looper #62 (feat/62-openrouter-id-refresh)
 
 ### US-005: Unified routing table (F5)
 
@@ -212,9 +212,9 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-007 | Workload allowlist | build-output | verified | see detail |
 | AC-008 | Deny list intact | build-output | verified | see detail |
 | AC-009 | Local experiment lane | build-output | verified | see detail |
-| AC-010 | No stale IDs | build-output | pending | — |
-| AC-011 | Refresh mechanism | manual-check | pending | — |
-| AC-012 | OpenRouter tests pass | unit-test | pending | — |
+| AC-010 | No stale IDs | build-output | verified | see detail |
+| AC-011 | Refresh mechanism | manual-check | verified | see detail |
+| AC-012 | OpenRouter tests pass | unit-test | verified | see detail |
 | AC-013 | Routing schema shape | unit-test | pending | — |
 | AC-014 | Routing validator | unit-test | pending | — |
 | AC-015 | Routing doc table | manual-check | pending | — |
@@ -230,4 +230,4 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-025 | Reference template | build-output | pending | — |
 | AC-026 | Graceful degradation | manual-check | pending | — |
 
-Progress: 9/26 verified
+Progress: 12/26 verified

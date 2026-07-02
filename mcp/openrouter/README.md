@@ -48,3 +48,16 @@ Note: both the tool-failure signal (`{"error", "error_kind", "fallback": "claude
 python3 -m pytest .            # unit (no network)
 OPENROUTER_SMOKE=1 python3 -m pytest tests/test_smoke.py -v   # live, costs tokens
 ```
+
+## Model ID freshness
+
+OpenRouter retires model IDs; a stale ID 404s at request time and silently
+collapses routing to the Claude fallback. Verify before enabling callers:
+
+```bash
+cd mcp/openrouter && python3 check_models.py
+```
+
+Cadence: monthly, and always before wiring a new `routed_consult` caller.
+Last verified: 2026-07-02 (see `_id_refresh` in skills/council/model-routing.json).
+Scheduled-routine automation is a v1.1 candidate once telemetry is durable.

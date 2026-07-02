@@ -24,7 +24,7 @@ def consult(model: str, system: str, prompt: str,
     """Call an arbitrary OpenRouter-hosted model, single-shot.
 
     Args:
-        model: OpenRouter model id, e.g. "openai/gpt-4o-mini".
+        model: OpenRouter model id, e.g. "openai/gpt-5.4-nano".
         system: System prompt (persona / instructions).
         prompt: User prompt for this single turn.
         max_tokens: Max completion tokens (default 1024).

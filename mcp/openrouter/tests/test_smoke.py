@@ -11,7 +11,7 @@ import openrouter_client as oc
 )
 def test_live_cheap_call():
     out = oc.consult(
-        "openai/gpt-4o-mini",
+        "openai/gpt-5.4-nano",
         "You reply with exactly one word.",
         "Say the word: ping",
     )
