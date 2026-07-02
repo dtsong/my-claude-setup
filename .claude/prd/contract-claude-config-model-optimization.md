@@ -1,0 +1,1 @@
+/Users/danielsong/Development/my-claude-setup/.claude/council/sessions/claude-config-model-optimization-20260702-0003/acceptance-contract.md

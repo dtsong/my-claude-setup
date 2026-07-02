@@ -1,40 +1,39 @@
 ---
-active: false
-phase: "complete"
-created_at: "2026-03-26T00:00:00-07:00"
-updated_at: "2026-03-26T01:30:00-07:00"
-max_review_cycles: 3
-merge_strategy: "squash"
-max_retries: 3
-contract: null
-constraints: null
+active: true
+phase: "executing"
+started_at: "2026-07-02T01:05:00-07:00"
+updated_at: "2026-07-02T01:05:00-07:00"
+config:
+  from_session: "claude-config-model-optimization-20260702-0003"
+  contract: ".claude/council/sessions/claude-config-model-optimization-20260702-0003/acceptance-contract.md"
+  max_review_cycles: 3
+  merge_strategy: "squash"
+  no_merge: false
+  max_retries: 3
+  constraints: "No em dashes in any generated content, docs, or commit messages. Repo verification surface is pre-commit + pytest only (no tsc/eslint; state this explicitly). settings.json is live via ~/.claude symlink: reconcile the existing uncommitted diff, do not clobber tui/skipWorkflowUsageWarning keys."
 ---
 
-# Ship State: Council Roster Gap Resolution
+# Ship State: claude-config-model-optimization
 
-## Issue Queue
+## Issue Queue (topological order)
 
-| Issue | Title | Dependencies | Status | PR | Impl Attempts | Review Cycles |
-|-------|-------|-------------|--------|-----|---------------|---------------|
-| #33 | Create Foundry agent persona (Copper Lens) | — | merged | #42 | 1 | 0 |
-| #37 | Add i18n-review skill to Advocate | — | merged | #43 | 1 | 0 |
-| #38 | Add a11y-audit skill to Advocate | — | merged | #48 | 1 | 0 |
-| #39 | Add finops-analysis skill to Operator | — | merged | #48 | 1 | 0 |
-| #40 | Add distributed-patterns skill to Architect | — | merged | #48 | 1 | 0 |
-| #41 | Add e2e-testing skill to Craftsman | — | merged | #48 | 1 | 0 |
-| #34 | Create Foundry department and skills | #33 | merged | #48 | 1 | 0 |
-| #36 | Add hw-security-signoff bridging skill to Forge | #33 | merged | #48 | 1 | 0 |
-| #35 | Register Foundry in council roster and registry | #33, #34 | merged | #48 | 1 | 0 |
+| Order | Issue | Title | Depends On | Status | PR | Impl Attempts | Review Cycles |
+|-------|-------|-------|------------|--------|----|--------------:|--------------:|
+| 1 | #59 | [US-001] Fail-soft telemetry dispatcher (F3a) | — | queued | — | 0 | 0 |
+| 2 | #60 | [US-002] Session default model to tier alias, 1M conflict resolved (F1) | — | queued | — | 0 | 0 |
+| 3 | #61 | [US-003] Permissions allowlist rewrite + settings.local.json lane (F2) | — | queued | — | 0 | 0 |
+| 4 | #62 | [US-004] OpenRouter model ID refresh + rot prevention (F4) | — | queued | — | 0 | 0 |
+| 5 | #64 | [US-006] settings.json JSON-schema pre-commit guard | #60 | queued | — | 0 | 0 |
+| 6 | #63 | [US-005] Unified two-account routing table (F5) | #60, #62 | queued | — | 0 | 0 |
+| 7 | #65 | [US-007] Dormant suite extraction to my-claude-setup-private (F7) | — | queued | — | 0 | 0 |
+| 8 | #66 | [US-008] Council HTML presentation layer (F10) | — | queued | — | 0 | 0 |
+
+Dependency notes: all deps are in-batch. No cycles. #58 is the acceptance-contract tracking issue (not implemented directly; checkboxes updated as criteria verify). Prior completed run (March, roster-gap #33-#41) superseded by this state.
 
 ## Progress
 
-All 9 issues implemented and merged across 3 PRs:
-- PR #42: Foundry agent persona (solo)
-- PR #43: i18n-review skill (solo)
-- PR #48: Consolidated remaining 7 issues (a11y, finops, distributed, e2e, Foundry dept, Forge bridge, roster registration)
+(none yet)
 
 ## Decisions
 
-- Consolidated PRs #44-47 into #48 to resolve registry.json merge conflicts
-- Wave 1 parallel implementation used 6 isolated worktree agents
-- Wave 2-3 dependencies resolved via single consolidated branch
+- 2026-07-02: Queue built from session issues.md; topological order places #64 before #63 (both wait on #60; #63 also waits on #62).

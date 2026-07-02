@@ -49,16 +49,7 @@
     ],
     "defaultMode": "acceptEdits"
   },
-  "model": "opus",
-  "mcpServers": {
-    "openrouter": {
-      "command": "/Users/danielsong/Development/my-claude-setup/mcp/openrouter/.venv/bin/python",
-      "args": ["/Users/danielsong/Development/my-claude-setup/mcp/openrouter/server.py"],
-      "env": {
-        "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
-      }
-    }
-  },
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -77,7 +68,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
@@ -88,7 +80,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
@@ -99,7 +92,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
@@ -110,7 +104,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
@@ -121,7 +116,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
@@ -157,9 +153,21 @@
     }
   },
   "effortLevel": "high",
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "dark-ansi",
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "skipWorkflowUsageWarning": true
+  "mcpServers": {
+    "openrouter": {
+      "command": "/Users/danielsong/Development/my-claude-setup/mcp/openrouter/.venv/bin/python",
+      "args": [
+        "/Users/danielsong/Development/my-claude-setup/mcp/openrouter/server.py"
+      ],
+      "env": {
+        "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+      }
+    }
+  }
 }

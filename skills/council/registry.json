@@ -1,135 +1,405 @@
 {
   "version": "2.1",
-  "last_updated": "2026-04-24",
+  "last_updated": "2026-07-02",
   "departments": {
     "architect": {
       "skills": {
-        "codebase-context": { "uses": 0, "last_used": null, "sessions": [] },
-        "schema-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "api-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "distributed-patterns": { "uses": 0, "last_used": null, "sessions": [] }
+        "codebase-context": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization"
+          ]
+        },
+        "schema-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "api-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "distributed-patterns": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "skeptic": {
       "skills": {
-        "threat-model": { "uses": 0, "last_used": null, "sessions": [] },
-        "failure-mode-analysis": { "uses": 0, "last_used": null, "sessions": [] },
-        "edge-case-enumeration": { "uses": 0, "last_used": null, "sessions": [] }
+        "threat-model": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization"
+          ]
+        },
+        "failure-mode-analysis": {
+          "uses": 2,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization",
+            "klearpath-gtm-acceleration"
+          ]
+        },
+        "edge-case-enumeration": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "advocate": {
       "skills": {
-        "journey-mapping": { "uses": 0, "last_used": null, "sessions": [] },
-        "interaction-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "i18n-review": { "uses": 0, "last_used": null, "sessions": [] },
-        "a11y-audit": { "uses": 0, "last_used": null, "sessions": [] }
+        "journey-mapping": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "interaction-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "i18n-review": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "a11y-audit": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "craftsman": {
       "skills": {
-        "testing-strategy": { "uses": 0, "last_used": null, "sessions": [] },
-        "pattern-analysis": { "uses": 0, "last_used": null, "sessions": [] },
-        "e2e-testing": { "uses": 0, "last_used": null, "sessions": [] }
+        "testing-strategy": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "pattern-analysis": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization"
+          ]
+        },
+        "e2e-testing": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "scout": {
       "skills": {
-        "library-evaluation": { "uses": 0, "last_used": null, "sessions": [] },
-        "competitive-analysis": { "uses": 0, "last_used": null, "sessions": [] },
-        "technology-radar": { "uses": 0, "last_used": null, "sessions": [] }
+        "library-evaluation": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "competitive-analysis": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "klearpath-gtm-acceleration"
+          ]
+        },
+        "technology-radar": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization"
+          ]
+        },
+        "enterprise-search-strategy": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "klearpath-gtm-acceleration"
+          ]
+        }
       }
     },
     "strategist": {
       "skills": {
-        "mvp-scoping": { "uses": 0, "last_used": null, "sessions": [] },
-        "impact-estimation": { "uses": 0, "last_used": null, "sessions": [] },
-        "analytics-design": { "uses": 0, "last_used": null, "sessions": [] }
+        "mvp-scoping": {
+          "uses": 2,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization",
+            "klearpath-gtm-acceleration"
+          ]
+        },
+        "impact-estimation": {
+          "uses": 2,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization",
+            "klearpath-gtm-acceleration"
+          ]
+        },
+        "analytics-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "operator": {
       "skills": {
-        "deployment-plan": { "uses": 0, "last_used": null, "sessions": [] },
-        "observability-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "cost-analysis": { "uses": 0, "last_used": null, "sessions": [] },
-        "finops-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+        "deployment-plan": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "observability-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "cost-analysis": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization"
+          ]
+        },
+        "finops-analysis": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "chronicler": {
       "skills": {
-        "documentation-plan": { "uses": 0, "last_used": null, "sessions": [] },
-        "adr-template": { "uses": 0, "last_used": null, "sessions": [] },
-        "changelog-design": { "uses": 0, "last_used": null, "sessions": [] }
+        "documentation-plan": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "klearpath-gtm-acceleration"
+          ]
+        },
+        "adr-template": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "changelog-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "guardian": {
       "skills": {
-        "compliance-review": { "uses": 0, "last_used": null, "sessions": [] },
-        "data-classification": { "uses": 0, "last_used": null, "sessions": [] },
-        "audit-trail-design": { "uses": 0, "last_used": null, "sessions": [] }
+        "compliance-review": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "data-classification": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "audit-trail-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "tuner": {
       "skills": {
-        "performance-audit": { "uses": 0, "last_used": null, "sessions": [] },
-        "caching-strategy": { "uses": 0, "last_used": null, "sessions": [] },
-        "load-modeling": { "uses": 0, "last_used": null, "sessions": [] }
+        "performance-audit": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "caching-strategy": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "load-modeling": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "alchemist": {
       "skills": {
-        "schema-evaluation": { "uses": 0, "last_used": null, "sessions": [] },
-        "pipeline-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "ml-workflow": { "uses": 0, "last_used": null, "sessions": [] }
+        "schema-evaluation": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "pipeline-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "ml-workflow": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "pathfinder": {
       "skills": {
-        "platform-audit": { "uses": 0, "last_used": null, "sessions": [] },
-        "navigation-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "device-integration": { "uses": 0, "last_used": null, "sessions": [] }
+        "platform-audit": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "navigation-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "device-integration": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "artisan": {
       "skills": {
-        "visual-audit": { "uses": 0, "last_used": null, "sessions": [] },
-        "design-system-architecture": { "uses": 0, "last_used": null, "sessions": [] },
-        "motion-design": { "uses": 0, "last_used": null, "sessions": [] }
+        "visual-audit": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "design-system-architecture": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "motion-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "herald": {
       "skills": {
-        "growth-engineering": { "uses": 0, "last_used": null, "sessions": [] },
-        "monetization-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "messaging-strategy": { "uses": 0, "last_used": null, "sessions": [] }
+        "growth-engineering": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "klearpath-gtm-acceleration"
+          ]
+        },
+        "monetization-design": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "klearpath-gtm-acceleration"
+          ]
+        },
+        "messaging-strategy": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "sentinel": {
       "skills": {
-        "embedded-architecture": { "uses": 0, "last_used": null, "sessions": [] },
-        "protocol-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "fleet-management": { "uses": 0, "last_used": null, "sessions": [] }
+        "embedded-architecture": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "protocol-design": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "fleet-management": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "oracle": {
       "skills": {
-        "prompt-engineering": { "uses": 0, "last_used": null, "sessions": [] },
-        "rag-architecture": { "uses": 0, "last_used": null, "sessions": [] },
-        "ai-evaluation": { "uses": 0, "last_used": null, "sessions": [] }
+        "prompt-engineering": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization"
+          ]
+        },
+        "rag-architecture": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "ai-evaluation": {
+          "uses": 1,
+          "last_used": "2026-07-02",
+          "sessions": [
+            "claude-config-model-optimization"
+          ]
+        }
       }
     },
     "cipher": {
       "skills": {
-        "crypto-review": { "uses": 0, "last_used": null, "sessions": [] },
-        "pqc-readiness": { "uses": 0, "last_used": null, "sessions": [] },
-        "protocol-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+        "crypto-review": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "pqc-readiness": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "protocol-analysis": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "foundry": {
       "skills": {
-        "chip-design-flow": { "uses": 0, "last_used": null, "sessions": [] },
-        "verification-methodology": { "uses": 0, "last_used": null, "sessions": [] },
-        "soc-integration": { "uses": 0, "last_used": null, "sessions": [] },
-        "verilator-simulation": { "uses": 0, "last_used": null, "sessions": [] }
+        "chip-design-flow": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "verification-methodology": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "soc-integration": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "verilator-simulation": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "accountant": {
@@ -137,23 +407,59 @@
     },
     "forge": {
       "skills": {
-        "microarch-analysis": { "uses": 0, "last_used": null, "sessions": [] },
-        "physical-design-security": { "uses": 0, "last_used": null, "sessions": [] },
-        "rtl-security-review": { "uses": 0, "last_used": null, "sessions": [] },
-        "hw-security-signoff": { "uses": 0, "last_used": null, "sessions": [] }
+        "microarch-analysis": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "physical-design-security": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "rtl-security-review": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "hw-security-signoff": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "prover": {
       "skills": {
-        "formal-spec": { "uses": 0, "last_used": null, "sessions": [] },
-        "invariant-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+        "formal-spec": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "invariant-analysis": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     },
     "warden": {
       "skills": {
-        "hw-sw-boundary": { "uses": 0, "last_used": null, "sessions": [] },
-        "isolation-review": { "uses": 0, "last_used": null, "sessions": [] },
-        "kernel-hardening": { "uses": 0, "last_used": null, "sessions": [] }
+        "hw-sw-boundary": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "isolation-review": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        },
+        "kernel-hardening": {
+          "uses": 0,
+          "last_used": null,
+          "sessions": []
+        }
       }
     }
   }
