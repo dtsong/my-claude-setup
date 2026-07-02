@@ -16,3 +16,13 @@ Rules:
 - `settings.json.model` holds a tier alias only (`opus`, `sonnet`, `haiku`, `fable`). Pinned `claude-*` IDs are forbidden: they go stale and bypass profile routing.
 - No `[1m]` context suffix: `CLAUDE_CODE_DISABLE_1M_CONTEXT=1` is the deliberate stance for this meta-config repo (no workload here needs 1M context). One state, no self-cancelling pairs.
 - 1M context, if ever needed, is a per-session decision made by removing the env flag AND selecting a 1M-capable model explicitly, not a standing default.
+
+## Experiment Lane: settings.local.json
+
+`settings.json` is live production config (symlinked to `~/.claude/settings.json`)
+and stays clean, minimal, and schema-verified. Experiments go in a local overlay:
+
+- Project-scoped: `.claude/settings.local.json` (per-repo overrides while testing)
+- Both filenames are gitignored (`settings.local.json`, `**/settings.local.json`)
+- Rule: an experiment graduates into `settings.json` only via a reviewed PR; anything
+  living in the local file longer than two weeks is either promoted or deleted
