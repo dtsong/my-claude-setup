@@ -97,7 +97,7 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 - **Method:** unit-test
 - **Test:** `python3 -m pytest mcp/openrouter/tests/ -q`
 - **Status:** verified
-- **Evidence:** python3 -m pytest mcp/openrouter/tests/ -q: 25 passed, 1 skipped
+- **Evidence:** python3 -m pytest mcp/openrouter/tests/ -q: 31 passed, 1 skipped (incl. 6 check_models tests covering missing-table, empty-set, network-failure, stale-ID, all-live paths)
 - **Verified-by:** looper #62 (feat/62-openrouter-id-refresh)
 
 ### US-005: Unified routing table (F5)
