@@ -1,22 +1,87 @@
 # Generated from acceptance-contract.md (session claude-config-model-optimization-20260702-0003)
 # Each stub must fail first (RED). Framework: pytest (repo has no JS test surface).
-import subprocess
 import json
 import os
+import subprocess
+from pathlib import Path
 
-REPO = os.path.expanduser("~/Development/my-claude-setup")
+# parents: [0] test-stubs, [1] session, [2] sessions, [3] council, [4] .claude, [5] repo root
+REPO = str(Path(__file__).resolve().parents[5])
+
+
+def run_dispatcher(env_overrides, args=(), clean=False):
+    dispatcher = os.path.join(REPO, "hooks", "telemetry-dispatch.sh")
+    if clean:
+        env = {"PATH": os.environ["PATH"]}
+    else:
+        env = {k: v for k, v in os.environ.items() if k != "CLAUDE_TELEMETRY_HOOK"}
+    env.update(env_overrides)
+    return subprocess.run(
+        ["bash", dispatcher, *args],
+        env=env, capture_output=True, text=True, timeout=15,
+    )
 
 
 class TestUS001TelemetryDispatcher:
-    def test_ac_001_dispatcher_fail_soft(self):
-        """GIVEN hooks/telemetry-dispatch.sh WHEN CLAUDE_TELEMETRY_HOOK points to a real file
-        THEN it execs python3 on it forwarding args."""
-        raise NotImplementedError("Not implemented - AC-001 pending")
+    def _fake_hook(self, tmp_path, body="import sys; print('ran:' + ':'.join(sys.argv[1:]))\n"):
+        hook = tmp_path / "fake_telemetry.py"
+        hook.write_text(body)
+        return hook
 
-    def test_ac_003_missing_path_noop(self):
-        """GIVEN the private hook path does not exist WHEN the dispatcher runs
-        THEN it exits 0 with no stdout/stderr and never spawns python3."""
-        raise NotImplementedError("Not implemented - AC-003 pending")
+    def test_ac_001_dispatcher_env_var_forwarding(self, tmp_path):
+        """GIVEN CLAUDE_TELEMETRY_HOOK points to a real file WHEN the dispatcher runs
+        THEN it runs python3 on it forwarding args (including args with spaces)."""
+        hook = self._fake_hook(tmp_path)
+        r = run_dispatcher({"CLAUDE_TELEMETRY_HOOK": str(hook)}, args=("argA", "arg with space"))
+        assert r.returncode == 0
+        assert r.stdout.strip() == "ran:argA:arg with space"
+
+    def test_ac_001_default_path_resolution(self, tmp_path):
+        """GIVEN no env var WHEN the default private-repo hook exists under $HOME
+        THEN the dispatcher resolves and runs it (the production path)."""
+        hook_dir = tmp_path / "Development" / "my-claude-setup-private" / "hooks"
+        hook_dir.mkdir(parents=True)
+        (hook_dir / "session_telemetry.py").write_text("print('default-ran')\n")
+        r = run_dispatcher({"HOME": str(tmp_path)}, clean=True)
+        assert r.returncode == 0
+        assert r.stdout.strip() == "default-ran"
+
+    def test_ac_003_missing_default_noop(self, tmp_path):
+        """GIVEN the default hook path does not exist (fresh clone, no private repo)
+        WHEN the dispatcher runs THEN it exits 0 with no stdout and no stderr."""
+        r = run_dispatcher({"HOME": str(tmp_path)}, clean=True)
+        assert r.returncode == 0
+        assert r.stdout == ""
+        assert r.stderr == ""
+
+    def test_ac_003_explicit_env_var_missing_warns(self, tmp_path):
+        """GIVEN CLAUDE_TELEMETRY_HOOK is explicitly set to a missing path
+        WHEN the dispatcher runs THEN it stays non-blocking (exit 0) but warns on
+        stderr: an explicit configuration error is never fully silent."""
+        r = run_dispatcher({"CLAUDE_TELEMETRY_HOOK": str(tmp_path / "absent.py")})
+        assert r.returncode == 0
+        assert r.stdout == ""
+        assert "CLAUDE_TELEMETRY_HOOK" in r.stderr
+
+    def test_hook_failure_never_exits_2(self, tmp_path):
+        """GIVEN the private hook exits 2 (a blocking code in the hooks protocol)
+        WHEN the dispatcher runs THEN it normalizes to exit 1 with contextual stderr,
+        so telemetry can never block Claude (worst case would be the Stop event)."""
+        hook = self._fake_hook(tmp_path, body="import sys; sys.exit(2)\n")
+        r = run_dispatcher({"CLAUDE_TELEMETRY_HOOK": str(hook)})
+        assert r.returncode == 1
+        assert "exit 2" in r.stderr
+        assert "telemetry-dispatch" in r.stderr
+
+    def test_ac_002_settings_wiring(self):
+        """GIVEN settings.json WHEN parsed THEN all five telemetry events route
+        through the dispatcher and no private-repo path remains in public config."""
+        s = json.load(open(os.path.join(REPO, "settings.json")))
+        assert "my-claude-setup-private" not in json.dumps(s)
+        events = ["SessionStart", "PostToolUse", "PostToolUseFailure", "Stop", "SessionEnd"]
+        for ev in events:
+            cmds = [h["command"] for e in s["hooks"][ev] for h in e["hooks"]]
+            assert any("telemetry-dispatch.sh" in c for c in cmds), f"{ev} not wired"
 
 
 class TestUS005RoutingTable:

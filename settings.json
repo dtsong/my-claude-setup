@@ -68,7 +68,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
@@ -79,7 +80,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
@@ -90,7 +92,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
@@ -101,7 +104,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
@@ -112,7 +116,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py\""
+            "command": "bash -c 'f=\"$HOME/Development/my-claude-setup/hooks/telemetry-dispatch.sh\"; [ -f \"$f\" ] || exit 0; exec bash \"$f\"'",
+            "timeout": 10
           }
         ]
       }
