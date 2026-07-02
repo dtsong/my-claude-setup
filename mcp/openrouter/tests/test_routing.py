@@ -12,7 +12,7 @@ def test_default_routing_path_points_at_council_config():
 
 def test_load_routing_reads_real_config():
     data = routing.load_routing()
-    assert data["tasks"]["classification"] == "openai/gpt-4o-mini"
+    assert data["tasks"]["classification"] == "openai/gpt-5.4-nano"
     assert data["defaults"]["fallback"] == "claude"
 
 
@@ -27,9 +27,9 @@ def test_load_routing_bad_json_returns_empty(tmp_path):
 
 
 def test_resolve_task_model_known():
-    data = {"tasks": {"classification": "openai/gpt-4o-mini"},
+    data = {"tasks": {"classification": "openai/gpt-5.4-nano"},
             "defaults": {"fallback": "claude"}}
-    assert routing.resolve_task_model(data, "classification") == "openai/gpt-4o-mini"
+    assert routing.resolve_task_model(data, "classification") == "openai/gpt-5.4-nano"
 
 
 def test_resolve_task_model_unknown_falls_back():
@@ -47,13 +47,13 @@ def test_resolve_lens_model_default():
 
 
 def test_resolve_lens_model_override():
-    data = {"lenses": {"scout": "google/gemini-flash-1.5"},
+    data = {"lenses": {"scout": "google/gemini-3.5-flash"},
             "defaults": {"lens": "claude"}}
-    assert routing.resolve_lens_model(data, "scout") == "google/gemini-flash-1.5"
+    assert routing.resolve_lens_model(data, "scout") == "google/gemini-3.5-flash"
 
 
 SUCCESS_BODY = {
-    "model": "openai/gpt-4o-mini",
+    "model": "openai/gpt-5.4-nano",
     "choices": [{"message": {"content": "spam"}}],
     "usage": {"prompt_tokens": 4, "completion_tokens": 1},
 }
@@ -66,14 +66,14 @@ def test_routed_consult_routes_to_cheap_model():
         captured["model"] = payload["model"]
         return 200, SUCCESS_BODY
 
-    table = {"tasks": {"classification": "openai/gpt-4o-mini"},
+    table = {"tasks": {"classification": "openai/gpt-5.4-nano"},
              "defaults": {"fallback": "claude"}}
     out = routing.routed_consult(
         "classification", "classify this", "input text",
         routing=table, api_key="sk-x", transport=fake_transport,
     )
     assert out["text"] == "spam"
-    assert captured["model"] == "openai/gpt-4o-mini"
+    assert captured["model"] == "openai/gpt-5.4-nano"
 
 
 def test_routed_consult_claude_task_skips_network():
@@ -94,7 +94,7 @@ def test_routed_consult_unmapped_task_falls_back_to_claude():
 
 
 def test_routed_consult_propagates_consult_failure():
-    table = {"tasks": {"classification": "openai/gpt-4o-mini"},
+    table = {"tasks": {"classification": "openai/gpt-5.4-nano"},
              "defaults": {"fallback": "claude"}}
     out = routing.routed_consult(
         "classification", "s", "p", routing=table, api_key="sk-x",

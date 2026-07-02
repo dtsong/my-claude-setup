@@ -1,12 +1,16 @@
 {
   "tasks": {
-    "classification": "openai/gpt-4o-mini",
-    "scout-research": "google/gemini-flash-1.5",
-    "scoring": "openai/gpt-4o-mini"
+    "classification": "openai/gpt-5.4-nano",
+    "scout-research": "google/gemini-3.5-flash",
+    "scoring": "openai/gpt-5.4-mini"
   },
   "lenses": {},
   "defaults": {
     "lens": "claude",
     "fallback": "claude"
+  },
+  "_id_refresh": {
+    "checked": "2026-07-02",
+    "procedure": "python3 mcp/openrouter/check_models.py (see mcp/openrouter/README.md; run monthly and before enabling any routed_consult caller)"
   }
 }

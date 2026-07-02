@@ -5,8 +5,8 @@ import openrouter_client as oc
 
 
 def test_build_payload_minimal():
-    payload = oc.build_payload("openai/gpt-4o-mini", "be terse", "hello")
-    assert payload["model"] == "openai/gpt-4o-mini"
+    payload = oc.build_payload("openai/gpt-5.4-nano", "be terse", "hello")
+    assert payload["model"] == "openai/gpt-5.4-nano"
     assert payload["messages"] == [
         {"role": "system", "content": "be terse"},
         {"role": "user", "content": "hello"},
@@ -30,7 +30,7 @@ def test_build_headers():
 
 
 SUCCESS_BODY = {
-    "model": "openai/gpt-4o-mini",
+    "model": "openai/gpt-5.4-nano",
     "choices": [{"message": {"role": "assistant", "content": "hi there"}}],
     "usage": {"prompt_tokens": 7, "completion_tokens": 3},
 }
@@ -40,7 +40,7 @@ def test_parse_success():
     out = oc.parse_success(SUCCESS_BODY)
     assert out == {
         "text": "hi there",
-        "model": "openai/gpt-4o-mini",
+        "model": "openai/gpt-5.4-nano",
         "usage": {"prompt_tokens": 7, "completion_tokens": 3},
     }
 
@@ -61,12 +61,12 @@ def test_consult_happy_path():
         captured["payload"] = payload
         return 200, SUCCESS_BODY
 
-    out = oc.consult("openai/gpt-4o-mini", "sys", "usr",
+    out = oc.consult("openai/gpt-5.4-nano", "sys", "usr",
                      api_key="sk-x", transport=fake_transport)
     assert out["text"] == "hi there"
     assert captured["url"] == oc.OPENROUTER_URL
     assert captured["headers"]["Authorization"] == "Bearer sk-x"
-    assert captured["payload"]["model"] == "openai/gpt-4o-mini"
+    assert captured["payload"]["model"] == "openai/gpt-5.4-nano"
 
 
 def test_consult_missing_key_fails_soft(monkeypatch):
