@@ -99,13 +99,38 @@ class TestUS005RoutingTable:
 
 
 class TestUS006SettingsSchemaGuard:
-    def test_ac_017_settings_schema_hook(self):
-        """GIVEN the settings.json JSON-schema pre-commit hook WHEN run on current
-        settings.json THEN it passes."""
-        raise NotImplementedError("Not implemented - AC-017 pending")
+    HOOK = os.path.join(REPO, "pipeline", "hooks", "check_settings.py")
 
-    def test_ac_018_schema_negative_cases(self):
+    def _run(self, target):
+        return subprocess.run(
+            ["python3", self.HOOK, str(target)],
+            capture_output=True, text=True, timeout=15,
+        )
+
+    def test_ac_017_settings_schema_hook(self):
+        """GIVEN the settings.json schema pre-commit hook WHEN run on current
+        settings.json THEN it passes."""
+        r = self._run(os.path.join(REPO, "settings.json"))
+        assert r.returncode == 0, r.stderr
+
+    def test_ac_018_schema_negative_cases(self, tmp_path):
         """GIVEN fixture settings with (a) pinned claude-* model ID, (b) [1m] suffix,
         (c) absolute private-repo path in a hook command WHEN validated
         THEN the hook fails on each."""
-        raise NotImplementedError("Not implemented - AC-018 pending")
+        base = json.load(open(os.path.join(REPO, "settings.json")))
+
+        pinned = dict(base, model="claude-fable-5")
+        suffixed = dict(base, model="opus[1m]")
+        private = json.loads(json.dumps(base))
+        private["hooks"]["Stop"][0]["hooks"][0]["command"] = (
+            'python3 "$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py"'
+        )
+        cases = {"pinned.settings.json": (pinned, "L1"),
+                 "suffixed.settings.json": (suffixed, "L2"),
+                 "private.settings.json": (private, "L3")}
+        for name, (fixture, marker) in cases.items():
+            p = tmp_path / name
+            p.write_text(json.dumps(fixture, indent=2))
+            r = self._run(p)
+            assert r.returncode == 1, f"{name} unexpectedly passed"
+            assert marker in r.stderr, f"{name}: expected {marker} finding, got: {r.stderr}"
