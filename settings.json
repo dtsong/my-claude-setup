@@ -22,7 +22,11 @@
       "Bash(pre-commit run *)",
       "Bash(pytest *)",
       "Bash(python3 *)",
-      "Bash(gh *)",
+      "Bash(gh pr *)",
+      "Bash(gh issue *)",
+      "Bash(gh label *)",
+      "Bash(gh repo view *)",
+      "Bash(gh auth status)",
       "Bash(jq *)",
       "Bash(git status)",
       "Bash(git diff *)",
@@ -52,7 +56,11 @@
       "Bash(npm publish *)",
       "Bash(curl * | sh)",
       "Bash(wget *)",
-      "Bash(chmod *)"
+      "Bash(chmod *)",
+      "Bash(gh repo delete *)",
+      "Bash(gh secret set *)",
+      "Bash(gh gist create *)",
+      "Bash(gh repo create *)"
     ],
     "defaultMode": "acceptEdits"
   },

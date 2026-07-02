@@ -61,14 +61,14 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 - **Method:** build-output
 - **Test:** `jq` assertions on permissions.allow
 - **Status:** verified
-- **Evidence:** allow list = 23 entries: pre-commit/pytest/python3/gh/jq + Write scopes for agents,commands,skills,hooks,pipeline,docs,mcp; npm/tsc/src/tests entries removed
+- **Evidence:** allow list = 27 entries: pre-commit/pytest/python3/jq + gh scoped to pr/issue/label/repo-view/auth-status (blanket gh * rejected in review: unprompted repo delete/secret set/gist exfil on live global config) + Write scopes for agents,commands,skills,hooks,pipeline,docs,mcp; npm/tsc/src/tests removed
 - **Verified-by:** looper #61 (feat/61-permissions-rewrite)
 
 #### AC-008: Deny list preserved intact
 - **Method:** build-output
 - **Test:** `jq` diff of permissions.deny vs baseline
 - **Status:** verified
-- **Evidence:** deny list byte-identical (22 entries, asserted in rewrite script)
+- **Evidence:** deny strengthened, nothing weakened: original 22 entries intact + 4 gh guards (repo delete, secret set, gist create, repo create)
 - **Verified-by:** looper #61 (feat/61-permissions-rewrite)
 
 #### AC-009: settings.local.json gitignored and documented
