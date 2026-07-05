@@ -17,6 +17,13 @@ repos:
         files: ^settings\.json$
         pass_filenames: true
 
+      - id: model-routing
+        name: model-routing (hard)
+        entry: python3 pipeline/hooks/check_model_routing.py
+        language: system
+        files: ^skills/council/model-routing\.json$
+        pass_filenames: true
+
       - id: skill-frontmatter
         name: skill-frontmatter (hard)
         entry: python3 pipeline/hooks/check_frontmatter.py

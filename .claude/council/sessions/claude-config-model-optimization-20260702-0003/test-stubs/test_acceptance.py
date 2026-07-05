@@ -85,17 +85,67 @@ class TestUS001TelemetryDispatcher:
 
 
 class TestUS005RoutingTable:
+    TABLE = os.path.join(REPO, "skills", "council", "model-routing.json")
+    HOOK = os.path.join(REPO, "pipeline", "hooks", "check_model_routing.py")
+    REQUIRED_SITES = [
+        "session_default", "council.lean", "council.balanced", "council.max",
+        "brainstorm", "challenge", "audit", "ship_implement", "ship_review",
+        "looper", "subagent", "routed_consult", "cheap_tasks",
+    ]
+
+    def _run(self, target):
+        return subprocess.run(
+            ["python3", self.HOOK, str(target)],
+            capture_output=True, text=True, timeout=15,
+        )
+
     def test_ac_013_routing_schema_shape(self):
         """GIVEN skills/council/model-routing.json WHEN parsed
         THEN it contains tiers, profiles.max-plan, profiles.api-billed, spawn_sites
         (all required sites), and egress_policy per external destination."""
-        raise NotImplementedError("Not implemented - AC-013 pending")
+        r = json.load(open(self.TABLE))
+        for alias in ("opus", "sonnet", "haiku", "fable"):
+            assert alias in r["tiers"], f"tiers missing {alias}"
+        assert "max-plan" in r["profiles"] and "api-billed" in r["profiles"]
+        for site in self.REQUIRED_SITES:
+            assert site in r["spawn_sites"], f"spawn_sites missing {site}"
+            for profile in ("max-plan", "api-billed"):
+                assert profile in r["spawn_sites"][site], f"{site} missing {profile}"
+            assert "effort" in r["spawn_sites"][site], f"{site} missing effort"
+        externals = {v[p] for v in r["spawn_sites"].values()
+                     for p in ("max-plan", "api-billed") if v[p] == "openrouter"}
+        if externals:
+            assert "openrouter" in r["egress_policy"]
+        assert self._run(self.TABLE).returncode == 0
 
-    def test_ac_014_routing_validator(self):
-        """GIVEN the routing validator WHEN fed a pinned claude-* ID in a tier slot,
-        a spawn site missing a profile entry, or an external destination without
-        egress_policy THEN validation fails for each case."""
-        raise NotImplementedError("Not implemented - AC-014 pending")
+    def test_ac_014_routing_validator(self, tmp_path):
+        """GIVEN the routing validator WHEN fed a pinned claude-* ID in a spawn-site
+        slot, a spawn site missing a profile entry, or an external destination
+        without egress_policy THEN validation fails for each case."""
+        base = json.load(open(self.TABLE))
+
+        pinned = json.loads(json.dumps(base))
+        pinned["spawn_sites"]["session_default"]["max-plan"] = "claude-opus-4-8"
+
+        missing_profile = json.loads(json.dumps(base))
+        del missing_profile["spawn_sites"]["audit"]["api-billed"]
+
+        no_egress = json.loads(json.dumps(base))
+        del no_egress["egress_policy"]["openrouter"]
+
+        bad_fallback = json.loads(json.dumps(base))
+        bad_fallback["defaults"]["fallback"] = "openrouter"
+
+        cases = {"pinned.json": (pinned, "R1"),
+                 "missing-profile.json": (missing_profile, "R2"),
+                 "no-egress.json": (no_egress, "R3"),
+                 "bad-fallback.json": (bad_fallback, "R5")}
+        for name, (fixture, marker) in cases.items():
+            p = tmp_path / name
+            p.write_text(json.dumps(fixture, indent=2))
+            r = self._run(p)
+            assert r.returncode == 1, f"{name} unexpectedly passed"
+            assert marker in r.stderr, f"{name}: expected {marker}, got: {r.stderr}"
 
 
 class TestUS006SettingsSchemaGuard:

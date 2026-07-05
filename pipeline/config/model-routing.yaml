@@ -1,5 +1,7 @@
 # Model Routing Configuration
 # See specs/SKILL-MODEL-ROUTING-SPEC.md for full specification.
+# Tier IDs must mirror skills/council/model-routing.json "tiers" (the single
+# sanctioned home for concrete claude-* IDs; see docs/model-routing.md).
 spec_version: "1.4"
 
 # Default model preferences by skill classification
@@ -41,7 +43,7 @@ tiers:
     claude_code: claude-haiku-4-5-20251001
     cost_ratio: 1
   sonnet:
-    claude_code: claude-sonnet-4-6
+    claude_code: claude-sonnet-5
     cost_ratio: 5
   opus:
     claude_code: claude-opus-4-8

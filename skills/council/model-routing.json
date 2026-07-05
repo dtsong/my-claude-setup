@@ -1,4 +1,48 @@
 {
+  "spec_version": "2.0",
+  "_comment": "Single source of truth for model routing (issue #63, council design 2026-07-02). spawn_sites hold TIER ALIASES only (opus|sonnet|haiku|fable), plus 'inherit' (follow session model) or 'openrouter' (resolve via tasks map; requires egress_policy). Concrete claude-* IDs live ONLY in tiers. Validated by pipeline/hooks/check_model_routing.py (pre-commit, hard). Human-readable table: docs/model-routing.md.",
+  "tiers": {
+    "haiku": { "max-plan": "claude-haiku-4-5-20251001", "api-billed": "claude-haiku-4-5-20251001" },
+    "sonnet": { "max-plan": "claude-sonnet-5", "api-billed": "claude-sonnet-5" },
+    "opus": { "max-plan": "claude-opus-4-8", "api-billed": "claude-opus-4-8" },
+    "fable": { "max-plan": "claude-fable-5", "api-billed": "claude-fable-5" }
+  },
+  "profiles": {
+    "max-plan": {
+      "description": "Personal Max plan: rate limits, not dollars. Quality ceiling; cheap work stays in-family (free under plan) with zero egress.",
+      "cost_basis": "rate-limit budget; optimize cost per successful outcome, not per token"
+    },
+    "api-billed": {
+      "description": "Work account: dollars per token. Sonnet default, manual escalation; OpenRouter Pattern B trial behind cost ceiling, eval-gated.",
+      "cost_basis": "dollars; cached input is ~1/10 price, so keep prompts append-only before downshifting models"
+    }
+  },
+  "spawn_sites": {
+    "session_default": { "max-plan": "opus", "api-billed": "sonnet", "effort": "high" },
+    "council.lean": { "max-plan": "sonnet", "api-billed": "sonnet", "effort": "high" },
+    "council.balanced": { "max-plan": "opus", "api-billed": "opus", "effort": "high" },
+    "council.max": { "max-plan": "opus", "api-billed": "opus", "effort": "high" },
+    "brainstorm": { "max-plan": "sonnet", "api-billed": "sonnet", "effort": "low" },
+    "challenge": { "max-plan": "fable", "api-billed": "opus", "effort": "max", "note": "fable falls back to opus on spawn error; cap pair count" },
+    "audit": { "max-plan": "sonnet", "api-billed": "sonnet", "effort": "medium" },
+    "ship_implement": { "max-plan": "opus", "api-billed": "sonnet", "effort": "high" },
+    "ship_review": { "max-plan": "sonnet", "api-billed": "sonnet", "effort": "high", "note": "user direction 2026-07-02 (delegate reviews to sonnet) supersedes the council's fable/opus recommendation; escalate to opus on repeat failure" },
+    "looper": { "max-plan": "opus", "api-billed": "sonnet", "effort": "high" },
+    "subagent": { "max-plan": "inherit", "api-billed": "inherit", "effort": "inherit", "note": "0 of 38 agent files carry model frontmatter; subagents follow the session model by design" },
+    "routed_consult": { "max-plan": "haiku", "api-billed": "openrouter", "effort": "low", "note": "NO callers may be wired until the F11 12-case smoke eval passes (council gate)" },
+    "cheap_tasks": { "max-plan": "haiku", "api-billed": "openrouter", "effort": "low", "note": "Max plan: in-family Haiku 4.5, temp 0, free under plan, zero egress. OpenRouter on Max is Hold (bills dollars +5.5% fee to avoid a free call)" }
+  },
+  "egress_policy": {
+    "openrouter": {
+      "status": "hold-on-max, trial-on-api, eval-gated",
+      "send_allowlist": ["task-instruction-text", "structured-output-schemas"],
+      "forbid": ["file-contents", "secrets", "proprietary-work-account-code", "council-transcripts"],
+      "zdr": true,
+      "no_train": true,
+      "audit_actual_model": true,
+      "kill_switch": "set defaults.fallback=claude and empty the tasks map; routing.py degrades without error"
+    }
+  },
   "tasks": {
     "classification": "openai/gpt-5.4-nano",
     "scout-research": "google/gemini-3.5-flash",
