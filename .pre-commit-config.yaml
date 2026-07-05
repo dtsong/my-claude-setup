@@ -10,6 +10,13 @@ repos:
 
   - repo: local
     hooks:
+      - id: settings-schema
+        name: settings-schema (hard)
+        entry: python3 pipeline/hooks/check_settings.py
+        language: system
+        files: ^settings\.json$
+        pass_filenames: true
+
       - id: skill-frontmatter
         name: skill-frontmatter (hard)
         entry: python3 pipeline/hooks/check_frontmatter.py

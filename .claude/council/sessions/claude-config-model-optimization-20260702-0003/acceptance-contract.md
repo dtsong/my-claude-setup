@@ -134,22 +134,22 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 #### AC-017: JSON-schema + pre-commit hook validate settings.json
 - **Method:** unit-test
 - **Test:** `test-stubs/test_acceptance.py` > `test_ac_017_settings_schema_hook`
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** pipeline/config/settings.schema.json + pipeline/hooks/check_settings.py (built-in minimal validator, no deps) wired as settings-schema (hard) in .pre-commit-config.yaml; passes on current settings.json; test_ac_017 green
+- **Verified-by:** looper #64 (feat/64-settings-schema-guard)
 
 #### AC-018: Hook fails on pinned IDs, [1m] suffixes, private-repo paths
 - **Method:** unit-test
 - **Test:** `test-stubs/test_acceptance.py` > `test_ac_018_schema_negative_cases`
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** test_ac_018_schema_negative_cases: pinned claude-fable-5 -> L1 fail, opus[1m] -> L2 fail, private-repo hook path -> L3 fail (all exit 1)
+- **Verified-by:** looper #64 (feat/64-settings-schema-guard)
 
 #### AC-019: pre-commit run --all-files passes on final tree
 - **Method:** build-output
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** pre-commit run --all-files exit 0 with settings-schema (hard) Passed
+- **Verified-by:** looper #64 (feat/64-settings-schema-guard)
 
 ### US-007: Dormant suite extraction (F7)
 
@@ -219,9 +219,9 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-014 | Routing validator | unit-test | pending | — |
 | AC-015 | Routing doc table | manual-check | pending | — |
 | AC-016 | Engine references table | build-output | pending | — |
-| AC-017 | Settings schema hook | unit-test | pending | — |
-| AC-018 | Schema negative cases | unit-test | pending | — |
-| AC-019 | pre-commit all green | build-output | pending | — |
+| AC-017 | Settings schema hook | unit-test | verified | see detail |
+| AC-018 | Schema negative cases | unit-test | verified | see detail |
+| AC-019 | pre-commit all green | build-output | verified | see detail |
 | AC-020 | Extraction pre-flight | manual-check | pending | — |
 | AC-021 | Atomic move + manifest | manual-check | pending | — |
 | AC-022 | No dangling refs | build-output | pending | — |
@@ -230,4 +230,4 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-025 | Reference template | build-output | pending | — |
 | AC-026 | Graceful degradation | manual-check | pending | — |
 
-Progress: 12/26 verified
+Progress: 15/26 verified
