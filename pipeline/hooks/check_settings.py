@@ -66,17 +66,24 @@ def validate(instance, schema, path="$"):
     return errors
 
 
+TIER_ALIASES = {"opus", "sonnet", "haiku", "fable"}
+
+
 def lint(settings, raw):
     errors = []
-    model = settings.get("model", "")
-    if re.match(r"^claude-", model):
-        errors.append(f"L1 model: pinned ID '{model}' forbidden; use a tier alias (opus|sonnet|haiku|fable)")
+    model = settings.get("model")
+    if isinstance(model, str) and model not in TIER_ALIASES:
+        errors.append(f"L1 model: '{model}' is not a tier alias; use one of {sorted(TIER_ALIASES)} (pinned IDs and bare 'claude' forbidden)")
     if "[1m]" in raw:
         errors.append("L2: '[1m]' suffix present; conflicts with CLAUDE_CODE_DISABLE_1M_CONTEXT stance")
-    for event, entries in settings.get("hooks", {}).items():
-        for entry in entries if isinstance(entries, list) else []:
-            for hook in entry.get("hooks", []):
-                if "my-claude-setup-private" in hook.get("command", ""):
+    hooks = settings.get("hooks")
+    for event, entries in (hooks.items() if isinstance(hooks, dict) else []):
+        for entry in (entries if isinstance(entries, list) else []):
+            if not isinstance(entry, dict):
+                continue
+            inner = entry.get("hooks")
+            for hook in (inner if isinstance(inner, list) else []):
+                if isinstance(hook, dict) and "my-claude-setup-private" in hook.get("command", ""):
                     errors.append(f"L3 hooks.{event}: private-repo path in command; route through hooks/telemetry-dispatch.sh")
     return errors
 

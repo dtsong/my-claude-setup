@@ -5,7 +5,7 @@
   "properties": {
     "model": {
       "type": "string",
-      "pattern": "^(opus|sonnet|haiku|fable|claude)$",
+      "pattern": "^(opus|sonnet|haiku|fable)$",
       "$comment": "Tier aliases only. Pinned claude-* IDs and [1m] suffixes are forbidden (repo governance; see docs/model-routing.md)."
     },
     "env": {

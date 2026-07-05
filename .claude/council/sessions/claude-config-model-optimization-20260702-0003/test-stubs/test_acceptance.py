@@ -125,7 +125,9 @@ class TestUS006SettingsSchemaGuard:
         private["hooks"]["Stop"][0]["hooks"][0]["command"] = (
             'python3 "$HOME/Development/my-claude-setup-private/hooks/session_telemetry.py"'
         )
+        bare_claude = dict(base, model="claude")
         cases = {"pinned.settings.json": (pinned, "L1"),
+                 "bare-claude.settings.json": (bare_claude, "L1"),
                  "suffixed.settings.json": (suffixed, "L2"),
                  "private.settings.json": (private, "L3")}
         for name, (fixture, marker) in cases.items():
@@ -134,3 +136,18 @@ class TestUS006SettingsSchemaGuard:
             r = self._run(p)
             assert r.returncode == 1, f"{name} unexpectedly passed"
             assert marker in r.stderr, f"{name}: expected {marker} finding, got: {r.stderr}"
+
+    def test_malformed_hooks_shape_fails_cleanly(self, tmp_path):
+        """GIVEN hooks with the wrong shape (list instead of dict, non-dict entries)
+        WHEN validated THEN the hook exits 1 with gate findings, never a traceback."""
+        base = json.load(open(os.path.join(REPO, "settings.json")))
+        for name, hooks_value in {
+            "hooks-list.settings.json": ["not", "a", "dict"],
+            "hooks-strentry.settings.json": {"Stop": ["not-a-dict-entry"]},
+        }.items():
+            p = tmp_path / name
+            p.write_text(json.dumps(dict(base, hooks=hooks_value), indent=2))
+            r = self._run(p)
+            assert r.returncode == 1, f"{name} unexpectedly passed"
+            assert "Traceback" not in r.stderr, f"{name} crashed: {r.stderr}"
+            assert "failed the staging gate" in r.stderr
