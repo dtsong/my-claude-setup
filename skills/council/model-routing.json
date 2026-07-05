@@ -24,7 +24,7 @@
     "council.max": { "max-plan": "opus", "api-billed": "opus", "effort": "high" },
     "brainstorm": { "max-plan": "sonnet", "api-billed": "sonnet", "effort": "low" },
     "challenge": { "max-plan": "fable", "api-billed": "opus", "effort": "max", "note": "fable falls back to opus on spawn error; cap pair count" },
-    "audit": { "max-plan": "sonnet", "api-billed": "sonnet", "effort": "medium" },
+    "audit": { "max-plan": "sonnet", "api-billed": "sonnet", "effort": "medium", "note": "defaults for council profiles lean/balanced; the council max profile escalates audit agents to opus (engine cost-profile table)" },
     "ship_implement": { "max-plan": "opus", "api-billed": "sonnet", "effort": "high" },
     "ship_review": { "max-plan": "sonnet", "api-billed": "sonnet", "effort": "high", "note": "user direction 2026-07-02 (delegate reviews to sonnet) supersedes the council's fable/opus recommendation; escalate to opus on repeat failure" },
     "looper": { "max-plan": "opus", "api-billed": "sonnet", "effort": "high" },

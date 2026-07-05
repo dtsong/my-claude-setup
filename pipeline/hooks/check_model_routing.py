@@ -31,15 +31,26 @@ SPECIAL = {"inherit", "openrouter"}
 EGRESS_REQUIRED = ("send_allowlist", "zdr", "no_train", "audit_actual_model", "kill_switch")
 
 
+EFFORT_VALUES = {"low", "medium", "high", "max", "inherit"}
+
+
+def _dict_section(routing, key, errors):
+    value = routing.get(key, {})
+    if not isinstance(value, dict):
+        errors.append(f"{key}: expected object, got {type(value).__name__}")
+        return {}
+    return value
+
+
 def check(routing):
     errors = []
-    tiers = routing.get("tiers", {})
-    spawn_sites = routing.get("spawn_sites", {})
-    egress = routing.get("egress_policy", {})
+    tiers = _dict_section(routing, "tiers", errors)
+    spawn_sites = _dict_section(routing, "spawn_sites", errors)
+    egress = _dict_section(routing, "egress_policy", errors)
+    defaults = _dict_section(routing, "defaults", errors)
 
-    if not isinstance(spawn_sites, dict) or not spawn_sites:
+    if not spawn_sites:
         errors.append("spawn_sites: missing or empty (the table is the single source of truth)")
-        spawn_sites = {}
 
     referenced_aliases = set()
     external_used = False
@@ -63,6 +74,9 @@ def check(routing):
                 external_used = True
             elif value != "inherit":
                 errors.append(f"R1 spawn_sites.{site}.{profile}: '{value}' is not a tier alias, 'inherit', or 'openrouter'")
+        effort = entry.get("effort")
+        if effort not in EFFORT_VALUES:
+            errors.append(f"R6 spawn_sites.{site}: effort must be one of {sorted(EFFORT_VALUES)}, got {effort!r}")
 
     if external_used:
         policy = egress.get("openrouter")
@@ -82,7 +96,7 @@ def check(routing):
             if not isinstance(tier.get(profile), str) or not tier.get(profile):
                 errors.append(f"R4 tiers.{alias}.{profile}: concrete model ID required")
 
-    if routing.get("defaults", {}).get("fallback") != "claude":
+    if defaults.get("fallback") != "claude":
         errors.append("R5 defaults.fallback: must stay 'claude' (fail-soft invariant for routing.py)")
     for legacy in ("tasks", "lenses"):
         if legacy in routing and not isinstance(routing[legacy], dict):

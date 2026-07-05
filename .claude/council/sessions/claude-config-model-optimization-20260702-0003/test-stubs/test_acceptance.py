@@ -136,16 +136,40 @@ class TestUS005RoutingTable:
         bad_fallback = json.loads(json.dumps(base))
         bad_fallback["defaults"]["fallback"] = "openrouter"
 
+        missing_effort = json.loads(json.dumps(base))
+        del missing_effort["spawn_sites"]["brainstorm"]["effort"]
+
         cases = {"pinned.json": (pinned, "R1"),
                  "missing-profile.json": (missing_profile, "R2"),
                  "no-egress.json": (no_egress, "R3"),
-                 "bad-fallback.json": (bad_fallback, "R5")}
+                 "bad-fallback.json": (bad_fallback, "R5"),
+                 "missing-effort.json": (missing_effort, "R6")}
         for name, (fixture, marker) in cases.items():
             p = tmp_path / name
             p.write_text(json.dumps(fixture, indent=2))
             r = self._run(p)
             assert r.returncode == 1, f"{name} unexpectedly passed"
             assert marker in r.stderr, f"{name}: expected {marker}, got: {r.stderr}"
+
+    def test_validator_malformed_sections_fail_cleanly(self, tmp_path):
+        """GIVEN top-level sections with wrong JSON types (list, string, null)
+        WHEN validated THEN clean findings and exit 1, never a traceback."""
+        base = json.load(open(self.TABLE))
+        for name, mutation in {
+            "tiers-list.json": ("tiers", ["not", "a", "dict"]),
+            "tiers-null.json": ("tiers", None),
+            "defaults-str.json": ("defaults", "claude"),
+            "egress-list.json": ("egress_policy", ["x"]),
+        }.items():
+            fixture = json.loads(json.dumps(base))
+            key, value = mutation
+            fixture[key] = value
+            p = tmp_path / name
+            p.write_text(json.dumps(fixture, indent=2))
+            r = self._run(p)
+            assert r.returncode == 1, f"{name} unexpectedly passed"
+            assert "Traceback" not in r.stderr, f"{name} crashed: {r.stderr}"
+            assert "failed validation" in r.stderr
 
 
 class TestUS006SettingsSchemaGuard:

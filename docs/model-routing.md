@@ -21,7 +21,7 @@ model. `openrouter` resolves through the `tasks` map and is governed by
 | council.max | opus | opus | high |
 | brainstorm | sonnet | sonnet | low |
 | challenge (Round 2 adversarial) | fable (opus fallback) | opus | max |
-| audit | sonnet | sonnet | medium |
+| audit | sonnet (opus under council `--profile max`) | sonnet | medium |
 | ship_implement | opus | sonnet | high |
 | ship_review | sonnet (user direction 2026-07-02; opus on repeat failure) | sonnet | high |
 | looper | opus | sonnet | high |
