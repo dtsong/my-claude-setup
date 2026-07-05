@@ -14,6 +14,7 @@ keeps it structurally sound:
       carry a concrete ID per profile (the ONE sanctioned home for claude-* IDs)
   R5  legacy keys (tasks/lenses/defaults) keep the shapes mcp/openrouter/routing.py
       expects, and defaults.fallback stays 'claude' (fail-soft invariant)
+  R6  every spawn site declares an effort in {low, medium, high, max, inherit}
 
 Exit 0 on pass, 1 with findings on stderr.
 """
