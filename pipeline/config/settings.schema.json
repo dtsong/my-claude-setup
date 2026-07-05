@@ -1,0 +1,65 @@
+{
+  "$comment": "Structural contract for settings.json (issue #64, AC-017/AC-018). Validated by pipeline/hooks/check_settings.py with a built-in minimal validator (subset: type, required, properties, patternProperties, additionalProperties, items, pattern, enum). The file is LIVE user config via the ~/.claude/settings.json symlink; this schema is the staging gate.",
+  "type": "object",
+  "required": ["model", "permissions", "hooks"],
+  "properties": {
+    "model": {
+      "type": "string",
+      "pattern": "^(opus|sonnet|haiku|fable)$",
+      "$comment": "Tier aliases only. Pinned claude-* IDs and [1m] suffixes are forbidden (repo governance; see docs/model-routing.md)."
+    },
+    "env": {
+      "type": "object",
+      "patternProperties": { "^[A-Z][A-Z0-9_]*$": { "type": "string" } },
+      "additionalProperties": false
+    },
+    "permissions": {
+      "type": "object",
+      "required": ["allow", "deny"],
+      "properties": {
+        "allow": { "type": "array", "items": { "type": "string" } },
+        "deny": { "type": "array", "items": { "type": "string" } },
+        "defaultMode": { "type": "string", "enum": ["default", "acceptEdits", "dontAsk", "bypassPermissions", "plan"] }
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "patternProperties": {
+        "^(PreToolUse|PostToolUse|PostToolUseFailure|Notification|UserPromptSubmit|Stop|SubagentStop|PreCompact|SessionStart|SessionEnd)$": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["hooks"],
+            "properties": {
+              "matcher": { "type": "string" },
+              "hooks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["type", "command"],
+                  "properties": {
+                    "type": { "type": "string", "enum": ["command"] },
+                    "command": { "type": "string" },
+                    "timeout": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "statusLine": { "type": "object" },
+    "enabledPlugins": { "type": "object" },
+    "extraKnownMarketplaces": { "type": "object" },
+    "mcpServers": { "type": "object" },
+    "effortLevel": { "type": "string", "enum": ["low", "medium", "high", "xhigh", "max"] },
+    "tui": { "type": "string" },
+    "theme": { "type": "string" },
+    "skipDangerousModePermissionPrompt": { "type": "boolean" },
+    "skipWorkflowUsageWarning": { "type": "boolean" },
+    "agentPushNotifEnabled": { "type": "boolean" },
+    "skipAutoPermissionPrompt": { "type": "boolean" }
+  }
+}
