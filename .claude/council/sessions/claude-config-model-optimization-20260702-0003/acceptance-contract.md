@@ -105,29 +105,29 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 #### AC-013: model-routing.json extended with tiers/profiles/spawn_sites/egress_policy
 - **Method:** unit-test
 - **Test:** `test-stubs/test_acceptance.py` > `test_ac_013_routing_schema_shape`
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** model-routing.json spec 2.0: tiers (4 aliases x 2 profiles, concrete IDs), profiles, 13 spawn_sites each with max-plan/api-billed/effort, egress_policy.openrouter with all 5 safeguard fields; test_ac_013 green
+- **Verified-by:** looper #63 (feat/63-unified-routing-table)
 
 #### AC-014: Validation test rejects pinned IDs, missing profiles, missing egress_policy
 - **Method:** unit-test
 - **Test:** `test-stubs/test_acceptance.py` > `test_ac_014_routing_validator`
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** pipeline/hooks/check_model_routing.py (pre-commit, hard): R1 pinned-ID rejection, R2 profile completeness, R3 egress-policy requirement, R4 tier resolution, R5 fail-soft fallback; 4 negative fixtures in test_ac_014 all fail with correct markers
+- **Verified-by:** looper #63 (feat/63-unified-routing-table)
 
 #### AC-015: Routing design doc renders full spawn-site x profile table with Max/API rules
 - **Method:** manual-check
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** docs/model-routing.md: full 13-row spawn-site x profile table, profile rules, Selection Principles (cost per successful outcome, effort dimension, caching, context hygiene, eval pitfalls, transcript-first debugging), other-surfaces cross-reference
+- **Verified-by:** looper #63 (feat/63-unified-routing-table)
 
 #### AC-016: Engine cost-profile section references model-routing.json as source of truth
 - **Method:** build-output
 - **Test:** `grep -c model-routing.json commands/_council-engine.md` >= 1 in the cost-profile section
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** _council-engine.md Cost Profiles section names model-routing.json as source of truth (JSON wins on disagreement); pipeline/config/model-routing.yaml tiers synced (claude-sonnet-4-6 -> claude-sonnet-5) with mirror comment
+- **Verified-by:** looper #63 (feat/63-unified-routing-table)
 
 ### US-006: settings.json schema guard
 
@@ -215,10 +215,10 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-010 | No stale IDs | build-output | verified | see detail |
 | AC-011 | Refresh mechanism | manual-check | verified | see detail |
 | AC-012 | OpenRouter tests pass | unit-test | verified | see detail |
-| AC-013 | Routing schema shape | unit-test | pending | — |
-| AC-014 | Routing validator | unit-test | pending | — |
-| AC-015 | Routing doc table | manual-check | pending | — |
-| AC-016 | Engine references table | build-output | pending | — |
+| AC-013 | Routing schema shape | unit-test | verified | see detail |
+| AC-014 | Routing validator | unit-test | verified | see detail |
+| AC-015 | Routing doc table | manual-check | verified | see detail |
+| AC-016 | Engine references table | build-output | verified | see detail |
 | AC-017 | Settings schema hook | unit-test | verified | see detail |
 | AC-018 | Schema negative cases | unit-test | verified | see detail |
 | AC-019 | pre-commit all green | build-output | verified | see detail |
@@ -230,4 +230,4 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-025 | Reference template | build-output | pending | — |
 | AC-026 | Graceful degradation | manual-check | pending | — |
 
-Progress: 15/26 verified
+Progress: 19/26 verified

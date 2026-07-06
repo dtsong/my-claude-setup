@@ -104,6 +104,8 @@ Models are fixed at spawn time, so routing is keyed by **spawn site**:
 
 Pass the routed tier as the `model:` parameter on every Task spawn, and as each roster entry's `model` in workflow args. Always use tier aliases (`sonnet`, `opus`, `fable`) — never pinned `claude-*` model IDs (they go stale; the validator rejects them in agent frontmatter).
 
+Source of truth: this table is the prose rendering of `skills/council/model-routing.json` (spec 2.0, `spawn_sites` keyed by profile), validated by `pipeline/hooks/check_model_routing.py`. When editing routing, change the JSON first and update this table to match; on disagreement the JSON wins. Human-readable overview: `docs/model-routing.md`.
+
 **Estimated session cost** (total tokens, 5-agent baseline — scale roughly by `selected agents / 5`):
 
 | Mode | lean | balanced | max |
