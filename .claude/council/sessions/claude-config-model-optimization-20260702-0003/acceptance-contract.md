@@ -155,29 +155,29 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 
 #### AC-020: Pre-flight reference enumeration + /ece coupling documented
 - **Method:** manual-check
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** Pre-flight found extraction ALREADY DONE for ece/resume-tailor/soc-security (untracked symlinks into my-claude-setup-private since 2026-04/06, gitignored block 'Private repo symlinks'); only docx-to-pdf remained tracked. /ece coupling documented in README: themed layer over the public _council-engine.md, engine stays public. Remaining tracked refs are historical comments only (pipeline/hooks/_utils.py, pipeline/scripts/run-evals.sh example, spec changelog line)
+- **Verified-by:** looper #65 (feat/65-dormant-suite-extraction)
 
 #### AC-021: Atomic extraction commit + README manifest/pointer
 - **Method:** manual-check
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** docx-to-pdf absorbed into my-claude-setup-private (commit d93d62c), removed from public tracking in one commit with symlink + gitignore line matching siblings; README 'Extracted Suites' manifest table + restore path added
+- **Verified-by:** looper #65 (feat/65-dormant-suite-extraction)
 
 #### AC-022: Reference-integrity hook passes; no dangling refs
 - **Method:** build-output
 - **Test:** `pre-commit run --all-files`; `grep -rE 'ece-|resume-tailor|soc-security|docx-to-pdf'` audit
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** pre-commit run --all-files exit 0 (incl. reference-integrity hooks); functional dangling-ref audit clean (one historical changelog line in SKILL-GOVERNANCE-SPEC.md, non-functional)
+- **Verified-by:** looper #65 (feat/65-dormant-suite-extraction)
 
 #### AC-023: No secrets travel with the suites
 - **Method:** build-output
 - **Test:** secrets scan on the private-repo commit
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** gitleaks detect over my-claude-setup-private: 8 commits, 2.16MB scanned, no leaks found (exit 0)
+- **Verified-by:** looper #65 (feat/65-dormant-suite-extraction)
 
 ### US-008: HTML presentation layer (F10)
 
@@ -222,12 +222,12 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-017 | Settings schema hook | unit-test | verified | see detail |
 | AC-018 | Schema negative cases | unit-test | verified | see detail |
 | AC-019 | pre-commit all green | build-output | verified | see detail |
-| AC-020 | Extraction pre-flight | manual-check | pending | — |
-| AC-021 | Atomic move + manifest | manual-check | pending | — |
-| AC-022 | No dangling refs | build-output | pending | — |
-| AC-023 | No secrets travel | build-output | pending | — |
+| AC-020 | Extraction pre-flight | manual-check | verified | see detail |
+| AC-021 | Atomic move + manifest | manual-check | verified | see detail |
+| AC-022 | No dangling refs | build-output | verified | see detail |
+| AC-023 | No secrets travel | build-output | verified | see detail |
 | AC-024 | Engine HTML directive | build-output | pending | — |
 | AC-025 | Reference template | build-output | pending | — |
 | AC-026 | Graceful degradation | manual-check | pending | — |
 
-Progress: 19/26 verified
+Progress: 23/26 verified

@@ -228,6 +228,26 @@ my-claude-setup/
 └── install.sh           # Symlink installer (with --uninstall)
 ```
 
+## Extracted Suites (Private Companion Repo)
+
+Off-workload capability lives in the private sibling repo `my-claude-setup-private`,
+not here. Its `install.sh` symlinks the suites back into this tree for machines
+that want them; the symlink paths are gitignored, so a clone of this public repo
+simply does not carry them.
+
+| Suite | Contents | Extracted |
+|-------|----------|-----------|
+| ECE (EE Design Council) | 15 `agents/ece-*.md` personas, `commands/ece.md` themed layer, `skills/ece/` departments | 2026-04-04 |
+| soc-security | SOC analysis skill suite | 2026-04-04 |
+| resume-tailor | Resume tailoring skills + `commands/tailor.md` | 2026-06-10 |
+| docx-to-pdf | DOCX to PDF conversion skill | 2026-07-06 (session claude-config-model-optimization) |
+| research-consulting-skills | Research consulting suite | 2026-04-04 |
+
+Coupling note: `commands/ece.md` is a themed layer over the public shared engine
+(`commands/_council-engine.md`). The engine stays public; the private repo only
+supplies the theme. Restore path: clone the private repo as a sibling and run its
+installer, or copy a suite back and remove the matching `.gitignore` lines.
+
 ## Customization
 
 ### Level 1: Use As-Is
