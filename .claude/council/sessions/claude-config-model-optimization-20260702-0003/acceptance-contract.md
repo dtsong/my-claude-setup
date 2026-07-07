@@ -156,7 +156,7 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 #### AC-020: Pre-flight reference enumeration + /ece coupling documented
 - **Method:** manual-check
 - **Status:** verified
-- **Evidence:** Pre-flight found extraction ALREADY DONE for ece/resume-tailor/soc-security (untracked symlinks into my-claude-setup-private since 2026-04/06, gitignored block 'Private repo symlinks'); only docx-to-pdf remained tracked. /ece coupling documented in README: themed layer over the public _council-engine.md, engine stays public. Remaining tracked refs are historical comments only (pipeline/_utils.py, run-evals.sh example, spec changelog line)
+- **Evidence:** Pre-flight found extraction ALREADY DONE for ece/resume-tailor/soc-security (untracked symlinks into my-claude-setup-private since 2026-04/06, gitignored block 'Private repo symlinks'); only docx-to-pdf remained tracked. /ece coupling documented in README: themed layer over the public _council-engine.md, engine stays public. Remaining tracked refs are historical comments only (pipeline/hooks/_utils.py, pipeline/scripts/run-evals.sh example, spec changelog line)
 - **Verified-by:** looper #65 (feat/65-dormant-suite-extraction)
 
 #### AC-021: Atomic extraction commit + README manifest/pointer
