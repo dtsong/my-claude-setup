@@ -184,21 +184,21 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 #### AC-024: Engine synthesis touchpoint generates design.html and opens it before approval
 - **Method:** build-output
 - **Test:** grep engine synthesis section for design.html generation directive
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** _council-engine.md synthesis section: 'HTML verdict render (Standard / Deep / Guided)' block instructs conductor to fill the reference template from the synthesis payload, write $SESSION_DIR/design.html, and open it before the AskUserQuestion approval
+- **Verified-by:** looper #66 (feat/66-council-html-layer)
 
 #### AC-025: Reference HTML template exists under skills/council/references/
 - **Method:** build-output
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** skills/council/references/design-verdict.template.html (10.3KB pure HTML asset, exempt from prose token budgets; governance hooks scope ^skills/.*\.md$): lens-color spectrum + bench, two-track rails, tension ledger with per-agent dots and centered verdicts, risk cards, decision-log table, BEGIN/END repeat markers and {{...}} placeholders; derived from this session's design.html
+- **Verified-by:** looper #66 (feat/66-council-html-layer)
 
 #### AC-026: Graceful degradation to text-only flow on HTML failure
 - **Method:** manual-check
-- **Status:** pending
-- **Evidence:** —
-- **Verified-by:** —
+- **Status:** verified
+- **Evidence:** Engine step 3 'Graceful degradation': missing template, failed write, or no GUI browser skips the render silently; design.md stays the artifact of record and AskUserQuestion remains the sole approval mechanism
+- **Verified-by:** looper #66 (feat/66-council-html-layer)
 
 ## Verification Summary
 | ID | Criterion | Method | Status | Evidence |
@@ -226,8 +226,8 @@ Session: claude-config-model-optimization-20260702-0003 | PRD: prd.md | Status: 
 | AC-021 | Atomic move + manifest | manual-check | verified | see detail |
 | AC-022 | No dangling refs | build-output | verified | see detail |
 | AC-023 | No secrets travel | build-output | verified | see detail |
-| AC-024 | Engine HTML directive | build-output | pending | — |
-| AC-025 | Reference template | build-output | pending | — |
-| AC-026 | Graceful degradation | manual-check | pending | — |
+| AC-024 | Engine HTML directive | build-output | verified | see detail |
+| AC-025 | Reference template | build-output | verified | see detail |
+| AC-026 | Graceful degradation | manual-check | verified | see detail |
 
-Progress: 23/26 verified
+Progress: 26/26 verified
