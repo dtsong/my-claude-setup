@@ -177,3 +177,4 @@ Plan ongoing quality monitoring:
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | drove the 12/38-case gate design; the eval-pitfall checklist earned a permanent place in docs/model-routing.md -->

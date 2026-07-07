@@ -162,3 +162,4 @@ Plan for prompt evolution:
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | eval-before-activation framing came directly from this skill's process; keep -->

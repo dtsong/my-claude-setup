@@ -119,3 +119,4 @@ Document what remains after mitigations are applied. Note accepted risks and the
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | egress finding downgraded OpenRouter Pattern A to gated trial; also produced the settings schema guard -->

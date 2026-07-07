@@ -174,3 +174,4 @@ Evidence for placement:
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | adopt/trial/hold framing landed harness-leverage decisions (swift-lsp swap, auto-memory stays off) -->

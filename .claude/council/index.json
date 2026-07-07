@@ -21,9 +21,9 @@
       "slug": "claude-config-model-optimization",
       "idea": "Examine Claude Code configuration + available models; find optimizations, skill gaps, practical improvements",
       "created": "2026-07-02T00:03:00-07:00",
-      "updated": "2026-07-02T00:55:00-07:00",
+      "updated": "2026-07-06T19:40:00-07:00",
       "phase": "action",
-      "status": "active",
+      "status": "completed",
       "profile": "max",
       "agents": [
         "Oracle",
@@ -47,7 +47,7 @@
         "scout/technology-radar"
       ],
       "contract_generated": true,
-      "contract_issue": null,
+      "contract_issue": "https://github.com/dtsong/my-claude-setup/issues/58",
       "archived_to": null
     }
   ]

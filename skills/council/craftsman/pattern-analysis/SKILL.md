@@ -164,3 +164,4 @@ For each proposed change, check:
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | caught the registry measurement artifact that reversed the pruning decision -->

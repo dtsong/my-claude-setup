@@ -180,3 +180,4 @@ Include milestones and key decision points between phases.
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | MoSCoW cut survived deliberation almost intact; RICE ordering was overridden once by dependency order -->

@@ -162,3 +162,4 @@ Define the financial process:
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | billing-profile cost inversion (Haiku free on Max vs OpenRouter dollars) was this skill's decisive output -->

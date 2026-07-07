@@ -116,3 +116,4 @@ Define rollback approach: feature flags for instant disable, database rollback s
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | private-repo hook blast radius became the v1 ship-blocker -->

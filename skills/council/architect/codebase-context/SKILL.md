@@ -143,3 +143,4 @@ Catalog external APIs, webhooks, third-party services, and any inter-service com
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | briefing surfaced the three-routing-surfaces finding that anchored the whole design -->

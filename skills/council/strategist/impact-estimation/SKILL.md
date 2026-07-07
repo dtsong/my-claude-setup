@@ -161,3 +161,4 @@ For each prioritized feature, define:
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-06 | claude-config-model-optimization | RICE scores drove the ship order debate in R2 -->
