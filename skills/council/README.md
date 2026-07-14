@@ -409,6 +409,8 @@ $WORKSPACE/.claude/council/
   sessions/
     <slug>-<YYYYMMDD-HHmm>/                    # Each session isolated
       session.md                                # Phase tracking, loaded skills
+      session.html                              # Live session page (auto-opens)
+      session-state.json                        # Live page state
       interview-transcript.md                   # Full Q&A record
       interview-summary.md                      # Structured summary with relevance scores
       assembly.md                               # Agent scoring and selection
@@ -420,6 +422,10 @@ $WORKSPACE/.claude/council/
       plan.md                                   # Task breakdown
       prd.md                                    # Product requirements document
 ```
+
+### Live Session Page
+
+Every file-creating mode opens `session.html` in your browser at session start: a single page that fills in as the session progresses. Interview Q&A and detail asides, the assembled bench with scores and lens colors, deliberation positions appearing card by card as agents finish, tension pairs, the design verdict, PRD scope, and verification status. The page auto-refreshes every 10 seconds; a deterministic scribe (`render-session.py`, copied into the session dir) regenerates it whenever an agent or the conductor writes an artifact. No server, no dependencies: if python3 or a browser is missing the session degrades to text-only with zero loss (chat always carries a compact summary of every decision, per the engine's Touchpoint Presentation Contract).
 
 ### Archiving
 
