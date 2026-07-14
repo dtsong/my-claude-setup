@@ -16,6 +16,8 @@
 //   guidedFeedback      user feedback injected into pairing (guided mode, second invocation)
 //   startAtRound        1 (default) | 2 to resume from pairing using round1 files on disk
 //   designTemplate      reserved; "engine" = the engine's design.md section layout
+//   scribePath          optional absolute path to render-session.py; when set, agents
+//                       rerun the live session page after saving their round files
 
 export const meta = {
   name: 'council-deliberation',
@@ -39,6 +41,7 @@ const {
   contextBlock = '', interviewTranscript = '', pairingRules = 'organic',
   roster = [], rounds = 3, maxPairs = 4,
   challengeModel = null, guidedFeedback = null, startAtRound = 1,
+  scribePath = null,
 } = _args
 
 if (!sessionDir || !idea || !Array.isArray(roster) || roster.length === 0) {
@@ -146,6 +149,11 @@ const SYNTHESIS_SCHEMA = {
 const byName = {}
 for (const m of roster) byName[m.name] = m
 
+// Live session page: non-fatal regeneration after each artifact save (F11).
+const scribeNote = scribePath
+  ? `\nAfter saving your file, run this exact command via Bash (non-fatal, it regenerates the live session page): python3 "${scribePath}" "${sessionDir}" || true`
+  : ''
+
 const identityBlock = (m) => `You are ${m.name}, the ${m.color} Lens.
 
 ## Project Context
@@ -180,7 +188,7 @@ Write your position statement:
 
 Save the FULL position to ${sessionDir}/deliberation/round1/${m.name}.md and
 return the structured summary (the summary field must stand alone — the
-conductor reads only summaries).`,
+conductor reads only summaries).${scribeNote}`,
       { agentType: m.agentType, model: m.model, label: `R1:${m.name}`, phase: 'Position', schema: POSITION_SCHEMA }),
   ))).filter(Boolean)
   log(`Round 1 complete: ${positions.length}/${roster.length} positions`)
@@ -238,7 +246,7 @@ Respond using your Challenge format:
 - Your reasoning (1 paragraph)
 
 Save the FULL response to ${sessionDir}/deliberation/round2/${selfName}-responds-to-${otherName}.md
-and return the structured summary.`,
+and return the structured summary.${scribeNote}`,
           { agentType: m.agentType, model: challengeModel || m.model, label: `R2:${selfName}->${otherName}`, phase: 'Challenge', schema: CHALLENGE_SCHEMA })
       }),
   )).filter(Boolean)
@@ -265,7 +273,7 @@ Write your final position using your Converge format:
 - Implementation notes
 
 Save the FULL final position to ${sessionDir}/deliberation/round3/${m.name}.md
-and return the structured summary.`,
+and return the structured summary.${scribeNote}`,
     { agentType: m.agentType, model: m.model, label: `R3:${m.name}`, phase: 'Converge', schema: CONVERGE_SCHEMA }),
 ))).filter(Boolean)
 log(`Round 3 complete: ${finals.length}/${roster.length} final positions`)
@@ -286,7 +294,7 @@ Write the Design Document to ${sessionDir}/design.md with exactly these sections
 ## Decision Log (table: Decision | Options Considered | Chosen | Reasoning)
 
 Return the structured payload mirroring the two tables — the conductor presents
-your payload to the user without re-reading the file.`,
+your payload to the user without re-reading the file.${scribeNote}`,
   { label: 'Synthesis', phase: 'Synthesis', schema: SYNTHESIS_SCHEMA })
 
 if (budget.total) log(`Token budget: ${budget.spent()} spent of ${budget.total}`)
