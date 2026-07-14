@@ -88,6 +88,8 @@ Strip the matched flag from `$ARGUMENTS`. Remaining text is the **idea**.
 
 Backend values: `inline` = plain Task calls; `workflow` = background Workflow run (degrades to teams, then sequential); `teams-preferred` = agent teams when available (degrades per phase notes). Budget = token target passed to the workflow invocation (tune per project size).
 
+Every mode except brainstorm additionally maintains `session.html`, the live session page (see [Touchpoint Presentation Contract](#touchpoint-presentation-contract)).
+
 ### Cost Profiles & Model Routing
 
 `$PROFILE` controls which model tier each spawned agent runs on. Resolution order: `--profile` flag > theme `$DEFAULT_PROFILE` > `balanced`. Persist the resolved profile in `session.md` and the index; sessions without a recorded profile resume as `balanced`.
@@ -235,6 +237,46 @@ PROJECT_CONTEXT:
 4. If not found, proceed normally — no error, just skip the workspace config
 
 Include this context block in every agent's spawn prompt so they understand the project without hardcoded paths.
+
+### Touchpoint Presentation Contract
+
+Every user-facing decision point must be self-contained in chat, and every file-creating session maintains a live HTML window. Both rules exist because context that lives only in a file or a prior turn never reaches the user.
+
+1. **No blind references.** An `AskUserQuestion` may never rely on "the detail above", a previous turn, or a file path as its only context. Restate the decision-relevant facts compactly (a short table or 3-6 bullets) inside the question text itself.
+2. **Detail asides.** When the conductor produces comparison detail mid-phase (option shapes, trade-off tables), it must (a) print a compact rendering in chat, (b) write the full version to `$SESSION_DIR/detail-<n>.md`, and (c) rerun the scribe.
+3. **Live session page setup (Phase 1.1, all file-creating modes; brainstorm excluded).** Copy the scribe and its template into the session dir, write the initial `session-state.json`, render, and open the page once:
+
+   ```bash
+   cp ~/.claude/skills/council/references/render-session.py "$SESSION_DIR/"
+   cp ~/.claude/skills/council/references/session-page.template.html "$SESSION_DIR/"
+   # write session-state.json first (schema below), then:
+   python3 "$SESSION_DIR/render-session.py" "$SESSION_DIR" || true
+   open "$SESSION_DIR/session.html" 2>/dev/null || xdg-open "$SESSION_DIR/session.html" 2>/dev/null || echo "Live page: $SESSION_DIR/session.html"
+   ```
+
+4. **Scribe hooks.** Rerun `python3 "$SESSION_DIR/render-session.py" "$SESSION_DIR" || true` after: each interview round, assembly approval, each deliberation artifact (workflow agents run it themselves via `scribePath`; on teams/sequential backends the conductor runs it between rounds), synthesis, PRD and contract generation, the verification sweep, and cleanup. Update `session-state.json` first at each phase transition.
+5. **`session-state.json` schema of record:**
+
+   ```json
+   {
+     "phase": "deliberation",
+     "complete": false,
+     "idea": "...",
+     "themeName": "Council",
+     "sessionId": "<session-id>",
+     "date": "<YYYY-MM-DD>",
+     "mode": "standard",
+     "profile": "balanced",
+     "backend": "workflow",
+     "roster": [{"name": "Architect", "color": "#60a5fa", "score": 9, "rationale": "...", "skills": ["codebase-context"], "status": "active"}],
+     "tensionPairs": [{"a": "Architect", "b": "Skeptic", "tension": "..."}],
+     "costEstimate": "~120-180K tokens",
+     "phases": ["interview", "assembly", "deliberation", "verdict", "planning", "verification"]
+   }
+   ```
+
+   Set `phases` to only the phases the resolved mode runs (for example quick mode omits `interview` and `verification`).
+6. **Degradation.** A scribe or `open` failure is silent and never blocks the text flow. Markdown files remain the artifacts of record; `AskUserQuestion` remains the sole approval mechanism. In headless environments print the page path once so the user can open it elsewhere.
 
 ---
 
@@ -389,6 +431,8 @@ mkdir -p "$SESSION_DIR/deliberation"/{round1,round2,round3}
 mkdir -p "$WORKSPACE/.claude/prd"
 ```
 
+Then set up the live session page per the [Touchpoint Presentation Contract](#touchpoint-presentation-contract) item 3: copy the scribe and template into `$SESSION_DIR`, write the initial `session-state.json` (`phase: "interview"`, empty roster, the resolved mode/profile/backend), render, and open the page once.
+
 Write session metadata to `$SESSION_DIR/session.md`:
 
 ```markdown
@@ -533,6 +577,8 @@ After each round, append Q&A to `$SESSION_DIR/interview-transcript.md`:
 
 **Update index** — set `updated` timestamp and `phase: "interview"`.
 
+Rerun the scribe after appending each round (contract item 4).
+
 ### Meeting Mode: Light Interview
 
 In **meeting** mode, run only **1 quick round**. Goal: understand the topic and what kind of perspectives are needed. Ask 2-3 clarifying questions, then move on to Phase 2. Skip the full interview summary — write a brief topic summary instead.
@@ -579,7 +625,9 @@ Score each agent 0-10:
 
 ### 2.3 Present Selection
 
-Show the user the selection with scores and rationale before spawning. Use `AskUserQuestion`:
+Before presenting, update `session-state.json` (`phase: "assembly"`, full `roster` with names, lens colors, scores, rationale, and `costEstimate`) and rerun the scribe so the live page shows the full bench detail.
+
+Show the user the selection with scores and rationale before spawning. The table below is mandatory inside the question text (contract item 1: never present bare options). Use `AskUserQuestion`:
 
 ```
 $ASSEMBLY_LABEL
@@ -703,7 +751,10 @@ Run the full R1 → pairing → R2 → R3 → synthesis loop as a background Wor
      maxPairs: 4
      challengeModel: <Round 2 tier from the routing table, or null for balanced (persistent-style prompts still run as fresh agents)>
      designTemplate: "engine"                                    # script knows the design.md section layout
+     scribePath: <absolute $SESSION_DIR>/render-session.py      # agents rerun the live page after each save
    ```
+
+   Before invoking, update `session-state.json` (`phase: "deliberation"`, roster statuses) and rerun the scribe.
 
 2. The run executes in the background — the session stays responsive; check progress via the workflow's progress view if the user asks.
 3. On completion the workflow returns **only** the structured synthesis payload (tension pairs, Tension Resolutions rows, Decision Log rows, overview). All round files and `design.md` are already on disk under `$SESSION_DIR`.
@@ -714,6 +765,8 @@ Run the full R1 → pairing → R2 → R3 → synthesis loop as a background Wor
 **Quick mode (inline backend):** no workflow, no team. Run Round 1 as one parallel batch of one-shot Task calls — for each of the 3 selected agents: `subagent_type` from the roster, `model:` from the routing table, prompt = the Round 1 prompt below plus the instruction to read their persona file for formats. Then produce the design sketch as described under Quick mode below.
 
 **Sequential fallback (neither workflows nor teams):** the conductor drives the same three rounds with plain Task calls — R1 as one parallel batch of one-shots (Round 1 prompt below), pairing by conductor judgment as in Round 2 below, R2/R3 as fresh one-shots whose prompts instruct them to read their own prior round file(s) from `$SESSION_DIR/deliberation/` first. Slower, but identical artifacts.
+
+**Live page on teams/sequential backends:** the conductor reruns the scribe after each round completes (and updates `tensionPairs` in `session-state.json` after pairing). On the workflow backend the agents themselves handle this via `scribePath`.
 
 ### Deliberation via Teams (teams backend)
 
@@ -861,6 +914,7 @@ Update `$SESSION_DIR/session.md` phase to `planning`.
 1. Read the reference template at `~/.claude/skills/council/references/design-verdict.template.html` (structure: masthead with session metadata and lens-color spectrum, two-track plan rails, tension ledger with per-agent lens dots and centered verdicts, risk cards, decision-log table). Fill it from the synthesis payload (overview, tension resolutions, decision log) plus session metadata; substitute the `{{...}}` placeholders and repeat the marked row/card blocks per item. The two-track and risk-card sections are OPTIONAL: fill them only when the payload's decision log carries phased-plan or severity data; otherwise delete them rather than fabricating content or re-reading deliberation files. Use each participating agent's lens color for attribution dots (distinct hex per agent; see the template's color comment).
 2. Write the result to `$SESSION_DIR/design.html` and open it (`open` on macOS, `xdg-open` on Linux).
 3. **Graceful degradation:** if the template is missing, the write fails, or no GUI browser is available, skip the render silently and proceed. The HTML is presentation only; `design.md` remains the artifact of record and `AskUserQuestion` below remains the sole approval mechanism.
+4. Update `session-state.json` (`phase: "verdict"`, `tensionPairs` from the synthesis payload) and rerun the scribe; the live page's Verdict section links to `design.html`.
 
 **Standard / Deep mode:** After synthesis (and the HTML render, when available), present the key decisions to the user via `AskUserQuestion`:
 
@@ -1190,6 +1244,7 @@ git -C $WORKSPACE commit -m "docs($THEME_ID): execution plan and PRD for <idea>"
 
 Update `$SESSION_DIR/session.md` phase to `action`.
 **Update index** — set `phase: "action"`, update timestamp.
+Update `session-state.json` (`phase: "planning"`) and rerun the scribe so the live page shows the PRD scope and contract summary.
 
 ---
 
@@ -1240,6 +1295,7 @@ Progress: N/M verified | F failed | P pending-manual
 
 5. **Block completion** until all non-manual criteria are `verified`
 6. Update the GitHub issue checkboxes via `gh api` for each verified criterion
+7. Update `session-state.json` (`phase: "verification"`) and rerun the scribe
 
 ### Path B: Ralf Handoff
 
@@ -1521,6 +1577,11 @@ $WORKSPACE/.claude/$THEME_ID/
   sessions/
     <slug>-<YYYYMMDD-HHmm>/                  # Each session isolated
       session.md
+      session-state.json                      # Live page state (contract item 5)
+      session.html                            # Live session page (scribe output)
+      render-session.py                       # Scribe copy, pinned per session
+      session-page.template.html              # Template copy, pinned per session
+      detail-*.md                             # Conductor detail asides
       interview-transcript.md
       interview-summary.md
       assembly.md
@@ -1566,6 +1627,7 @@ When resuming:
 3. Read index to get session metadata
 4. Resume from the next phase
 5. Re-spawn agents as needed for remaining phases (use `agents` list from index)
+6. If `$SESSION_DIR/session.html` exists, rerun the scribe and reopen it (contract item 3 open command); if the session predates the live page, set it up fresh per contract item 3
 
 ### Status Values
 
@@ -1757,5 +1819,6 @@ When the session is complete:
 3. Update `$SESSION_DIR/session.md` with completion status
 4. **Update index** — set `status: "completed"`, `phase` to final phase reached, update timestamp
 5. **Update global registry** — set session status to `completed`, update workspace metadata
+6. **Finalize the live page:** set `complete: true` in `session-state.json` and rerun the scribe (this drops the auto-refresh tag)
 
 Artifacts remain in the workspace under `sessions/<session-id>/`. The session history is preserved for reference and future archival.
