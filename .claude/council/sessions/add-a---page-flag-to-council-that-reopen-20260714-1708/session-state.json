@@ -1,0 +1,50 @@
+{
+  "phase": "planning",
+  "complete": true,
+  "idea": "Add a --page flag to /council that reopens the live session page",
+  "themeName": "Council",
+  "sessionId": "add-a---page-flag-to-council-that-reopen-20260714-1708",
+  "date": "2026-07-14",
+  "mode": "quick",
+  "profile": "balanced",
+  "backend": "inline",
+  "roster": [
+    {
+      "name": "Architect",
+      "color": "#60a5fa",
+      "score": 9,
+      "rationale": "Session index lookup, engine flag parsing, resume-adjacent logic",
+      "skills": [
+        "codebase-context"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Craftsman",
+      "color": "#c671e3",
+      "score": 7,
+      "rationale": "Engine doc patterns, flag parity across themed commands, test coverage",
+      "skills": [
+        "pattern-analysis"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Advocate",
+      "color": "#34d399",
+      "score": 7,
+      "rationale": "CLI ergonomics: when users reach for --page and what it should do when ambiguous",
+      "skills": [
+        "interaction-design"
+      ],
+      "status": "active"
+    }
+  ],
+  "tensionPairs": [],
+  "phases": [
+    "assembly",
+    "deliberation",
+    "planning"
+  ],
+  "costEstimate": "~30-50K tokens (quick, balanced, 3 agents)"
+}

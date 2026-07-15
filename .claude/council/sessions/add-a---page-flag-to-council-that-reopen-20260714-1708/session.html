@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!-- Council live session page template (F11).
+     Filled by render-session.py, never by an LLM: every {{PLACEHOLDER}} is
+     substituted programmatically. A copy of this file is placed in each
+     session dir at setup so upgrades never break an in-flight session.
+     Pure HTML asset: exempt from skill prose token budgets by design
+     (governance hooks scope ^skills/.*\.md$). -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Council Live: Add a --page flag to /council that reopens the live session </title>
+<style>
+  :root {
+    --bg: #101218; --panel: #171a22; --panel-2: #1c202a;
+    --line: rgba(232,230,225,0.09); --text: #e8e6e1; --muted: #9ba0ab;
+    --faint: #6b7078; --gate: #e5b95c;
+    --ok: #34d399; --warn: #e5b95c;
+    --serif-display: "Fraunces", Georgia, serif;
+    --serif-body: "Newsreader", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f4ef; --panel: #ffffff; --panel-2: #efece5;
+      --line: rgba(24,26,34,0.12); --text: #1c1e26; --muted: #5b6068;
+      --faint: #8a8f98;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  body { background: var(--bg); color: var(--text); font-family: var(--serif-body); font-size: 16.5px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 32px; }
+  header { padding: 56px 0 0; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; }
+  .kicker .sep { color: var(--faint); }
+  h1 { font-family: var(--serif-display); font-weight: 500; font-size: clamp(30px,4.5vw,50px); line-height: 1.08; letter-spacing: -0.015em; margin: 20px 0 10px; max-width: 24ch; }
+  .spectrum { height: 3px; margin: 28px 0 0; background: linear-gradient(90deg, #60a5fa 0%, #60a5fa 33%, #c671e3 33%, #c671e3 67%, #34d399 67%, #34d399 100%); }
+  .bench { display: flex; flex-wrap: wrap; gap: 10px 22px; padding: 16px 0 0; font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+  .bench span { display: inline-flex; align-items: center; gap: 7px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+  .tracker { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 30px 0 0; font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .tracker li { padding: 6px 14px; border: 1px solid var(--line); border-radius: 99px; color: var(--faint); }
+  .tracker li.t-done { color: var(--ok); border-color: rgba(52,211,153,0.4); }
+  .tracker li.t-active { color: var(--gate); border-color: rgba(229,185,92,0.5); }
+  section { padding: 56px 0 0; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  h2 { font-family: var(--serif-display); font-weight: 500; font-size: 28px; letter-spacing: -0.01em; }
+  h3 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 26px 0 12px; }
+  .badge { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; display: inline-block; }
+  .b-pending { color: var(--faint); border: 1px solid var(--line); }
+  .b-active { color: var(--gate); border: 1px solid rgba(229,185,92,0.5); }
+  .b-done { color: var(--ok); border: 1px solid rgba(52,211,153,0.4); }
+  .muted { color: var(--faint); font-style: italic; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px 14px; }
+  .card-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .card-title { font-family: var(--serif-display); font-size: 17px; font-weight: 500; flex: 1; }
+  details { margin-top: 10px; }
+  summary { font-family: var(--mono); font-size: 12px; color: var(--muted); cursor: pointer; }
+  .card-body { padding: 12px 2px 2px; font-size: 14.5px; }
+  .card-body h3, .card-body h4, .card-body h5, .card-body h6 { margin: 14px 0 6px; }
+  .card-body p, .card-body ul, .card-body ol { margin: 8px 0; }
+  .card-body ul, .card-body ol { padding-left: 20px; }
+  .prose { max-width: 76ch; font-size: 15px; }
+  .prose p, .prose ul, .prose ol { margin: 10px 0; }
+  .prose ul, .prose ol { padding-left: 22px; }
+  .prose h3, .prose h4, .prose h5, .prose h6 { margin: 20px 0 8px; }
+  pre { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 10px 0; }
+  code { font-family: var(--mono); font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  th { font-family: var(--mono); font-size: 11.5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tbl-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin: 12px 0; }
+  .pair { display: inline-flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 99px; padding: 6px 14px; margin: 0 8px 8px 0; font-size: 14px; }
+  .pair .vs { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+  .footer-note { margin: 72px 0 56px; border-top: 1px solid var(--line); padding-top: 20px; font-family: var(--mono); font-size: 12.5px; color: var(--faint); line-height: 1.7; }
+  .footer-note b { color: var(--muted); font-weight: 500; }
+  a { color: var(--gate); }
+  @media (max-width: 820px) { body { font-size: 15.5px; } .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="kicker">
+    <span>Council Live Session</span><span class="sep">/</span>
+    <span>add-a---page-flag-to-council-that-reopen-20260714-1708</span><span class="sep">/</span>
+    <span>2026-07-14</span><span class="sep">/</span>
+    <span>quick &middot; balanced &middot; inline</span>
+  </div>
+  <h1>Add a --page flag to /council that reopens the live session page</h1>
+  <div class="spectrum" role="presentation"></div>
+  <div class="bench" aria-label="Council bench"><span><i class="dot" style="background:#60a5fa"></i>Architect</span><span><i class="dot" style="background:#c671e3"></i>Craftsman</span><span><i class="dot" style="background:#34d399"></i>Advocate</span></div>
+  <ol class="tracker" aria-label="Phase tracker"><li class="t-done">Assembly</li><li class="t-done">Deliberation</li><li class="t-done">Planning</li></ol>
+</header>
+
+<section class="wrap" id="assembly"><div class="sec-head"><h2>Assembly</h2><span class="badge b-done">Complete</span></div><div class="tbl-wrap"><table><thead><tr><th>Agent</th><th>Score</th><th>Rationale</th><th>Loaded skills</th></tr></thead><tbody><tr><td><i class="dot" style="background:#60a5fa"></i> Architect</td><td>9</td><td>Session index lookup, engine flag parsing, resume-adjacent logic</td><td>codebase-context</td></tr><tr><td><i class="dot" style="background:#c671e3"></i> Craftsman</td><td>7</td><td>Engine doc patterns, flag parity across themed commands, test coverage</td><td>pattern-analysis</td></tr><tr><td><i class="dot" style="background:#34d399"></i> Advocate</td><td>7</td><td>CLI ergonomics: when users reach for --page and what it should do when ambiguous</td><td>interaction-design</td></tr></tbody></table></div><p class="muted">Estimated cost: ~30-50K tokens (quick, balanced, 3 agents)</p></section>
+<section class="wrap" id="deliberation"><div class="sec-head"><h2>Deliberation</h2><span class="badge b-done">Complete</span></div><h3>Round 1: Position</h3><div class="cards"><div class="card"><div class="card-head"><i class="dot" style="background:#60a5fa"></i><span class="card-title">Architect</span><span class="badge b-done">Complete</span></div><details><summary>View position</summary><div class="card-body"><h4>Architect Position — <code>--page</code> flag for /council</h4>
+<p><strong>Core recommendation:</strong> Model <code>--page</code> as a read-only, execute-and-exit <strong>session management command</strong> (a sibling of <code>--list</code>/<code>--status</code>), not a session mode. It resolves a target session using the exact same logic as <code>--resume</code>, then reruns the scribe and opens <code>session.html</code> per the Presentation Contract open command, then exits. Zero new data model, zero new files, zero new infrastructure.</p>
+<p><strong>Key argument:</strong> The engine already owns every primitive this feature needs, so the correct move is composition, not construction. Three existing contracts compose cleanly:</p>
+<ol><li><strong>Session resolution</strong> is already specified in <a href="#resume-logic">Resume Logic</a> items 1-2: no slug ⇒ most recent <code>active</code> session by <code>updated</code> timestamp from <code>index.json</code>; <code>&lt;slug&gt;</code> ⇒ fuzzy prefix-match in the index, picker on ambiguity. <code>--page</code> reuses this verbatim. Do <strong>not</strong> re-implement resolution; call the same routine.</li><li><strong>Rendering + open</strong> is already specified in <a href="#touchpoint-presentation-contract">Touchpoint Presentation Contract</a> item 3 (the <code>python3 render-session.py … || true</code> then <code>open … || xdg-open … || echo path</code> sequence) and reused by Resume Logic item 6. <code>--page</code> reuses that same open command.</li><li><strong>Placement in the parser</strong> is the load-bearing decision. It MUST sit in the &quot;Session management commands (execute and exit — no session started)&quot; group in <em>Argument Parsing &amp; Mode Resolution</em>, matched <strong>before</strong> any session mode. Slot it at position 4 (right after <code>--status</code>, before <code>--archive</code>). Because parsing is first-matching-flag-wins, mis-placing it below the modes would let a stray token fall through to <strong>standard</strong> mode and spin up a whole council — the single worst failure here.</li></ol>
+<p>Contract for the command:</p>
+<div class="tbl-wrap"><table><thead><tr><th>Aspect</th><th>Behavior</th></tr></thead><tbody><tr><td>Accepts</td><td><code>--page</code> (no arg) or <code>--page &lt;slug&gt;</code></td></tr><tr><td>Resolves</td><td>Resume Logic items 1-2 (most-recent-active, or fuzzy slug)</td></tr><tr><td>Side effects</td><td>Rerun scribe if <code>render-session.py</code> + <code>session-state.json</code> present (idempotent, cheap), then open <code>session.html</code>. Never mutates <code>session.md</code>, never re-spawns agents, never advances phase.</td></tr><tr><td>No session found</td><td>Print <code>No active session. Start one with /&lt;command&gt; &quot;idea&quot; or list with /&lt;command&gt; --list</code> and <strong>EXIT</strong>. Never fall through to a new session.</td></tr><tr><td>Session predates live page (<code>session.html</code> absent)</td><td>Do NOT reconstruct here. Print <code>This session predates the live page. Reopen it with /&lt;command&gt; --resume &lt;slug&gt;</code> and <strong>EXIT</strong> (resume item 6 already does the fresh setup).</td></tr><tr><td>Headless</td><td>Same degradation as Contract item 6: <code>open</code> fails silently, print the page path once.</td></tr></tbody></table></div>
+<p>This keeps <code>--page</code> a pure projection over existing state: it reads <code>index.json</code> (to resolve) and the session dir&#x27;s pinned scribe artifacts (to render/open). It introduces no state of its own, so there is nothing to migrate, invalidate, or keep consistent.</p>
+<p><strong>Risks if ignored:</strong></p>
+<ul><li><strong>Precedence inversion (structural):</strong> if <code>--page</code> is not in the execute-and-exit group and matched before the modes, an unmatched-arg path starts a real session — burning tokens and creating a junk session dir. This is the non-negotiable.</li><li><strong>Re-render staleness vs. cost (performance):</strong> re-rendering is O(read a few small files); always re-render before open so a page whose artifacts changed out-of-band is fresh, rather than serving a stale cached <code>session.html</code>. Cheap enough that a single code path (render-then-open) beats a conditional.</li><li><strong>Reconstruction scope creep (integration/migration):</strong> trying to auto-heal pre-live-page sessions inside <code>--page</code> duplicates Resume Logic item 6 and blurs the read-only boundary. Delegate to <code>--resume</code>; keep <code>--page</code> incapable of writing session content.</li></ul>
+<p><strong>Dependencies on other domains:</strong></p>
+<ul><li><strong>Advocate (UX):</strong> owns the exact copy and choice for the two dead-ends (no active session; session predates live page) — specifically whether we hard-stop or offer a follow-up action. I&#x27;ve proposed hard-stop-with-hint; defer the final wording.</li><li><strong>Skeptic:</strong> validate the precedence-ordering risk and confirm no arg-shape (<code>--page --pick</code>, <code>--page</code> with trailing idea text) can leak into a session-start.</li><li><strong>Craftsman/Operator:</strong> the mechanical edit to the parser list, <code>--help</code> text (add a <code>--page [&lt;slug&gt;]</code> line under SESSION MANAGEMENT), and headless <code>open</code> handling.</li></ul>
+<p><strong>Scope check (self-audit against my blind spots):</strong> I considered supporting <code>--page --pick</code> and a <code>--page --all</code> cross-workspace variant. Both are YAGNI for this idea — <code>--resume --pick</code> already exists for interactive selection, and page-opening is inherently single-session. Ship the two forms (<code>--page</code>, <code>--page &lt;slug&gt;</code>) only.</p></div></details></div><div class="card"><div class="card-head"><i class="dot" style="background:#c671e3"></i><span class="card-title">Craftsman</span><span class="badge b-done">Complete</span></div><details><summary>View position</summary><div class="card-body"><h4>Craftsman Position — <code>--page</code> flag to reopen the live session page</h4>
+<p><strong>Core recommendation:</strong> Ship <code>--page [&lt;slug&gt;]</code> as a session-management execute-and-exit flag that reuses two existing primitives verbatim — the <code>--resume</code> slug resolver and the contract item-3 &quot;rerun scribe + open&quot; command — adding zero executable code and zero net test surface. The flag must be defined only in <code>_council-engine.md</code>, but discoverability duplication in <code>council.md</code> forces two extra edits I want tracked, not skipped.</p>
+<p><strong>Key argument:</strong> The engine already contains every mechanic <code>--page</code> needs; the win is composition, not invention. Placement: a new item in the priority list (<code>commands/_council-engine.md:52-58</code>) alongside <code>--list</code>/<code>--status</code>/<code>--cleanup</code>, marked &quot;execute and exit — no session started.&quot; Slug resolution must <strong>call the existing Resume Logic</strong> (<code>_council-engine.md:1615-1631</code>): no slug → most recent <code>active</code> session; <code>&lt;slug&gt;</code> → fuzzy prefix match on the index; ambiguous → <code>AskUserQuestion</code> picker. Reusing that resolver (rather than writing a second &quot;find the session&quot; path) is my Rule-of-Three non-negotiable — three parallel resolvers is exactly the drift this repo&#x27;s governance spec fights. The reopen action is <code>_council-engine.md:253-254</code> verbatim: rerun <code>render-session.py</code> (cheap, idempotent — proven by <code>test_regeneration_is_idempotent</code> in <code>pipeline/tests/test_render_session.py:90</code>), then <code>open || xdg-open || echo</code>. Rerunning the scribe first is free freshness and safe on finished sessions (<code>test_complete_session_drops_refresh_tag:77</code> proves a <code>complete:true</code> reopen does <strong>not</strong> re-add the refresh tag). Because the flag adds no runtime code, the honest testing answer is: the existing <code>test_render_session.py</code> suite already covers the only executable surface it touches. What genuinely needs review is <strong>consistency</strong>, not coverage — the flag string must appear identically in four places: the priority list, the <code>--help</code> SESSION MANAGEMENT block (<code>_council-engine.md:160-169</code>), a new <code>### --page</code> subsection under Session Management Commands, and — the trap — <code>council.md</code>&#x27;s <code>argument-hint</code> frontmatter (<code>council.md:3</code>) and examples block (<code>council.md:22-30</code>), which redundantly enumerate flags per theme. &quot;Inherited for free via the engine&quot; is true for parsing but false for discoverability; every themed variant (finance-council, etc.) and the sibling <code>agentic-council</code> engine carries its own copy of that hint string, so this is a five-surface edit, not one.</p>
+<p><strong>Edge cases that need explicit handling (pit-of-success, not silent surprise):</strong></p>
+<ul><li><strong>Session predates the live page (pre-F11):</strong> no <code>session.html</code> exists. <code>--page</code> must NOT start work or a session — print <code>This session predates the live page; run --resume to regenerate it</code> and EXIT. Mirror the intent of resume item 6 but without the resume side effects.</li><li><strong>brainstorm-mode session:</strong> never has a page. Message clearly and exit.</li><li><strong>No active sessions at all:</strong> friendly &quot;no active session to open&quot; message, not a stack trace or empty picker.</li></ul>
+<p><strong>Risks if ignored:</strong></p>
+<ul><li><strong>Pattern drift (regression risk):</strong> a hand-rolled slug resolver inside <code>--page</code> diverges from <code>--resume</code> the first time resume&#x27;s fuzzy-match logic changes; two behaviors for &quot;which session did you mean&quot; is a maintenance tax and a user-confusion bug.</li><li><strong>Consistency rot (DX risk):</strong> if <code>council.md</code>&#x27;s <code>argument-hint</code> and examples aren&#x27;t updated in lockstep, the flag works but is undiscoverable, and the help text lies. This repo&#x27;s pre-commit validators check frontmatter/reference integrity; a partial edit either fails the hook or, worse, passes while docs disagree.</li><li><strong>Silent-failure DX:</strong> the <code>open ... || echo</code> fallback already degrades gracefully, but the pre-F11 / brainstorm / no-session cases have no existing handler — without explicit branches the conductor will improvise inconsistently per run.</li></ul>
+<p><strong>Dependencies on other domains:</strong></p>
+<ul><li><strong>Architect:</strong> confirm <code>--page</code> belongs in the session-management (execute-and-exit) tier and does not need a session lock or index write — my read is it&#x27;s pure read-only reopen; please validate against the index/registry ownership model.</li><li><strong>Advocate:</strong> decide the exact copy for the three &quot;nothing to open&quot; messages so the UX is warm and points to the right next flag (<code>--resume</code> vs <code>--list</code>).</li><li><strong>Whoever owns cross-repo parity (<code>agentic-council</code>):</strong> the same five-surface patch must land there; I want this called out as a deliberate follow-up, not assumed automatic.</li></ul></div></details></div><div class="card"><div class="card-head"><i class="dot" style="background:#34d399"></i><span class="card-title">Advocate</span><span class="badge b-done">Complete</span></div><details><summary>View position</summary><div class="card-body"><h4>Advocate Position — <code>--page</code> flag</h4>
+<p><strong>Core recommendation:</strong> Make <code>--page</code> a pure &quot;show me the window&quot; command: a session-management verb (execute-and-exit, never spawns agents, never mutates state) that re-renders and reopens <code>session.html</code> for a resolved session, always printing the file path as a fallback.</p>
+<p><strong>Key argument:</strong></p>
+<p>The user&#x27;s job here is not &quot;continue the work&quot; (that&#x27;s <code>--resume</code>) but &quot;get my eyes back on the live view I lost.&quot; These are two different intentions and must feel different. <code>--resume</code> picks up deliberation and burns tokens; <code>--page</code> is a zero-cost, read-only reopen. Conflating them would violate Krug&#x27;s Law: the user typing <code>--page</code> after closing a tab mid-session expects the tab back, not a fresh round of agent debate. So <code>--page</code> slots into the <strong>session-management</strong> block (alongside <code>--list</code>, <code>--status</code>, <code>--archive</code>): parse, act, exit. It reuses <code>--resume</code>&#x27;s slug resolution verbatim so there is one mental model for &quot;which session&quot;:</p>
+<ul><li><strong>No slug:</strong> most recent session by <code>updated</code> timestamp, silently opened (viewing is cheap and reversible, so no forced picker). Print a one-line orientation: <code>Opened &quot;voice-onboarding&quot; (most recent of 3 active). Use --page --pick to choose another.</code></li><li><strong>With slug:</strong> fuzzy prefix match on the index; on ambiguity, show the same <code>AskUserQuestion</code> picker <code>--resume</code> uses.</li><li><strong><code>--page --pick</code>:</strong> always show the interactive picker.</li></ul>
+<p><strong>Moment-of-need walkthrough:</strong></p>
+<ol><li><em>Closed tab mid-session, back same day</em> → <code>/council --page</code> re-renders from current <code>session-state.json</code> and reopens. The page fills in with whatever progress has been written. No agents wake up.</li><li><em>Back a day later</em> → identical. Crucially <code>--page</code> must resolve <strong>any</strong> status, not just <code>active</code>: users legitimately want to reread a <code>completed</code> or <code>stale</code> session&#x27;s page. <code>--resume</code> is active-biased; <code>--page</code> is status-agnostic. Default no-slug still prefers most recent active, but a slug pointing at a completed session opens it without complaint.</li><li><em>Three active sessions</em> → silent open of the most recent, plus the orientation line above so the user knows there were others and how to pick. No modal wall in the common case.</li><li><em>Session predates F11 (no <code>session.html</code>)</em> → <strong>do not crash and do not show a raw error.</strong> Reconstruct the page best-effort per Contract item 3: copy <code>render-session.py</code> + template into the session dir, synthesize a <code>session-state.json</code> from <code>session.md</code> + the index (phase, mode, profile, roster names if recorded), render, open. If reconstruction is impossible, degrade to a friendly line: <code>This session predates the live page; showing what we can. Full detail: session.md</code>. The empty/legacy state IS an onboarding moment, not a dead end.</li><li><em>SSH / no browser</em> → the <code>open || xdg-open || echo path</code> chain already degrades silently (Contract item 6). <code>--page</code> must <strong>always</strong> print the path, not only on failure, because the file path is the actual deliverable for a headless user.</li></ol>
+<p><strong>Error / empty states (force-specified):</strong></p>
+<ul><li>No sessions at all → <code>No sessions found. Start one with /council &lt;your idea&gt;.</code></li><li>Slug matches nothing → <code>No session matching &quot;&lt;slug&gt;&quot;. Run /council --list to see them.</code></li><li>Slug is ambiguous → picker (same as resume).</li><li>Session dir exists but render fails → print the path and <code>session.md</code> fallback; never a stack trace.</li></ul>
+<p><strong>Risks if ignored:</strong></p>
+<ul><li><strong>Intent collision:</strong> if <code>--page</code> re-spawns agents or advances a phase, users lose trust and money; the &quot;just show me the window&quot; job is silently broken and there&#x27;s no other verb that does it.</li><li><strong>Legacy dead-ends:</strong> pre-F11 sessions with no <code>session.html</code> throwing an error teaches users the flag is flaky, and they stop using it. Reconstruct-or-degrade is non-negotiable.</li><li><strong>Headless invisibility:</strong> if the path isn&#x27;t printed on success, SSH/CI users see nothing happen and assume a no-op.</li><li><strong>Picker fatigue:</strong> forcing a picker on every multi-session invocation punishes the common case; silent-most-recent + orientation line respects Krug&#x27;s Law.</li></ul>
+<p><strong>Dependencies on other domains:</strong></p>
+<ul><li><strong>Architect:</strong> confirm <code>--page</code> belongs in the session-management parse block (execute-and-exit), and define the <code>session-state.json</code> reconstruction contract for pre-F11 sessions (which fields are recoverable from <code>session.md</code> + index).</li><li><strong>Craftsman:</strong> factor the slug-resolution logic (<code>--resume</code>&#x27;s fuzzy prefix + picker) into a shared helper so <code>--page</code> and <code>--resume</code> cannot drift; add the <code>--page</code> row to <code>--help</code> and the docs table; ensure the <code>open</code> fallback chain and always-print-path behavior are one reused snippet, not copy-paste.</li></ul></div></details></div></div><h3>Round 3: Converge</h3><div class="cards"><div class="card"><div class="card-head"><i class="dot" style="background:#60a5fa"></i><span class="card-title">Architect</span><span class="badge b-pending">Pending</span></div></div><div class="card"><div class="card-head"><i class="dot" style="background:#c671e3"></i><span class="card-title">Craftsman</span><span class="badge b-pending">Pending</span></div></div><div class="card"><div class="card-head"><i class="dot" style="background:#34d399"></i><span class="card-title">Advocate</span><span class="badge b-pending">Pending</span></div></div></div></section>
+<section class="wrap" id="planning"><div class="sec-head"><h2>Planning</h2><span class="badge b-done">Complete</span></div><p class="muted">Planning has not produced a PRD yet.</p></section>
+
+<div class="wrap footer-note">
+  <b>Live window:</b> this page regenerates from the session directory as agents write; markdown files remain the artifacts of record.<br>
+  <b>Approvals:</b> all decisions happen in the Claude Code session, never here.
+</div>
+
+</body>
+</html>

@@ -49,6 +49,29 @@
       "contract_generated": true,
       "contract_issue": "https://github.com/dtsong/my-claude-setup/issues/58",
       "archived_to": null
+    },
+    {
+      "id": "add-a---page-flag-to-council-that-reopen-20260714-1708",
+      "slug": "add-a---page-flag-to-council-that-reopen",
+      "idea": "Add a --page flag to /council that reopens the live session page for the most recent active session",
+      "created": "2026-07-14T17:08:46-07:00",
+      "updated": "2026-07-14T17:12:43-07:00",
+      "phase": "planning",
+      "status": "completed",
+      "profile": "balanced",
+      "agents": [
+        "Architect",
+        "Craftsman",
+        "Advocate"
+      ],
+      "skills_used": [
+        "codebase-context",
+        "pattern-analysis",
+        "interaction-design"
+      ],
+      "contract_generated": false,
+      "contract_issue": null,
+      "archived_to": null
     }
   ]
 }
