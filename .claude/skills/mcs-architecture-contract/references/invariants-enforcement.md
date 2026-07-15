@@ -1,0 +1,19 @@
+# Invariants and their enforcement status
+
+Referenced from `../SKILL.md`. Full evidence for each invariant summarized there.
+
+| Invariant | Status | Evidence |
+|---|---|---|
+| Tier-alias-only model references (`sonnet`/`opus`/`fable`/`haiku`, never pinned `claude-*` IDs) | **prose-only** | Stated at `commands/_council-engine.md:105` ("the validator rejects them in agent frontmatter") but no such validator exists: `check_frontmatter.py` only validates `model:` as an optional dict block (`preferred`/`minimum`/`reasoning_demand`) for `skills/**/*.md`, and its pre-commit `files:` glob is `^skills/.*\.md$`. It never runs against `agents/*.md` at all (`.pre-commit-config.yaml`). |
+| Agents omit `model:` frontmatter (inherit session model unless pinned) | **true today, unenforced** | `grep -c '^model:' agents/*.md` returns 0 for all 38 files (23 `council-*`, 15 `ece-*`); nothing would catch a future violation since `agents/` is outside every governance hook's file glob. |
+| One specialist loaded at a time; no cross-specialist references | **enforced-by-hook (structure), prose-only (loading discipline)** | `pipeline/hooks/check_isolation.py` (hard tier) blocks a specialist `SKILL.md` from referencing a sibling specialist's files, and it runs against everything under `skills/**/*.md`, including `skills/council/`. But "only one loaded at runtime" is a behavioral instruction to the conductor (engine, spec §2.1) with no mechanism that verifies it at commit time. |
+| Eval cases live outside skill directories | **contradicted in practice, not enforced** | `SKILL-GOVERNANCE-SPEC.md:187` states this as a hard rule, but 9 council departments (architect, alchemist, forge, prover, guardian, warden, skeptic, oracle, cipher) place `eval-cases/trigger-evals.json` directly inside their department directory under `skills/council/<dept>/`. No hook flags this: `pipeline/hooks/_utils.py:65` puts `"eval-cases"` in a blanket `excluded_dirs` set, so every governance hook (frontmatter, references, isolation, context-load) skips eval-cases entirely rather than checking their location. |
+| Workflow `args` passed as a real JSON object, never a string | **prose-instructed, code tolerates violation** | The engine's args contract calls for an object (`skills/council/references/workflows/council-deliberation.template.js:1-19` header comment), but the script itself parses a stringified payload back to an object if received (`typeof args === 'string' ? JSON.parse(args) : (args \|\| {})`, line 35, fixed by PR #56 / commit `01b6081`). A caller that violates the instruction degrades gracefully instead of failing: fail-soft, not enforcement. |
+| Blocking hooks require `PreToolUse` + `exit 2` + stderr (anything else is non-blocking) | **platform semantics; documented via incident, not self-checking** | This is how the Claude Code hook runtime itself behaves (general contract: see `mcs-claude-code-platform`), not a rule this repo's own tooling checks. `hooks/acceptance-gate.sh:7-10` documents it in a comment after being burned twice: incident `605112d` (2026-06-22, #53) shipped the gate as `PostToolUse` + stdout + `exit 1` (non-blocking), so `TaskUpdate -> completed` slipped through silently; incident `4bb8bf2` (2026-05-10) had `grep -c ... \|\| echo 0` append a second value to a captured variable, corrupting an arithmetic check via the same "looks fine, isn't blocking" failure mode. Nothing prevents a third hook in this repo from repeating either mistake: the two comments are the only guardrail. |
+
+## Re-verification
+
+- `grep -l '^model:' agents/*.md | wc -l` (expect 0)
+- `grep 'files:' .pre-commit-config.yaml`
+- `find skills/council -path '*eval-cases*' -name '*.json' | wc -l` (expect greater than 0, the violation persists)
+- `grep -n "typeof args" skills/council/references/workflows/*.template.js`
