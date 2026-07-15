@@ -19,7 +19,7 @@
       "properties": {
         "allow": { "type": "array", "items": { "type": "string" } },
         "deny": { "type": "array", "items": { "type": "string" } },
-        "defaultMode": { "type": "string", "enum": ["default", "acceptEdits", "dontAsk", "bypassPermissions", "plan"] }
+        "defaultMode": { "type": "string", "enum": ["default", "acceptEdits", "auto", "dontAsk", "bypassPermissions", "plan"] }
       }
     },
     "hooks": {

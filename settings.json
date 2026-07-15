@@ -55,7 +55,7 @@
       "Bash(gh gist create *)",
       "Bash(gh repo create *)"
     ],
-    "defaultMode": "acceptEdits"
+    "defaultMode": "auto"
   },
   "model": "fable",
   "hooks": {
@@ -137,14 +137,15 @@
   },
   "enabledPlugins": {
     "claude-hud@claude-hud": true,
-    "code-simplifier@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": false,
     "superpowers@claude-plugins-official": true,
-    "terraform-skill@antonbabenko": true,
-    "swift-lsp@claude-plugins-official": true,
+    "terraform-skill@antonbabenko": false,
+    "swift-lsp@claude-plugins-official": false,
     "pr-review-toolkit@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
-    "skill-codex@skill-codex": true
+    "skill-codex@skill-codex": true,
+    "research-toolkit@skills-dir": false
   },
   "extraKnownMarketplaces": {
     "skill-codex": {
@@ -177,5 +178,37 @@
         "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
       }
     }
+  },
+  "skillOverrides": {
+    "dbt-skill": "off",
+    "helm-generation": "off",
+    "language-conventions": "off",
+    "prompt-wizard": "off",
+    "resume-tailor": "off",
+    "soc-security": "off",
+    "careful": "off",
+    "deepen": "off",
+    "diagnose": "off",
+    "ece": "off",
+    "fix": "off",
+    "freeze": "off",
+    "map": "off",
+    "new-python": "off",
+    "ops": "off",
+    "tailor": "off",
+    "cicd-generation": "off",
+    "dockerfile-generation": "off",
+    "github-workflow": "off",
+    "heavy-file-ingestion": "off",
+    "web-design-guidelines": "off",
+    "web-security-hardening": "off",
+    "workflow": "off",
+    "analyze-workflow": "off",
+    "g": "off",
+    "new-terraform": "off",
+    "new-typescript": "off",
+    "qa": "off",
+    "ralf": "off",
+    "tdd": "off"
   }
 }
