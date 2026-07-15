@@ -199,4 +199,5 @@ Slots:
 - [ ] Responsive behavior specified for mobile, tablet, desktop
 
 ## Evolution Notes
+<!-- 2026-07-14 | add-a---page-flag-to-council | separated show-me-the-window intent from continue-the-work; forced empty/legacy/headless states to explicit copy -->
 <!-- Observations appended after each use -->

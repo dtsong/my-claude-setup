@@ -142,5 +142,7 @@ Catalog external APIs, webhooks, third-party services, and any inter-service com
 - [ ] Warnings section flags any constraints that would affect new feature design
 
 ## Evolution Notes
+<!-- 2026-07-14 | add-a---page-flag-to-council | quick-mode shakeout of the F11 live page: composed position from engine sections alone (arg parsing, resume, contract); flagged first-match-wins placement as the load-bearing risk -->
 <!-- Observations appended after each use -->
 <!-- 2026-07-06 | claude-config-model-optimization | briefing surfaced the three-routing-surfaces finding that anchored the whole design -->
+<!-- 2026-07-14 | llm-wiki-starter-repo-for-friend | greenfield doc-repo session: skill applied to reference repos / a single beginner reader; council converged cleanly, dry-run ingest validated the resulting contract -->

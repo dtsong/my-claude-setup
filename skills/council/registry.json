@@ -462,5 +462,69 @@
         }
       }
     }
+  },
+  "architect/codebase-context": {
+    "uses": 2,
+    "last_used": "2026-07-14",
+    "sessions": [
+      "llm-wiki-starter-repo-for-friend",
+      "add-a---page-flag-to-council-that-reopen-20260714-1708"
+    ]
+  },
+  "chronicler/documentation-plan": {
+    "uses": 1,
+    "last_used": "2026-07-14",
+    "sessions": [
+      "llm-wiki-starter-repo-for-friend"
+    ]
+  },
+  "oracle/prompt-engineering": {
+    "uses": 1,
+    "last_used": "2026-07-14",
+    "sessions": [
+      "llm-wiki-starter-repo-for-friend"
+    ]
+  },
+  "advocate/journey-mapping": {
+    "uses": 1,
+    "last_used": "2026-07-14",
+    "sessions": [
+      "llm-wiki-starter-repo-for-friend"
+    ]
+  },
+  "guardian/data-classification": {
+    "uses": 1,
+    "last_used": "2026-07-14",
+    "sessions": [
+      "llm-wiki-starter-repo-for-friend"
+    ]
+  },
+  "strategist/mvp-scoping": {
+    "uses": 1,
+    "last_used": "2026-07-14",
+    "sessions": [
+      "llm-wiki-starter-repo-for-friend"
+    ]
+  },
+  "scout/competitive-analysis": {
+    "uses": 1,
+    "last_used": "2026-07-14",
+    "sessions": [
+      "llm-wiki-starter-repo-for-friend"
+    ]
+  },
+  "craftsman/pattern-analysis": {
+    "uses": 1,
+    "sessions": [
+      "add-a---page-flag-to-council-that-reopen-20260714-1708"
+    ],
+    "last_used": "2026-07-14"
+  },
+  "advocate/interaction-design": {
+    "uses": 1,
+    "sessions": [
+      "add-a---page-flag-to-council-that-reopen-20260714-1708"
+    ],
+    "last_used": "2026-07-14"
   }
 }

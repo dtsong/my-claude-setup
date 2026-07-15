@@ -181,3 +181,4 @@ Include milestones and key decision points between phases.
 ## Evolution Notes
 <!-- Observations appended after each use -->
 <!-- 2026-07-06 | claude-config-model-optimization | MoSCoW cut survived deliberation almost intact; RICE ordering was overridden once by dependency order -->
+<!-- 2026-07-14 | llm-wiki-starter-repo-for-friend | greenfield doc-repo session: skill applied to reference repos / a single beginner reader; council converged cleanly, dry-run ingest validated the resulting contract -->

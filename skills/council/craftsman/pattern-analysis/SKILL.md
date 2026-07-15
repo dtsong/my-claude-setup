@@ -163,5 +163,6 @@ For each proposed change, check:
 - [ ] Recommendations are actionable (not vague)
 
 ## Evolution Notes
+<!-- 2026-07-14 | add-a---page-flag-to-council | rule-of-three applied to slug resolution; identified five-surface consistency trap (engine list, help, subsection, themed argument-hint, sibling repo) -->
 <!-- Observations appended after each use -->
 <!-- 2026-07-06 | claude-config-model-optimization | caught the registry measurement artifact that reversed the pruning decision -->

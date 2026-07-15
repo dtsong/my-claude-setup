@@ -150,3 +150,4 @@ Define specific technical controls for each data element:
 
 ## Evolution Notes
 <!-- Observations appended after each use -->
+<!-- 2026-07-14 | llm-wiki-starter-repo-for-friend | greenfield doc-repo session: skill applied to reference repos / a single beginner reader; council converged cleanly, dry-run ingest validated the resulting contract -->
