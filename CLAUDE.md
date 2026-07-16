@@ -44,3 +44,5 @@ At the start of each session, check for recent handover documents:
 ls -t memory/HANDOVER-*.md 2>/dev/null | head -3
 ```
 If handovers exist, read the most recent one to pick up context from the previous session.
+
+@RTK.md

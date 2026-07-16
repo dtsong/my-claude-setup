@@ -57,7 +57,39 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "fable",
+  "model": "sonnet",
+  "skillOverrides": {
+    "dbt-skill": "off",
+    "helm-generation": "off",
+    "language-conventions": "off",
+    "prompt-wizard": "off",
+    "resume-tailor": "off",
+    "soc-security": "off",
+    "careful": "off",
+    "deepen": "off",
+    "diagnose": "off",
+    "ece": "off",
+    "fix": "off",
+    "freeze": "off",
+    "map": "off",
+    "new-python": "off",
+    "ops": "off",
+    "tailor": "off",
+    "cicd-generation": "off",
+    "dockerfile-generation": "off",
+    "github-workflow": "off",
+    "heavy-file-ingestion": "off",
+    "web-design-guidelines": "off",
+    "web-security-hardening": "off",
+    "workflow": "off",
+    "analyze-workflow": "off",
+    "g": "off",
+    "new-terraform": "off",
+    "new-typescript": "off",
+    "qa": "off",
+    "ralf": "off",
+    "tdd": "off"
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -66,6 +98,15 @@
           {
             "type": "command",
             "command": "bash \"$HOME/Development/my-claude-setup/hooks/acceptance-gate.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
           }
         ]
       }
@@ -178,37 +219,5 @@
         "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
       }
     }
-  },
-  "skillOverrides": {
-    "dbt-skill": "off",
-    "helm-generation": "off",
-    "language-conventions": "off",
-    "prompt-wizard": "off",
-    "resume-tailor": "off",
-    "soc-security": "off",
-    "careful": "off",
-    "deepen": "off",
-    "diagnose": "off",
-    "ece": "off",
-    "fix": "off",
-    "freeze": "off",
-    "map": "off",
-    "new-python": "off",
-    "ops": "off",
-    "tailor": "off",
-    "cicd-generation": "off",
-    "dockerfile-generation": "off",
-    "github-workflow": "off",
-    "heavy-file-ingestion": "off",
-    "web-design-guidelines": "off",
-    "web-security-hardening": "off",
-    "workflow": "off",
-    "analyze-workflow": "off",
-    "g": "off",
-    "new-terraform": "off",
-    "new-typescript": "off",
-    "qa": "off",
-    "ralf": "off",
-    "tdd": "off"
   }
 }
