@@ -57,7 +57,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "sonnet",
+  "model": "fable",
   "skillOverrides": {
     "dbt-skill": "off",
     "helm-generation": "off",
@@ -88,7 +88,9 @@
     "new-typescript": "off",
     "qa": "off",
     "ralf": "off",
-    "tdd": "off"
+    "tdd": "off",
+    "brainstorm": "off",
+    "new-mcp-server": "off"
   },
   "hooks": {
     "PreToolUse": [
