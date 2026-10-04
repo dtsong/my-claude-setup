@@ -62,3 +62,25 @@ in favor of explicit roots and no environment assumptions.
 | `judge-skill-quality.sh` | Heuristic skill-quality scoring. |
 | `package-skill.sh` | Package a skill for distribution. |
 | `run-evals.sh` | Run skill eval suites. |
+| `ste-score.py` | Score assistant prose in `~/.claude/projects` transcripts against the CLAUDE.md STE-lite Writing Rules. |
+
+## ste-score.py
+
+Measures whether the STE-lite Writing Rules in `CLAUDE.md` change model output.
+Sessions are bucketed by start time, because `CLAUDE.md` loads at session start.
+
+```bash
+# Before/after a CLAUDE.md change (use the commit time as the split)
+python3 pipeline/scripts/ste-score.py --since 2026-09-04T00:00:00Z \
+  --split "$(git log -1 --format=%cI -- CLAUDE.md)"
+
+# One project, JSON output
+python3 pipeline/scripts/ste-score.py --project my-claude-setup --json
+```
+
+Metrics: sentence length (mean, p90, % over 20 and 25 words), passive voice,
+noun clusters (4+ content words), nominalizations, filler hedges, calibrated
+uncertainty markers, and em dashes. All are regex heuristics without a POS
+tagger. Passive detection is accurate on spot checks. About half of the
+noun-cluster hits are verb phrases that a regex cannot separate from nouns.
+Compare deltas between buckets, not absolute values.
